@@ -17,6 +17,10 @@ int main (int argc, const char * argv[])
 //	manager.run();
 
 	Map* m = new Map();
+
 	m->readMap();
-	m->printMap();
+	m->printMap("originalMapMatrix.txt");
+
+	m->padMapObstacles(4);
+	m->printMap("paddedMapMatrix.txt");
 }

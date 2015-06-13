@@ -28,14 +28,18 @@ class Map
 	int calculateXIndex(int x);
 	int calculateYIndex(int y);
 
+private:
+	void padACell(int i, int j, int tempMap[MAP_ROWS][MAP_COLUMNS], int factor);
+
 public:
 	~Map();
 	Map();
 	void getMapCoordinates(double realX,double realY,int &mapX,int &mapY);
 	int getCellValue(int x, int y);
 	void setCellValue(int x, int y, int value);
-	void printMap();
+	void printMap(string fileName);
 	void readMap();
+	void padMapObstacles(int factor);
 };
 
 #endif /* MAP_H_ */
