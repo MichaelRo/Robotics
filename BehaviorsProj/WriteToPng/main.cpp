@@ -9,7 +9,7 @@
 #include "pngUtil.h"
 
 
-int main() {
-
-	ConvertMapBlackToWhiteAndWhiteToBlack("/usr/robotics/PcBotWorld/hospital_section.png");
-}
+//int main() {
+//
+//	ConvertMapBlackToWhiteAndWhiteToBlack("/usr/robotics/PcBotWorld/hospital_section.png");
+//}

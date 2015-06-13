@@ -8,8 +8,10 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include subdir.mk
 -include behaviors/subdir.mk
+-include WriteToPng/subdir.mk
+-include Plans/subdir.mk
+-include subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -44,7 +46,7 @@ all: BehaviorsProj
 BehaviorsProj: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++  -o"BehaviorsProj" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++  -o "BehaviorsProj" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

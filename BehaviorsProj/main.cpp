@@ -6,16 +6,17 @@
  */
 #include "Robot.h"
 #include "Manager.h"
+#include "Map.h"
 #include "Plans/PlnObstacleAvoid.h"
 
-int main()
+int main (int argc, const char * argv[])
 {
 //	Robot robot("localhost",6665);
 //	PlnObstacleAvoid plnOA(&robot);
 //	Manager manager(&robot, &plnOA);
 //	manager.run();
 
-	Map m = new Map();
-	m.readMap();
-	m.printMap();
+	Map* m = new Map();
+	m->readMap();
+	m->printMap();
 }

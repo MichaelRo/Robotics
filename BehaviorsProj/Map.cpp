@@ -6,12 +6,11 @@
  */
 
 #include "Map.h"
-#include "lodepng.h"
+#include "WriteToPng/lodepng.h"
 #include "math.h"
 
-
 Map::~Map() {
-	// TODO Auto-generated destructor stub
+	delete _map;
 }
 
 Map::Map()
@@ -37,12 +36,12 @@ void Map::readMap()
 	  lodepng::decode(image, width, height, png);
 
 	  //the pixels are now in the vector "image", 4 bytes per pixel, ordered RGBARGBA..., use it as texture, draw it, ...
-	  for (int i = 0; i < MAP_COLUMNS * MAP_ROWS * BYTES_PER_PIXEL; i += 4)
+	  for (int i = 0; i < MAP_COLUMNS * MAP_ROWS * BYTES_PER_PIXEL; i += BYTES_PER_PIXEL)
 	  {
-		  if (image[i] != 0 || image[i+1] != 0 || image[i+2] != 0)
-			  _map[floor((i/BYTES_PER_PIXEL)/MAP_COLUMNS)][(i/BYTES_PER_PIXEL)%MAP_COLUMNS] = OCCUPIED_CELL;
+		  if (i != 0)
+			  _map[(int) floor((i/BYTES_PER_PIXEL)/MAP_COLUMNS)][(i/BYTES_PER_PIXEL)%MAP_COLUMNS] = OCCUPIED_CELL;
 		  else
-			  _map[floor((i/BYTES_PER_PIXEL)/MAP_COLUMNS)][(i/BYTES_PER_PIXEL)%MAP_COLUMNS] = FREE_CELL;
+			  _map[(int) floor((i/BYTES_PER_PIXEL)/MAP_COLUMNS)][(i/BYTES_PER_PIXEL)%MAP_COLUMNS] = FREE_CELL;
 	  }
 }
 

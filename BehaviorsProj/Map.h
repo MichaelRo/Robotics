@@ -29,7 +29,7 @@ class Map
 	int calculateYIndex(int y);
 
 public:
-
+	~Map();
 	Map();
 	void getMapCoordinates(double realX,double realY,int &mapX,int &mapY);
 	int getCellValue(int x, int y);
