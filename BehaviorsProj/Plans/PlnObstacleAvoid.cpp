@@ -22,7 +22,7 @@ PlnObstacleAvoid::PlnObstacleAvoid(Robot* robot) {
 }
 
 PlnObstacleAvoid::~PlnObstacleAvoid() {
-	// TODO Auto-generated destructor stub
+	 //TODO Auto-generated destructor stub
 	for(int i=0;i<3;i++)
 		delete _beh[i];
 }

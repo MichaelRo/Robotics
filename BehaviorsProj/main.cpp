@@ -1,17 +1,21 @@
 /*
  * main.cpp
  *
- *  Created on: Dec 14, 2014
+ *  Created on: June 13, 2015
  *      Author: user
  */
 #include "Robot.h"
 #include "Manager.h"
 #include "Plans/PlnObstacleAvoid.h"
+
 int main()
 {
-	Robot robot("localhost",6665);
-	PlnObstacleAvoid plnOA(&robot);
-	Manager manager(&robot, &plnOA);
-	manager.run();
+//	Robot robot("localhost",6665);
+//	PlnObstacleAvoid plnOA(&robot);
+//	Manager manager(&robot, &plnOA);
+//	manager.run();
 
+	Map m = new Map();
+	m.readMap();
+	m.printMap();
 }

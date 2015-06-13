@@ -22,6 +22,7 @@ class Map
 	static const int MAP_ROWS = 380;
 	static const int MAP_COLUMNS = 550;
 	static const int MAP_RESOLUTION = 2.5;
+	static const int BYTES_PER_PIXEL = 4;
 
 	int _map[MAP_ROWS][MAP_COLUMNS];
 	int calculateXIndex(int x);
@@ -34,6 +35,7 @@ public:
 	int getCellValue(int x, int y);
 	void setCellValue(int x, int y, int value);
 	void printMap();
+	void readMap();
 };
 
 #endif /* MAP_H_ */

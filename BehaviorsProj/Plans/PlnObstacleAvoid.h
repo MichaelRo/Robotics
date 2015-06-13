@@ -12,7 +12,8 @@
 #include "../behaviors/B.h"
 #include "../behaviors/C.h"
 
-class PlnObstacleAvoid: public Plan {
+class PlnObstacleAvoid: public Plan
+{
 	Behavior* _beh[3];
 
 public:
