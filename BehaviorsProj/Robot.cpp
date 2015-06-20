@@ -1,8 +1,8 @@
 /*
  * Robot.cpp
  *
- *  Created on: Dec 14, 2014
- *      Author: user
+ *  Created on: June 18, 2015
+ *      Author: Noa Even Tsur, Itay Desalto, Michael Roytman
  */
 
 #include "Robot.h"

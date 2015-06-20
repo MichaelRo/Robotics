@@ -1,8 +1,8 @@
 /*
  * Manager.cpp
  *
- *  Created on: Dec 21, 2014
- *      Author: user
+ *  Created on: June 13, 2015
+ *      Author: Noa Even Tsur, Itay Desalto, Michael Roytman
  */
 
 #include "Manager.h"

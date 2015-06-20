@@ -1,8 +1,8 @@
 /*
  * Robot.h
  *
- *  Created on: Dec 14, 2014
- *      Author: user
+ *  Created on: June 18, 2015
+ *      Author: Noa Even Tsur, Itay Desalto, Michael Roytman
  */
 
 #ifndef ROBOT_H_
@@ -14,27 +14,33 @@ class Robot {
 	PlayerClient*_pc;
 	Position2dProxy* _pp;
 	LaserProxy* _lp;
+
 public:
+	virtual ~Robot();
+
 	Robot(char* ip, int port);
+
 	void Read() {
 		_pc->Read();
 	}
+
 	void setSpeed(float xSpeed, float angularSpeed) {
 		_pp->SetSpeed(xSpeed, angularSpeed);
 	}
+
 	bool isRightFree() {
 		if ((*_lp)[50] > 0.5)
 			return true;
 		else
 			return false;
 	}
+
 	bool isForwardFree() {
 		if ((*_lp)[332] > 0.5)
 			return true;
 		else
 			return false;
 	}
-	virtual ~Robot();
 };
 
-#endif /* ROBOT_H_ */
+#endif
