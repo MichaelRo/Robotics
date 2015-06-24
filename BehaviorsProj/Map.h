@@ -49,7 +49,7 @@ public:
 	void setCellValue(int x, int y, int value);
 
 	void printMap(string fileName);
-	void readMap();
+	void loadMap(string pngFilePath);
 	void padMapObstacles(int factor);
 	void initResolutionFittedMap();
 };

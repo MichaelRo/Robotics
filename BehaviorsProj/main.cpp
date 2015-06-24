@@ -20,7 +20,7 @@ int main (int argc, const char * argv[])
 
 	Map* m = new Map(550, 380, conf);
 
-	m->readMap();
+	m->loadMap("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/roboticLabMap.png");
 	m->printMap("originalMapMatrix.txt");
 
 	int gridMapResolutionRatio = (conf->getGridResolutionCM() / conf->getMapResolutionCM());

@@ -35,20 +35,14 @@ int Map::getCellValue(int column, int row) {
 							   row / (_gridMapResolutionRatio));
 }
 
-void Map::setCellValue(int column, int row, int value) {
-	_grid->setCellValue(column / (_gridMapResolutionRatio / 2),
-						row / (_gridMapResolutionRatio / 2),
-						value);
-}
-
-void Map::readMap() {
+void Map::loadMap(string pngFilePath) {
 	// Load PNG file from disk to memory first, then decode to raw pixels in memory.
 	vector<unsigned char> pngFile;
 	vector<unsigned char> imagePixelsVector;
 	unsigned width, height;
 
 	// Load and decode the map file
-	lodepng::load_file(pngFile, "/home/colman/Documents/RoboticsFinalProj/PcBotWorld/roboticLabMap.png");
+	lodepng::load_file(pngFile, pngFilePath);
 	lodepng::decode(imagePixelsVector, width, height, pngFile);
 
 	int gridVectorRowsIndex = 0;
@@ -58,21 +52,21 @@ void Map::readMap() {
 		for (int columnsIndex = 0; columnsIndex < width * BYTES_PER_PIXEL; columnsIndex += (BYTES_PER_PIXEL * (_gridMapResolutionRatio / 2))) {
 			bool isACertainCellOccupied = false;
 
-			for (int unitedRowsIndex = rowsIndex; (unitedRowsIndex < rowsIndex + (_gridMapResolutionRatio / 2)) && (unitedRowsIndex < (_grid->getHeight() * (_gridMapResolutionRatio / 2)) - 1) && !isACertainCellOccupied; unitedRowsIndex++) {
-				for (int unitedColumnsIndex = columnsIndex; (unitedColumnsIndex < columnsIndex + ((_gridMapResolutionRatio / 2) * BYTES_PER_PIXEL)) && (ceil(unitedColumnsIndex / BYTES_PER_PIXEL) < (_grid->getWidth() * (_gridMapResolutionRatio / 2)) - 1) && !isACertainCellOccupied; unitedColumnsIndex += BYTES_PER_PIXEL) {
+			for (int unitedRowsIndex = rowsIndex; (unitedRowsIndex < rowsIndex + (_gridMapResolutionRatio / 2)) &&
+												  (unitedRowsIndex < (_grid->getHeight() * (_gridMapResolutionRatio / 2)) - 1) && !isACertainCellOccupied; unitedRowsIndex++) {
+				for (int unitedColumnsIndex = columnsIndex; (unitedColumnsIndex < columnsIndex + ((_gridMapResolutionRatio / 2) * BYTES_PER_PIXEL)) &&
+															(ceil(unitedColumnsIndex / BYTES_PER_PIXEL) < (_grid->getWidth() * (_gridMapResolutionRatio / 2)) - 1) && !isACertainCellOccupied; unitedColumnsIndex += BYTES_PER_PIXEL) {
 					int cell = (unitedRowsIndex * (width * BYTES_PER_PIXEL)) + unitedColumnsIndex;
 
-					if (imagePixelsVector.at(cell) != 255 || imagePixelsVector.at(cell + 1) != 255 || imagePixelsVector.at(cell + 2) != 255) {
+					if (imagePixelsVector.at(cell) != 255 || imagePixelsVector.at(cell + 1) != 255 || imagePixelsVector.at(cell + 2) != 255)
 						isACertainCellOccupied = true;
-					}
 				}
 			}
 
-			if (isACertainCellOccupied) {
+			if (isACertainCellOccupied)
 				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, OCCUPIED_CELL);
-			} else {
+			else
 				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, FREE_CELL);
-			}
 
 			gridVectorColumnsIndex++;
 		}
@@ -84,12 +78,15 @@ void Map::readMap() {
 
 void Map::printMap(string fileName) {
 	ofstream vectorOutputFile((fileName).c_str());
+	cout << "Printing Map: " << endl;
 
 	for (int rowsIndex = 0; rowsIndex < _grid->getHeight(); rowsIndex++) {
 		for (int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
+			cout << _grid->getCellValue(columnsIndex, rowsIndex);
 			vectorOutputFile << _grid->getCellValue(columnsIndex, rowsIndex);
 		}
 
+		cout << endl;
 		vectorOutputFile << endl;
 	}
 
