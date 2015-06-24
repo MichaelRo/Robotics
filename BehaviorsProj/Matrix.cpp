@@ -8,7 +8,7 @@
 #include "Matrix.h"
 
 Matrix::Matrix(int width, int height, int value) {
-	_matrix = vector<int>(width * height);
+	_matrix = vector<int>();
 
 	setWidth(width);
 	setHeight(height);
@@ -48,7 +48,7 @@ void Matrix::setCellValue(int column, int row, int value) {
 void Matrix::initializeMatrix(int value) {
 	for (int rowsIndex = 0; rowsIndex < getHeight() ; rowsIndex++)
 		for (int columnsIndex = 0; columnsIndex < getWidth() ; columnsIndex++)
-			setCellValue(columnsIndex, rowsIndex, value);
+			_matrix.push_back(value);
 }
 
 void Matrix::swap(Matrix otherMatrix) {

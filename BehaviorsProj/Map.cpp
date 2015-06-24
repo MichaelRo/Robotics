@@ -11,12 +11,12 @@ Map::~Map() {
 	delete _configurationManager;
 }
 
-Map::Map(int width, int height, ConfigurationManager* configurationManager) {
+Map::Map(ConfigurationManager* configurationManager) {
 	_configurationManager = configurationManager;
 	_gridMapResolutionRatio = (_configurationManager->getGridResolutionCM() / _configurationManager->getMapResolutionCM());
-	_width = width;
-	_height = height;
+}
 
+void Map::initializeGrid(int width, int height) {
 	_grid = new Matrix(ceil(width / (_gridMapResolutionRatio / 2)),
 					   ceil(height / (_gridMapResolutionRatio / 2)),
 					   UNKNOWN_CELL);
@@ -26,8 +26,16 @@ int Map::getWidth() {
 	return _width;
 }
 
+void Map::setWidth(int width) {
+	_width = width;
+}
+
 int Map::getHeight() {
 	return _height;
+}
+
+void Map::setHeight(int height) {
+	_height = height;
 }
 
 int Map::getCellValue(int column, int row) {
@@ -44,6 +52,8 @@ void Map::loadMap(string pngFilePath) {
 	// Load and decode the map file
 	lodepng::load_file(pngFile, pngFilePath);
 	lodepng::decode(imagePixelsVector, width, height, pngFile);
+
+	initializeGrid(width, height);
 
 	int gridVectorRowsIndex = 0;
 	int gridVectorColumnsIndex = 0;

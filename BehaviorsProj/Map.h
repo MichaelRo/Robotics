@@ -41,7 +41,7 @@ private:
 
 public:
 	~Map();
-	Map(int width, int height, ConfigurationManager* configurationManager);
+	Map(ConfigurationManager* configurationManager);
 
 	int getWidth();
 	int getHeight();
@@ -51,7 +51,8 @@ public:
 	void printMap(string fileName);
 	void loadMap(string pngFilePath);
 	void padMapObstacles(int factor);
-	void initResolutionFittedMap();
+
+	void initializeGrid(int width, int height);
 };
 
 #endif /* MAP_H_ */
