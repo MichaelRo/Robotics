@@ -23,9 +23,8 @@ class Map
 	static const int OCCUPIED_CELL = 1;
 	static const int UNKNOWN_CELL = 2;
 
-	static const int MAP_ROWS = 380;
-	static const int MAP_COLUMNS = 550;
-	static const int MAP_RESOLUTION = 2.5;
+	static const int WHITE_RGBA_VALUE = 255;
+
 	static const int BYTES_PER_PIXEL = 4;
 
 private:

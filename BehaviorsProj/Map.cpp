@@ -17,8 +17,11 @@ Map::Map(ConfigurationManager* configurationManager) {
 }
 
 void Map::initializeGrid(int width, int height) {
-	_grid = new Matrix(ceil(width / (_gridMapResolutionRatio / 2)),
-					   ceil(height / (_gridMapResolutionRatio / 2)),
+	setWidth(width);
+	setHeight(height);
+
+	_grid = new Matrix(ceil(getWidth() / (_gridMapResolutionRatio / 2)),
+					   ceil(getHeight() / (_gridMapResolutionRatio / 2)),
 					   UNKNOWN_CELL);
 }
 
@@ -58,8 +61,8 @@ void Map::loadMap(string pngFilePath) {
 	int gridVectorRowsIndex = 0;
 	int gridVectorColumnsIndex = 0;
 
-	for (int rowsIndex = 0; rowsIndex < height; rowsIndex += (_gridMapResolutionRatio / 2)) {
-		for (int columnsIndex = 0; columnsIndex < width * BYTES_PER_PIXEL; columnsIndex += (BYTES_PER_PIXEL * (_gridMapResolutionRatio / 2))) {
+	for (int rowsIndex = 0; rowsIndex < getHeight(); rowsIndex += (_gridMapResolutionRatio / 2)) {
+		for (int columnsIndex = 0; columnsIndex < getWidth() * BYTES_PER_PIXEL; columnsIndex += (BYTES_PER_PIXEL * (_gridMapResolutionRatio / 2))) {
 			bool isACertainCellOccupied = false;
 
 			for (int unitedRowsIndex = rowsIndex; (unitedRowsIndex < rowsIndex + (_gridMapResolutionRatio / 2)) &&
@@ -68,7 +71,7 @@ void Map::loadMap(string pngFilePath) {
 															(ceil(unitedColumnsIndex / BYTES_PER_PIXEL) < (_grid->getWidth() * (_gridMapResolutionRatio / 2)) - 1) && !isACertainCellOccupied; unitedColumnsIndex += BYTES_PER_PIXEL) {
 					int cell = (unitedRowsIndex * (width * BYTES_PER_PIXEL)) + unitedColumnsIndex;
 
-					if (imagePixelsVector.at(cell) != 255 || imagePixelsVector.at(cell + 1) != 255 || imagePixelsVector.at(cell + 2) != 255)
+					if (imagePixelsVector.at(cell) != WHITE_RGBA_VALUE || imagePixelsVector.at(cell + 1) != WHITE_RGBA_VALUE || imagePixelsVector.at(cell + 2) != WHITE_RGBA_VALUE)
 						isACertainCellOccupied = true;
 				}
 			}
