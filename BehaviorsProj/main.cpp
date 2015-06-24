@@ -18,11 +18,12 @@ int main (int argc, const char * argv[])
 
 	ConfigurationManager* conf = new ConfigurationManager("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/parameters.txt");
 
-	Map* m = new Map(550, 380, conf->getGridResolutionCM());
+	Map* m = new Map(550, 380, conf);
 
 	m->readMap();
 	m->printMap("originalMapMatrix.txt");
 
-	m->padMapObstacles(12);
+	int gridMapResolutionRatio = (conf->getGridResolutionCM() / conf->getMapResolutionCM());
+	m->padMapObstacles(conf->getRobotSize().height / gridMapResolutionRatio);
 	m->printMap("paddedMapMatrix.txt");
 }

@@ -8,18 +8,18 @@
 #include "Map.h"
 
 Map::~Map() {
-	delete _map;
+	delete _configurationManager;
 }
 
-Map::Map(int width, int height, float resolution) {
+Map::Map(int width, int height, ConfigurationManager* configurationManager) {
+	_configurationManager = configurationManager;
+	_gridMapResolutionRatio = (_configurationManager->getGridResolutionCM() / _configurationManager->getMapResolutionCM());
 	_width = width;
 	_height = height;
-	_resolution = resolution;
 
-	for (int i = 0; i < MAP_ROWS ; i++) {
-		for (int j = 0; j < MAP_COLUMNS ; j++)
-			_map[i][j] = UNKNOWN_CELL;
-	}
+	_grid = new Matrix(ceil(width / (_gridMapResolutionRatio / 2)),
+					   ceil(height / (_gridMapResolutionRatio / 2)),
+					   UNKNOWN_CELL);
 }
 
 int Map::getWidth() {
@@ -30,101 +30,92 @@ int Map::getHeight() {
 	return _height;
 }
 
-float Map::getResolution() {
-	return _resolution;
+int Map::getCellValue(int column, int row) {
+	return _grid->getCellValue(column / (_gridMapResolutionRatio / 2),
+							   row / (_gridMapResolutionRatio));
 }
 
-int Map::getCellValue(int x, int y) {
-	int xIndex = calculateXIndex(x);
-	int yIndex = calculateYIndex(y);
-	return _map[xIndex][yIndex];
-}
-
-void Map::setCellValue(int x, int y, int value) {
-	int xIndex = calculateXIndex(x);
-	int yIndex = calculateYIndex(y);
-	_map[xIndex][yIndex] = value;
+void Map::setCellValue(int column, int row, int value) {
+	_grid->setCellValue(column / (_gridMapResolutionRatio / 2),
+						row / (_gridMapResolutionRatio / 2),
+						value);
 }
 
 void Map::readMap() {
 	// Load PNG file from disk to memory first, then decode to raw pixels in memory.
-	std::vector<unsigned char> pngFile;
-	std::vector<unsigned char> imagePixelsVector;
+	vector<unsigned char> pngFile;
+	vector<unsigned char> imagePixelsVector;
 	unsigned width, height;
 
 	// Load and decode the map file
 	lodepng::load_file(pngFile, "/home/colman/Documents/RoboticsFinalProj/PcBotWorld/roboticLabMap.png");
 	lodepng::decode(imagePixelsVector, width, height, pngFile);
 
-	// The map pixels are now in the vector "image", 4 bytes per pixel, ordered RGBARGBA.
-	// Therefore we need to order it in a new matrix (1 bytes per pixel)
-	for (int i = 0; i < MAP_COLUMNS * MAP_ROWS * BYTES_PER_PIXEL; i += BYTES_PER_PIXEL) {
-		int mapRow = floor((i/BYTES_PER_PIXEL)/MAP_COLUMNS);
-		int mapColumn = (i/BYTES_PER_PIXEL)%MAP_COLUMNS;
-		int *currentMapPixel;
-		currentMapPixel = &_map[mapRow][mapColumn];
-		bool isCurrentPixelOccupied = imagePixelsVector[i] != 255 ||
-									  imagePixelsVector[i+1] != 255 ||
-									  imagePixelsVector[i+2] != 255;
+	int gridVectorRowsIndex = 0;
+	int gridVectorColumnsIndex = 0;
 
-		if (isCurrentPixelOccupied)
-			*currentMapPixel = OCCUPIED_CELL;
-		else
-			*currentMapPixel = FREE_CELL;
+	for (int rowsIndex = 0; rowsIndex < height; rowsIndex += (_gridMapResolutionRatio / 2)) {
+		for (int columnsIndex = 0; columnsIndex < width * BYTES_PER_PIXEL; columnsIndex += (BYTES_PER_PIXEL * (_gridMapResolutionRatio / 2))) {
+			bool isACertainCellOccupied = false;
+
+			for (int unitedRowsIndex = rowsIndex; (unitedRowsIndex < rowsIndex + (_gridMapResolutionRatio / 2)) && (unitedRowsIndex < (_grid->getHeight() * (_gridMapResolutionRatio / 2)) - 1) && !isACertainCellOccupied; unitedRowsIndex++) {
+				for (int unitedColumnsIndex = columnsIndex; (unitedColumnsIndex < columnsIndex + ((_gridMapResolutionRatio / 2) * BYTES_PER_PIXEL)) && (ceil(unitedColumnsIndex / BYTES_PER_PIXEL) < (_grid->getWidth() * (_gridMapResolutionRatio / 2)) - 1) && !isACertainCellOccupied; unitedColumnsIndex += BYTES_PER_PIXEL) {
+					int cell = (unitedRowsIndex * (width * BYTES_PER_PIXEL)) + unitedColumnsIndex;
+
+					if (imagePixelsVector.at(cell) != 255 || imagePixelsVector.at(cell + 1) != 255 || imagePixelsVector.at(cell + 2) != 255) {
+						isACertainCellOccupied = true;
+					}
+				}
+			}
+
+			if (isACertainCellOccupied) {
+				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, OCCUPIED_CELL);
+			} else {
+				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, FREE_CELL);
+			}
+
+			gridVectorColumnsIndex++;
+		}
+
+		gridVectorColumnsIndex = 0;
+		gridVectorRowsIndex++;
 	}
 }
 
 void Map::printMap(string fileName) {
-	ofstream outputFile(fileName.c_str());
-	cout << "Printing Map: " << endl;
+	ofstream vectorOutputFile((fileName).c_str());
 
-	for (int i = 0; i < MAP_ROWS; i++) {
-		for (int j = 0; j < MAP_COLUMNS; j++) {
-			cout << _map[i][j];
-			outputFile << _map[i][j];
+	for (int rowsIndex = 0; rowsIndex < _grid->getHeight(); rowsIndex++) {
+		for (int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
+			vectorOutputFile << _grid->getCellValue(columnsIndex, rowsIndex);
 		}
 
-		cout << endl;
-		outputFile << endl;
+		vectorOutputFile << endl;
 	}
 
-	outputFile.close();
+	vectorOutputFile.close();
 }
 
-void Map::padACell(int i, int j, int tempMap[MAP_ROWS][MAP_COLUMNS], int factor) {
-	for (int x = i - factor; x <= i + factor; x++) {
-		if (!(x < 0 || x >= MAP_ROWS)) {
-			for (int y = j - factor; y <= j + factor; y++) {
-				if (!(y < 0 || y >= MAP_COLUMNS))
-					tempMap[x][y] = OCCUPIED_CELL;
+void Map::padACell(int column, int row, Matrix* matrix, int factor) {
+	for (int rowsIndex = row - factor; rowsIndex <= row + factor; rowsIndex++) {
+		if (!(rowsIndex < 0 || rowsIndex >= _grid->getHeight())) {
+			for (int columnsIndex = column - factor; columnsIndex <= column + factor; columnsIndex++) {
+				if (!(columnsIndex < 0 || columnsIndex >= _grid->getWidth()))
+					matrix->setCellValue(columnsIndex, rowsIndex, OCCUPIED_CELL);
 			}
 		}
 	}
 }
 
 void Map::padMapObstacles(int factor) {
-	int tempMap[MAP_ROWS][MAP_COLUMNS];
+	Matrix tempMatrix = Matrix(_grid->getWidth(), _grid->getHeight(), FREE_CELL);
 
-	// Initializing the blank temp matrix cells before padding the obstacles
-	for (int i = 0; i < MAP_ROWS; i++) {
-		for (int j = 0; j < MAP_COLUMNS; j++)
-			tempMap[i][j] = FREE_CELL;
-	}
-
-	for (int i = 0; i < MAP_ROWS; i++) {
-		for (int j = 0; j < MAP_COLUMNS; j++) {
-			if (_map[i][j] == OCCUPIED_CELL)
-				padACell(i, j, tempMap, factor);
+	for (int rowsIndex = 0; rowsIndex < _grid->getHeight(); rowsIndex++) {
+		for (int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
+			if (_grid->getCellValue(columnsIndex, rowsIndex) == OCCUPIED_CELL)
+				padACell(columnsIndex, rowsIndex, &tempMatrix, factor);
 		}
 	}
 
-	std::swap(_map, tempMap);
-}
-
-int Map::calculateXIndex(int x) {
-	return (x / MAP_RESOLUTION) + (MAP_COLUMNS / 2);
-}
-
-int Map::calculateYIndex(int y) {
-	return (y / MAP_RESOLUTION) - (MAP_ROWS / 2);
+	_grid->swap(tempMatrix);
 }

@@ -9,10 +9,11 @@
 #define MAP_H_
 
 #include <iostream>
-#include "Helper.h"
+#include <fstream>
 #include "WriteToPng/lodepng.h"
 #include "math.h"
-#include <fstream>
+#include "Matrix.h"
+#include "ConfigurationManager.h"
 
 using namespace std;
 
@@ -30,18 +31,20 @@ class Map
 private:
 	int _width;
 	int _height;
-	float _resolution;
-	int _map[MAP_ROWS][MAP_COLUMNS];
+	float _gridMapResolutionRatio;
+	ConfigurationManager* _configurationManager;
+	Matrix* _grid;
 
-	void padACell(int i, int j, int tempMap[MAP_ROWS][MAP_COLUMNS], int factor);
+	void setWidth(int width);
+	void setHeight(int height);
+	void padACell(int i, int j, Matrix* matrix, int factor);
 
 public:
 	~Map();
-	Map(int width, int height, float resolution);
+	Map(int width, int height, ConfigurationManager* configurationManager);
 
 	int getWidth();
 	int getHeight();
-	float getResolution();
 	int getCellValue(int x, int y);
 	void setCellValue(int x, int y, int value);
 
@@ -49,8 +52,6 @@ public:
 	void readMap();
 	void padMapObstacles(int factor);
 	void initResolutionFittedMap();
-	int calculateXIndex(int x);
-	int calculateYIndex(int y);
 };
 
 #endif /* MAP_H_ */
