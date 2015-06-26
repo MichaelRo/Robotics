@@ -25,4 +25,6 @@ int main (int argc, const char * argv[])
 
 	m->padMapObstacles(conf->getRobotSize().height / conf->getGridResolutionCM());
 	m->printMap("paddedMapMatrix.txt");
+
+	m->saveMap("paddedGrid.png");
 }

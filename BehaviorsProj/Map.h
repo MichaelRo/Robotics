@@ -14,6 +14,7 @@
 #include "math.h"
 #include "Matrix.h"
 #include "ConfigurationManager.h"
+#include "Helper.h"
 
 using namespace std;
 
@@ -22,8 +23,9 @@ class Map
 	static const int FREE_CELL = 0;
 	static const int OCCUPIED_CELL = 1;
 	static const int UNKNOWN_CELL = 2;
-
-	static const int WHITE_RGBA_VALUE = 255;
+	static const int START_LOCATION_CELL = 3;
+	static const int GOAL_LOCATION_CELL = 4;
+	static const int ROUTE_CELL = 5;
 
 	static const int BYTES_PER_PIXEL = 4;
 
@@ -38,6 +40,8 @@ private:
 	void setHeight(int height);
 	void padACell(int i, int j, Matrix* matrix, int factor);
 
+	static void pushRGBAColorToAVector(vector<unsigned char> * vector, int color);
+
 public:
 	~Map();
 	Map(ConfigurationManager* configurationManager);
@@ -49,6 +53,7 @@ public:
 
 	void printMap(string fileName);
 	void loadMap(string pngFilePath);
+	void saveMap(string pngFilePath);
 	void padMapObstacles(int factor);
 
 	void initializeGrid(int width, int height);
