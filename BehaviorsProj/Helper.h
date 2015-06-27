@@ -16,8 +16,7 @@
 
 using namespace std;
 
-class Helper
-{
+class Helper {
 private:
 	static const int BLACK_RGBA[];
 	static const int WHITE_RGBA[];
