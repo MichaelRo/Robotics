@@ -32,8 +32,9 @@ public:
 	virtual ~Particle();
 
 	float getBelief();
+	Structs::Location getLocation();
 
-	void update(Structs::Location destination);
+	float update(Structs::Location destination, vector<float> laserScan);
 	float calculatePredictedBelief(Structs::Location destination);
 	float calculateBelief(Structs::Location destination);
 	float calculateMotionModelProbability(Structs::Location destination);

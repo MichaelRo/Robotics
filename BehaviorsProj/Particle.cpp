@@ -27,12 +27,16 @@ float Particle::getBelief() {
 	return _belief;
 }
 
-void Particle::update(Structs::Location destination) {
+Structs::Location Particle::getLocation() {
+	return _location;
+}
+
+float Particle::update(Structs::Location destination, vector<float> laserScan) {
 	_location.x += destination.x;
 	_location.y += destination.y;
 	_location.yaw += destination.yaw;
 
-	_belief = calculateBelief(destination);
+	return _belief = calculateBelief(destination);
 }
 
 float Particle::calculatePredictedBelief(Structs::Location destination) {
