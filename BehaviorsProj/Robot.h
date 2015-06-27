@@ -16,6 +16,7 @@ class Robot {
 	LaserProxy* _lp;
 
 public:
+	float getLaserDistance(int index);
 	virtual ~Robot();
 
 	Robot(char* ip, int port);

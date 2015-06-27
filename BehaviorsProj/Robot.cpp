@@ -18,6 +18,11 @@ Robot::Robot(char* ip, int port) {
 		Read();
 }
 
+float Robot::getLaserDistance(int index)
+{
+	return _lp->GetRange(index);
+}
+
 Robot::~Robot() {
 	delete _pc;
 	delete _pp;
