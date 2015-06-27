@@ -14,20 +14,28 @@ using namespace std;
 
 class Structs {
 public:
-	struct Location {
-		int x;
-		int y;
-		int yaw = 0;
+	struct Location{
+		float x;
+		float y;
+		float yaw = 0;
+
+		Location();
+		Location(float x, float y, float yaw = 0);
 	};
 
 	struct Size {
 		int width;
 		int height;
+
+		Size();
+		Size(int width, int height);
 	};
 
 	struct ConfigurationProperty {
 		string token;
 		string value;
+
+		ConfigurationProperty(string token, string value);
 	};
 };
 

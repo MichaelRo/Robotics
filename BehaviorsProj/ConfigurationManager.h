@@ -8,12 +8,14 @@
 #ifndef CONFIGURATIONMANAGER_H_
 #define CONFIGURATIONMANAGER_H_
 
-#include <string>
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <vector>
-#include "Structs.h"
+
 #include <stdlib.h>
+
+#include "Structs.h"
 
 using namespace std;
 

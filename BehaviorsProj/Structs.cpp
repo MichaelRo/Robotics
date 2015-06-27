@@ -6,3 +6,19 @@
  */
 
 #include "Structs.h"
+
+Structs::Location::Location(float x, float y, float yaw) {
+	this->x = x;
+	this->y = y;
+	this->yaw = yaw;
+}
+
+Structs::Size::Size(int width, int height) {
+	this->width = width;
+	this->height = height;
+}
+
+Structs::ConfigurationProperty::ConfigurationProperty(string token, string value) {
+	this->token = token;
+	this->value = value;
+}
