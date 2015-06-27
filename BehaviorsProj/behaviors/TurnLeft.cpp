@@ -1,18 +1,18 @@
 /*
  * TurnRight.cpp
  *
- *  Created on: Dec 14, 2014
- *      Author: user
+ *  Created on: Jun 23, 2015
+ *      Author: Itay Desalto
  */
 
-#include "TurnRight.h"
+#include "TurnLeft.h"
 #include "../Helper.h"
 
-TurnRight::TurnRight(Robot* robot):Behavior(robot) {
-
+TurnLeft::TurnLeft(Robot* robot):Behavior(robot)
+{
 }
 
-bool TurnRight::startCondition()
+bool TurnLeft::startCondition()
 {
 	for (int i = Helper::DegreesToIndex(-30); i< Helper::DegreesToIndex(0); i++)
 	{
@@ -30,8 +30,8 @@ bool TurnRight::startCondition()
 	return false;
 }
 
-bool TurnRight::stopCondition() {
-	for (int i= Helper::DegreesToIndex(60) ; i<(Helper::DegreesToIndex(120)) ; i++)
+bool TurnLeft::stopCondition() {
+	for (int i= Helper::DegreesToIndex(-120) ; i<(Helper::DegreesToIndex(-60)) ; i++)
 		{
 			if (_robot->getLaserDistance(i) < Helper::MINIMUM_WALL_RANGE)
 			{
@@ -42,11 +42,11 @@ bool TurnRight::stopCondition() {
 		return false;
 }
 
-void TurnRight::action()
+void TurnLeft::action()
 {
-	_robot->setSpeed(0.0,-1.0);
+	_robot->setSpeed(0.0,1.0);
 }
 
-TurnRight::~TurnRight()
+TurnLeft::~TurnLeft()
 {
 }

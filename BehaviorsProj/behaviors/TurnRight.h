@@ -13,25 +13,9 @@
 class TurnRight: public Behavior {
 public:
 	TurnRight(Robot* robot);
-	bool startCond()
-	{
-		if(_robot->isRightFree() )
-			return true;
-		else
-			return false;
-	}
-	bool stopCond()
-	{
-		if(_robot->isForwardFree())
-					return true;
-				else
-					return false;
-	}
-
-	void action()
-	{
-		_robot->setSpeed(0.0, 0.3);
-	}
+	bool startCondition();
+	bool stopCondition();
+	void action();
 	virtual ~TurnRight();
 };
 

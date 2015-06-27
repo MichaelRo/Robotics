@@ -1,37 +1,37 @@
 /*
- * Behavior.h
+ * behavior.h
  *
- *  Created on: Dec 14, 2014
- *      Author: user
  */
 
 #ifndef BEHAVIOR_H_
 #define BEHAVIOR_H_
-#include <vector>
+
 #include "../Robot.h"
+#include <string>
+#include <sstream>
+#include <vector>
+
 using namespace std;
 
+//Class which handles the robot's behavior system control
 class Behavior {
-	vector<Behavior*> _behVect;
+
 protected:
-	Robot* _robot;
+    Robot* _robot;
+
+private:
+    vector<Behavior*> _behaviors;
+
 public:
-	Behavior(Robot* robot);
-	virtual ~Behavior();
-	virtual bool startCond() = 0;
-	virtual bool stopCond() = 0;
-	virtual void action() = 0;
-	void addBeh(Behavior* next)
-	{
-		_behVect.push_back(next);
-	}
-	Behavior* selectNext()
-	{
-		//Run over vector and return first true
-		//startCond of the first behavior
-		return NULL;
-	}
+    Behavior(Robot*);
+    virtual ~Behavior();
+    virtual bool startCondition() = 0;
+    virtual bool stopCondition() = 0;
+    virtual void action() = 0;
+    void addNext(Behavior*);
+    Behavior* getNext();
+    virtual string getName() = 0;
 
 };
 
-#endif /* BEHAVIOR_H_ */
+#endif
