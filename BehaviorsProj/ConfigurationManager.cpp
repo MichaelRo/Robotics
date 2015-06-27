@@ -36,16 +36,10 @@ Structs::Location ConfigurationManager::getRobotStartLocation() {
 }
 
 void ConfigurationManager::setRobotStartLocation(string startLocation) {
-	Structs::Location robotStartLocation;
 	vector<string> LocationVector = splitString(startLocation, ' ');
+	int yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
 
-	robotStartLocation.x = atoi(LocationVector[0].c_str());
-	robotStartLocation.y = atoi(LocationVector[1].c_str());
-
-	if (LocationVector.size() > 2)
-		robotStartLocation.yaw = atoi(LocationVector[2].c_str());
-
-	_robotStartLocation = robotStartLocation;
+	_robotStartLocation = Structs::Location(atoi(LocationVector[0].c_str()), atoi(LocationVector[1].c_str()), yaw);
 }
 
 Structs::Location ConfigurationManager::getRobotGoalLocation() {
@@ -53,16 +47,10 @@ Structs::Location ConfigurationManager::getRobotGoalLocation() {
 }
 
 void ConfigurationManager::setRobotGoalLocation(string goalLocation) {
-	Structs::Location robotGoalLocation;
 	vector<string> LocationVector = splitString(goalLocation, ' ');
+	int yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
 
-	robotGoalLocation.x = atoi(LocationVector[0].c_str());
-	robotGoalLocation.y = atoi(LocationVector[1].c_str());
-
-	if (LocationVector.size() > 2)
-			robotGoalLocation.yaw = atoi(LocationVector[2].c_str());
-
-	_robotGoalLocation = robotGoalLocation;
+	_robotGoalLocation = Structs::Location(atoi(LocationVector[0].c_str()), atoi(LocationVector[1].c_str()), yaw);
 }
 
 Structs::Size ConfigurationManager::getRobotSize() {
@@ -70,13 +58,9 @@ Structs::Size ConfigurationManager::getRobotSize() {
 }
 
 void ConfigurationManager::setRobotSize(string size) {
-	Structs::Size robotSize;
 	vector<string> SizeVector = splitString(size, ' ');
 
-	robotSize.width = atoi(SizeVector[0].c_str());
-	robotSize.height = atoi(SizeVector[1].c_str());
-
-	_robotSize = robotSize;
+	_robotSize = Structs::Size(atoi(SizeVector[0].c_str()), atoi(SizeVector[1].c_str()));
 }
 
 float ConfigurationManager::getMapResolutionCM() {
@@ -117,11 +101,8 @@ int ConfigurationManager::setConfigurationProperty(Structs::ConfigurationPropert
 }
 
 Structs::ConfigurationProperty ConfigurationManager::getProperty(string s) {
-	Structs::ConfigurationProperty property;
 	vector<string> propertyVector = splitString(s, DELIMITER);
-
-	property.token = propertyVector[0];
-	property.value = propertyVector[1];
+	Structs::ConfigurationProperty property(propertyVector[0], propertyVector[1]);
 
 	return property;
 }
