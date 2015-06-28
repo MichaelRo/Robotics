@@ -36,15 +36,15 @@ float Particle::update(Structs::Location destination, vector<float> laserScan) {
 	_location.y += destination.y;
 	_location.yaw += destination.yaw;
 
-	return _belief = calculateBelief(destination);
+	return _belief = calculateBelief(destination, laserScan);
 }
 
 float Particle::calculatePredictedBelief(Structs::Location destination) {
 	return calculateMotionModelProbability(destination) * getBelief();
 }
 
-float Particle::calculateBelief(Structs::Location destination) {
-	return NORMALIZATION_FACTOR * getObservationModel(destination) * calculatePredictedBelief(destination);
+float Particle::calculateBelief(Structs::Location destination, vector<float> laserScan) {
+	return NORMALIZATION_FACTOR * checkObservationModel(laserScan) * calculatePredictedBelief(destination);
 }
 
 float Particle::calculateMotionModelProbability(Structs::Location destination) {
@@ -63,8 +63,17 @@ float Particle::calculateMotionModelProbability(Structs::Location destination) {
 	return propability;
 }
 
-float Particle::getObservationModel(Structs::Location destination) {
-	// Probably getting it from the robot / localiztionManager
+float Particle::checkObservationModel(vector<float> laserScan) {
+	for (int laserIndex = 0; laserIndex < Helper::TOTAL_SCAN_SPAN; laserIndex++) {
+		float currentLaserScan = laserScan[laserIndex];
+
+		int expectedObsticlesDetected = 0;
+
+		if (isObsticleDetectedAsExpected(currentLaserScan, laserIndex))
+			expectedObsticlesDetected++;
+
+		return expectedObsticlesDetected / laserScan.size();
+	}
 }
 
 vector<Particle> Particle::createDescendantParticles(int amount) {
@@ -79,6 +88,22 @@ vector<Particle> Particle::createDescendantParticles(int amount) {
 	return descendantParticles;
 }
 
+
 float Particle::getDistance(Structs::Location destination) {
 	return sqrt((destination.x * destination.x) + (destination.y * destination.y));
+}
+
+bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
+	if (laserScan < LASER_MAX_RANGE) {
+		int j = 0; // initalizing in for
+
+		int XFreePos = _location.x + (cos(Helper::DegreesToRadian(Helper::IndexToDegrees(laserIndex)) + _location.yaw) * j);
+		int YFreePos = this->_position->Y() + (sin(DTOR(AngleOfIndex(index)) + this->_position->Yaw()) * j);
+	}
+
+	return true;
+}
+
+bool Particle::isObsticleOccupiedInMap(float x, float y) {
+	return true;
 }

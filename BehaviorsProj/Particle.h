@@ -12,6 +12,7 @@
 
 #include "Structs.h"
 #include "Map.h"
+#include "Helper.h"
 
 using namespace std;
 
@@ -21,11 +22,16 @@ private:
 	Map* _map;
 	float _belief;
 
+	bool isObsticleDetectedAsExpected(float laserScan, int laserIndex);
+	bool isObsticleOccupiedInMap(float x, float y);
+
 public:
 	static const float NORMALIZATION_FACTOR = 1.2;
-	static const float MAX_DISTANCE = 2;
-	static const float MAX_YAW = 2;
+	static const float MAX_DISTANCE = 2; // Check
+	static const float MAX_YAW = 2; // Check
 	static const float MAX_PARTICLES_CREATION_RANDOM_RATIO = 5;
+	static const float MAP_MAX_CELLS_LASER = 5;
+	static const float LASER_MAX_RANGE = 4; // Check value + check if meters/cm
 
 	Particle(float x, float y, float yaw, Map* map);
 	Particle(Structs::Location location, Map* map);
@@ -36,9 +42,9 @@ public:
 
 	float update(Structs::Location destination, vector<float> laserScan);
 	float calculatePredictedBelief(Structs::Location destination);
-	float calculateBelief(Structs::Location destination);
+	float calculateBelief(Structs::Location destination, vector<float> laserScan);
 	float calculateMotionModelProbability(Structs::Location destination);
-	float getObservationModel(Structs::Location destination);
+	float checkObservationModel(vector<float> laserScan);
 	vector<Particle> createDescendantParticles(int amount);
 
 	static float getDistance(Structs::Location destination);

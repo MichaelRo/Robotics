@@ -14,6 +14,8 @@
 #include <map>
 #include <vector>
 
+#include <math.h>
+
 using namespace std;
 
 class Helper {
@@ -48,6 +50,7 @@ public:
 
 	static int IndexToDegrees(int index);
 	static int DegreesToIndex(int degrees);
+	static double DegreesToRadian(double degrees);
 };
 
 #endif
