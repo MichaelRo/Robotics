@@ -8,9 +8,6 @@
 #ifndef HELPER_H_
 #define HELPER_H_
 
-#define SCAN_SPAN  666
-#define DEGREES 270
-
 #include <map>
 #include <vector>
 
@@ -40,6 +37,8 @@ public:
 
 	const static int * getRGBA(int color);
 	
+	static const int SCAN_SPAN = 666;
+	static const int DEGREES = 270;
 	static const float MINIMUM_WALL_RANGE = 0.8;
 	static const float TOTAL_SCAN_SPAN = SCAN_SPAN;
 	static const float HALF_SCAN_SPAN = SCAN_SPAN / 2;
