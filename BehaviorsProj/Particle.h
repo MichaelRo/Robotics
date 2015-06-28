@@ -23,7 +23,7 @@ private:
 	float _belief;
 
 	bool isObsticleDetectedAsExpected(float laserScan, int laserIndex);
-	bool isObsticleOccupiedInMap(float x, float y);
+	bool isObsticleOccupiedInMap(Structs::Location scannedObsticleLocation);
 
 public:
 	static const float NORMALIZATION_FACTOR = 1.2;

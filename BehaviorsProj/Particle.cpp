@@ -97,13 +97,19 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
 	if (laserScan < LASER_MAX_RANGE) {
 		int j = 0; // initalizing in for
 
-		int XFreePos = _location.x + (cos(Helper::DegreesToRadian(Helper::IndexToDegrees(laserIndex)) + _location.yaw) * j);
-		int YFreePos = this->_position->Y() + (sin(DTOR(AngleOfIndex(index)) + this->_position->Yaw()) * j);
+		Structs::Location scannedObsticleLocationInMap;
+
+		scannedObsticleLocationInMap.yaw = _location.yaw + Helper::DegreesToRadian(Helper::IndexToDegrees(laserIndex));
+		scannedObsticleLocationInMap.x = _location.x + cos(scannedObsticleLocationInMap.yaw * j);
+		scannedObsticleLocationInMap.y = _location.y + sin(scannedObsticleLocationInMap.yaw * j);
+
+		return _map->getCellValue(scannedObsticleLocationInMap.x, scannedObsticleLocationInMap.y) == Map::OCCUPIED_CELL;
 	}
 
 	return true;
 }
 
-bool Particle::isObsticleOccupiedInMap(float x, float y) {
+bool Particle::isObsticleOccupiedInMap(Structs::Location scannedObsticleLocation) {
+	// should be the code up there
 	return true;
 }
