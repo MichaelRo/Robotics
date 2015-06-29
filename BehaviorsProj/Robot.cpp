@@ -6,6 +6,7 @@
  */
 
 #include "Robot.h"
+#include "Helper.h"
 
 Robot::Robot(char* ip, int port) {
 	_pc = new PlayerClient(ip,port);
@@ -18,9 +19,38 @@ Robot::Robot(char* ip, int port) {
 		Read();
 }
 
-float Robot::getLaserDistance(int index)
-{
+float Robot::getLaserDistance(int index) {
 	return _lp->GetRange(index);
+}
+
+vector<float> Robot::getLaserScan() {
+	vector<float> laserScan;
+
+	for (int i = 0; i <= Helper::DEGREES; i++) {
+		laserScan.push_back(getLaserDistance(Helper::DegreesToIndex(i)));
+	}
+
+	return laserScan;
+}
+
+float Robot::getX() {
+	return _pp->GetXPos();
+}
+
+float Robot::getY() {
+	return _pp->GetYPos();
+}
+
+float Robot::getYaw() {
+	return _pp->GetYaw();
+}
+
+void Robot::setSpeed(float xSpeed, float angularSpeed) {
+	_pp->SetSpeed(xSpeed, angularSpeed);
+}
+
+void Robot::Read() {
+	_pc->Read();
 }
 
 Robot::~Robot() {
