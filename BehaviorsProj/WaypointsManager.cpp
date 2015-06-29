@@ -7,7 +7,7 @@
 
 #include "WaypointsManager.h"
 
-WaypointsManager::WaypointsManager(vector<Point> route) {
+WaypointsManager::WaypointsManager(list<Point> route) {
 	markWaypoints(route);
 }
 
@@ -15,7 +15,7 @@ WaypointsManager::~WaypointsManager() {
 	delete _waypoints;
 }
 
-void WaypointsManager::markWaypoints(vector<Point> route) {
+list<Point> WaypointsManager::markWaypoints(list<Structs::Point> route) {
 	for (int routePointIndex = 0; routePointIndex < route.size(); routePointIndex++) {
 		int currentDirection = getDirection(route[routePointIndex], route[routePointIndex + 1]);
 
@@ -26,6 +26,8 @@ void WaypointsManager::markWaypoints(vector<Point> route) {
 		if ((currentDirection + 1) < route.size())
 			_waypoints.push_back(route[routePointIndex + 1]);
 	}
+
+	return _waypoints;
 }
 
 bool WaypointsManager::hasNext() {
@@ -36,7 +38,7 @@ Point WaypointsManager::getNext() {
 	return _waypoints[currentWaypointIndex++];
 }
 
-int WaypointsManager::getDirection(Point src, Point dest) {
+int WaypointsManager::getDirection(Structs::Point src, Structs::Point dest) {
 	int destination = NONE;
 
 	if (dest.y > src.y) {

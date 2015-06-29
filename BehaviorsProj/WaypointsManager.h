@@ -8,11 +8,15 @@
 #ifndef WAYPOINTSMANAGER_H_
 #define WAYPOINTSMANAGER_H_
 
-#include <SearchCell.h>
+#include <Structs.h>
+
+#include <list>
+
+using namespace std;
 
 class WaypointsManager {
 private:
-	vector<Point> _waypoints;
+	vector<Structs::Point> _waypoints;
 	int currentWaypointIndex;
 
 public:
@@ -27,14 +31,14 @@ public:
 	static const int NONE = 9;
 
 	WaypointsManager();
-	WaypointsManager(vector<Point> route);
+	WaypointsManager(list<Structs::Point> route);
 	virtual ~WaypointsManager();
 
-	void markWaypoints(vector<Point> route);
+	list<Structs::Point> markWaypoints(list<Structs::Point> route);
 	bool hasNext();
-	Point getNext();
+	Structs::Point getNext();
 
-	static int getDirection(Point src, Point dest);
+	static int getDirection(Structs::Point src, Structs::Point dest);
 };
 
-#endif /* WAYPOINTSMANAGER_H_ */
+#endif
