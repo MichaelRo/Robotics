@@ -14,6 +14,8 @@
 #include <map>
 #include <vector>
 
+#include <math.h>
+
 using namespace std;
 
 class Helper {
@@ -45,6 +47,11 @@ public:
 	static const float HALF_SCAN_SPAN = SCAN_SPAN / 2;
 	static const float TOTAL_DEGREES = DEGREES;
 	static const float DEGREES_INDEX_RATIO = SCAN_SPAN / DEGREES;
+
+	static const float OPEN_PATH_RANGE = 0.75;
+	static const float SENSOR_FROM_END = 15;
+	static const float SENSOR_DETECTION_RANGE = 60;
+	static const float CELL_DIMENSION = 5;
 
 	static int IndexToDegrees(int index);
 	static int DegreesToIndex(int degrees);

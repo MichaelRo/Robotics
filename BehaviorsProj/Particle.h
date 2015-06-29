@@ -8,10 +8,14 @@
 #ifndef PARTICLE_H_
 #define PARTICLE_H_
 
+#define DEGREES_TO_RADIANS(degree)		((degree) * M_PI / 180)
+#define METER_TO_CM(meter)				(meter * 100)
+
 #include <math.h>
 
 #include "Structs.h"
 #include "Map.h"
+#include "Helper.h"
 
 using namespace std;
 
@@ -21,11 +25,17 @@ private:
 	Map* _map;
 	float _belief;
 
+	bool isObsticleDetectedAsExpected(float laserScan, int laserIndex);
+	Structs::Location getRandomDeltaLocation();
+
 public:
 	static const float NORMALIZATION_FACTOR = 1.2;
-	static const float MAX_DISTANCE = 2;
-	static const float MAX_YAW = 2;
-	static const float MAX_PARTICLES_CREATION_RANDOM_RATIO = 5;
+	static const float MAX_DISTANCE = METER_TO_CM(2); // Check
+	static const float MAX_YAW = 2; // Check
+	static const float MAP_MAX_CELLS_LASER = 5;
+	static const float LASER_MAX_RANGE = METER_TO_CM(4); // Check value + check if meters/cm
+	static const float MAX_PARTICLES_RELATIVE_RATIO_CREATION = 0.1;
+	static const float MAX_PARTICLES_RELATIVE_YAW_CREATION = 0.1;
 
 	Particle(float x, float y, float yaw, Map* map);
 	Particle(Structs::Location location, Map* map);
@@ -36,9 +46,9 @@ public:
 
 	float update(Structs::Location destination, vector<float> laserScan);
 	float calculatePredictedBelief(Structs::Location destination);
-	float calculateBelief(Structs::Location destination);
+	float calculateBelief(Structs::Location destination, vector<float> laserScan);
 	float calculateMotionModelProbability(Structs::Location destination);
-	float getObservationModel(Structs::Location destination);
+	float checkObservationModel(vector<float> laserScan);
 	vector<Particle> createDescendantParticles(int amount);
 
 	static float getDistance(Structs::Location destination);
