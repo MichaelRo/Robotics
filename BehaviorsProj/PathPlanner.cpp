@@ -11,82 +11,72 @@
 #include <iostream>
 #include <iomanip>
 #include <math.h>
+#include <list>
+#include <limits>
+
+using namespace std;
 
 PathPlanner::PathPlanner(void) {
-	this->_initializedStartGoal = false;
-	this->_foundGoal = false;
+	_goalCell = NULL;
+	_startCell = NULL;
 }
 
-PathPlanner::~PathPlanner(void) {
+list<Structs::Point> PathPlanner::performAStar(Map *map , Structs::Point *startPoint, Structs::Point *endPoint) {
+	Structs::SearchCell *startCell = new Structs::SearchCell(startPoint, NULL, 0);
+	Structs::SearchCell *endCell = new Structs::SearchCell(endPoint, NULL, 0);
+	_map = map;
+	list<Structs::Point> retList;
 
+	_openList.push_back(*startCell);
+
+	while (!_openList.empty()) {
+		Structs::SearchCell *currMinNode = extractMinNode(_openList);
+
+		if (currMinNode->_point->x == endPoint->x && currMinNode->_point->y == endPoint->y) {
+			// handle end;
+		}
+
+		list<Structs::SearchCell> neighbors;
+		for (int rowsIndex = currMinNode->_point->x - 1; rowsIndex <= currMinNode->_point->x + 1; rowsIndex++) {
+			if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
+				for (int columnsIndex = currMinNode->_point->y - 1; columnsIndex <= currMinNode->_point->y + 1; columnsIndex++) {
+					if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
+						if (_map->getCellValue(rowsIndex, columnsIndex) == Map::FREE_CELL) {
+							// need to CHANGE 0 to the distance between the current node to the current neighbor
+							Structs::SearchCell *neighbor = new Structs::SearchCell(new Structs::Point(rowsIndex, columnsIndex), currMinNode, 0);
+							neighbors.push_back(*neighbor);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return retList;
+}
+
+Structs::SearchCell* PathPlanner::extractMinNode(list<Structs::SearchCell> list) {
+	float minF = std::numeric_limits<float>::max();
+	Structs::SearchCell *minFNode;
+
+	for (std::list<Structs::SearchCell>::iterator nodesIterator = list.begin(); nodesIterator != list.end(); nodesIterator++) {
+		Structs::SearchCell *currNode = nodesIterator.operator ->();
+		if (currNode->getF() < minF) {
+			minF = currNode->getF();
+			minFNode = currNode;
+		}
+	}
+	list.remove(*minFNode);
+	return minFNode;
 }
 
 void PathPlanner::findPath(Point currentPos, Point targetPos) {
-	if (!this->_initializedStartGoal) {
-		for (unsigned int i = 0; i < this->_openList.size(); i++) {
-			delete this->_openList[i];
-		}
-		this->_openList.clear();
 
-		for (unsigned int i = 0; i < this->_visitedList.size(); i++) {
-			delete this->_visitedList[i];
-		}
-		this->_visitedList.clear();
-
-		for (unsigned int i = 0; i < this->_pathToGoal.size(); i++) {
-			delete this->_pathToGoal[i];
-		}
-		this->_pathToGoal.clear();
-
-		// Initialize start
-		SearchCell start;
-		start._xCoord = currentPos.x;
-		start._yCoord = currentPos.y;
-
-		// Initialize goal
-		SearchCell goal;
-		goal._xCoord = targetPos.x;
-		goal._yCoord = targetPos.y;
-
-		setStartAndGoal(start, goal);
-		this->_initializedStartGoal = true;
-	}
-
-	if (this->_initializedStartGoal) {
-		continuePath();
-	}
 }
 
-void PathPlanner::setStartAndGoal(SearchCell start, SearchCell goal) {
-	this->_startCell = new SearchCell(start._xCoord, start._yCoord, NULL);
-	this->_goalCell = new SearchCell(goal._xCoord, goal._yCoord, &goal);
-
-	this->_startCell->_G = 0;
-	this->_startCell->_H = this->_startCell->ManhattanDistance(this->_goalCell);
-	this->_startCell->_parent = 0;
-
-	this->_openList.push_back(this->_startCell);
-}
 
 SearchCell* PathPlanner::getNextCell() {
-	float bestF = 999999999.0f;
-	int cellIndex = -1;
-	SearchCell* nextCell = NULL;
 
-	for(unsigned int i=0; i < this->_openList.size(); i++) {
-		if (this->_openList[i]->getF() < bestF) {
-			bestF = this->_openList[i]->getF();
-			cellIndex = i;
-		}
-	}
-
-	if (cellIndex >= 0) {
-		nextCell = this->_openList[cellIndex];
-		this->_visitedList.push_back(nextCell);
-		this->_openList.erase(this->_openList.begin() + cellIndex);
-	}
-
-	return nextCell;
 }
 
 void PathPlanner::pathOpened(int x, int y, float newCost, SearchCell* parent) {
@@ -161,14 +151,6 @@ void PathPlanner::continuePath() {
 	}
 }
 
-Point PathPlanner::nextPathPos() {
-	int index = 1;
+PathPlanner::~PathPlanner(void) {
 
-	Point nextPos;
-	nextPos.x = this->_pathToGoal[this->_pathToGoal.size() - index]->x;
-	nextPos.y = this->_pathToGoal[this->_pathToGoal.size() - index]->y;
-
-
-
-	return nextPos;
 }

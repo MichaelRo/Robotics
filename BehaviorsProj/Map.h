@@ -20,13 +20,6 @@ using namespace std;
 
 class Map
 {
-	static const int FREE_CELL = 0;
-	static const int OCCUPIED_CELL = 1;
-	static const int UNKNOWN_CELL = 2;
-	static const int START_LOCATION_CELL = 3;
-	static const int GOAL_LOCATION_CELL = 4;
-	static const int ROUTE_CELL = 5;
-
 	static const int BYTES_PER_PIXEL = 4;
 
 private:
@@ -43,6 +36,13 @@ private:
 	static void pushRGBAColorToAVector(vector<unsigned char> * vector, int color);
 
 public:
+	static const int FREE_CELL = 0;
+	static const int OCCUPIED_CELL = 1;
+	static const int UNKNOWN_CELL = 2;
+	static const int START_LOCATION_CELL = 3;
+	static const int GOAL_LOCATION_CELL = 4;
+	static const int ROUTE_CELL = 5;
+
 	~Map();
 	Map(ConfigurationManager* configurationManager);
 

@@ -14,46 +14,42 @@
 #include <iomanip>
 #include <math.h>
 
-#include "SearchCell.h"
+#include "Structs.h"
 #include <vector>
+#include <list>
 
 using namespace std;
 
 class PathPlanner {
 
 public:
+	list<Structs::SearchCell> _openList;
+	list<Structs::SearchCell> _closedList;
+	Map *_map;
+
 	PathPlanner(void);
 	virtual ~PathPlanner(void);
 
-	void findPath(Point currentPos, Point targetPos);
-	Point nextPathPos();
+	void findPath(Structs::Point currentPos, Structs::Point targetPos);
+	list<Structs::Point> performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint);
+	Structs::SearchCell* extractMinNode(list<Structs::SearchCell> list);
 
 	void clearOpenList() {
 		_openList.clear();
 	}
 
-	void clearVisitedList() {
-			_visitedList.clear();
-	}
-
 	void clearPathToGoal() {
-			_openList.clear();
+		_openList.clear();
 	}
-
-	bool _initializedStartGoal;
-	bool _foundGoal;
-
 private :
-	void setStartAndGoal(SearchCell start, SearchCell goal);
-	void pathOpened(int x, int y, float newCost, SearchCell* parent);
-	SearchCell* getNextCell();
+	void setStartAndGoal(Structs::SearchCell start, Structs::SearchCell goal);
+	//void pathOpened(int x, int y, float newCost, Structs::SearchCell* parent);
+	Structs::SearchCell* getNextCell();
 	void continuePath();
 
-	SearchCell* _startCell;
-	SearchCell* _goalCell;
-	std::vector<SearchCell*> _openList;
-	std::vector<SearchCell*> _visitedList;
-	std::vector<Point*> _pathToGoal;
+	Structs::SearchCell* _startCell;
+	Structs::SearchCell* _goalCell;
+	std::vector<Structs::Point*> _pathToGoal;
 };
 
-#endif /* PATHPLANNER_H_ */
+#endif
