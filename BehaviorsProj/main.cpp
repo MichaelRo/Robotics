@@ -10,20 +10,8 @@
 #include "Plans/PlnObstacleAvoid.h"
 
 int main (int argc, const char * argv[]){
-	Robot robot("localhost",6665);
+	Robot igal("localhost",6665);
 	ConfigurationManager configurationManager("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/parameters.txt");
-	Manager manager(&configurationManager, &robot);
+	Manager manager(&configurationManager, &igal);
 	manager.run();
-
-//	ConfigurationManager* conf = new ConfigurationManager("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/parameters.txt");
-//
-//	Map* m = new Map(conf);
-//
-//	m->loadMap("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/roboticLabMap.png");
-//	m->printMap("originalMapMatrix.txt");
-//
-//	m->padMapObstacles(conf->getRobotSize().height / conf->getGridResolutionCM());
-//	m->printMap("paddedMapMatrix.txt");
-//
-//	m->saveMap("paddedGrid.png");
 }

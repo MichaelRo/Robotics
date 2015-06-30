@@ -15,7 +15,7 @@ const int Helper::RED_RGBA[] = {255, 0, 0, 255};
 const int Helper::PINK_RGBA[] = {255, 0, 255, 255};
 const int Helper::LIGHT_BLUE_RGBA[] = {0, 255, 255, 255};
 const int Helper::YELLOW_RGBA[] = {255, 255, 0, 255};
-const int Helper::NO_COLOR[] = { 0, 0, 0, 0 };
+const int Helper::NO_COLOR[] = {0, 0, 0, 0};
 
 const int* Helper::getRGBA(int color) {
 	switch (color) {
@@ -40,14 +40,12 @@ const int* Helper::getRGBA(int color) {
 	}
 }
 
-int Helper::DegreesToIndex(int degrees)
-{
+int Helper::DegreesToIndex(int degrees) {
 	int indexDifference = degrees * Helper::DEGREES_INDEX_RATIO;
 	return Helper::HALF_SCAN_SPAN + indexDifference;
 }
 
-int Helper::IndexToDegrees(int index)
-{
+int Helper::IndexToDegrees(int index) {
 	int relativeIndex = index - Helper::HALF_SCAN_SPAN;
 	return relativeIndex / Helper::DEGREES_INDEX_RATIO;
 }

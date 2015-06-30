@@ -8,16 +8,14 @@
 #ifndef WAYPOINTSMANAGER_H_
 #define WAYPOINTSMANAGER_H_
 
-#include <Structs.h>
-
-#include <list>
+#include "Structs.h"
 
 using namespace std;
 
 class WaypointsManager {
 private:
-	vector<Structs::Point> _waypoints;
-	int currentWaypointIndex;
+	list<Structs::Point> _wayPoints;
+	list<Structs::Point>::iterator _wayPointsIterator;
 
 public:
 	static const int NORTH_WEST = 1;

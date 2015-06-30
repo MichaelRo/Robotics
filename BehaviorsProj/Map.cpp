@@ -130,12 +130,12 @@ void Map::printMap(string fileName) {
 	vectorOutputFile.close();
 }
 
-void Map::padACell(int column, int row, Matrix* matrix, int factor) {
+void Map::padACell(int column, int row, int factor) {
 	for (int rowsIndex = row - factor; rowsIndex <= row + factor; rowsIndex++) {
 		if (!(rowsIndex < 0 || rowsIndex >= _grid->getHeight())) {
 			for (int columnsIndex = column - factor; columnsIndex <= column + factor; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= _grid->getWidth()))
-					matrix->setCellValue(columnsIndex, rowsIndex, OCCUPIED_CELL);
+					_grid->setCellValue(columnsIndex, rowsIndex, OCCUPIED_CELL);
 			}
 		}
 	}
@@ -147,7 +147,7 @@ void Map::padMapObstacles(int factor) {
 	for (int rowsIndex = 0; rowsIndex < _grid->getHeight(); rowsIndex++) {
 		for (int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
 			if (_grid->getCellValue(columnsIndex, rowsIndex) == OCCUPIED_CELL)
-				padACell(columnsIndex, rowsIndex, &tempMatrix, factor);
+				padACell(columnsIndex, rowsIndex, factor);
 		}
 	}
 

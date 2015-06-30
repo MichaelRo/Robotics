@@ -30,7 +30,7 @@ private:
 
 	void setWidth(int width);
 	void setHeight(int height);
-	void padACell(int i, int j, Matrix* matrix, int factor);
+	void padACell(int i, int j, int factor);
 
 	static void pushRGBAColorToAVector(vector<unsigned char> * vector, int color);
 

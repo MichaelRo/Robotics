@@ -7,35 +7,39 @@
 
 #include "WaypointsManager.h"
 
-WaypointsManager::WaypointsManager(list<Point> route) {
+WaypointsManager::WaypointsManager(list<Structs::Point> route) {
 	markWaypoints(route);
 }
 
 WaypointsManager::~WaypointsManager() {
-	delete _waypoints;
+	delete _wayPoints;
 }
 
-list<Point> WaypointsManager::markWaypoints(list<Structs::Point> route) {
-	for (int routePointIndex = 0; routePointIndex < route.size(); routePointIndex++) {
-		int currentDirection = getDirection(route[routePointIndex], route[routePointIndex + 1]);
+list<Structs::Point> WaypointsManager::markWaypoints(list<Structs::Point> route) {
+	list<Structs::Point>::iterator routePointsIterator = route.begin();
+	int continuingDirection = getDirection(routePointsIterator.operator ->(), (++routePointsIterator).operator ->());
 
-		while ((routePointIndex + route.size()) < 0 && getDirection(route[routePointIndex], route[routePointIndex + 1]) == currentDirection) {
-			currentDirection++;
+	while (routePointsIterator != route.end()) {
+		int currentDirection = getDirection(routePointsIterator.operator ->(), (++routePointsIterator).operator ->());
+
+		if (currentDirection != continuingDirection) {
+			continuingDirection = currentDirection;
+
+			_wayPoints.push_back(routePointsIterator.operator ->());
 		}
-
-		if ((currentDirection + 1) < route.size())
-			_waypoints.push_back(route[routePointIndex + 1]);
 	}
 
-	return _waypoints;
+	_wayPointsIterator = _wayPoints.begin();
+
+	return _wayPoints;
 }
 
 bool WaypointsManager::hasNext() {
-	return currentWaypointIndex < _waypoints.size();
+	return !_wayPoints.end();
 }
 
-Point WaypointsManager::getNext() {
-	return _waypoints[currentWaypointIndex++];
+Structs::Point WaypointsManager::getNext() {
+	return (++_wayPointsIterator).operator ->();
 }
 
 int WaypointsManager::getDirection(Structs::Point src, Structs::Point dest) {

@@ -8,6 +8,8 @@
 #ifndef ROBOT_H_
 #define ROBOT_H_
 
+#include "LocalizationManager.h"
+
 #include <libplayerc++/playerc++.h>
 
 #include <vector>
@@ -16,9 +18,10 @@ using namespace PlayerCc;
 using namespace std;
 
 class Robot {
-	PlayerClient*_pc;
-	Position2dProxy* _pp;
-	LaserProxy* _lp;
+	PlayerClient*_playerClient;
+	Position2dProxy* _position;
+	LaserProxy* _laserProxy;
+	LocalizationManager* _localizationManager;
 
 public:
 	float getLaserDistance(int index);
