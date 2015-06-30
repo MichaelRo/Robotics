@@ -12,7 +12,9 @@
 #include <iomanip>
 #include <math.h>
 #include <list>
+#include <tuple>
 #include <limits>
+#include <algorithm>
 
 using namespace std;
 
@@ -21,46 +23,68 @@ PathPlanner::PathPlanner(void) {
 	_startCell = NULL;
 }
 
-list<Structs::Point> PathPlanner::performAStar(Map *map , Structs::Point *startPoint, Structs::Point *endPoint) {
-	Structs::SearchCell *startCell = new Structs::SearchCell(startPoint, NULL, 0);
-	Structs::SearchCell *endCell = new Structs::SearchCell(endPoint, NULL, 0);
+list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint) {
+	Structs::Node *startCell = Structs::Node(startPoint, NULL, 0);
+	Structs::Node *endCell = Structs::Node(endPoint, NULL, 0);
 	_map = map;
-	list<Structs::Point> retList;
 
 	_openList.push_back(*startCell);
 
 	while (!_openList.empty()) {
-		Structs::SearchCell *currMinNode = extractMinNode(_openList);
+		Structs::Node *currMinNode = extractMinNode(_openList);
 
+		// if we arrived the end point
 		if (currMinNode->_point->x == endPoint->x && currMinNode->_point->y == endPoint->y) {
-			// handle end;
+			return reconstruct_path(*currMinNode, *startPoint);
 		}
+		_closedList.push_back(*currMinNode);
 
-		list<Structs::SearchCell> neighbors;
-		for (int rowsIndex = currMinNode->_point->x - 1; rowsIndex <= currMinNode->_point->x + 1; rowsIndex++) {
-			if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
-				for (int columnsIndex = currMinNode->_point->y - 1; columnsIndex <= currMinNode->_point->y + 1; columnsIndex++) {
-					if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
-						if (_map->getCellValue(rowsIndex, columnsIndex) == Map::FREE_CELL) {
-							// need to CHANGE 0 to the distance between the current node to the current neighbor
-							Structs::SearchCell *neighbor = new Structs::SearchCell(new Structs::Point(rowsIndex, columnsIndex), currMinNode, 0);
-							neighbors.push_back(*neighbor);
-						}
-					}
+		list<Structs::Node> neighbors = getNeighbors(currMinNode);
+		for (std::list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
+			Structs::Node *currNeighbor = nodesIterator.operator ->();
+			if ((std::find(_closedList.begin(), _closedList.end(), currNeighbor) != _closedList.end())) {
+				continue;
+			}
+
+			float tempNeighborGGrade = currMinNode->_G + GRADE_FACTOR;
+			if ((!(std::find(_openList.begin(), _openList.end(), currNeighbor) != _openList.end())) || tempNeighborGGrade < currNeighbor->_G) {
+				currNeighbor->_parent = currMinNode;
+				currNeighbor->_G = tempNeighborGGrade;
+				currNeighbor->calcHGrade(endPoint);
+				if (!(std::find(_openList.begin(), _openList.end(), currNeighbor) != _openList.end())) {
+					_openList.push_back(*currNeighbor);
 				}
 			}
 		}
 	}
 
-	return retList;
+	return NULL;
 }
 
-Structs::SearchCell* PathPlanner::extractMinNode(list<Structs::SearchCell> list) {
-	float minF = std::numeric_limits<float>::max();
-	Structs::SearchCell *minFNode;
+list<Structs::Node> PathPlanner::getNeighbors(Structs::Node* node) {
+	list<Structs::Node> neighbors;
+	for (int rowsIndex = node->_point->x - 1; rowsIndex <= node->_point->x + 1;	rowsIndex++) {
+		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
+			for (int columnsIndex = node->_point->y - 1; columnsIndex <= node->_point->y + 1; columnsIndex++) {
+				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
+					if (_map->getCellValue(rowsIndex, columnsIndex) == Map::FREE_CELL) {
+						// need to CHANGE 0 to the distance between the current node to the current neighbor
+						Structs::Node* neighbor = Structs::Node(Structs::Point(rowsIndex, columnsIndex), node, node->_G + GRADE_FACTOR);
+						neighbors.push_back(*neighbor);
+					}
+				}
+			}
+		}
+	}
+	return neighbors;
+}
 
-	for (std::list<Structs::SearchCell>::iterator nodesIterator = list.begin(); nodesIterator != list.end(); nodesIterator++) {
-		Structs::SearchCell *currNode = nodesIterator.operator ->();
+Structs::Node* PathPlanner::extractMinNode(list<Structs::Node> list) {
+	float minF = std::numeric_limits<float>::max();
+	Structs::Node *minFNode;
+
+	for (std::list<Structs::Node>::iterator nodesIterator = list.begin(); nodesIterator != list.end(); nodesIterator++) {
+		Structs::Node *currNode = nodesIterator.operator ->();
 		if (currNode->getF() < minF) {
 			minF = currNode->getF();
 			minFNode = currNode;
@@ -70,85 +94,9 @@ Structs::SearchCell* PathPlanner::extractMinNode(list<Structs::SearchCell> list)
 	return minFNode;
 }
 
-void PathPlanner::findPath(Point currentPos, Point targetPos) {
+list<Structs::Point> PathPlanner::reconstruct_path(Structs::Node endNode, Structs::Point startPoint) {
 
-}
-
-
-SearchCell* PathPlanner::getNextCell() {
-
-}
-
-void PathPlanner::pathOpened(int x, int y, float newCost, SearchCell* parent) {
-	int id = x * Map::MAP_COLUMNS + y;
-
-	for (unsigned int i = 0; i < this->_visitedList.size(); i++) {
-		if (id == this->_visitedList[i]->_id) {
-			return;
-		}
-	}
-
-	SearchCell* newChild = new SearchCell(x, y, parent);
-	newChild->_G = newCost;
-	newChild->_H = parent->ManhattanDistance(this->_goalCell);
-
-	for (unsigned int i = 0; i < this->_openList.size(); i++) {
-		if (id == this->_openList[i]->_id) {
-			float newF = newChild->_G + newCost + this->_openList[i]->_H;
-
-			if (this->_openList[i]->getF() > newF) {
-				this->_openList[i]->_G = newChild->_G + newCost;
-				this->_openList[i]->_parent = newChild;
-			} else { // if the F is not better
-				delete newChild;
-				return;
-			}
-		}
-	}
-
-	this->_openList.push_back(newChild);
-}
-
-void PathPlanner::continuePath() {
-	if (!this->_openList.empty()) {
-		SearchCell* currentCell = getNextCell();
-
-		if (currentCell->_id == this->_goalCell->_id) {
-			this->_goalCell->_parent = currentCell->_parent;
-
-			SearchCell* getPath;
-
-			for (getPath = this->_goalCell; getPath != NULL; getPath = getPath->_parent) {
-				this->_pathToGoal.push_back(new Point(getPath->_xCoord, getPath->_yCoord));
-			}
-
-			this->_foundGoal = true;
-			return;
-		} else {
-			// right
-			pathOpened(currentCell->_xCoord + 1, currentCell->_yCoord, currentCell->_G + 1, currentCell);
-			// left
-			pathOpened(currentCell->_xCoord - 1, currentCell->_yCoord, currentCell->_G + 1, currentCell);
-			// up
-			pathOpened(currentCell->_xCoord, currentCell->_yCoord + 1, currentCell->_G + 1, currentCell);
-			// down
-			pathOpened(currentCell->_xCoord, currentCell->_yCoord - 1, currentCell->_G + 1, currentCell);
-			// left-up
-			pathOpened(currentCell->_xCoord - 1, currentCell->_yCoord + 1, currentCell->_G + 1.414, currentCell);
-			// right-up
-			pathOpened(currentCell->_xCoord + 1, currentCell->_yCoord + 1, currentCell->_G + 1.414, currentCell);
-			// left-down
-			pathOpened(currentCell->_xCoord - 1, currentCell->_yCoord - 1, currentCell->_G + 1.414, currentCell);
-			// right-down
-			pathOpened(currentCell->_xCoord + 1, currentCell->_yCoord - 1, currentCell->_G + 1.414, currentCell);
-
-			for (unsigned int i = 0; i < this->_openList.size(); ++i) {
-				if (currentCell->_id == this->_openList[i]->_id) {
-					this->_openList.erase(this->_openList.begin() + 1);
-				}
-			}
-		}
-	}
+	return NULL;
 }
 
 PathPlanner::~PathPlanner(void) {

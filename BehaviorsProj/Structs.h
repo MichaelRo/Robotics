@@ -9,6 +9,7 @@
 #define STRUCTS_H_
 
 #include <string>
+#include <vector>
 #include <math.h>
 
 using namespace std;
@@ -45,21 +46,21 @@ public:
 		}
 	};
 
-	struct SearchCell {
+	struct Node {
 	public :
 		Point* _point;
-		SearchCell* _parent;
+		Node* _parent;
 		float _G; // The cost until this search cell g(x)
 		float _H; // The expected cost to the goal h(x)
 
-		SearchCell() {
+		Node() {
 			_point = NULL;
 			_parent = NULL;
 			_G = 0;
 			_H = 0;
 		}
 
-		SearchCell(Point *p, SearchCell *parent, float GGrade) {
+		Node(Point *p, Node *parent, float GGrade) {
 			_point = new Point(p);
 			_parent = parent;
 			_G = GGrade;
@@ -70,9 +71,10 @@ public:
 			return this->_G + this->_H;
 		}
 
-		float ManhattanDistance(SearchCell* goal) {
-			float x = (float) (fabs(_point->x - goal->_point->x));
-			float y = (float) (fabs(_point->y - goal->_point->y));
+		float calcHGrade(Point* goal) {
+			// ManhattanDistance
+			float x = (float) (fabs(_point->x - goal->x));
+			float y = (float) (fabs(_point->y - goal->y));
 
 			return x+y;
 		}
