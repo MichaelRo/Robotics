@@ -15,24 +15,27 @@
 #include <math.h>
 
 #include "Structs.h"
+#include <tuple>
 #include <vector>
 #include <list>
 
 using namespace std;
 
+const int GRADE_FACTOR = 1;
+
 class PathPlanner {
 
 public:
-	list<Structs::SearchCell> _openList;
-	list<Structs::SearchCell> _closedList;
+	list<Structs::Node> _openList;
+	list<Structs::Node> _closedList;
 	Map *_map;
 
 	PathPlanner(void);
 	virtual ~PathPlanner(void);
 
-	void findPath(Structs::Point currentPos, Structs::Point targetPos);
 	list<Structs::Point> performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint);
-	Structs::SearchCell* extractMinNode(list<Structs::SearchCell> list);
+
+	Structs::Node* extractMinNode(list<Structs::Node> list);
 
 	void clearOpenList() {
 		_openList.clear();
@@ -42,13 +45,13 @@ public:
 		_openList.clear();
 	}
 private :
-	void setStartAndGoal(Structs::SearchCell start, Structs::SearchCell goal);
-	//void pathOpened(int x, int y, float newCost, Structs::SearchCell* parent);
-	Structs::SearchCell* getNextCell();
+	void pathOpened(int x, int y, float newCost, Structs::Node* parent);
 	void continuePath();
+	list<Structs::Node> getNeighbors(Structs::Node *node);
+	list<Structs::Point> reconstruct_path(Structs::Node endNode, Structs::Point startPoint);
 
-	Structs::SearchCell* _startCell;
-	Structs::SearchCell* _goalCell;
+	Structs::Node* _startCell;
+	Structs::Node* _goalCell;
 	std::vector<Structs::Point*> _pathToGoal;
 };
 
