@@ -9,18 +9,18 @@
 #include "Helper.h"
 
 Robot::Robot(char* ip, int port) {
-	_pc = new PlayerClient(ip,port);
-	_pp = new Position2dProxy(_pc);
-	_lp = new LaserProxy(_pc);
+	_playerClient = new PlayerClient(ip,port);
+	_position = new Position2dProxy(_playerClient);
+	_laserProxy = new LaserProxy(_playerClient);
 
-	_pp->SetMotorEnable(true);
+	_position->SetMotorEnable(true);
 	//For fixing Player's reading BUG
 	for(int i=0;i<15;i++)
 		Read();
 }
 
 float Robot::getLaserDistance(int index) {
-	return _lp->GetRange(index);
+	return _laserProxy->GetRange(index);
 }
 
 vector<float> Robot::getLaserScan() {
@@ -34,27 +34,27 @@ vector<float> Robot::getLaserScan() {
 }
 
 float Robot::getX() {
-	return _pp->GetXPos();
+	return _position->GetXPos();
 }
 
 float Robot::getY() {
-	return _pp->GetYPos();
+	return _position->GetYPos();
 }
 
 float Robot::getYaw() {
-	return _pp->GetYaw();
+	return _position->GetYaw();
 }
 
 void Robot::setSpeed(float xSpeed, float angularSpeed) {
-	_pp->SetSpeed(xSpeed, angularSpeed);
+	_position->SetSpeed(xSpeed, angularSpeed);
 }
 
 void Robot::Read() {
-	_pc->Read();
+	_playerClient->Read();
 }
 
 Robot::~Robot() {
-	delete _pc;
-	delete _pp;
-	delete _lp;
+	delete _playerClient;
+	delete _position;
+	delete _laserProxy;
 }

@@ -36,4 +36,4 @@ public:
 	void createNewParticles();
 };
 
-#endif /* LOCALIZATIONMANAGER_H_ */
+#endif

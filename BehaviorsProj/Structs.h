@@ -15,6 +15,15 @@ using namespace std;
 
 class Structs {
 public:
+	struct Point {
+		int x;
+		int y;
+
+		Point();
+		Point(int xCoord, int yCoord);
+		Point(Point *p);
+	};
+
 	struct Location{
 		float x;
 		float y;
@@ -22,27 +31,6 @@ public:
 
 		Location();
 		Location(float x, float y, float yaw = 0);
-	};
-
-	struct Point {
-	public :
-		int x;
-		int y;
-
-		Point() {
-			x = 0;
-			y = 0;
-		}
-
-		Point (int xCoord, int yCoord) {
-			x = xCoord;
-			y = yCoord;
-		}
-
-		Point (Point *p) {
-			x = p->x;
-			y = p->y;
-		}
 	};
 
 	struct SearchCell {

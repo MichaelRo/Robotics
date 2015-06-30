@@ -35,9 +35,7 @@ public:
 
 	void run();
 	Map * initializeMap();
-	Map * padMap();
 	list<Structs::Point> getRoute();
-	list<Structs::Point> getWayPoints();
 
 	void runRobot();
 };

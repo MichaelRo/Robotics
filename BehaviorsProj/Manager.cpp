@@ -13,13 +13,34 @@ Manager::Manager(ConfigurationManager* configurationManager, Robot* robot) {
 }
 
 void Manager::run() {
-	initializeMap();
-	padMap();
+	_map = initializeMap();
 
-	getRoute();
-	getWayPoints();
+	_waypointsManager = new WaypointsManager(getRoute());
 
 	runRobot();
+}
+
+Map * Manager::initializeMap() {
+	Map* m = new Map(_configurationManager);
+
+	m->loadMap("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/roboticLabMap.png");
+	m->printMap("originalMapMatrix.txt");
+
+	m->padMapObstacles(_configurationManager->getRobotSize().height / _configurationManager->getGridResolutionCM());
+	m->printMap("paddedMapMatrix.txt");
+
+	m->saveMap("paddedGrid.png");
+
+	return m;
+}
+
+list<Structs::Point> Manager::getRoute() {
+//	return _pathPlanner->performAStar(_map,
+//									  &_configurationManager->getRobotStartLocation(),
+//									  &_configurationManager->getRobotGoalLocation());
+}
+
+void Manager::runRobot() {
 }
 
 Manager::~Manager() {
