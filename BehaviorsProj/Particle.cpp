@@ -115,8 +115,6 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
 				correctDetectionsNumber++;
 			} else if (detectedLocationValue == Map::OCCUPIED_CELL) {
 				falseDetectionsNumber++;
-			} else if (detectedLocationValue == Map::UNKNOWN_CELL) {
-				_map->setCellValue(detectedLocationInMap.x, detectedLocationInMap.y, Map::FREE_CELL);
 			}
 		}
 	} else {
@@ -131,8 +129,6 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
 			falseDetectionsNumber++;
 		} else if (detectedLocationValue == Map::OCCUPIED_CELL) {
 			correctDetectionsNumber++;
-		} else if (detectedLocationValue == Map::UNKNOWN_CELL) {
-			_map->setCellValue(detectedLocationInMap.x, detectedLocationInMap.y, Map::OCCUPIED_CELL);
 		}
 	}
 

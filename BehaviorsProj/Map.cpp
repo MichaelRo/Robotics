@@ -41,6 +41,12 @@ void Map::setHeight(int height) {
 	_height = height;
 }
 
+void Map::setCellValue(int column, int row, int value) {
+	_grid->setCellValue(column / (_gridMapResolutionRatio / 2),
+						row / (_gridMapResolutionRatio),
+						value);
+}
+
 int Map::getCellValue(int column, int row) {
 	return _grid->getCellValue(column / (_gridMapResolutionRatio / 2),
 							   row / (_gridMapResolutionRatio));
@@ -103,6 +109,10 @@ void Map::saveMap(string pngFilePath) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::BLUE);
 			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == ROUTE_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::GREEN);
+			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == WAYPOINT_CELL) {
+				pushRGBAColorToAVector(&imagePixelsVector, Helper::YELLOW);
+			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == PADDING_CELL) {
+				pushRGBAColorToAVector(&imagePixelsVector, Helper::PINK);
 			} else {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::BLACK);
 			}
@@ -130,12 +140,15 @@ void Map::printMap(string fileName) {
 	vectorOutputFile.close();
 }
 
-void Map::padACell(int column, int row, int factor) {
+void Map::padACell(int column, int row, Matrix * matrix, int factor) {
 	for (int rowsIndex = row - factor; rowsIndex <= row + factor; rowsIndex++) {
-		if (!(rowsIndex < 0 || rowsIndex >= _grid->getHeight())) {
+		if (!(rowsIndex < 0 || rowsIndex >= matrix->getHeight())) {
 			for (int columnsIndex = column - factor; columnsIndex <= column + factor; columnsIndex++) {
-				if (!(columnsIndex < 0 || columnsIndex >= _grid->getWidth()))
-					_grid->setCellValue(columnsIndex, rowsIndex, OCCUPIED_CELL);
+				if (!(columnsIndex < 0 || columnsIndex >= matrix->getWidth())) {
+					int cellType = (_grid->getCellValue(columnsIndex, rowsIndex) == OCCUPIED_CELL) ? OCCUPIED_CELL : PADDING_CELL;
+
+					matrix->setCellValue(columnsIndex, rowsIndex, cellType);
+				}
 			}
 		}
 	}
@@ -147,11 +160,27 @@ void Map::padMapObstacles(int factor) {
 	for (int rowsIndex = 0; rowsIndex < _grid->getHeight(); rowsIndex++) {
 		for (int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
 			if (_grid->getCellValue(columnsIndex, rowsIndex) == OCCUPIED_CELL)
-				padACell(columnsIndex, rowsIndex, factor);
+				padACell(columnsIndex, rowsIndex, &tempMatrix, factor);
 		}
 	}
 
 	_grid->swap(tempMatrix);
+}
+
+void Map::markRoute(list<Structs::Point> route) {
+	markCells(route, ROUTE_CELL);
+}
+
+void Map::markWayPoints(list<Structs::Point> wayPoints) {
+	markCells(wayPoints, WAYPOINT_CELL);
+}
+
+void Map::markCells(list<Structs::Point> points, int cellType) {
+	for (list<Structs::Point>::iterator pointsIterator = points.begin(); pointsIterator != points.end(); ++pointsIterator) {
+		Structs::Point point = pointsIterator.operator ->();
+
+		setCellValue(point.x, point.y, cellType);
+	}
 }
 
 void Map::pushRGBAColorToAVector(vector<unsigned char> * vector, int color) {
