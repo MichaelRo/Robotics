@@ -70,16 +70,18 @@ float Particle::calculateMotionModelProbability(Structs::Location destination) {
 }
 
 float Particle::checkObservationModel(vector<float> laserScan) {
+	int expectedObsticlesDetected;
+
 	for (int laserIndex = 0; laserIndex < Helper::TOTAL_SCAN_SPAN; laserIndex++) {
 		float currentLaserScan = laserScan[laserIndex];
 
-		int expectedObsticlesDetected = 0;
+		expectedObsticlesDetected = 0;
 
 		if (isObsticleDetectedAsExpected(currentLaserScan, laserIndex))
 			expectedObsticlesDetected++;
-
-		return expectedObsticlesDetected / laserScan.size();
 	}
+
+	return expectedObsticlesDetected / laserScan.size();
 }
 
 vector<Particle> Particle::createDescendantParticles(int amount) {
