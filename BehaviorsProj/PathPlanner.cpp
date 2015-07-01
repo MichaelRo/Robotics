@@ -18,36 +18,45 @@
 
 using namespace std;
 
+PathPlanner::~PathPlanner(void) {
+
+}
+
 PathPlanner::PathPlanner(void) {
 
 }
 
 list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint) {
 	Structs::Node startCell = Structs::Node(startPoint, NULL, 0);
-	Structs::Node endCell = Structs::Node(endPoint, NULL, 0);
 	Map *coolMap = map;
 
 	_openList.push_back(startCell);
 
 	while (!_openList.empty()) {
-		Structs::Node *currMinNode = extractMinNode(_openList);
+		Structs::Node currMinNode = extractMinNode(_openList);
 
 		// if we arrived the end point
-		if (currMinNode->_point->x == endPoint->x && currMinNode->_point->y == endPoint->y) {
-			return reconstruct_path(*currMinNode);
+		if (currMinNode._point->x == endPoint->x && currMinNode._point->y == endPoint->y) {
+			return reconstruct_path(currMinNode);
 		}
-		_closedList.push_back(*currMinNode);
+		_closedList.push_back(currMinNode);
 
-		list<Structs::Node> neighbors = getNeighbors(currMinNode, coolMap);
+		list<Structs::Node> neighbors = getNeighbors(&currMinNode, coolMap);
 		for (std::list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
+			//////////////////////////////////////////////////////////////////////////////////////////
+			//////////																		//////////
+			//////////		Can't user std::find without implementing the == operator		//////////
+			//////////																		//////////
+			//////////////////////////////////////////////////////////////////////////////////////////
+
 			Structs::Node *currNeighbor = nodesIterator.operator ->();
 			if ((std::find(_closedList.begin(), _closedList.end(), currNeighbor) != _closedList.end())) {
 				continue;
 			}
 
-			float tempNeighborGGrade = currMinNode->_G + GRADE_FACTOR;
+			float tempNeighborGGrade = currMinNode._G + GRADE_FACTOR;
 			if ((!(std::find(_openList.begin(), _openList.end(), currNeighbor) != _openList.end())) || tempNeighborGGrade < currNeighbor->_G) {
-				currNeighbor->_parent = currMinNode;
+				currNeighbor->_parent = &currMinNode;
 				currNeighbor->_G = tempNeighborGGrade;
 				currNeighbor->calcHGrade(endPoint);
 				if (!(std::find(_openList.begin(), _openList.end(), currNeighbor) != _openList.end())) {
@@ -80,20 +89,30 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node* node, Map *map) {
 	return neighbors;
 }
 
-Structs::Node* PathPlanner::extractMinNode(list<Structs::Node> list) {
+Structs::Node PathPlanner::extractMinNode(list<Structs::Node> list) {
 	float minF = std::numeric_limits<float>::max();
-	Structs::Node *minFNode;
+	Structs::Node minFNode;
 
 	for (std::list<Structs::Node>::iterator nodesIterator = list.begin(); nodesIterator != list.end(); nodesIterator++) {
 		Structs::Node *currNode = nodesIterator.operator ->();
 		if (currNode->getF() < minF) {
 			minF = currNode->getF();
-			minFNode = currNode;
+			minFNode = *currNode;
+
+			// Maybe nodesIterator++ ?
+			list.erase(nodesIterator);
 		}
 	}
 
-	list.remove(*minFNode);
 	return minFNode;
+}
+
+void PathPlanner::clearOpenList() {
+	_openList.clear();
+}
+
+void PathPlanner::clearPathToGoal() {
+	_openList.clear();
 }
 
 list<Structs::Point> PathPlanner::reconstruct_path(Structs::Node endNode) {
@@ -108,8 +127,4 @@ list<Structs::Point> PathPlanner::reconstruct_path(Structs::Node endNode) {
 	path.push_front(tempNode->_point);
 
 	return path;
-}
-
-PathPlanner::~PathPlanner(void) {
-
 }

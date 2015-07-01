@@ -25,14 +25,14 @@ private:
 	list<Particle> _particles;
 	Map* _map;
 
-	Particle getHighestBeliefParticle();
+	Particle * getHighestBeliefParticle();
 
 public:
-	LocalizationManager(Structs::Location startLocation, Map * map);
+	LocalizationManager(Structs::Location * startLocation, Map * map);
 	virtual ~LocalizationManager();
 
-	void updateParticles(Structs::Location destination, vector<float> laserScan);
-	Structs::Location getProbableLocation();
+	void updateParticles(Structs::Location * destination, vector<float> laserScan);
+	Structs::Location * getProbableLocation();
 	void createNewParticles();
 };
 

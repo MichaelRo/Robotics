@@ -15,8 +15,8 @@ Map::Map(ConfigurationManager* configurationManager) {
 	_configurationManager = configurationManager;
 	_gridMapResolutionRatio = (_configurationManager->getGridResolutionCM() / _configurationManager->getMapResolutionCM());
 	_grid = NULL;
-	_height = NULL;
-	_width = NULL;
+	_height = 0;
+	_width = 0;
 }
 
 void Map::initializeGrid(int width, int height) {
@@ -97,11 +97,11 @@ void Map::loadMap(string pngFilePath) {
 		gridVectorRowsIndex++;
 	}
 
-	Structs::Location robotStartLocation = _configurationManager->getRobotStartLocation();
-	Structs::Location robotGoalLocation = _configurationManager->getRobotGoalLocation();
+	Structs::Location * robotStartLocation = _configurationManager->getRobotStartLocation();
+	Structs::Location * robotGoalLocation = _configurationManager->getRobotGoalLocation();
 
-	_grid->setCellValue(robotStartLocation.x, robotStartLocation.y, START_LOCATION_CELL);
-	_grid->setCellValue(robotGoalLocation.x, robotGoalLocation.y, GOAL_LOCATION_CELL);
+	setCellValue(robotStartLocation->x, robotStartLocation->y, START_LOCATION_CELL);
+	setCellValue(robotGoalLocation->x, robotGoalLocation->y, GOAL_LOCATION_CELL);
 }
 
 void Map::saveMap(string pngFilePath) {
@@ -154,7 +154,12 @@ void Map::padACell(int column, int row, Matrix * matrix, int factor) {
 		if (!(rowsIndex < 0 || rowsIndex >= matrix->getHeight())) {
 			for (int columnsIndex = column - factor; columnsIndex <= column + factor; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= matrix->getWidth())) {
-					int cellType = (_grid->getCellValue(columnsIndex, rowsIndex) == OCCUPIED_CELL) ? OCCUPIED_CELL : PADDING_CELL;
+					int cellType;
+
+					if (_grid->getCellValue(columnsIndex, rowsIndex) == OCCUPIED_CELL)
+						cellType = OCCUPIED_CELL;
+					else
+						cellType = PADDING_CELL;
 
 					matrix->setCellValue(columnsIndex, rowsIndex, cellType);
 				}
@@ -164,7 +169,7 @@ void Map::padACell(int column, int row, Matrix * matrix, int factor) {
 }
 
 void Map::padMapObstacles(int factor) {
-	Matrix tempMatrix = Matrix(_grid->getWidth(), _grid->getHeight(), FREE_CELL);
+	Matrix tempMatrix(_grid->getWidth(), _grid->getHeight(), FREE_CELL);
 
 	for (int rowsIndex = 0; rowsIndex < _grid->getHeight(); rowsIndex++) {
 		for (int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
@@ -173,7 +178,7 @@ void Map::padMapObstacles(int factor) {
 		}
 	}
 
-	_grid->swap(tempMatrix);
+	_grid->swap(&tempMatrix);
 }
 
 void Map::markRoute(list<Structs::Point> route) {

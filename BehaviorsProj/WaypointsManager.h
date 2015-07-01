@@ -10,6 +10,8 @@
 
 #include "Structs.h"
 
+#include <list>
+
 using namespace std;
 
 class WaypointsManager {
@@ -30,7 +32,6 @@ public:
 
 	WaypointsManager();
 	WaypointsManager(list<Structs::Point> route);
-	virtual ~WaypointsManager();
 
 	list<Structs::Point> markWaypoints(list<Structs::Point> route);
 	bool hasNext();

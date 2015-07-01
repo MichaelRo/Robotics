@@ -32,7 +32,7 @@ public:
 	int getCellValue(int column, int row);
 	void setCellValue(int column, int row, int value);
 	void initializeMatrix(int value);
-	void swap(Matrix otherMatrix);
+	void swap(Matrix * otherMatrix);
 };
 
 #endif /* MATRIX_H_ */

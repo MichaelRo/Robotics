@@ -21,12 +21,12 @@ using namespace std;
 
 class Particle {
 private:
-	Structs::Location _location;
+	Structs::Location * _location;
 	Map* _map;
 	float _belief;
 
 	bool isObsticleDetectedAsExpected(float laserScan, int laserIndex);
-	Structs::Location getRandomDeltaLocation();
+	Structs::Location * getRandomDeltaLocation();
 
 public:
 	static constexpr float NORMALIZATION_FACTOR = 1.2;
@@ -38,20 +38,20 @@ public:
 	static constexpr float MAX_PARTICLES_RELATIVE_YAW_CREATION = 0.1;
 
 	Particle(float x, float y, float yaw, Map* map);
-	Particle(Structs::Location location, Map* map);
+	Particle(Structs::Location * location, Map* map);
 	virtual ~Particle();
 
 	float getBelief();
-	Structs::Location getLocation();
+	Structs::Location * getLocation();
 
-	float update(Structs::Location destination, vector<float> laserScan);
-	float calculatePredictedBelief(Structs::Location destination);
-	float calculateBelief(Structs::Location destination, vector<float> laserScan);
-	float calculateMotionModelProbability(Structs::Location destination);
+	float update(Structs::Location * destination, vector<float> laserScan);
+	float calculatePredictedBelief(Structs::Location * destination);
+	float calculateBelief(Structs::Location * destination, vector<float> laserScan);
+	float calculateMotionModelProbability(Structs::Location * destination);
 	float checkObservationModel(vector<float> laserScan);
 	vector<Particle> createDescendantParticles(int amount);
 
-	static float getDistance(Structs::Location destination);
+	static float getDistance(Structs::Location * destination);
 };
 
 #endif /* PARTICLE_H_ */

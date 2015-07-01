@@ -11,10 +11,6 @@ WaypointsManager::WaypointsManager(list<Structs::Point> route) {
 	markWaypoints(route);
 }
 
-WaypointsManager::~WaypointsManager() {
-	delete _wayPoints;
-}
-
 list<Structs::Point> WaypointsManager::markWaypoints(list<Structs::Point> route) {
 	list<Structs::Point>::iterator routePointsIterator = route.begin();
 	int continuingDirection = getDirection(routePointsIterator.operator ->(), (++routePointsIterator).operator ->());
@@ -35,7 +31,7 @@ list<Structs::Point> WaypointsManager::markWaypoints(list<Structs::Point> route)
 }
 
 bool WaypointsManager::hasNext() {
-	return !_wayPoints.end();
+	return _wayPointsIterator != _wayPoints.end();
 }
 
 Structs::Point WaypointsManager::getNext() {
