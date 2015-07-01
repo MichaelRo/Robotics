@@ -30,7 +30,7 @@ Map * Manager::initializeMap() {
 	m->loadMap("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/roboticLabMap.png");
 	m->printMap("originalMapMatrix.txt");
 
-	m->padMapObstacles(_configurationManager->getRobotSize().height / _configurationManager->getGridResolutionCM());
+	m->padMapObstacles(_configurationManager->getRobotSize()->height / _configurationManager->getGridResolutionCM());
 	m->printMap("paddedMapMatrix.txt");
 
 	m->saveMap("paddedGrid.png");
@@ -39,8 +39,8 @@ Map * Manager::initializeMap() {
 }
 
 list<Structs::Point> Manager::getRoute() {
-	Structs::Point startPoint = _configurationManager->getRobotStartLocation().pointValue();
-	Structs::Point endPoint = _configurationManager->getRobotGoalLocation().pointValue();
+	Structs::Point startPoint = _configurationManager->getRobotStartLocation()->pointValue();
+	Structs::Point endPoint = _configurationManager->getRobotGoalLocation()->pointValue();
 	return _pathPlanner->performAStar(_map, &startPoint, &endPoint);
 }
 

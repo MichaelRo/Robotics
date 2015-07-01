@@ -7,7 +7,7 @@
 
 #include "LocalizationManager.h"
 
-LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * map) {
+LocalizationManager::LocalizationManager(Structs::Location * startLocation, Map * map) {
 	_map = map;
 	_particles.push_front(*(new Particle(startLocation, map)));
 }
@@ -16,7 +16,7 @@ LocalizationManager::~LocalizationManager() {
 	delete _map;
 }
 
-void LocalizationManager::updateParticles(Structs::Location destination, vector<float> laserScan) {
+void LocalizationManager::updateParticles(Structs::Location * destination, vector<float> laserScan) {
 	list<Particle>::iterator particlesIterator = _particles.begin();
 
 	while (particlesIterator != _particles.end()) {
@@ -31,7 +31,7 @@ void LocalizationManager::updateParticles(Structs::Location destination, vector<
 	}
 }
 
-Particle LocalizationManager::getHighestBeliefParticle() {
+Particle * LocalizationManager::getHighestBeliefParticle() {
 	list<Particle>::iterator particlesIterator = _particles.begin();
 	Particle * highestBeliefParticle = particlesIterator.operator ->();
 
@@ -40,14 +40,14 @@ Particle LocalizationManager::getHighestBeliefParticle() {
 			highestBeliefParticle = particlesIterator.operator ->();
 	}
 
-	return *highestBeliefParticle;
+	return highestBeliefParticle;
 }
 
-Structs::Location LocalizationManager::getProbableLocation() {
-	return getHighestBeliefParticle().getLocation();
+Structs::Location * LocalizationManager::getProbableLocation() {
+	return getHighestBeliefParticle()->getLocation();
 }
 
 void LocalizationManager::createNewParticles() {
 	// Decide who randoms the location - the LocalizationManager or the Particle itself
-	getHighestBeliefParticle().createDescendantParticles(PARTICLES_AMOUNT - _particles.size());
+	getHighestBeliefParticle()->createDescendantParticles(PARTICLES_AMOUNT - _particles.size());
 }

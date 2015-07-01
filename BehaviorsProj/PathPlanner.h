@@ -21,34 +21,26 @@
 
 using namespace std;
 
-const int GRADE_FACTOR = 1;
-
 class PathPlanner {
 private:
 	list<Structs::Node> _openList;
 	list<Structs::Node> _closedList;
 
-public:
+	static const int GRADE_FACTOR = 1;
 
-	PathPlanner(void);
-	virtual ~PathPlanner(void);
-
-	list<Structs::Point> performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint);
-
-	Structs::Node* extractMinNode(list<Structs::Node> list);
-
-	void clearOpenList() {
-		_openList.clear();
-	}
-
-	void clearPathToGoal() {
-		_openList.clear();
-	}
-private :
 	void pathOpened(int x, int y, float newCost, Structs::Node* parent);
 	void continuePath();
 	list<Structs::Node> getNeighbors(Structs::Node *node, Map *map);
 	list<Structs::Point> reconstruct_path(Structs::Node endNode);
+
+public:
+	PathPlanner(void);
+	virtual ~PathPlanner(void);
+
+	list<Structs::Point> performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint);
+	Structs::Node extractMinNode(list<Structs::Node> list);
+	void clearOpenList();
+	void clearPathToGoal();
 };
 
 #endif

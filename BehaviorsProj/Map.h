@@ -8,13 +8,14 @@
 #ifndef MAP_H_
 #define MAP_H_
 
+#include "WriteToPng/lodepng.h"
+#include "ConfigurationManager.h"
+#include "Matrix.h"
+#include "Helper.h"
+
 #include <iostream>
 #include <fstream>
-#include "WriteToPng/lodepng.h"
 #include <cmath>
-#include "Matrix.h"
-#include "ConfigurationManager.h"
-#include "Helper.h"
 #include <list>
 
 using namespace std;

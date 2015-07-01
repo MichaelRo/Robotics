@@ -8,6 +8,7 @@
 #include "ConfigurationManager.h"
 #include "Map.h"
 #include "Plans/PlnObstacleAvoid.h"
+#include "PathPlanner.h"
 
 int main (int argc, const char * argv[]){
 	/*Robot igal("localhost",6665);
@@ -22,11 +23,11 @@ int main (int argc, const char * argv[]){
 		m->loadMap("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/roboticLabMap.png");
 		m->saveMap("originalMapMatrix.png");
 
-		m->padMapObstacles(conf->getRobotSize().height / conf->getGridResolutionCM());
+		m->padMapObstacles(conf->getRobotSize()->height / conf->getGridResolutionCM());
 		m->saveMap("paddedMapMatrix.png");
 
-		Structs::Point startPoint = conf->getRobotStartLocation().pointValue();
-		Structs::Point endPoint = conf->getRobotGoalLocation().pointValue();
+		Structs::Point startPoint = conf->getRobotStartLocation()->pointValue();
+		Structs::Point endPoint = conf->getRobotGoalLocation()->pointValue();
 
 		m->markRoute(PathPlanner().performAStar(m, &startPoint, &endPoint));
 

@@ -51,6 +51,6 @@ void Matrix::initializeMatrix(int value) {
 			_matrix.push_back(value);
 }
 
-void Matrix::swap(Matrix otherMatrix) {
-	_matrix.swap(otherMatrix._matrix);
+void Matrix::swap(Matrix * otherMatrix) {
+	_matrix.swap(otherMatrix->_matrix);
 }

@@ -31,36 +31,39 @@ void ConfigurationManager::setMapFilePath(string filePath) {
 	_mapFilePath = filePath;
 }
 
-Structs::Location ConfigurationManager::getRobotStartLocation() {
+Structs::Location* ConfigurationManager::getRobotStartLocation() {
 	return _robotStartLocation;
 }
 
 void ConfigurationManager::setRobotStartLocation(string startLocation) {
 	vector<string> LocationVector = splitString(startLocation, ' ');
 	int yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
+	Structs::Location robotStartLocation(atoi(LocationVector[0].c_str()), atoi(LocationVector[1].c_str()), yaw);
 
-	_robotStartLocation = Structs::Location(atoi(LocationVector[0].c_str()), atoi(LocationVector[1].c_str()), yaw);
+	_robotStartLocation = &robotStartLocation;
 }
 
-Structs::Location ConfigurationManager::getRobotGoalLocation() {
+Structs::Location* ConfigurationManager::getRobotGoalLocation() {
 	return _robotGoalLocation;
 }
 
 void ConfigurationManager::setRobotGoalLocation(string goalLocation) {
 	vector<string> LocationVector = splitString(goalLocation, ' ');
 	int yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
+	Structs::Location robotGoalLocation(atoi(LocationVector[0].c_str()), atoi(LocationVector[1].c_str()), yaw);
 
-	_robotGoalLocation = Structs::Location(atoi(LocationVector[0].c_str()), atoi(LocationVector[1].c_str()), yaw);
+	_robotGoalLocation = &robotGoalLocation;
 }
 
-Structs::Size ConfigurationManager::getRobotSize() {
+Structs::Size* ConfigurationManager::getRobotSize() {
 	return _robotSize;
 }
 
 void ConfigurationManager::setRobotSize(string size) {
 	vector<string> SizeVector = splitString(size, ' ');
+	Structs::Size robotSize(atoi(SizeVector[0].c_str()), atoi(SizeVector[1].c_str()));
 
-	_robotSize = Structs::Size(atoi(SizeVector[0].c_str()), atoi(SizeVector[1].c_str()));
+	_robotSize = &robotSize;
 }
 
 float ConfigurationManager::getMapResolutionCM() {

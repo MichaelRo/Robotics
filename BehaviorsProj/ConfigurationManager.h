@@ -8,25 +8,23 @@
 #ifndef CONFIGURATIONMANAGER_H_
 #define CONFIGURATIONMANAGER_H_
 
+#include "Structs.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 
-#include <stdlib.h>
-
-#include "Structs.h"
-
 using namespace std;
 
 class ConfigurationManager {
+private:
 	const static char DELIMITER = ':';
 
-private:
 	string _mapFilePath;
-	Structs::Location _robotStartLocation;
-	Structs::Location _robotGoalLocation;
-	Structs::Size _robotSize;
+	Structs::Location * _robotStartLocation;
+	Structs::Location * _robotGoalLocation;
+	Structs::Size * _robotSize;
 	float _mapResolutionCM;
 	float _gridResolutionCM;
 
@@ -35,11 +33,11 @@ public:
 
 	string getMapFilePath();
 	void setMapFilePath(string filePath);
-	Structs::Location getRobotStartLocation();
+	Structs::Location * getRobotStartLocation();
 	void setRobotStartLocation(string startLocation);
-	Structs::Location getRobotGoalLocation();
+	Structs::Location * getRobotGoalLocation();
 	void setRobotGoalLocation(string goalLocation);
-	Structs::Size getRobotSize();
+	Structs::Size * getRobotSize();
 	void setRobotSize(string size);
 	float getMapResolutionCM();
 	void setMapResolutionCM(string mapResolution);
