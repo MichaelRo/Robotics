@@ -22,3 +22,7 @@ Structs::ConfigurationProperty::ConfigurationProperty(string token, string value
 	this->token = token;
 	this->value = value;
 }
+
+Structs::Point Structs::Location::pointValue() {
+	return Structs::Point(x, y);
+}

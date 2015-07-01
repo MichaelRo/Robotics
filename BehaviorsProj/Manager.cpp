@@ -10,6 +10,10 @@
 Manager::Manager(ConfigurationManager* configurationManager, Robot* robot) {
 	_robot = robot;
 	_configurationManager = configurationManager;
+	_map = NULL;
+	_waypointsManager = NULL;
+	_pathPlanner = NULL;
+	_localizationManager = NULL;
 }
 
 void Manager::run() {
@@ -35,9 +39,9 @@ Map * Manager::initializeMap() {
 }
 
 list<Structs::Point> Manager::getRoute() {
-//	return _pathPlanner->performAStar(_map,
-//									  &_configurationManager->getRobotStartLocation(),
-//									  &_configurationManager->getRobotGoalLocation());
+	Structs::Point startPoint = _configurationManager->getRobotStartLocation().pointValue();
+	Structs::Point endPoint = _configurationManager->getRobotGoalLocation().pointValue();
+	return _pathPlanner->performAStar(_map, &startPoint, &endPoint);
 }
 
 void Manager::runRobot() {

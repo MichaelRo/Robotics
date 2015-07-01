@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include <math.h>
+#include <cmath>
 #include <list>
 #include <tuple>
 #include <limits>
@@ -57,7 +57,7 @@ list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPo
 		}
 	}
 
-	return NULL;
+	return list<Structs::Point>();
 }
 
 list<Structs::Node> PathPlanner::getNeighbors(Structs::Node* node, Map *map) {

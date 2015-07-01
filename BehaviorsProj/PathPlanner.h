@@ -12,7 +12,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include <math.h>
+#include <cmath>
 
 #include "Structs.h"
 #include <tuple>
