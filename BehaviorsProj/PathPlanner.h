@@ -28,7 +28,6 @@ class PathPlanner {
 public:
 	list<Structs::Node> _openList;
 	list<Structs::Node> _closedList;
-	Map *_map;
 
 	PathPlanner(void);
 	virtual ~PathPlanner(void);
@@ -47,12 +46,8 @@ public:
 private :
 	void pathOpened(int x, int y, float newCost, Structs::Node* parent);
 	void continuePath();
-	list<Structs::Node> getNeighbors(Structs::Node *node);
-	list<Structs::Point> reconstruct_path(Structs::Node endNode, Structs::Point startPoint);
-
-	Structs::Node* _startCell;
-	Structs::Node* _goalCell;
-	std::vector<Structs::Point*> _pathToGoal;
+	list<Structs::Node> getNeighbors(Structs::Node *node, Map *map);
+	list<Structs::Point> reconstruct_path(Structs::Node endNode);
 };
 
 #endif
