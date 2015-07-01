@@ -93,6 +93,12 @@ void Map::loadMap(string pngFilePath) {
 		gridVectorColumnsIndex = 0;
 		gridVectorRowsIndex++;
 	}
+
+	Structs::Location robotStartLocation = _configurationManager->getRobotStartLocation();
+	Structs::Location robotGoalLocation = _configurationManager->getRobotGoalLocation();
+
+	_grid->setCellValue(robotStartLocation.x, robotStartLocation.y, START_LOCATION_CELL);
+	_grid->setCellValue(robotGoalLocation.x, robotGoalLocation.y, GOAL_LOCATION_CELL);
 }
 
 void Map::saveMap(string pngFilePath) {
