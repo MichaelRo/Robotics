@@ -24,10 +24,11 @@ using namespace std;
 const int GRADE_FACTOR = 1;
 
 class PathPlanner {
-
-public:
+private:
 	list<Structs::Node> _openList;
 	list<Structs::Node> _closedList;
+
+public:
 
 	PathPlanner(void);
 	virtual ~PathPlanner(void);

@@ -23,11 +23,11 @@ PathPlanner::PathPlanner(void) {
 }
 
 list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint) {
-	Structs::Node *startCell = Structs::Node(startPoint, NULL, 0);
-	Structs::Node *endCell = Structs::Node(endPoint, NULL, 0);
+	Structs::Node startCell = Structs::Node(startPoint, NULL, 0);
+	Structs::Node endCell = Structs::Node(endPoint, NULL, 0);
 	Map *coolMap = map;
 
-	_openList.push_back(*startCell);
+	_openList.push_back(startCell);
 
 	while (!_openList.empty()) {
 		Structs::Node *currMinNode = extractMinNode(_openList);
@@ -68,8 +68,10 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node* node, Map *map) {
 				if (!(columnsIndex < 0 || columnsIndex >= map->getWidth())) {
 					if (map->getCellValue(rowsIndex, columnsIndex) == Map::FREE_CELL) {
 						// need to CHANGE 0 to the distance between the current node to the current neighbor
-						Structs::Node* neighbor = Structs::Node(Structs::Point(rowsIndex, columnsIndex), node, node->_G + GRADE_FACTOR);
-						neighbors.push_back(*neighbor);
+						Structs::Point neighborPoint(rowsIndex, columnsIndex);
+						Structs::Node neighbor(&neighborPoint, node, node->_G + GRADE_FACTOR);
+
+						neighbors.push_back(neighbor);
 					}
 				}
 			}
@@ -89,19 +91,22 @@ Structs::Node* PathPlanner::extractMinNode(list<Structs::Node> list) {
 			minFNode = currNode;
 		}
 	}
+
 	list.remove(*minFNode);
 	return minFNode;
 }
 
 list<Structs::Point> PathPlanner::reconstruct_path(Structs::Node endNode) {
 	list<Structs::Point> path = list<Structs::Point>();
-	Structs::Node tempNode = endNode;
+	Structs::Node * tempNode = &endNode;
 
-	while (tempNode._parent != NULL) {
-		path.push_front(tempNode._point);
-		tempNode = tempNode._parent;
+	while (tempNode->_parent != NULL) {
+		path.push_front(tempNode->_point);
+		tempNode = tempNode->_parent;
 	}
-	path.push_front(tempNode._point);
+
+	path.push_front(tempNode->_point);
+
 	return path;
 }
 
