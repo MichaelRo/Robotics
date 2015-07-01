@@ -14,6 +14,9 @@ Map::~Map() {
 Map::Map(ConfigurationManager* configurationManager) {
 	_configurationManager = configurationManager;
 	_gridMapResolutionRatio = (_configurationManager->getGridResolutionCM() / _configurationManager->getMapResolutionCM());
+	_grid = NULL;
+	_height = NULL;
+	_width = NULL;
 }
 
 void Map::initializeGrid(int width, int height) {

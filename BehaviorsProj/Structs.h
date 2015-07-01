@@ -10,21 +10,12 @@
 
 #include <string>
 #include <vector>
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 
 class Structs {
 public:
-	struct Location{
-		float x;
-		float y;
-		float yaw = 0;
-
-		Location();
-		Location(float x, float y, float yaw = 0);
-	};
-
 	struct Point {
 	public :
 		int x;
@@ -45,6 +36,16 @@ public:
 			y = p->y;
 		}
 	};
+
+	struct Location{
+			float x;
+			float y;
+			float yaw;
+
+			Location();
+			Location(float x, float y, float yaw = 0);
+			Point pointValue();
+		};
 
 	struct Node {
 	public :

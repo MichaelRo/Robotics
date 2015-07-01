@@ -11,10 +11,11 @@
 #include <iostream>
 #include <fstream>
 #include "WriteToPng/lodepng.h"
-#include "math.h"
+#include <cmath>
 #include "Matrix.h"
 #include "ConfigurationManager.h"
 #include "Helper.h"
+#include <list>
 
 using namespace std;
 
