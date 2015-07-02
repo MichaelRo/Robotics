@@ -26,6 +26,8 @@ private:
 	list<Structs::Node> _openList;
 	list<Structs::Node> _closedList;
 
+	Structs::Node * _startNode;
+
 	static const int GRADE_FACTOR = 1;
 
 	void pathOpened(int x, int y, float newCost, Structs::Node* parent);
