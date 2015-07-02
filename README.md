@@ -1,9 +1,9 @@
 # Robotics
 Todo List:
-  1. Finish A* - DONE.
-  2. Keep non-padded map for laserScan check - DONE.
+  1. Finish A* - DONE
+  2. Keep non-padded map for laserScan check - DONE
   3. Fix error in PathPlanner
-  4. Debug configurationManager (for some reason, the fact that the data members are now pointers, ruins this up)
+  4. Debug configurationManager (for some reason, the fact that the data members are now pointers, ruins this up) - DONE
   5. Create a goToWayPointPlan
   6. Add console prints
   7. Refactoring (Standardization)
