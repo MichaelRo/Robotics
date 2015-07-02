@@ -11,6 +11,9 @@ Map::~Map() {
 	delete _configurationManager;
 }
 
+/*
+ * Constracts the Map
+ */
 Map::Map(ConfigurationManager* configurationManager) {
 	_configurationManager = configurationManager;
 	_gridMapResolutionRatio = (_configurationManager->getGridResolutionCM() / _configurationManager->getMapResolutionCM());
@@ -19,6 +22,9 @@ Map::Map(ConfigurationManager* configurationManager) {
 	_width = 0;
 }
 
+/*
+ * Initializes the map's grid with an uknown cell value
+ */
 void Map::initializeGrid(int width, int height) {
 	setWidth(width);
 	setHeight(height);
@@ -44,6 +50,10 @@ void Map::setHeight(int height) {
 	_height = height;
 }
 
+/*
+ * Setting a certain cell value.
+ * PLEASE NOTICE: this method recieves a cell in a normal range(Not resoluted)
+ */
 void Map::setCellValue(int column, int row, int value) {
 	_grid->setCellValue(column / (_gridMapResolutionRatio / 2),
 						row / (_gridMapResolutionRatio),
