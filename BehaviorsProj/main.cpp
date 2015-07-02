@@ -23,7 +23,7 @@ int main (int argc, const char * argv[]){
 		m->loadMap("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/roboticLabMap.png");
 		m->saveMap("originalMapMatrix.png");
 
-		m->padMapObstacles(conf->getRobotSize()->height / conf->getGridResolutionCM());
+		m->padMapObstacles(conf->getRobotSize()->_height / conf->getGridResolutionCM());
 		m->saveMap("paddedMapMatrix.png");
 
 		Structs::Point startPoint = conf->getRobotStartLocation()->pointValue();

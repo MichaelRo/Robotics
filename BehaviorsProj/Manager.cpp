@@ -30,7 +30,7 @@ Map * Manager::initializeMap() {
 	m->loadMap("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/roboticLabMap.png");
 	m->printMap("originalMapMatrix.txt");
 
-	m->padMapObstacles(_configurationManager->getRobotSize()->height / _configurationManager->getGridResolutionCM());
+	m->padMapObstacles(_configurationManager->getRobotSize()->_height / _configurationManager->getGridResolutionCM());
 	m->printMap("paddedMapMatrix.txt");
 
 	m->saveMap("paddedGrid.png");

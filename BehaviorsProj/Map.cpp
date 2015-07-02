@@ -55,8 +55,8 @@ void Map::setHeight(int height) {
  * PLEASE NOTICE: this method recieves a cell in a normal range(Not resoluted)
  */
 void Map::setCellValue(int column, int row, int value) {
-	_grid->setCellValue(column / (_gridMapResolutionRatio / 2),
-						row / (_gridMapResolutionRatio),
+	_grid->setCellValue(round(column / (_gridMapResolutionRatio / 2)),
+						round(row / (_gridMapResolutionRatio)),
 						value);
 }
 
@@ -110,8 +110,8 @@ void Map::loadMap(string pngFilePath) {
 	Structs::Location * robotStartLocation = _configurationManager->getRobotStartLocation();
 	Structs::Location * robotGoalLocation = _configurationManager->getRobotGoalLocation();
 
-	setCellValue(robotStartLocation->x, robotStartLocation->y, START_LOCATION_CELL);
-	setCellValue(robotGoalLocation->x, robotGoalLocation->y, GOAL_LOCATION_CELL);
+	setCellValue(robotStartLocation->_x, robotStartLocation->_y, START_LOCATION_CELL);
+	setCellValue(robotGoalLocation->_x, robotGoalLocation->_y, GOAL_LOCATION_CELL);
 }
 
 void Map::saveMap(string pngFilePath) {
@@ -203,7 +203,7 @@ void Map::markCells(list<Structs::Point> points, int cellType) {
 	for (list<Structs::Point>::iterator pointsIterator = points.begin(); pointsIterator != points.end(); ++pointsIterator) {
 		Structs::Point point = pointsIterator.operator ->();
 
-		setCellValue(point.x, point.y, cellType);
+		setCellValue(point._x, point._y, cellType);
 	}
 }
 
