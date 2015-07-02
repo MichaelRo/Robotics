@@ -25,6 +25,7 @@ private:
 	static const int PINK_RGBA[];
 	static const int LIGHT_BLUE_RGBA[];
 	static const int YELLOW_RGBA[];
+	static const int GRAY_RGBA[];
 	static const int NO_COLOR[];
 
 public:
@@ -36,6 +37,7 @@ public:
 	static const int PINK = 6;
 	static const int LIGHT_BLUE = 7;
 	static const int YELLOW = 8;
+	static const int GRAY = 9;
 
 	const static int * getRGBA(int color);
 	

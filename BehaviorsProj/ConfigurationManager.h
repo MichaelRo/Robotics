@@ -29,6 +29,7 @@ private:
 	float _gridResolutionCM;
 
 public:
+	~ConfigurationManager();
 	ConfigurationManager(string configurationFilePath);
 
 	string getMapFilePath();

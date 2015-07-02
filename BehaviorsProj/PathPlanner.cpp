@@ -19,18 +19,21 @@
 using namespace std;
 
 PathPlanner::~PathPlanner(void) {
-
+	delete _startNode;
 }
 
 PathPlanner::PathPlanner(void) {
-
+	_startNode = new Structs::Node();
 }
 
 list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint) {
-	Structs::Node startCell = Structs::Node(startPoint, NULL, 0);
+	_startNode->_point = startPoint;
+	_startNode->_parent = NULL;
+	_startNode->_G = 0;
+
 	Map *coolMap = map;
 
-	_openList.push_back(startCell);
+	_openList.push_back(*_startNode);
 
 	while (!_openList.empty()) {
 		Structs::Node currMinNode = extractMinNode(_openList);
@@ -50,16 +53,16 @@ list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPo
 			//////////////////////////////////////////////////////////////////////////////////////////
 
 			Structs::Node *currNeighbor = nodesIterator.operator ->();
-			if ((std::find(_closedList.begin(), _closedList.end(), currNeighbor) != _closedList.end())) {
+			if (currNeighbor != _closedList.end().operator ->()) {
 				continue;
 			}
 
 			float tempNeighborGGrade = currMinNode._G + GRADE_FACTOR;
-			if ((!(std::find(_openList.begin(), _openList.end(), currNeighbor) != _openList.end())) || tempNeighborGGrade < currNeighbor->_G) {
+			if ((currNeighbor == _openList.end().operator ->()) || tempNeighborGGrade < currNeighbor->_G) {
 				currNeighbor->_parent = &currMinNode;
 				currNeighbor->_G = tempNeighborGGrade;
 				currNeighbor->calcHGrade(endPoint);
-				if (!(std::find(_openList.begin(), _openList.end(), currNeighbor) != _openList.end())) {
+				if (currNeighbor == _openList.end().operator ->()) {
 					_openList.push_back(*currNeighbor);
 				}
 			}

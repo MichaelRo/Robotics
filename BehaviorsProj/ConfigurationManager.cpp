@@ -7,7 +7,20 @@
 
 #include "ConfigurationManager.h"
 
+ConfigurationManager::~ConfigurationManager() {
+	delete _robotStartLocation;
+	delete _robotGoalLocation;
+	delete _robotSize;
+}
+
 ConfigurationManager::ConfigurationManager(string configurationFilePath) {
+	_mapFilePath = "";
+	_robotStartLocation = new Structs::Location(0, 0, 0);
+	_robotGoalLocation = new Structs::Location(0, 0, 0);
+	_robotSize = new Structs::Size(0, 0);
+	_mapResolutionCM = 0;
+	_gridResolutionCM = 0;
+
 	ifstream configurationFile(configurationFilePath.c_str());
 
 	if (configurationFile.is_open()) {
@@ -37,10 +50,10 @@ Structs::Location* ConfigurationManager::getRobotStartLocation() {
 
 void ConfigurationManager::setRobotStartLocation(string startLocation) {
 	vector<string> LocationVector = splitString(startLocation, ' ');
-	int yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
-	Structs::Location robotStartLocation(atoi(LocationVector[0].c_str()), atoi(LocationVector[1].c_str()), yaw);
 
-	_robotStartLocation = &robotStartLocation;
+	_robotStartLocation->x = atoi(LocationVector[0].c_str());
+	_robotStartLocation->y = atoi(LocationVector[1].c_str());
+	_robotStartLocation->yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
 }
 
 Structs::Location* ConfigurationManager::getRobotGoalLocation() {
@@ -49,10 +62,10 @@ Structs::Location* ConfigurationManager::getRobotGoalLocation() {
 
 void ConfigurationManager::setRobotGoalLocation(string goalLocation) {
 	vector<string> LocationVector = splitString(goalLocation, ' ');
-	int yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
-	Structs::Location robotGoalLocation(atoi(LocationVector[0].c_str()), atoi(LocationVector[1].c_str()), yaw);
 
-	_robotGoalLocation = &robotGoalLocation;
+	_robotGoalLocation->x = atoi(LocationVector[0].c_str());
+	_robotGoalLocation->y = atoi(LocationVector[1].c_str());
+	_robotGoalLocation->yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
 }
 
 Structs::Size* ConfigurationManager::getRobotSize() {
@@ -61,9 +74,9 @@ Structs::Size* ConfigurationManager::getRobotSize() {
 
 void ConfigurationManager::setRobotSize(string size) {
 	vector<string> SizeVector = splitString(size, ' ');
-	Structs::Size robotSize(atoi(SizeVector[0].c_str()), atoi(SizeVector[1].c_str()));
 
-	_robotSize = &robotSize;
+	_robotSize->width = atoi(SizeVector[0].c_str());
+	_robotSize->height = atoi(SizeVector[1].c_str());
 }
 
 float ConfigurationManager::getMapResolutionCM() {

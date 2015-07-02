@@ -15,6 +15,7 @@ const int Helper::RED_RGBA[] = {255, 0, 0, 255};
 const int Helper::PINK_RGBA[] = {255, 0, 255, 255};
 const int Helper::LIGHT_BLUE_RGBA[] = {0, 255, 255, 255};
 const int Helper::YELLOW_RGBA[] = {255, 255, 0, 255};
+const int Helper::GRAY_RGBA[] = {105, 105, 105, 255};
 const int Helper::NO_COLOR[] = {0, 0, 0, 0};
 
 const int* Helper::getRGBA(int color) {
@@ -35,6 +36,8 @@ const int* Helper::getRGBA(int color) {
 			return LIGHT_BLUE_RGBA;
 		case YELLOW :
 			return YELLOW_RGBA;
+		case GRAY :
+			return GRAY_RGBA;
 		default :
 			return NO_COLOR;
 	}

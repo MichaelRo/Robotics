@@ -131,7 +131,7 @@ void Map::saveMap(string pngFilePath) {
 			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == WAYPOINT_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::YELLOW);
 			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == PADDING_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::PINK);
+				pushRGBAColorToAVector(&imagePixelsVector, Helper::GRAY);
 			} else {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::BLACK);
 			}
