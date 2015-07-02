@@ -6,15 +6,6 @@
  */
 
 #include "PathPlanner.h"
-#include "Map.h"
-
-#include <iostream>
-#include <iomanip>
-#include <cmath>
-#include <list>
-#include <tuple>
-#include <limits>
-#include <algorithm>
 
 using namespace std;
 
@@ -29,7 +20,7 @@ PathPlanner::PathPlanner(void) {
 list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint) {
 	_startNode->_point = startPoint;
 	_startNode->_parent = NULL;
-	_startNode->_G = 0;
+	_startNode->_g = 0;
 
 	Map *coolMap = map;
 
@@ -39,28 +30,22 @@ list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPo
 		Structs::Node currMinNode = extractMinNode(_openList);
 
 		// if we arrived the end point
-		if (currMinNode._point->x == endPoint->x && currMinNode._point->y == endPoint->y) {
+		if (currMinNode._point->_x == endPoint->_x && currMinNode._point->_y == endPoint->_y) {
 			return reconstruct_path(currMinNode);
 		}
 		_closedList.push_back(currMinNode);
 
 		list<Structs::Node> neighbors = getNeighbors(&currMinNode, coolMap);
 		for (std::list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
-			//////////////////////////////////////////////////////////////////////////////////////////
-			//////////																		//////////
-			//////////		Can't user std::find without implementing the == operator		//////////
-			//////////																		//////////
-			//////////////////////////////////////////////////////////////////////////////////////////
-
 			Structs::Node *currNeighbor = nodesIterator.operator ->();
 			if (currNeighbor != _closedList.end().operator ->()) {
 				continue;
 			}
 
-			float tempNeighborGGrade = currMinNode._G + GRADE_FACTOR;
-			if ((currNeighbor == _openList.end().operator ->()) || tempNeighborGGrade < currNeighbor->_G) {
+			float tempNeighborGGrade = currMinNode._g + GRADE_FACTOR;
+			if ((currNeighbor == _openList.end().operator ->()) || tempNeighborGGrade < currNeighbor->_g) {
 				currNeighbor->_parent = &currMinNode;
-				currNeighbor->_G = tempNeighborGGrade;
+				currNeighbor->_g = tempNeighborGGrade;
 				currNeighbor->calcHGrade(endPoint);
 				if (currNeighbor == _openList.end().operator ->()) {
 					_openList.push_back(*currNeighbor);
@@ -74,14 +59,14 @@ list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPo
 
 list<Structs::Node> PathPlanner::getNeighbors(Structs::Node* node, Map *map) {
 	list<Structs::Node> neighbors;
-	for (int rowsIndex = node->_point->x - 1; rowsIndex <= node->_point->x + 1;	rowsIndex++) {
+	for (int rowsIndex = node->_point->_x - 1; rowsIndex <= node->_point->_x + 1;	rowsIndex++) {
 		if (!(rowsIndex < 0 || rowsIndex >= map->getHeight())) {
-			for (int columnsIndex = node->_point->y - 1; columnsIndex <= node->_point->y + 1; columnsIndex++) {
+			for (int columnsIndex = node->_point->_y - 1; columnsIndex <= node->_point->_y + 1; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= map->getWidth())) {
 					if (map->getCellValue(rowsIndex, columnsIndex) == Map::FREE_CELL) {
 						// need to CHANGE 0 to the distance between the current node to the current neighbor
 						Structs::Point neighborPoint(rowsIndex, columnsIndex);
-						Structs::Node neighbor(&neighborPoint, node, node->_G + GRADE_FACTOR);
+						Structs::Node neighbor(&neighborPoint, node, node->_g + GRADE_FACTOR);
 
 						neighbors.push_back(neighbor);
 					}
@@ -103,7 +88,7 @@ Structs::Node PathPlanner::extractMinNode(list<Structs::Node> list) {
 			minFNode = *currNode;
 
 			// Maybe nodesIterator++ ?
-			list.erase(nodesIterator);
+			list.erase(nodesIterator++);
 		}
 	}
 

@@ -13,9 +13,9 @@ Particle::~Particle() {
 
 Particle::Particle(float x, float y, float yaw, Map* map) {
 	Structs::Location * deltaLocation = getRandomDeltaLocation();
-	Structs::Location newLocation(x + deltaLocation->x,
-								  y + deltaLocation->y,
-								  yaw + deltaLocation->yaw);
+	Structs::Location newLocation(x + deltaLocation->_x,
+								  y + deltaLocation->_y,
+								  yaw + deltaLocation->_yaw);
 	_location = &newLocation;
 	_map = map;
 	_belief = 1;
@@ -23,9 +23,9 @@ Particle::Particle(float x, float y, float yaw, Map* map) {
 
 Particle::Particle(Structs::Location * location, Map* map) {
 	Structs::Location * deltaLocation = getRandomDeltaLocation();
-	Structs::Location newLocation(location->x + deltaLocation->x,
-								  location->y + deltaLocation->y,
-								  location->yaw + deltaLocation->yaw);
+	Structs::Location newLocation(location->_x + deltaLocation->_x,
+								  location->_y + deltaLocation->_y,
+								  location->_yaw + deltaLocation->_yaw);
 	_location = &newLocation;
 	_map = map;
 	_belief = 1;
@@ -40,9 +40,9 @@ Structs::Location * Particle::getLocation() {
 }
 
 float Particle::update(Structs::Location * destination, vector<float> laserScan) {
-	_location->x += destination->x;
-	_location->y += destination->y;
-	_location->yaw += destination->yaw;
+	_location->_x += destination->_x;
+	_location->_y += destination->_y;
+	_location->_yaw += destination->_yaw;
 
 	return _belief = calculateBelief(destination, laserScan);
 }
@@ -57,7 +57,7 @@ float Particle::calculateBelief(Structs::Location * destination, vector<float> l
 
 float Particle::calculateMotionModelProbability(Structs::Location * destination) {
 	float distance = getDistance(destination);
-	float yaw = abs(destination->yaw);
+	float yaw = abs(destination->_yaw);
 
 	float propability = 0.25;
 
@@ -99,7 +99,7 @@ vector<Particle> Particle::createDescendantParticles(int amount) {
 }
 
 float Particle::getDistance(Structs::Location * destination) {
-	return sqrt((destination->x * destination->x) + (destination->y * destination->y));
+	return sqrt((destination->_x * destination->_x) + (destination->_y * destination->_y));
 }
 
 bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
@@ -108,11 +108,11 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
 
 	if (laserScan < LASER_MAX_RANGE) {
 		for (int j = Helper::SENSOR_FROM_END; j <= Helper::SENSOR_DETECTION_RANGE; j +=  Helper::CELL_DIMENSION) {
-			Structs::Location detectedLocationInMap(_location->yaw + DEGREES_TO_RADIANS(Helper::IndexToDegrees(laserIndex)),
-													_location->x + (cos(detectedLocationInMap.yaw) * j),
-													_location->y + (sin(detectedLocationInMap.yaw) * j));
+			Structs::Location detectedLocationInMap(_location->_yaw + DEGREES_TO_RADIANS(Helper::IndexToDegrees(laserIndex)),
+													_location->_x + (cos(detectedLocationInMap._yaw) * j),
+													_location->_y + (sin(detectedLocationInMap._yaw) * j));
 
-			int detectedLocationValue = _map->getCellValue(detectedLocationInMap.x, detectedLocationInMap.y);
+			int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y);
 
 			if (detectedLocationValue == Map::FREE_CELL) {
 				correctDetectionsNumber++;
@@ -121,11 +121,11 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
 			}
 		}
 	} else {
-		Structs::Location detectedLocationInMap(_location->yaw + DEGREES_TO_RADIANS(Helper::IndexToDegrees(laserIndex)),
-												_location->x + (cos(detectedLocationInMap.yaw) * METER_TO_CM(laserScan)),
-												_location->y + (sin(detectedLocationInMap.yaw) * METER_TO_CM(laserScan)));
+		Structs::Location detectedLocationInMap(_location->_yaw + DEGREES_TO_RADIANS(Helper::IndexToDegrees(laserIndex)),
+												_location->_x + (cos(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)),
+												_location->_y + (sin(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)));
 
-		int detectedLocationValue = _map->getCellValue(detectedLocationInMap.x, detectedLocationInMap.y);
+		int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y);
 
 		if (detectedLocationValue == Map::FREE_CELL) {
 			falseDetectionsNumber++;

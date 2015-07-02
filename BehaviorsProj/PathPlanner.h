@@ -9,15 +9,16 @@
 #define PATHPLANNER_H_
 
 #include "Map.h"
+#include "Structs.h"
 
 #include <iostream>
 #include <iomanip>
 #include <cmath>
-
-#include "Structs.h"
 #include <tuple>
 #include <vector>
 #include <list>
+#include <algorithm>
+#include <limits>
 
 using namespace std;
 
@@ -30,8 +31,6 @@ private:
 
 	static const int GRADE_FACTOR = 1;
 
-	void pathOpened(int x, int y, float newCost, Structs::Node* parent);
-	void continuePath();
 	list<Structs::Node> getNeighbors(Structs::Node *node, Map *map);
 	list<Structs::Point> reconstruct_path(Structs::Node endNode);
 

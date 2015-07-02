@@ -51,9 +51,9 @@ Structs::Location* ConfigurationManager::getRobotStartLocation() {
 void ConfigurationManager::setRobotStartLocation(string startLocation) {
 	vector<string> LocationVector = splitString(startLocation, ' ');
 
-	_robotStartLocation->x = atoi(LocationVector[0].c_str());
-	_robotStartLocation->y = atoi(LocationVector[1].c_str());
-	_robotStartLocation->yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
+	_robotStartLocation->_x = atoi(LocationVector[0].c_str());
+	_robotStartLocation->_y = atoi(LocationVector[1].c_str());
+	_robotStartLocation->_yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
 }
 
 Structs::Location* ConfigurationManager::getRobotGoalLocation() {
@@ -63,9 +63,9 @@ Structs::Location* ConfigurationManager::getRobotGoalLocation() {
 void ConfigurationManager::setRobotGoalLocation(string goalLocation) {
 	vector<string> LocationVector = splitString(goalLocation, ' ');
 
-	_robotGoalLocation->x = atoi(LocationVector[0].c_str());
-	_robotGoalLocation->y = atoi(LocationVector[1].c_str());
-	_robotGoalLocation->yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
+	_robotGoalLocation->_x = atoi(LocationVector[0].c_str());
+	_robotGoalLocation->_y = atoi(LocationVector[1].c_str());
+	_robotGoalLocation->_yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
 }
 
 Structs::Size* ConfigurationManager::getRobotSize() {
@@ -75,8 +75,8 @@ Structs::Size* ConfigurationManager::getRobotSize() {
 void ConfigurationManager::setRobotSize(string size) {
 	vector<string> SizeVector = splitString(size, ' ');
 
-	_robotSize->width = atoi(SizeVector[0].c_str());
-	_robotSize->height = atoi(SizeVector[1].c_str());
+	_robotSize->_width = atoi(SizeVector[0].c_str());
+	_robotSize->_height = atoi(SizeVector[1].c_str());
 }
 
 float ConfigurationManager::getMapResolutionCM() {
@@ -96,18 +96,18 @@ void ConfigurationManager::setGridResolutionCM(string gridResolution) {
 }
 
 int ConfigurationManager::setConfigurationProperty(Structs::ConfigurationProperty property) {
-	if (property.token == "map") {
-		setMapFilePath(property.value);
-	} else if (property.token == "startLocation") {
-		setRobotStartLocation(property.value);
-	} else if (property.token == "goal") {
-		setRobotGoalLocation(property.value);
-	} else if (property.token == "robotSize") {
-		setRobotSize(property.value);
-	} else if (property.token == "MapResolutionCM") {
-		setMapResolutionCM(property.value);
-	} else if (property.token == "GridResolutionCM") {
-		setGridResolutionCM(property.value);
+	if (property._token == "map") {
+		setMapFilePath(property._value);
+	} else if (property._token == "startLocation") {
+		setRobotStartLocation(property._value);
+	} else if (property._token == "goal") {
+		setRobotGoalLocation(property._value);
+	} else if (property._token == "robotSize") {
+		setRobotSize(property._value);
+	} else if (property._token == "MapResolutionCM") {
+		setMapResolutionCM(property._value);
+	} else if (property._token == "GridResolutionCM") {
+		setGridResolutionCM(property._value);
 	} else {
 		// In case that the token wasn't valid
 		return 0;

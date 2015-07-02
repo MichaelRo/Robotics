@@ -41,24 +41,24 @@ Structs::Point WaypointsManager::getNext() {
 int WaypointsManager::getDirection(Structs::Point src, Structs::Point dest) {
 	int destination = NONE;
 
-	if (dest.y > src.y) {
-		if (dest.x < src.x)
+	if (dest._y > src._y) {
+		if (dest._x < src._x)
 			destination = NORTH_WEST;
-		else if (dest.x > src.x)
+		else if (dest._x > src._x)
 			destination = NORTH_EAST;
 		else
 			destination = NORTH;
-	} else if (dest.y < src.y) {
-		if (dest.x < src.x)
+	} else if (dest._y < src._y) {
+		if (dest._x < src._x)
 			destination = SOUTH_WEST;
-		else if (dest.x > src.x)
+		else if (dest._x > src._x)
 			destination = SOUTH_EAST;
 		else
 			destination = SOUTH;
 	} else {
-		if (dest.x < src.x)
+		if (dest._x < src._x)
 			destination = WEST;
-		else if (dest.x > src.x)
+		else if (dest._x > src._x)
 			destination = EAST;
 	}
 
