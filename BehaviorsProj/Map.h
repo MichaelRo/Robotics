@@ -26,8 +26,7 @@ private:
 
 	int _width;
 	int _height;
-	float _gridMapResolutionRatio;
-	ConfigurationManager* _configurationManager;
+	ConfigurationManager * _configurationManager;
 	Matrix* _grid;
 
 	void setWidth(int width);
@@ -48,8 +47,11 @@ public:
 	static const int WAYPOINT_CELL = 6;
 	static const int PADDING_CELL = 8;
 
+	float _gridMapResolutionRatio; // Maybe add getters and setters?
+
 	~Map();
-	Map(ConfigurationManager* configurationManager);
+	Map(ConfigurationManager * configurationManager);
+	Map(Map * map);
 
 	int getWidth();
 	int getHeight();
@@ -62,8 +64,8 @@ public:
 	void padMapObstacles(int factor);
 	void markRoute(list<Structs::Point> route);
 	void markWayPoints(list<Structs::Point> wayPoints);
-
 	void initializeGrid(int width, int height);
+	void swapMap(Map * map);
 };
 
 #endif

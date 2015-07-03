@@ -18,18 +18,19 @@ int main (int argc, const char * argv[]){
 
 	ConfigurationManager* conf = new ConfigurationManager("/home/colman/Documents/conf/parameters.txt");
 
-		Map* m = new Map(conf);
+		Map* map = new Map(conf);
 
-		m->loadMap("/home/colman/Documents/conf/roboticLabMap.png");
-		m->saveMap("originalMapMatrix.png");
+		map->loadMap("/home/colman/Documents/conf/roboticLabMap.png");
+		map->saveMap("originalMapMatrix.png");
 
-		m->padMapObstacles(conf->getRobotSize()->_height / conf->getGridResolutionCM());
-		m->saveMap("paddedMapMatrix.png");
+		map->padMapObstacles(conf->getRobotSize()->_height / conf->getGridResolutionCM());
+		map->saveMap("paddedMapMatrix.png");
 
 		Structs::Point startPoint = conf->getRobotStartLocation()->pointValue();
 		Structs::Point endPoint = conf->getRobotGoalLocation()->pointValue();
 
-		m->markRoute(PathPlanner().performAStar(m, &startPoint, &endPoint));
+		PathPlanner pathPlanner = PathPlanner(map, &startPoint, &endPoint);
+		map->markRoute(pathPlanner.performAStar());
 
-		m->saveMap("aStarMap.png");
+		map->saveMap("aStarMap.png");
 }

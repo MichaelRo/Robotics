@@ -10,36 +10,39 @@
 using namespace std;
 
 PathPlanner::~PathPlanner(void) {
-	delete _startNode;
+	delete _map;
+	delete _startPoint;
+	delete _endPoint;
 }
 
-PathPlanner::PathPlanner(void) {
-	_startNode = new Structs::Node();
+PathPlanner::PathPlanner(Map * map, Structs::Point * startPoint, Structs::Point * endPoint) {
+	_map = new Map(map);
+
+	_startPoint = new Structs::Point(startPoint->_x / (map->_gridMapResolutionRatio / 2),
+									 startPoint->_y / (map->_gridMapResolutionRatio / 2));
+	_endPoint = new Structs::Point(endPoint->_x / (map->_gridMapResolutionRatio / 2),
+								   endPoint->_y / (map->_gridMapResolutionRatio / 2));
 }
 
-list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint) {
-	_startNode->_point = startPoint;
-	_startNode->_parent = NULL;
-	_startNode->_g = 0;
-	_startNode->calcHGrade(endPoint);
+list<Structs::Point> PathPlanner::performAStar() {
+	Structs::Node startNode(_startPoint, NULL, 0);
+	startNode.calcHGrade(_endPoint);
 
-	Map *coolMap = map;
-
-	_openList.push_back(*_startNode);
+	_openList.push_back(startNode);
 
 	while (!_openList.empty()) {
 		Structs::Node currMinNode = extractMinNode(&_openList);
 		cout << "open list size is: " << _openList.size() << endl;
 
 		// if we arrived the end point
-		if (currMinNode._point->_x == endPoint->_x && currMinNode._point->_y == endPoint->_y) {
+		if (currMinNode._point == _endPoint) {
 			return reconstruct_path(currMinNode);
 		}
 		_closedList.push_back(currMinNode);
 		cout << "closed list size is: " << _closedList.size() << endl;;
 
 		// get the neighbors of the current node and iterate it
-		list<Structs::Node> neighbors = getNeighbors(&currMinNode, coolMap);
+		list<Structs::Node> neighbors = getNeighbors(&currMinNode);
 		for (std::list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
 			Structs::Node *currNeighbor = nodesIterator.operator ->();
 			// if we already finished dealing with this neighbor we continue
@@ -47,14 +50,14 @@ list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPo
 				continue;
 			}
 
-			float tempNeighborGGrade = currMinNode._g + currMinNode._point->distanceBetweenPoints(currNeighbor->_point);
+			float tempNeighborGGrade = currMinNode._g + currMinNode._point.distanceBetweenPoints(&currNeighbor->_point);
 
 			// if we haven't visit this neighbor or if the grade that we calculated is less than what the neighbor have
 			if (!listContains(_openList, *currNeighbor) || tempNeighborGGrade < currNeighbor->_g) {
 				// set parent node and grades
 				currNeighbor->_parent = &currMinNode;
 				currNeighbor->_g = tempNeighborGGrade;
-				currNeighbor->calcHGrade(endPoint);
+				currNeighbor->calcHGrade(_endPoint);
 
 				// if this neighbor is not in the open list, add it.
 				if (!listContains(_openList, *currNeighbor)) {
@@ -67,14 +70,16 @@ list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPo
 	return list<Structs::Point>();
 }
 
-list<Structs::Node> PathPlanner::getNeighbors(Structs::Node* node, Map *map) {
+// Reuse code with Map.cpp ?
+list<Structs::Node> PathPlanner::getNeighbors(Structs::Node * node) {
 	list<Structs::Node> neighbors;
-	for (int rowsIndex = node->_point->_x - 1; rowsIndex <= node->_point->_x + 1;	rowsIndex++) {
-		if (!(rowsIndex < 0 || rowsIndex >= map->getHeight())) {
-			for (int columnsIndex = node->_point->_y - 1; columnsIndex <= node->_point->_y + 1; columnsIndex++) {
-				if (!(columnsIndex < 0 || columnsIndex >= map->getWidth())) {
-					if (map->getCellValue(rowsIndex, columnsIndex) == Map::FREE_CELL && ((node->_point->_x != rowsIndex) || (node->_point->_y != columnsIndex))) {
-						Structs::Point neighborPoint(rowsIndex, columnsIndex);
+	for (int rowsIndex = node->_point._y - 1; rowsIndex <= node->_point._y + 1; rowsIndex++) {
+		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
+			for (int columnsIndex = node->_point._x - 1; columnsIndex <= node->_point._x + 1; columnsIndex++) {
+				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
+					if (_map->getCellValue(columnsIndex, rowsIndex) == Map::FREE_CELL &&
+						!((node->_point._x == columnsIndex) && (node->_point._y == rowsIndex))) {
+						Structs::Point neighborPoint(columnsIndex, rowsIndex);
 						Structs::Node neighbor(&neighborPoint, NULL, 0);
 
 						neighbors.push_back(neighbor);
@@ -87,7 +92,7 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node* node, Map *map) {
 	return neighbors;
 }
 
-Structs::Node PathPlanner::extractMinNode(list<Structs::Node> *list) {
+Structs::Node PathPlanner::extractMinNode(list<Structs::Node> * list) {
 	float minF = std::numeric_limits<float>::max();
 	std::list<Structs::Node>::iterator iteratorToErase;
 	Structs::Node minFNode;
@@ -123,7 +128,8 @@ list<Structs::Point> PathPlanner::reconstruct_path(Structs::Node endNode) {
 bool PathPlanner::listContains(list<Structs::Node> list, Structs::Node nodeToLookFor) {
 	for (std::list<Structs::Node>::iterator nodesIterator = list.begin(); nodesIterator != list.end(); nodesIterator++) {
 		Structs::Node *currNode = nodesIterator.operator ->();
-		if (currNode->_point->_x == nodeToLookFor._point->_x && currNode->_point->_y == nodeToLookFor._point->_y)
+
+		if (currNode->_point == nodeToLookFor._point)
 			return true;
 	}
 
