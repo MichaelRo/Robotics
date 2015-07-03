@@ -21,33 +21,43 @@ list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPo
 	_startNode->_point = startPoint;
 	_startNode->_parent = NULL;
 	_startNode->_g = 0;
+	_startNode->calcHGrade(endPoint);
 
 	Map *coolMap = map;
 
 	_openList.push_back(*_startNode);
 
 	while (!_openList.empty()) {
-		Structs::Node currMinNode = extractMinNode(_openList);
+		Structs::Node currMinNode = extractMinNode(&_openList);
+		cout << "open list size is: " << _openList.size() << endl;
 
 		// if we arrived the end point
 		if (currMinNode._point->_x == endPoint->_x && currMinNode._point->_y == endPoint->_y) {
 			return reconstruct_path(currMinNode);
 		}
 		_closedList.push_back(currMinNode);
+		cout << "closed list size is: " << _closedList.size() << endl;;
 
+		// get the neighbors of the current node and iterate it
 		list<Structs::Node> neighbors = getNeighbors(&currMinNode, coolMap);
 		for (std::list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
 			Structs::Node *currNeighbor = nodesIterator.operator ->();
-			if (currNeighbor != _closedList.end().operator ->()) {
+			// if we already finished dealing with this neighbor we continue
+			if (listContains(_closedList, *currNeighbor)) {
 				continue;
 			}
 
-			float tempNeighborGGrade = currMinNode._g + GRADE_FACTOR;
-			if ((currNeighbor == _openList.end().operator ->()) || tempNeighborGGrade < currNeighbor->_g) {
+			float tempNeighborGGrade = currMinNode._g + currMinNode._point->distanceBetweenPoints(currNeighbor->_point);
+
+			// if we haven't visit this neighbor or if the grade that we calculated is less than what the neighbor have
+			if (!listContains(_openList, *currNeighbor) || tempNeighborGGrade < currNeighbor->_g) {
+				// set parent node and grades
 				currNeighbor->_parent = &currMinNode;
 				currNeighbor->_g = tempNeighborGGrade;
 				currNeighbor->calcHGrade(endPoint);
-				if (currNeighbor == _openList.end().operator ->()) {
+
+				// if this neighbor is not in the open list, add it.
+				if (!listContains(_openList, *currNeighbor)) {
 					_openList.push_back(*currNeighbor);
 				}
 			}
@@ -63,10 +73,9 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node* node, Map *map) {
 		if (!(rowsIndex < 0 || rowsIndex >= map->getHeight())) {
 			for (int columnsIndex = node->_point->_y - 1; columnsIndex <= node->_point->_y + 1; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= map->getWidth())) {
-					if (map->getCellValue(rowsIndex, columnsIndex) == Map::FREE_CELL) {
-						// need to CHANGE 0 to the distance between the current node to the current neighbor
+					if (map->getCellValue(rowsIndex, columnsIndex) == Map::FREE_CELL && ((node->_point->_x != rowsIndex) || (node->_point->_y != columnsIndex))) {
 						Structs::Point neighborPoint(rowsIndex, columnsIndex);
-						Structs::Node neighbor(&neighborPoint, node, node->_g + GRADE_FACTOR);
+						Structs::Node neighbor(&neighborPoint, NULL, 0);
 
 						neighbors.push_back(neighbor);
 					}
@@ -74,33 +83,27 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node* node, Map *map) {
 			}
 		}
 	}
+
 	return neighbors;
 }
 
-Structs::Node PathPlanner::extractMinNode(list<Structs::Node> list) {
+Structs::Node PathPlanner::extractMinNode(list<Structs::Node> *list) {
 	float minF = std::numeric_limits<float>::max();
+	std::list<Structs::Node>::iterator iteratorToErase;
 	Structs::Node minFNode;
 
-	for (std::list<Structs::Node>::iterator nodesIterator = list.begin(); nodesIterator != list.end(); nodesIterator++) {
+	for (std::list<Structs::Node>::iterator nodesIterator = list->begin(); nodesIterator != list->end(); nodesIterator++) {
 		Structs::Node *currNode = nodesIterator.operator ->();
 		if (currNode->getF() < minF) {
 			minF = currNode->getF();
 			minFNode = *currNode;
-
-			// Maybe nodesIterator++ ?
-			list.erase(nodesIterator++);
+			iteratorToErase = nodesIterator;
 		}
 	}
 
+	list->erase(iteratorToErase);
+
 	return minFNode;
-}
-
-void PathPlanner::clearOpenList() {
-	_openList.clear();
-}
-
-void PathPlanner::clearPathToGoal() {
-	_openList.clear();
 }
 
 list<Structs::Point> PathPlanner::reconstruct_path(Structs::Node endNode) {
@@ -115,4 +118,14 @@ list<Structs::Point> PathPlanner::reconstruct_path(Structs::Node endNode) {
 	path.push_front(tempNode->_point);
 
 	return path;
+}
+
+bool PathPlanner::listContains(list<Structs::Node> list, Structs::Node nodeToLookFor) {
+	for (std::list<Structs::Node>::iterator nodesIterator = list.begin(); nodesIterator != list.end(); nodesIterator++) {
+		Structs::Node *currNode = nodesIterator.operator ->();
+		if (currNode->_point->_x == nodeToLookFor._point->_x && currNode->_point->_y == nodeToLookFor._point->_y)
+			return true;
+	}
+
+	return false;
 }

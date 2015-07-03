@@ -33,15 +33,14 @@ private:
 
 	list<Structs::Node> getNeighbors(Structs::Node *node, Map *map);
 	list<Structs::Point> reconstruct_path(Structs::Node endNode);
+	bool listContains(list<Structs::Node> list, Structs::Node nodeToLookFor);
 
 public:
 	PathPlanner(void);
 	virtual ~PathPlanner(void);
 
 	list<Structs::Point> performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint);
-	Structs::Node extractMinNode(list<Structs::Node> list);
-	void clearOpenList();
-	void clearPathToGoal();
+	Structs::Node extractMinNode(list<Structs::Node> *list);
 };
 
 #endif

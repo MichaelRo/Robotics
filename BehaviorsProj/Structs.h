@@ -24,6 +24,7 @@ public:
 		Point();
 		Point (int x, int y);
 		Point (Point *p);
+		float distanceBetweenPoints(Point* p);
 	};
 
 	struct Location{
@@ -46,7 +47,7 @@ public:
 		Node();
 		Node(Point *p, Node *parent, float GGrade);
 		float getF();
-		float calcHGrade(Point* goal);
+		void calcHGrade(Point* goal);
 	};
 
 	struct Size {
