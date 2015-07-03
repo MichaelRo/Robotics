@@ -15,7 +15,7 @@ PathPlanner::~PathPlanner(void) {
 }
 
 PathPlanner::PathPlanner(Map * map) {
-	_map = new Map(*map);
+	_map = new Map(map);
 	_startNode = new Structs::Node();
 }
 

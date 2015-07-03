@@ -26,8 +26,8 @@ Map::Map(Map * map) {
 	_configurationManager = map->_configurationManager;
 	_gridMapResolutionRatio = 2;
 	_grid = map->_grid;
-	_width = map->_width;
-	_height = map->_height;
+	_width = map->_grid->getWidth();
+	_height = map->_grid->getHeight();
 }
 
 /*
