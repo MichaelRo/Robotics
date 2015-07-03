@@ -16,11 +16,11 @@ int main (int argc, const char * argv[]){
 	Manager manager(&configurationManager, &igal);
 	manager.run();*/
 
-	ConfigurationManager* conf = new ConfigurationManager("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/parameters.txt");
+	ConfigurationManager* conf = new ConfigurationManager("/home/colman/Documents/conf/parameters.txt");
 
 		Map* m = new Map(conf);
 
-		m->loadMap("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/roboticLabMap.png");
+		m->loadMap("/home/colman/Documents/conf/roboticLabMap.png");
 		m->saveMap("originalMapMatrix.png");
 
 		m->padMapObstacles(conf->getRobotSize()->_height / conf->getGridResolutionCM());
