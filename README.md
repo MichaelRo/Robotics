@@ -6,6 +6,7 @@ Todo List:
   4. Debug configurationManager - DONE
   5. Create a goToWayPointPlan
   6. Add console prints
-  7. Refactoring (Standardization)
-  8. Debug
-  9. Add notes to all class files
+  7. Add the png and conf file to the project (as resources)
+  8. Refactoring (Standardization)
+  9. Debug
+  10. Add notes to all class files
