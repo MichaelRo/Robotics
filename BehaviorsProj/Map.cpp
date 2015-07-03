@@ -14,12 +14,20 @@ Map::~Map() {
 /*
  * Constracts the Map
  */
-Map::Map(ConfigurationManager* configurationManager) {
+Map::Map(ConfigurationManager * configurationManager) {
 	_configurationManager = configurationManager;
 	_gridMapResolutionRatio = (_configurationManager->getGridResolutionCM() / _configurationManager->getMapResolutionCM());
 	_grid = NULL;
 	_height = 0;
 	_width = 0;
+}
+
+Map::Map(Map * map) {
+	_configurationManager = map->_configurationManager;
+	_gridMapResolutionRatio = 2;
+	_grid = map->_grid;
+	_width = map->_width;
+	_height = map->_height;
 }
 
 /*
@@ -214,4 +222,12 @@ void Map::pushRGBAColorToAVector(vector<unsigned char> * vector, int color) {
 	vector->push_back(rgbaColor[1]);
 	vector->push_back(rgbaColor[2]);
 	vector->push_back(rgbaColor[3]);
+}
+
+void Map::swapMap(Map * map) {
+	_configurationManager = map->_configurationManager;
+	_gridMapResolutionRatio = map->_gridMapResolutionRatio;
+	_grid = map->_grid;
+	_width = map->_width;
+	_height = map->_height;
 }

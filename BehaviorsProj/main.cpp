@@ -29,7 +29,7 @@ int main (int argc, const char * argv[]){
 		Structs::Point startPoint = conf->getRobotStartLocation()->pointValue();
 		Structs::Point endPoint = conf->getRobotGoalLocation()->pointValue();
 
-		m->markRoute(PathPlanner().performAStar(m, &startPoint, &endPoint));
+		m->markRoute(PathPlanner(m).performAStar(&startPoint, &endPoint));
 
 		m->saveMap("aStarMap.png");
 }

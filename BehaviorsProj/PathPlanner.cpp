@@ -11,19 +11,19 @@ using namespace std;
 
 PathPlanner::~PathPlanner(void) {
 	delete _startNode;
+	delete _map;
 }
 
-PathPlanner::PathPlanner(void) {
+PathPlanner::PathPlanner(Map * map) {
+	_map = new Map(*map);
 	_startNode = new Structs::Node();
 }
 
-list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint) {
+list<Structs::Point> PathPlanner::performAStar(Structs::Point * startPoint, Structs::Point * endPoint) {
 	_startNode->_point = startPoint;
 	_startNode->_parent = NULL;
 	_startNode->_g = 0;
 	_startNode->calcHGrade(endPoint);
-
-	Map *coolMap = map;
 
 	_openList.push_back(*_startNode);
 
@@ -39,7 +39,7 @@ list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPo
 		cout << "closed list size is: " << _closedList.size() << endl;;
 
 		// get the neighbors of the current node and iterate it
-		list<Structs::Node> neighbors = getNeighbors(&currMinNode, coolMap);
+		list<Structs::Node> neighbors = getNeighbors(&currMinNode);
 		for (std::list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
 			Structs::Node *currNeighbor = nodesIterator.operator ->();
 			// if we already finished dealing with this neighbor we continue
@@ -67,13 +67,13 @@ list<Structs::Point> PathPlanner::performAStar(Map *map ,Structs::Point *startPo
 	return list<Structs::Point>();
 }
 
-list<Structs::Node> PathPlanner::getNeighbors(Structs::Node* node, Map *map) {
+list<Structs::Node> PathPlanner::getNeighbors(Structs::Node * node) {
 	list<Structs::Node> neighbors;
 	for (int rowsIndex = node->_point->_x - 1; rowsIndex <= node->_point->_x + 1;	rowsIndex++) {
-		if (!(rowsIndex < 0 || rowsIndex >= map->getHeight())) {
+		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
 			for (int columnsIndex = node->_point->_y - 1; columnsIndex <= node->_point->_y + 1; columnsIndex++) {
-				if (!(columnsIndex < 0 || columnsIndex >= map->getWidth())) {
-					if (map->getCellValue(rowsIndex, columnsIndex) == Map::FREE_CELL && ((node->_point->_x != rowsIndex) || (node->_point->_y != columnsIndex))) {
+				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
+					if (_map->getCellValue(rowsIndex, columnsIndex) == Map::FREE_CELL && ((node->_point->_x != rowsIndex) || (node->_point->_y != columnsIndex))) {
 						Structs::Point neighborPoint(rowsIndex, columnsIndex);
 						Structs::Node neighbor(&neighborPoint, NULL, 0);
 
@@ -87,7 +87,7 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node* node, Map *map) {
 	return neighbors;
 }
 
-Structs::Node PathPlanner::extractMinNode(list<Structs::Node> *list) {
+Structs::Node PathPlanner::extractMinNode(list<Structs::Node> * list) {
 	float minF = std::numeric_limits<float>::max();
 	std::list<Structs::Node>::iterator iteratorToErase;
 	Structs::Node minFNode;

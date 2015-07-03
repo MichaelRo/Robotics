@@ -24,23 +24,23 @@ using namespace std;
 
 class PathPlanner {
 private:
-	list<Structs::Node> _openList;
-	list<Structs::Node> _closedList;
-
-	Structs::Node * _startNode;
-
 	static const int GRADE_FACTOR = 1;
 
-	list<Structs::Node> getNeighbors(Structs::Node *node, Map *map);
+	list<Structs::Node> _openList;
+	list<Structs::Node> _closedList;
+	Structs::Node * _startNode;
+	Map * _map;
+
+	list<Structs::Node> getNeighbors(Structs::Node * node);
 	list<Structs::Point> reconstruct_path(Structs::Node endNode);
 	bool listContains(list<Structs::Node> list, Structs::Node nodeToLookFor);
 
 public:
-	PathPlanner(void);
+	PathPlanner(Map * map);
 	virtual ~PathPlanner(void);
 
-	list<Structs::Point> performAStar(Map *map ,Structs::Point *startPoint, Structs::Point *endPoint);
-	Structs::Node extractMinNode(list<Structs::Node> *list);
+	list<Structs::Point> performAStar(Structs::Point * startPoint, Structs::Point * endPoint);
+	Structs::Node extractMinNode(list<Structs::Node> * list);
 };
 
 #endif
