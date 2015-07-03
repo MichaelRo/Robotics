@@ -26,7 +26,6 @@ private:
 
 	int _width;
 	int _height;
-	float _gridMapResolutionRatio;
 	ConfigurationManager * _configurationManager;
 	Matrix* _grid;
 
@@ -47,6 +46,8 @@ public:
 	static const int ROUTE_CELL = 5;
 	static const int WAYPOINT_CELL = 6;
 	static const int PADDING_CELL = 8;
+
+	float _gridMapResolutionRatio; // Maybe add getters and setters?
 
 	~Map();
 	Map(ConfigurationManager * configurationManager);

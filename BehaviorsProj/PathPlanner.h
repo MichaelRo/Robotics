@@ -28,7 +28,8 @@ private:
 
 	list<Structs::Node> _openList;
 	list<Structs::Node> _closedList;
-	Structs::Node * _startNode;
+	Structs::Point * _startPoint;
+	Structs::Point * _endPoint;
 	Map * _map;
 
 	list<Structs::Node> getNeighbors(Structs::Node * node);
@@ -36,10 +37,10 @@ private:
 	bool listContains(list<Structs::Node> list, Structs::Node nodeToLookFor);
 
 public:
-	PathPlanner(Map * map);
+	PathPlanner(Map * map, Structs::Point * startPoint, Structs::Point * endPoint);
 	virtual ~PathPlanner(void);
 
-	list<Structs::Point> performAStar(Structs::Point * startPoint, Structs::Point * endPoint);
+	list<Structs::Point> performAStar();
 	Structs::Node extractMinNode(list<Structs::Node> * list);
 };
 

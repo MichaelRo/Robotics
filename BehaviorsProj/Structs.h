@@ -23,8 +23,10 @@ public:
 
 		Point();
 		Point (int x, int y);
-		Point (Point *p);
-		float distanceBetweenPoints(Point* p);
+		Point (Point * p);
+		float distanceBetweenPoints(Point * p);
+
+		bool operator==(const Point & point);
 	};
 
 	struct Location{
@@ -35,17 +37,19 @@ public:
 		Location();
 		Location(float x, float y, float yaw = 0);
 		Point pointValue();
+
+		bool operator==(const Location & location);
 	};
 
 	struct Node {
 	public :
-		Point* _point;
-		Node* _parent;
+		Point _point;
+		Node * _parent;
 		float _g; // The cost until this search cell g(x)
 		float _h; // The expected cost to the goal h(x)
 
 		Node();
-		Node(Point *p, Node *parent, float GGrade);
+		Node(Point * p, Node * parent, float GGrade);
 		float getF();
 		void calcHGrade(Point* goal);
 	};
@@ -56,6 +60,8 @@ public:
 
 		Size();
 		Size(int width, int height);
+
+		bool operator==(const Size & size);
 	};
 
 	struct ConfigurationProperty {
