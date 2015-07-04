@@ -33,9 +33,10 @@ private:
 	Structs::Point _startPoint;
 	Structs::Point _endPoint;
 	Map * _map;
+	map<int, Structs::Point> _parentsMap;
 
 	list<Structs::Node> getNeighbors(Structs::Node *node);
-	list<Structs::Point> reconstruct_path(Structs::Node endNode);
+	list<Structs::Point> reconstruct_path(Structs::Point endPoint);
 	bool listContains(list<Structs::Node> list, Structs::Node nodeToLookFor);
 
 public:

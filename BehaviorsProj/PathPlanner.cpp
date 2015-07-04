@@ -15,8 +15,8 @@ PathPlanner::~PathPlanner(void) {
 
 PathPlanner::PathPlanner(Map * map, Structs::Point * startPoint, Structs::Point * endPoint) {
 	_map = map;
-	_startPoint = *startPoint / map->getGridMapResolutionRatio();
-	_endPoint = *endPoint / map->getGridMapResolutionRatio();
+	_startPoint = *startPoint / (map->getGridMapResolutionRatio() / 2);
+	_endPoint = *endPoint / (map->getGridMapResolutionRatio() / 2);
 }
 
 list<Structs::Point> PathPlanner::performAStar() {
@@ -29,6 +29,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 
 	_openQueue.push(startNode);
 	openMap[_startPoint.hashCode()] = true;
+//	_parentsMap[_startPoint.hashCode()] = Structs::Point(-1,-1);
 
 	while (!_openQueue.empty()) {
 		Structs::Node currMinNode = _openQueue.top();
@@ -36,7 +37,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 
 		// if we arrived the end point
 		if (currMinNode._point == _endPoint) {
-			return reconstruct_path(currMinNode);
+			return reconstruct_path(currMinNode._point);
 		}
 		_openQueue.pop();
 		openMap[currMinNode._point.hashCode()] = false;
@@ -62,6 +63,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 			if (!openMap[currNeighbor->_point.hashCode()] || tempNeighborGGrade < currNeighbor->_g) {
 				// set parent node and grades
 				currNeighbor->_parent = &currMinNode;
+				_parentsMap[currNeighbor->_point.hashCode()] = currMinNode._point;
 				currNeighbor->_g = tempNeighborGGrade;
 				currNeighbor->calcHGrade(&_endPoint);
 
@@ -113,16 +115,17 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 	return neighbors;
 }
 
-list<Structs::Point> PathPlanner::reconstruct_path(Structs::Node endNode) {
+list<Structs::Point> PathPlanner::reconstruct_path(Structs::Point endPoint) {
 	list<Structs::Point> path = list<Structs::Point>();
-	Structs::Node * tempNode = &endNode;
+	Structs::Point tempPoint= endPoint;
 
-	while (tempNode->_parent != NULL) {
-		path.push_front(tempNode->_point);
-		tempNode = tempNode->_parent;
+	while (_parentsMap[tempPoint.hashCode()] != _startPoint) {
+		path.push_front(tempPoint);
+		tempPoint = _parentsMap[tempPoint.hashCode()];
 	}
 
-	path.push_front(tempNode->_point);
+	path.push_front(tempPoint);
+	path.push_front(_parentsMap[tempPoint.hashCode()]);
 
 	return path;
 }
