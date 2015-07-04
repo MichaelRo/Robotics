@@ -25,6 +25,7 @@ public:
 		Point (int x, int y);
 		Point (Point * p);
 		float distanceBetweenPoints(Point * p);
+		int hashCode();
 
 		bool operator==(const Point & point) const;
 		bool operator!=(const Point & point) const;
