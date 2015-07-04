@@ -68,6 +68,30 @@ bool Structs::Point::operator >=(const Point & point) const {
 	return (_x >= point._x) && (_y >= point._y);
 }
 
+Structs::Point Structs::Point::operator +(const Point & point) const {
+	return Structs::Point(_x + point._x, _y + point._y);
+}
+
+Structs::Point Structs::Point::operator -(const Point & point) const {
+	return Structs::Point(_x - point._x, _y - point._y);
+}
+
+Structs::Point Structs::Point::operator +(const int & number) const {
+	return Structs::Point(_x + number, _y + number);
+}
+
+Structs::Point Structs::Point::operator -(const int & number) const {
+	return Structs::Point(_x - number, _y - number);
+}
+
+Structs::Point Structs::Point::operator /(const int & number) const {
+	return Structs::Point(_x / number, _y / number);
+}
+
+Structs::Point Structs::Point::operator *(const int & number) const {
+	return Structs::Point(_x * number, _y * number);
+}
+
 Structs::Location::Location(float x, float y, float yaw) {
 	this->_x = x;
 	this->_y = y;
@@ -93,9 +117,9 @@ Structs::Node::Node() {
 	_h = 0;
 }
 
-Structs::Node::Node(Point * p, Node * parent, float GGrade) {
+Structs::Node::Node(Point p, Node * parent, float GGrade) {
 	_parent = parent;
-	_point = Point(p);
+	_point = p;
 	_g = GGrade;
 	_h = 0;
 }

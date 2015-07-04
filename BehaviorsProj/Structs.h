@@ -33,6 +33,12 @@ public:
 		bool operator>(const Point & point) const;
 		bool operator<=(const Point & point) const;
 		bool operator>=(const Point & point) const;
+		Point operator+(const Point & point) const;
+		Point operator-(const Point & point) const;
+		Point operator+(const int & number) const;
+		Point operator-(const int & number) const;
+		Point operator/(const int & number) const;
+		Point operator*(const int & number) const;
 	};
 
 	struct Location{
@@ -56,7 +62,7 @@ public:
 		float _h; // The expected cost to the goal h(x)
 
 		Node();
-		Node(Point * p, Node * parent, float GGrade);
+		Node(Point p, Node * parent, float GGrade);
 		float getF();
 		void calcHGrade(Point* goal);
 	};

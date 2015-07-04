@@ -112,7 +112,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
 													_location->_x + (cos(detectedLocationInMap._yaw) * j),
 													_location->_y + (sin(detectedLocationInMap._yaw) * j));
 
-			int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y);
+			int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y, _map->getMapResolution());
 
 			if (detectedLocationValue == Map::FREE_CELL) {
 				correctDetectionsNumber++;
@@ -125,7 +125,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
 												_location->_x + (cos(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)),
 												_location->_y + (sin(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)));
 
-		int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y);
+		int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y, _map->getMapResolution());
 
 		if (detectedLocationValue == Map::FREE_CELL) {
 			falseDetectionsNumber++;
