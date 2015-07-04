@@ -91,7 +91,6 @@ list<Structs::Point> PathPlanner::performAStar() {
 // Reuse code with Map.cpp ?
 list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 	list<Structs::Node> neighbors;
-	Structs::Node tempFatherNode = *node;
 
 	for (int rowsIndex = node->_point._y - 1; rowsIndex <= node->_point._y + 1; rowsIndex++) {
 		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
@@ -108,9 +107,6 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 			}
 		}
 	}
-
-	// very horani, must be fixed.
-	*node = tempFatherNode;
 
 	return neighbors;
 }
