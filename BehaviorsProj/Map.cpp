@@ -136,8 +136,8 @@ float Map::getGridMapResolutionRatio() {
 	@return - the cell value
 */
 int Map::getCellValue(int column, int row, float resolution) {
-	return _grid->getCellValue(column / (getGridResolution() / resolution),
-							   row / (getGridResolution() / resolution));
+	return _grid->getCellValue(column / ceil(((getGridResolution() / resolution) / 2)),
+							   row / ceil(((getGridResolution() / resolution) / 2)));
 }
 
 /**
@@ -149,8 +149,8 @@ int Map::getCellValue(int column, int row, float resolution) {
 	@param resolution - wanted resolution
 */
 void Map::setCellValue(int column, int row, int value, float resolution) {
-	_grid->setCellValue(round(column / (getGridResolution() / resolution)),
-						round(row / (getGridResolution() / resolution)),
+	_grid->setCellValue(round(column / ceil(((getGridResolution() / resolution) / 2))),
+						round(row / ceil(((getGridResolution() / resolution) / 2))),
 						value);
 }
 
