@@ -11,7 +11,7 @@
 
 class AStarPriority {
 public:
-	bool operator() (Structs::Node*& first, Structs::Node*& second) const;
+	bool operator() (Structs::Node first, Structs::Node second) const;
 	AStarPriority();
 	virtual ~AStarPriority();
 };

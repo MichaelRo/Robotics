@@ -28,7 +28,7 @@ using namespace std;
 class PathPlanner {
 private:
 	list<Structs::Node> _openList;
-	std::priority_queue<Structs::Node*,vector<Structs::Node*>,AStarPriority> _openQueue;
+	std::priority_queue<Structs::Node,vector<Structs::Node>,AStarPriority> _openQueue;
 	list<Structs::Node> _closedList;
 	Structs::Point * _startPoint;
 	Structs::Point * _endPoint;
