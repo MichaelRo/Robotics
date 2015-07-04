@@ -31,20 +31,18 @@ list<Structs::Point> PathPlanner::performAStar() {
 	map<Structs::Node*,bool> openMap;
 	map<Structs::Node*,bool> closedMap;
 
-
-	// _openList.push_back(startNode);
-	_openSet.push(&startNode);
+	_openQueue.push(&startNode);
 	openMap[&startNode] = true;
 
-	while (!_openSet.empty()) {
-		Structs::Node *currMinNode = _openSet.top();
-		cout << "open list size is: " << _openSet.size() << endl;
+	while (!_openQueue.empty()) {
+		Structs::Node *currMinNode = _openQueue.top();
+		cout << "open list size is: " << _openQueue.size() << endl;
 
 		// if we arrived the end point
 		if (currMinNode->_point == _endPoint) {
 			return reconstruct_path(*currMinNode);
 		}
-		_openSet.pop();
+		_openQueue.pop();
 		openMap[currMinNode] = false;
 		closedMap[currMinNode] = true;
 
@@ -73,7 +71,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 				// if this neighbor is not in the open list, add it.
 				cout << "trying to add: " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << " to the openMap" << endl;
 				if (!openMap[currNeighbor]) {
-					_openSet.push(currNeighbor);
+					_openQueue.push(currNeighbor);
 					openMap[currNeighbor] = true;
 					cout << "node: " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << " entered the openMap" << endl;
 				}

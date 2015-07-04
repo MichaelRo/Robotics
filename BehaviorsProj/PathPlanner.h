@@ -27,11 +27,8 @@ using namespace std;
 
 class PathPlanner {
 private:
-	static const int GRADE_FACTOR = 1;
-
 	list<Structs::Node> _openList;
-	std::priority_queue<Structs::Node*,vector<Structs::Node*>,AStarPriority> _openSet;
-
+	std::priority_queue<Structs::Node*,vector<Structs::Node*>,AStarPriority> _openQueue;
 	list<Structs::Node> _closedList;
 	Structs::Point * _startPoint;
 	Structs::Point * _endPoint;
