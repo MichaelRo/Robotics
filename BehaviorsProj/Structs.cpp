@@ -20,12 +20,28 @@ Structs::Point::Point(int x, int y) {
 Structs::Point::Point(Point * p) {
 	_x = p->_x;
 	_y = p->_y;
+
 }
 
 float Structs::Point::distanceBetweenPoints(Point * p) {
 	double aSide = pow(_x - p->_x, 2);
 	double bSide = pow(_y - p->_y, 2);
 	return sqrt(aSide + bSide);
+}
+
+int Structs::Point::hashCode() {
+	int xPart = _x;
+	int yPart = _y;
+
+	int temp = yPart;
+
+	while (temp >0)
+	{
+	    temp /= 10;
+	    xPart *= 10;
+	}
+
+	return xPart + yPart;
 }
 
 bool Structs::Point::operator ==(const Point & point) const {

@@ -28,14 +28,17 @@ list<Structs::Point> PathPlanner::performAStar() {
 	Structs::Node startNode(_startPoint, NULL, 0);
 	startNode.calcHGrade(_endPoint);
 
-	map<Structs::Point,bool> openMap;
-	map<Structs::Point,bool> closedMap;
+	map<int,bool> openMap;
+	map<int,bool> closedMap;
 
 	_openQueue.push(&startNode);
-	openMap[*_startPoint] = true;
+	openMap[_startPoint->hashCode()] = true;
 
 	while (!_openQueue.empty()) {
 		Structs::Node *currMinNode = _openQueue.top();
+		if (currMinNode->_point._x == 178 && currMinNode->_point._y == 149) {
+			cout << "bla" << endl;
+		}
 		cout << "open list size is: " << _openQueue.size() << endl;
 
 		// if we arrived the end point
@@ -43,8 +46,9 @@ list<Structs::Point> PathPlanner::performAStar() {
 			return reconstruct_path(*currMinNode);
 		}
 		_openQueue.pop();
-		openMap[currMinNode->_point] = false;
-		closedMap[currMinNode->_point] = true;
+		openMap[currMinNode->_point.hashCode()] = false;
+		closedMap[currMinNode->_point.hashCode()] = true;
+		cout << "this node entered the closed list " << currMinNode->_point._x << ", " << currMinNode->_point._y << endl;
 
 		cout << "curr Min Node: " << currMinNode->_point._x << ", " << currMinNode->_point._y << endl;;
 
@@ -53,26 +57,31 @@ list<Structs::Point> PathPlanner::performAStar() {
 		for (std::list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
 			Structs::Node *currNeighbor = nodesIterator.operator ->();
 			// if we already finished dealing with this neighbor we continue
-			if (closedMap[(currNeighbor->_point)]) {
+			if (closedMap[currNeighbor->_point.hashCode()]) {
+				cout << "this neighbor skipped because it is already in the closed list " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << endl;
 				continue;
 			}
 
 			float tempNeighborGGrade = currMinNode->_g + currMinNode->_point.distanceBetweenPoints(&currNeighbor->_point);
 
 			// if we haven't visit this neighbor or if the grade that we calculated is less than what the neighbor have
-			if (!openMap[currNeighbor->_point] || tempNeighborGGrade < currNeighbor->_g) {
+			if (!openMap[currNeighbor->_point.hashCode()] || tempNeighborGGrade < currNeighbor->_g) {
 				// set parent node and grades
 				currNeighbor->_parent = currMinNode;
 				currNeighbor->_g = tempNeighborGGrade;
 				currNeighbor->calcHGrade(_endPoint);
 
-				cout << "open map size is: " << openMap.size() << endl;
+				cout << "open queue size is: " << _openQueue.size() << endl;
 
 				// if this neighbor is not in the open list, add it.
 				cout << "trying to add: " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << " to the openMap" << endl;
-				if (!openMap[currNeighbor->_point]) {
+				if (!openMap[currNeighbor->_point.hashCode()]) {
+					if (currNeighbor->_point._x == 0 && currNeighbor->_point._y == 0) {
+						cout << "point is 0, 0" << endl;
+					}
+
 					_openQueue.push(currNeighbor);
-					openMap[currNeighbor->_point] = true;
+					openMap[currNeighbor->_point.hashCode()] = true;
 					cout << "node: " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << " entered the openMap" << endl;
 				}
 			}
