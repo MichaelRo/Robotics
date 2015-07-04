@@ -27,6 +27,7 @@ public:
 		float distanceBetweenPoints(Point * p);
 
 		bool operator==(const Point & point);
+		bool operator!=(const Point & point);
 	};
 
 	struct Location{
@@ -39,6 +40,7 @@ public:
 		Point pointValue();
 
 		bool operator==(const Location & location);
+		bool operator!=(const Location & location);
 	};
 
 	struct Node {
@@ -62,6 +64,7 @@ public:
 		Size(int width, int height);
 
 		bool operator==(const Size & size);
+		bool operator!=(const Size & size);
 	};
 
 	struct ConfigurationProperty {

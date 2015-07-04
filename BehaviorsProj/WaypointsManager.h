@@ -19,6 +19,8 @@ private:
 	list<Structs::Point> _wayPoints;
 	list<Structs::Point>::iterator _wayPointsIterator;
 
+	void markWaypoints(list<Structs::Point> route);
+
 public:
 	static const int NORTH_WEST = 1;
 	static const int NORTH = 2;
@@ -33,7 +35,7 @@ public:
 	WaypointsManager();
 	WaypointsManager(list<Structs::Point> route);
 
-	list<Structs::Point> markWaypoints(list<Structs::Point> route);
+	list<Structs::Point> getWaypoints();
 	bool hasNext();
 	Structs::Point getNext();
 
