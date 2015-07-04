@@ -32,6 +32,10 @@ bool Structs::Point::operator ==(const Point & point) {
 	return (_x == point._x) && (_y == point._y);
 }
 
+bool Structs::Point::operator !=(const Point & point) {
+	return (_x != point._x) || (_y != point._y);
+}
+
 Structs::Location::Location(float x, float y, float yaw) {
 	this->_x = x;
 	this->_y = y;
@@ -44,6 +48,10 @@ Structs::Point Structs::Location::pointValue() {
 
 bool Structs::Location::operator ==(const Location & location) {
 	return (_x == location._x) && (_y == location._y) && (_yaw == location._yaw);
+}
+
+bool Structs::Location::operator !=(const Location & location) {
+	return (_x != location._x) || (_y != location._y) || (_yaw != location._yaw);
 }
 
 Structs::Node::Node() {
@@ -76,6 +84,10 @@ Structs::Size::Size(int width, int height) {
 
 bool Structs::Size::operator ==(const Size & size) {
 	return (_width == size._width) && (_height == size._height);
+}
+
+bool Structs::Size::operator !=(const Size & size) {
+	return (_width != size._width) || (_height != size._height);
 }
 
 Structs::ConfigurationProperty::ConfigurationProperty(string token, string value) {

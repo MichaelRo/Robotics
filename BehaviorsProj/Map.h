@@ -31,10 +31,10 @@ private:
 
 	void setWidth(int width);
 	void setHeight(int height);
-	void padACell(int i, int j, Matrix * matrix, int factor);
-
+	void padACell(Structs::Point cellPoint, Matrix * matrix, int ratio);
 	void markCells(list<Structs::Point> points, int cellType);
 
+	static list<Structs::Point> getCellsNeighbors(Structs::Point point, Matrix * matrix, int ratio);
 	static void pushRGBAColorToAVector(vector<unsigned char> * vector, int color);
 
 public:
@@ -61,7 +61,7 @@ public:
 	void printMap(string fileName);
 	void loadMap(string pngFilePath);
 	void saveMap(string pngFilePath);
-	void padMapObstacles(int factor);
+	void padMapObstacles(int ratio);
 	void markRoute(list<Structs::Point> route);
 	void markWayPoints(list<Structs::Point> wayPoints);
 	void initializeGrid(int width, int height);
