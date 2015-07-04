@@ -19,23 +19,33 @@ Manager::Manager(ConfigurationManager* configurationManager, Robot* robot) {
 void Manager::run() {
 	_map = initializeMap();
 
-	_waypointsManager = new WaypointsManager(getRoute());
+	list<Structs::Point> route = getRoute();
+	_map->markRoute(route, _map->getGridResolution());
+
+	list<Structs::Point> wayPoints = WaypointsManager(route).getWaypoints();
+	_map->markWayPoints(wayPoints, _map->getGridResolution());
+
+	Structs::Location * robotStartLocation = _configurationManager->getRobotStartLocation();
+	Structs::Location * robotGoalLocation = _configurationManager->getRobotGoalLocation();
+
+	_map->setCellValue(robotStartLocation->_x, robotStartLocation->_y, Map::START_LOCATION_CELL, _map->getMapResolution());
+	_map->setCellValue(robotGoalLocation->_x, robotGoalLocation->_y, Map::GOAL_LOCATION_CELL, _map->getMapResolution());
+
+	_map->saveMap("allPointsMap.png");
 
 	runRobot();
 }
 
 Map * Manager::initializeMap() {
-	Map* m = new Map(_configurationManager);
+	Map* map = new Map(_configurationManager);
 
-	m->loadMap("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/roboticLabMap.png");
-	m->printMap("originalMapMatrix.txt");
+	map->loadMap("/home/colman/Documents/conf/roboticLabMap.png");
+	map->saveMap("originalMapGrid.png");
 
-	m->padMapObstacles(_configurationManager->getRobotSize()->_height / _configurationManager->getGridResolutionCM());
-	m->printMap("paddedMapMatrix.txt");
+	map->padMapObstacles(_configurationManager->getRobotSize()->_height / map->getGridResolution());
+	map->saveMap("paddedMapGrid.png");
 
-	m->saveMap("paddedGrid.png");
-
-	return m;
+	return map;
 }
 
 list<Structs::Point> Manager::getRoute() {

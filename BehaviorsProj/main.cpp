@@ -10,12 +10,13 @@
 #include "Plans/PlnObstacleAvoid.h"
 #include "PathPlanner.h"
 #include "WaypointsManager.h"
+#include "Manager.h"
 
 int main (int argc, const char * argv[]){
-	/*Robot igal("localhost",6665);
-	ConfigurationManager configurationManager("/home/colman/Documents/RoboticsFinalProj/PcBotWorld/parameters.txt");
-	Manager manager(&configurationManager, &igal);
-	manager.run();*/
+//	Robot igal("localhost",6665);
+//	ConfigurationManager configurationManager("/home/colman/Documents/conf/parameters.txt");
+//	Manager* manager = new Manager(&configurationManager, &igal);
+//	manager->run();
 
 	ConfigurationManager* conf = new ConfigurationManager("/home/colman/Documents/conf/parameters.txt");
 
