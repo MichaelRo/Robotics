@@ -26,8 +26,12 @@ public:
 		Point (Point * p);
 		float distanceBetweenPoints(Point * p);
 
-		bool operator==(const Point & point);
-		bool operator!=(const Point & point);
+		bool operator==(const Point & point) const;
+		bool operator!=(const Point & point) const;
+		bool operator<(const Point & point) const;
+		bool operator>(const Point & point) const;
+		bool operator<=(const Point & point) const;
+		bool operator>=(const Point & point) const;
 	};
 
 	struct Location{
