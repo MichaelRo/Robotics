@@ -26,17 +26,25 @@ WaypointsManager::WaypointsManager(list<Structs::Point> route) {
 */
 void WaypointsManager::markWaypoints(list<Structs::Point> route) {
 	list<Structs::Point>::iterator routePointsIterator = route.begin();
-	int continuingDirection = getDirection(routePointsIterator.operator ->(), (++routePointsIterator).operator ->());
+	Structs::Point sourcePoint = routePointsIterator.operator ->();
+	std::advance(routePointsIterator, 1);
+	Structs::Point destinationPoint = routePointsIterator.operator ->();
+
+	int continuingDirection = getDirection(sourcePoint, destinationPoint);
 
 	// Goes through all the points in the route and checks its direction
 	while (routePointsIterator != route.end()) {
-		int currentDirection = getDirection(routePointsIterator.operator ->(), (++routePointsIterator).operator ->());
+		sourcePoint = routePointsIterator.operator ->();
+		std::advance(routePointsIterator, 1);
+		destinationPoint = routePointsIterator.operator ->();
+
+		int currentDirection = getDirection(sourcePoint, destinationPoint);
 
 		// If the direction from one point to another has changed, this point should be marked as a waypoint
 		if (currentDirection != continuingDirection) {
 			continuingDirection = currentDirection;
 
-			_wayPoints.push_back(routePointsIterator.operator ->());
+			_wayPoints.push_back(sourcePoint);
 		}
 	}
 }
@@ -76,28 +84,28 @@ Structs::Point WaypointsManager::getNext() {
 	@return - the direction, represented by an int directions enum
 */
 int WaypointsManager::getDirection(Structs::Point src, Structs::Point dest) {
-	int destination = NONE;
+	int direction = NONE;
 
 	if (dest._y > src._y) {
 		if (dest._x < src._x)
-			destination = NORTH_WEST;
+			direction = NORTH_WEST;
 		else if (dest._x > src._x)
-			destination = NORTH_EAST;
+			direction = NORTH_EAST;
 		else
-			destination = NORTH;
+			direction = NORTH;
 	} else if (dest._y < src._y) {
 		if (dest._x < src._x)
-			destination = SOUTH_WEST;
+			direction = SOUTH_WEST;
 		else if (dest._x > src._x)
-			destination = SOUTH_EAST;
+			direction = SOUTH_EAST;
 		else
-			destination = SOUTH;
+			direction = SOUTH;
 	} else {
 		if (dest._x < src._x)
-			destination = WEST;
+			direction = WEST;
 		else if (dest._x > src._x)
-			destination = EAST;
+			direction = EAST;
 	}
 
-	return destination;
+	return direction;
 }
