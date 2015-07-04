@@ -22,24 +22,11 @@ Map::~Map() {
 */
 Map::Map(ConfigurationManager * configurationManager) {
 	_configurationManager = configurationManager;
-	_gridMapResolutionRatio = (_configurationManager->getGridResolutionCM() / _configurationManager->getMapResolutionCM());
+	_gridResolution = configurationManager->getGridResolutionCM();
+	_mapResolution = configurationManager->getMapResolutionCM();
 	_grid = NULL;
 	_height = 0;
 	_width = 0;
-}
-
-/**
-	Initializes a Map by a given map
-	PLEASE NOTICE: the dimensions of the new map will taken from the given map's grid
-
-	@param map - a given map
-*/
-Map::Map(Map * map) {
-	_configurationManager = map->_configurationManager;
-	_gridMapResolutionRatio = 2;
-	_grid = map->_grid;
-	_width = map->_grid->getWidth();
-	_height = map->_grid->getHeight();
 }
 
 /**
@@ -54,8 +41,8 @@ void Map::initializeGrid(int width, int height) {
 
 	// Initializes the grid with the given dimensions but with the needed resolution
 	// The resolution: (Grid's resolution / Map's (png) resolution) / 2
-	_grid = new Matrix(ceil(getWidth() / (_gridMapResolutionRatio / 2)),
-					   ceil(getHeight() / (_gridMapResolutionRatio / 2)),
+	_grid = new Matrix(ceil(getWidth() / (getGridMapResolutionRatio() / 2)),
+					   ceil(getHeight() / (getGridMapResolutionRatio() / 2)),
 					   UNKNOWN_CELL);
 }
 
@@ -71,7 +58,7 @@ int Map::getWidth() {
 /**
 	Sets the map's width
 
-	@param width - width
+	@param width
 */
 void Map::setWidth(int width) {
 	_width = width;
@@ -89,10 +76,55 @@ int Map::getHeight() {
 /**
 	Sets the map's height
 
-	@param height - height
+	@param height
 */
 void Map::setHeight(int height) {
 	_height = height;
+}
+
+/**
+	Returns the grid's resolution
+
+	@return - resolution
+*/
+float Map::getGridResolution() {
+	return _gridResolution;
+}
+
+/**
+	Sets the grid's resolution
+
+	@param resolution
+*/
+void Map::setGridResolution(float resolution) {
+	_gridResolution = resolution;
+}
+
+/**
+	Returns the map's resolution
+
+	@return - resolution
+*/
+float Map::getMapResolution() {
+	return _mapResolution;
+}
+
+/**
+	Sets the map's resolution
+
+	@param resolution
+*/
+void Map::setMapResolution(float resolution) {
+	_mapResolution = resolution;
+}
+
+/**
+	Returns the ratio between the grid's and the map's resolution
+
+	@return - ratio
+*/
+float Map::getGridMapResolutionRatio() {
+	return getGridResolution() / getMapResolution();
 }
 
 /**
@@ -100,11 +132,12 @@ void Map::setHeight(int height) {
 
 	@param column - the cell's column
 	@param row - the cell's row
+	@param resolution - wanted resolution
 	@return - the cell value
 */
-int Map::getCellValue(int column, int row) {
-	return _grid->getCellValue(column / (_gridMapResolutionRatio / 2),
-							   row / (_gridMapResolutionRatio));
+int Map::getCellValue(int column, int row, float resolution) {
+	return _grid->getCellValue(column / (getGridResolution() / resolution),
+							   row / (getGridResolution() / resolution));
 }
 
 /**
@@ -113,10 +146,11 @@ int Map::getCellValue(int column, int row) {
 	@param column - the cell's column
 	@param row - the cell's row
 	@param value - the cell value
+	@param resolution - wanted resolution
 */
-void Map::setCellValue(int column, int row, int value) {
-	_grid->setCellValue(round(column / (_gridMapResolutionRatio / 2)),
-						round(row / (_gridMapResolutionRatio)),
+void Map::setCellValue(int column, int row, int value, float resolution) {
+	_grid->setCellValue(round(column / (getGridResolution() / resolution)),
+						round(row / (getGridResolution() / resolution)),
 						value);
 }
 
@@ -141,15 +175,15 @@ void Map::loadMap(string pngFilePath) {
 	int gridVectorColumnsIndex = 0;
 
 	// Runs overs the imagePixelVector (4 cells each time as the RGBA color type)
-	for (int rowsIndex = 0; rowsIndex < getHeight(); rowsIndex += (_gridMapResolutionRatio / 2)) {
-		for (int columnsIndex = 0; columnsIndex < getWidth() * BYTES_PER_PIXEL; columnsIndex += (BYTES_PER_PIXEL * (_gridMapResolutionRatio / 2))) {
+	for (int rowsIndex = 0; rowsIndex < getHeight(); rowsIndex += (getGridMapResolutionRatio() / 2)) {
+		for (int columnsIndex = 0; columnsIndex < getWidth() * BYTES_PER_PIXEL; columnsIndex += (BYTES_PER_PIXEL * (getGridMapResolutionRatio() / 2))) {
 			bool isACertainCellOccupied = false;
 
 			// Runs over neighbor cells in order to unite cells for resolution change (as defined in the configuration file)
-			for (int unitedRowsIndex = rowsIndex; (unitedRowsIndex < rowsIndex + (_gridMapResolutionRatio / 2)) &&
-												  (unitedRowsIndex < (_grid->getHeight() * (_gridMapResolutionRatio / 2)) - 1) && !isACertainCellOccupied; unitedRowsIndex++) {
-				for (int unitedColumnsIndex = columnsIndex; (unitedColumnsIndex < columnsIndex + ((_gridMapResolutionRatio / 2) * BYTES_PER_PIXEL)) &&
-															(ceil(unitedColumnsIndex / BYTES_PER_PIXEL) < (_grid->getWidth() * (_gridMapResolutionRatio / 2)) - 1) && !isACertainCellOccupied; unitedColumnsIndex += BYTES_PER_PIXEL) {
+			for (int unitedRowsIndex = rowsIndex; (unitedRowsIndex < rowsIndex + (getGridMapResolutionRatio() / 2)) &&
+												  (unitedRowsIndex < (_grid->getHeight() * (getGridMapResolutionRatio() / 2)) - 1) && !isACertainCellOccupied; unitedRowsIndex++) {
+				for (int unitedColumnsIndex = columnsIndex; (unitedColumnsIndex < columnsIndex + ((getGridMapResolutionRatio() / 2) * BYTES_PER_PIXEL)) &&
+															(ceil(unitedColumnsIndex / BYTES_PER_PIXEL) < (_grid->getWidth() * (getGridMapResolutionRatio() / 2)) - 1) && !isACertainCellOccupied; unitedColumnsIndex += BYTES_PER_PIXEL) {
 					int cell = (unitedRowsIndex * (width * BYTES_PER_PIXEL)) + unitedColumnsIndex;
 
 					// Checks if the cell is occupied by checking if it isn't white
@@ -242,7 +276,8 @@ void Map::swapMap(Map * map) {
 	delete _grid;
 
 	_configurationManager = map->_configurationManager;
-	_gridMapResolutionRatio = map->_gridMapResolutionRatio;
+	_gridResolution = map->_gridResolution;
+	_mapResolution = map->_mapResolution;
 	_grid = map->_grid;
 	_width = map->_width;
 	_height = map->_height;
@@ -296,8 +331,8 @@ void Map::padACell(Structs::Point cellPoint, Matrix * matrix, int ratio) {
 
 	@param route - the given route, represented as list<Structs::Point>
 */
-void Map::markRoute(list<Structs::Point> route) {
-	markCells(route, ROUTE_CELL);
+void Map::markRoute(list<Structs::Point> route, float resolution) {
+	markCells(route, ROUTE_CELL, resolution);
 }
 
 /**
@@ -305,8 +340,8 @@ void Map::markRoute(list<Structs::Point> route) {
 
 	@param wayPoints - the waypoints, represented as list<Structs::Point>
 */
-void Map::markWayPoints(list<Structs::Point> wayPoints) {
-	markCells(wayPoints, WAYPOINT_CELL);
+void Map::markWayPoints(list<Structs::Point> wayPoints, float resolution) {
+	markCells(wayPoints, WAYPOINT_CELL, resolution);
 }
 
 /**
@@ -315,11 +350,11 @@ void Map::markWayPoints(list<Structs::Point> wayPoints) {
 	@param points - the points, represented as list<Structs::Point>
 	@param cellType - the cell type that the points will be marked as
 */
-void Map::markCells(list<Structs::Point> points, int cellType) {
+void Map::markCells(list<Structs::Point> points, int cellType, float resolution) {
 	for (list<Structs::Point>::iterator pointsIterator = points.begin(); pointsIterator != points.end(); ++pointsIterator) {
 		Structs::Point point = pointsIterator.operator ->();
 
-		setCellValue(point._x, point._y, cellType);
+		setCellValue(point._x, point._y, cellType, resolution);
 	}
 }
 

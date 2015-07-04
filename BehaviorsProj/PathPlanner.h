@@ -30,8 +30,8 @@ private:
 	list<Structs::Node> _openList;
 	std::priority_queue<Structs::Node,vector<Structs::Node>,AStarPriority> _openQueue;
 	list<Structs::Node> _closedList;
-	Structs::Point * _startPoint;
-	Structs::Point * _endPoint;
+	Structs::Point _startPoint;
+	Structs::Point _endPoint;
 	Map * _map;
 
 	list<Structs::Node> getNeighbors(Structs::Node *node);

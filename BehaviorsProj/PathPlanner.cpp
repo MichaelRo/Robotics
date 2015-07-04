@@ -11,29 +11,24 @@ using namespace std;
 
 PathPlanner::~PathPlanner(void) {
 	delete _map;
-	delete _startPoint;
-	delete _endPoint;
 }
 
 PathPlanner::PathPlanner(Map * map, Structs::Point * startPoint, Structs::Point * endPoint) {
-	_map = new Map(map);
-
-	_startPoint = new Structs::Point(startPoint->_x / (map->_gridMapResolutionRatio / 2),
-									 startPoint->_y / (map->_gridMapResolutionRatio / 2));
-	_endPoint = new Structs::Point(endPoint->_x / (map->_gridMapResolutionRatio / 2),
-								   endPoint->_y / (map->_gridMapResolutionRatio / 2));
+	_map = map;
+	_startPoint = *startPoint / map->getGridMapResolutionRatio();
+	_endPoint = *endPoint / map->getGridMapResolutionRatio();
 }
 
 list<Structs::Point> PathPlanner::performAStar() {
 	list<Structs::Point> defRetList;
 	Structs::Node startNode(_startPoint, NULL, 0);
-	startNode.calcHGrade(_endPoint);
+	startNode.calcHGrade(&_endPoint);
 
 	map<int,bool> openMap;
 	map<int,bool> closedMap;
 
 	_openQueue.push(startNode);
-	openMap[_startPoint->hashCode()] = true;
+	openMap[_startPoint.hashCode()] = true;
 
 	while (!_openQueue.empty()) {
 		Structs::Node currMinNode = _openQueue.top();
@@ -68,7 +63,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 				// set parent node and grades
 				currNeighbor->_parent = &currMinNode;
 				currNeighbor->_g = tempNeighborGGrade;
-				currNeighbor->calcHGrade(_endPoint);
+				currNeighbor->calcHGrade(&_endPoint);
 
 				cout << "open queue size is: " << _openQueue.size() << endl;
 
@@ -100,7 +95,7 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
 			for (int columnsIndex = node->_point._x - 1; columnsIndex <= node->_point._x + 1; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
-					if ((_map->getCellValue(columnsIndex, rowsIndex) == Map::FREE_CELL) &&
+					if ((_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Map::FREE_CELL) &&
 						!((node->_point._x == columnsIndex) && (node->_point._y == rowsIndex))) {
 						Structs::Point neighborPoint(columnsIndex, rowsIndex);
 						Structs::Node neighbor(&neighborPoint, NULL, std::numeric_limits<float>::max());

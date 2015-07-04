@@ -28,11 +28,15 @@ private:
 	int _height;
 	ConfigurationManager * _configurationManager;
 	Matrix* _grid;
+	float _gridResolution;
+	float _mapResolution;
 
 	void setWidth(int width);
 	void setHeight(int height);
+	void setGridResolution(float resolution);
+	void setMapResolution(float resolution);
 	void padACell(Structs::Point cellPoint, Matrix * matrix, int ratio);
-	void markCells(list<Structs::Point> points, int cellType);
+	void markCells(list<Structs::Point> points, int cellType, float resolution);
 
 	static list<Structs::Point> getCellsNeighbors(Structs::Point point, Matrix * matrix, int ratio);
 	static void pushRGBAColorToAVector(vector<unsigned char> * vector, int color);
@@ -47,23 +51,24 @@ public:
 	static const int WAYPOINT_CELL = 6;
 	static const int PADDING_CELL = 8;
 
-	float _gridMapResolutionRatio; // Maybe add getters and setters?
-
 	~Map();
 	Map(ConfigurationManager * configurationManager);
 	Map(Map * map);
 
 	int getWidth();
 	int getHeight();
-	int getCellValue(int column, int row);
-	void setCellValue(int column, int row, int value);
+	float getGridResolution();
+	float getMapResolution();
+	float getGridMapResolutionRatio();
+	int getCellValue(int column, int row, float resolution);
+	void setCellValue(int column, int row, int value, float resolution);
 
 	void printMap(string fileName);
 	void loadMap(string pngFilePath);
 	void saveMap(string pngFilePath);
 	void padMapObstacles(int ratio);
-	void markRoute(list<Structs::Point> route);
-	void markWayPoints(list<Structs::Point> wayPoints);
+	void markRoute(list<Structs::Point> route, float resolution);
+	void markWayPoints(list<Structs::Point> wayPoints, float resolution);
 	void initializeGrid(int width, int height);
 	void swapMap(Map * map);
 };
