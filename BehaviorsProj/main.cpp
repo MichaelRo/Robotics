@@ -21,7 +21,7 @@ int main (int argc, const char * argv[]){
 
 	Map* map = new Map(conf);
 
-	map->loadMap("/home/colman/Documents/conf/roboticLabMap.png");
+	map->loadMap("/home/colman/Documents/conf/tempMap.png");
 	map->saveMap("originalMapMatrix.png");
 
 	map->padMapObstacles(conf->getRobotSize()->_height / conf->getGridResolutionCM());
@@ -32,6 +32,7 @@ int main (int argc, const char * argv[]){
 
 	PathPlanner pathPlanner = PathPlanner(map, &startPoint, &endPoint);
 	list<Structs::Point> route = pathPlanner.performAStar();
+	cout << "route size is: " << route.size() << endl;
 	map->markRoute(route);
 
 	map->saveMap("aStarMap.png");
