@@ -28,59 +28,77 @@ list<Structs::Point> PathPlanner::performAStar() {
 	Structs::Node startNode(_startPoint, NULL, 0);
 	startNode.calcHGrade(_endPoint);
 
-	_openList.push_back(startNode);
+	map<Structs::Node*,bool> openMap;
+	map<Structs::Node*,bool> closedMap;
 
-	while (!_openList.empty()) {
-		Structs::Node currMinNode = extractMinNode(&_openList);
-		cout << "open list size is: " << _openList.size() << endl;
+
+	// _openList.push_back(startNode);
+	_openSet.push(&startNode);
+	openMap[&startNode] = true;
+
+	while (!_openSet.empty()) {
+		Structs::Node *currMinNode = _openSet.top();
+		cout << "open list size is: " << _openSet.size() << endl;
 
 		// if we arrived the end point
-		if (currMinNode._point == _endPoint) {
-			return reconstruct_path(currMinNode);
+		if (currMinNode->_point == _endPoint) {
+			return reconstruct_path(*currMinNode);
 		}
-		_closedList.push_back(currMinNode);
-		cout << "closed list size is: " << _closedList.size() << endl;;
+		_openSet.pop();
+		openMap[currMinNode] = false;
+		closedMap[currMinNode] = true;
+
+		cout << "curr Min Node: " << currMinNode->_point._x << ", " << currMinNode->_point._y << endl;;
 
 		// get the neighbors of the current node and iterate it
-		list<Structs::Node> neighbors = getNeighbors(&currMinNode);
+		list<Structs::Node> neighbors = getNeighbors(currMinNode);
 		for (std::list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
 			Structs::Node *currNeighbor = nodesIterator.operator ->();
 			// if we already finished dealing with this neighbor we continue
-			if (listContains(_closedList, *currNeighbor)) {
+			if (closedMap[currNeighbor]) {
 				continue;
 			}
 
-			float tempNeighborGGrade = currMinNode._g + currMinNode._point.distanceBetweenPoints(&currNeighbor->_point);
+			float tempNeighborGGrade = currMinNode->_g + currMinNode->_point.distanceBetweenPoints(&currNeighbor->_point);
 
 			// if we haven't visit this neighbor or if the grade that we calculated is less than what the neighbor have
-			if (!listContains(_openList, *currNeighbor) || tempNeighborGGrade < currNeighbor->_g) {
+			if (!openMap[currNeighbor] || tempNeighborGGrade < currNeighbor->_g) {
 				// set parent node and grades
-				currNeighbor->_parent = &currMinNode;
+				currNeighbor->_parent = currMinNode;
 				currNeighbor->_g = tempNeighborGGrade;
 				currNeighbor->calcHGrade(_endPoint);
 
+				cout << "open map size is: " << openMap.size() << endl;
+
 				// if this neighbor is not in the open list, add it.
-				if (!listContains(_openList, *currNeighbor)) {
-					_openList.push_back(*currNeighbor);
+				cout << "trying to add: " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << " to the openMap" << endl;
+				if (!openMap[currNeighbor]) {
+					_openSet.push(currNeighbor);
+					openMap[currNeighbor] = true;
+					cout << "node: " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << " entered the openMap" << endl;
 				}
 			}
 		}
+
+		neighbors.clear();
 	}
 
 	return list<Structs::Point>();
 }
 
 // Reuse code with Map.cpp ?
-list<Structs::Node> PathPlanner::getNeighbors(Structs::Node * node) {
+list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 	list<Structs::Node> neighbors;
+	Structs::Node tempFatherNode = *node;
+
 	for (int rowsIndex = node->_point._y - 1; rowsIndex <= node->_point._y + 1; rowsIndex++) {
 		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
 			for (int columnsIndex = node->_point._x - 1; columnsIndex <= node->_point._x + 1; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
-					if (_map->getCellValue(columnsIndex, rowsIndex) == Map::FREE_CELL &&
+					if ((_map->getCellValue(columnsIndex, rowsIndex) == Map::FREE_CELL) &&
 						!((node->_point._x == columnsIndex) && (node->_point._y == rowsIndex))) {
 						Structs::Point neighborPoint(columnsIndex, rowsIndex);
-						Structs::Node neighbor(&neighborPoint, NULL, 0);
+						Structs::Node neighbor(&neighborPoint, NULL, std::numeric_limits<float>::max());
 
 						neighbors.push_back(neighbor);
 					}
@@ -88,6 +106,8 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node * node) {
 			}
 		}
 	}
+
+	*node = tempFatherNode;
 
 	return neighbors;
 }
