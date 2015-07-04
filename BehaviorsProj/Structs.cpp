@@ -28,12 +28,28 @@ float Structs::Point::distanceBetweenPoints(Point * p) {
 	return sqrt(aSide + bSide);
 }
 
-bool Structs::Point::operator ==(const Point & point) {
+bool Structs::Point::operator ==(const Point & point) const {
 	return (_x == point._x) && (_y == point._y);
 }
 
-bool Structs::Point::operator !=(const Point & point) {
+bool Structs::Point::operator !=(const Point & point) const {
 	return (_x != point._x) || (_y != point._y);
+}
+
+bool Structs::Point::operator <(const Point & point) const {
+	return (_x < point._x) && (_y < point._y);
+}
+
+bool Structs::Point::operator >(const Point & point) const {
+	return (_x > point._x) || (_y > point._y);
+}
+
+bool Structs::Point::operator <=(const Point & point) const {
+	return (_x <= point._x) && (_y <= point._y);
+}
+
+bool Structs::Point::operator >=(const Point & point) const {
+	return (_x >= point._x) || (_y >= point._y);
 }
 
 Structs::Location::Location(float x, float y, float yaw) {

@@ -28,11 +28,11 @@ list<Structs::Point> PathPlanner::performAStar() {
 	Structs::Node startNode(_startPoint, NULL, 0);
 	startNode.calcHGrade(_endPoint);
 
-	map<Structs::Point*,bool> openMap;
-	map<Structs::Point*,bool> closedMap;
+	map<Structs::Point,bool> openMap;
+	map<Structs::Point,bool> closedMap;
 
 	_openQueue.push(&startNode);
-	openMap[_startPoint] = true;
+	openMap[*_startPoint] = true;
 
 	while (!_openQueue.empty()) {
 		Structs::Node *currMinNode = _openQueue.top();
@@ -43,7 +43,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 			return reconstruct_path(*currMinNode);
 		}
 		_openQueue.pop();
-		openMap[&(currMinNode->_point)] = false;
+		openMap[currMinNode->_point] = false;
 		closedMap[&(currMinNode->_point)] = true;
 
 		cout << "curr Min Node: " << currMinNode->_point._x << ", " << currMinNode->_point._y << endl;;
@@ -60,7 +60,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 			float tempNeighborGGrade = currMinNode->_g + currMinNode->_point.distanceBetweenPoints(&currNeighbor->_point);
 
 			// if we haven't visit this neighbor or if the grade that we calculated is less than what the neighbor have
-			if (!openMap[&(currNeighbor->_point)] || tempNeighborGGrade < currNeighbor->_g) {
+			if (!openMap[currNeighbor->_point] || tempNeighborGGrade < currNeighbor->_g) {
 				// set parent node and grades
 				currNeighbor->_parent = currMinNode;
 				currNeighbor->_g = tempNeighborGGrade;
@@ -70,9 +70,9 @@ list<Structs::Point> PathPlanner::performAStar() {
 
 				// if this neighbor is not in the open list, add it.
 				cout << "trying to add: " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << " to the openMap" << endl;
-				if (!openMap[&(currNeighbor->_point)]) {
+				if (!openMap[currNeighbor->_point]) {
 					_openQueue.push(currNeighbor);
-					openMap[&(currNeighbor->_point)] = true;
+					openMap[currNeighbor->_point] = true;
 					cout << "node: " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << " entered the openMap" << endl;
 				}
 			}
