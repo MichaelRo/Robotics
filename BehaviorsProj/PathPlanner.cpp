@@ -44,7 +44,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 		}
 		_openQueue.pop();
 		openMap[currMinNode->_point] = false;
-		closedMap[&(currMinNode->_point)] = true;
+		closedMap[currMinNode->_point] = true;
 
 		cout << "curr Min Node: " << currMinNode->_point._x << ", " << currMinNode->_point._y << endl;;
 
@@ -53,7 +53,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 		for (std::list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
 			Structs::Node *currNeighbor = nodesIterator.operator ->();
 			// if we already finished dealing with this neighbor we continue
-			if (closedMap[&(currNeighbor->_point)]) {
+			if (closedMap[(currNeighbor->_point)]) {
 				continue;
 			}
 
