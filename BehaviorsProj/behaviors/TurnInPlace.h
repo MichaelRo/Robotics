@@ -1,30 +1,38 @@
 /*
- * TurnRight.cpp
+ * TurnInPlace.h
  *
- *  Created on: Jun 26, 2015
- *      Author: Itay Desalto
+ *	Created on: Jun 25, 2015
+ *      Author: Noa Even Tsur, Itay Desalto, Michael Roytman
  */
 
 #ifndef TURNINPLACE_H_
 #define TURNINPLACE_H_
 
-#include <iostream>
 #include "Behavior.h"
 #include "GoForward.h"
-#include "../Robot.h"
 
-class TurnInPlace: public Behavior
-{
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+class TurnInPlace: public Behavior {
 private:
-    bool chooseDirection();
-    bool _turnLeft;
+	static const int COMPROMISED_YAW = 0.2;
+	static constexpr float YAW_DELTA = 0.1;
+
+	float _yaw;
+	float _neededYaw;
+
+	bool chooseDirection();
 
 public:
-	TurnInPlace(Robot* robot);
+	TurnInPlace(Robot * robot, float yaw);
+	virtual ~TurnInPlace();
+
 	bool startCondition();
 	bool stopCondition();
 	void action();
-	virtual ~TurnInPlace();
 };
 
 #endif
