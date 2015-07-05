@@ -11,6 +11,7 @@
 #include <list>
 
 #include "Structs.h"
+#include "Robot.h"
 #include "WaypointsManager.h"
 #include "behaviors/GoToPoint.h"
 
@@ -18,12 +19,13 @@ using namespace std;
 
 class MovementManager {
 private:
+	Robot * _robot;
 	WaypointsManager * _waypointsManager;
 
 	Structs::Point getCurrentWaypoint();
 
 public:
-	MovementManager(WaypointsManager * waypointsManager);
+	MovementManager(Robot * robot, WaypointsManager * waypointsManager);
 	virtual ~MovementManager();
 
 	void start();

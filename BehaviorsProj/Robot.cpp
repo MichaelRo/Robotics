@@ -37,6 +37,10 @@ void Robot::setRobotPosition(Structs::Point position, float yaw) {
 	//_position->SetOdometry(position.x, position.y, yaw);
 }
 
+Structs::Location Robot::getLocation() {
+	return Structs::Location(getX(), getY(), getYaw());
+}
+
 float Robot::getX() {
 	return _position->GetXPos();
 }

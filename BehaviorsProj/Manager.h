@@ -8,6 +8,8 @@
 #ifndef MANAGER_H_
 #define MANAGER_H_
 
+#include <list>
+
 #include "Plans/PlnObstacleAvoid.h"
 #include "Robot.h"
 #include "Map.h"
@@ -15,29 +17,27 @@
 #include "WaypointsManager.h"
 #include "LocalizationManager.h"
 #include "Structs.h"
-
-#include <list>
+#include "MovementManager.h"
 
 using namespace std;
 
 class Manager {
 private:
-	Robot* _robot;
-	ConfigurationManager* _configurationManager;
-	Map* _map;
-	PathPlanner* _pathPlanner;
-	WaypointsManager* _waypointsManager;
-	LocalizationManager* _localizationManager;
+	Robot * _robot;
+	ConfigurationManager * _configurationManager;
+	Map * _map;
+	PathPlanner * _pathPlanner;
+	WaypointsManager * _waypointsManager;
+	LocalizationManager * _localizationManager;
+	MovementManager * _movementManager;
 
 public:
-	Manager(ConfigurationManager* configurationManager, Robot* robot);
+	Manager(ConfigurationManager * configurationManager, Robot * robot);
 	virtual ~Manager();
 
 	void run();
 	Map * initializeMap();
 	list<Structs::Point> getRoute();
-
-	void runRobot();
 };
 
 #endif
