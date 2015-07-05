@@ -5,7 +5,7 @@ Todo List:
   3. Fix PathPlanner - For some reason, reconstruct_path() doesn't invoke - DONE
   4. Maybe the weird route is because similiar cells have the same grade? 
      (btw, in the middle of the path, the a star prefers to turn left instead of continuing straight until it gets to the wall       -DONE
-  5. Check that the last waypoint is the end point
+  5. Check that the last waypoint is the end point - DONE
   6. Debug configurationManager - DONE
   7. Create a goToWayPointPlan
   8. Add console prints
