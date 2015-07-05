@@ -29,6 +29,7 @@ public:
 	float getX();
 	float getY();
 	float getYaw();
+	void setRobotPosition(Structs::Point position, float yaw);
 	virtual ~Robot();
 
 	Robot(char* ip, int port);

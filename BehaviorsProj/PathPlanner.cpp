@@ -20,20 +20,17 @@ PathPlanner::PathPlanner(Map * map, Structs::Point * startPoint, Structs::Point 
 }
 
 list<Structs::Point> PathPlanner::performAStar() {
-	list<Structs::Point> defRetList;
 	Structs::Node startNode(_startPoint, NULL, 0);
-	startNode.calcHGrade(&_endPoint);
+	startNode.calcHGrade(_endPoint);
 
 	map<int,bool> openMap;
 	map<int,bool> closedMap;
 
 	_openQueue.push(startNode);
 	openMap[_startPoint.hashCode()] = true;
-//	_parentsMap[_startPoint.hashCode()] = Structs::Point(-1,-1);
 
 	while (!_openQueue.empty()) {
 		Structs::Node currMinNode = _openQueue.top();
-		cout << "open list size is: " << _openQueue.size() << endl;
 
 		// if we arrived the end point
 		if (currMinNode._point == _endPoint) {
@@ -42,22 +39,18 @@ list<Structs::Point> PathPlanner::performAStar() {
 		_openQueue.pop();
 		openMap[currMinNode._point.hashCode()] = false;
 		closedMap[currMinNode._point.hashCode()] = true;
-		defRetList.push_back(currMinNode._point);
-		cout << "this node entered the closed list " << currMinNode._point._x << ", " << currMinNode._point._y << endl;
-
-		cout << "curr Min Node: " << currMinNode._point._x << ", " << currMinNode._point._y << endl;;
 
 		// get the neighbors of the current node and iterate it
 		list<Structs::Node> neighbors = getNeighbors(&currMinNode);
-		for (std::list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
+		for (list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
 			Structs::Node *currNeighbor = nodesIterator.operator ->();
 			// if we already finished dealing with this neighbor we continue
 			if (closedMap[currNeighbor->_point.hashCode()]) {
-				cout << "this neighbor skipped because it is already in the closed list " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << endl;
 				continue;
 			}
 
-			float tempNeighborGGrade = currMinNode._g + currMinNode._point.distanceBetweenPoints(&(currNeighbor->_point));
+//			float tempNeighborGGrade = currMinNode._g + currMinNode._point.distanceBetweenPoints(&(currNeighbor->_point));
+			float tempNeighborGGrade = currMinNode._g + COST_BETWEEN_NODES;
 
 			// if we haven't visit this neighbor or if the grade that we calculated is less than what the neighbor have
 			if (!openMap[currNeighbor->_point.hashCode()] || tempNeighborGGrade < currNeighbor->_g) {
@@ -65,19 +58,12 @@ list<Structs::Point> PathPlanner::performAStar() {
 				currNeighbor->_parent = &currMinNode;
 				_parentsMap[currNeighbor->_point.hashCode()] = currMinNode._point;
 				currNeighbor->_g = tempNeighborGGrade;
-				currNeighbor->calcHGrade(&_endPoint);
-
-				cout << "open queue size is: " << _openQueue.size() << endl;
+				currNeighbor->calcHGrade(_endPoint);
 
 				// if this neighbor is not in the open list, add it.
-				cout << "trying to add: " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << " to the openMap" << endl;
 				if (!openMap[currNeighbor->_point.hashCode()]) {
 					_openQueue.push(*currNeighbor);
 					openMap[currNeighbor->_point.hashCode()] = true;
-					cout << "node: " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << " entered the openMap" << endl;
-				}
-				else {
-					cout << "this neighbor not added because it is already in the open list " << currNeighbor->_point._x << ", " << currNeighbor->_point._y << endl;
 				}
 			}
 		}
@@ -85,10 +71,12 @@ list<Structs::Point> PathPlanner::performAStar() {
 		neighbors.clear();
 	}
 
-	return defRetList;
+	return list<Structs::Point>();
 }
 
-// Reuse code with Map.cpp ?
+/**
+ * this method get a node in the matrix and return his "neighbors" - the cells that close to the node.
+ */
 list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 	list<Structs::Node> neighbors;
 
