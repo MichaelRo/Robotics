@@ -4,7 +4,7 @@ Todo List:
   2. Keep non-padded map for laserScan check - DONE
   3. Fix PathPlanner - For some reason, reconstruct_path() doesn't invoke - DONE
   4. Maybe the weird route is because similiar cells have the same grade? 
-     (btw, in the middle of the path, the a star prefers to turn left instead of continuing straight until it gets to the wall
+     (btw, in the middle of the path, the a star prefers to turn left instead of continuing straight until it gets to the wall       -DONE
   5. Check that the last waypoint is the end point
   6. Debug configurationManager - DONE
   7. Create a goToWayPointPlan
