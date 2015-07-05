@@ -7,6 +7,16 @@
 
 #include "Manager.h"
 
+Manager::~Manager() {
+	delete _robot;
+	delete _configurationManager;
+	delete _map;
+	delete _pathPlanner;
+	delete _waypointsManager;
+	delete _localizationManager;
+	delete _movementManager;
+}
+
 Manager::Manager(ConfigurationManager* configurationManager, Robot* robot) {
 	_robot = robot;
 	_configurationManager = configurationManager;
@@ -14,6 +24,7 @@ Manager::Manager(ConfigurationManager* configurationManager, Robot* robot) {
 	_waypointsManager = NULL;
 	_pathPlanner = NULL;
 	_localizationManager = NULL;
+	_movementManager = NULL;
 }
 
 void Manager::run() {
@@ -33,7 +44,8 @@ void Manager::run() {
 
 	_map->saveMap("allPointsMap.png");
 
-	runRobot();
+	_movementManager = new MovementManager(_robot, _waypointsManager);
+	_movementManager->start();
 }
 
 Map * Manager::initializeMap() {
@@ -54,16 +66,4 @@ list<Structs::Point> Manager::getRoute() {
 	_pathPlanner = new PathPlanner(_map, &startPoint, &endPoint);
 
 	return _pathPlanner->performAStar();
-}
-
-void Manager::runRobot() {
-}
-
-Manager::~Manager() {
-	delete _robot;
-	delete _configurationManager;
-	delete _map;
-	delete _pathPlanner;
-	delete _waypointsManager;
-	delete _localizationManager;
 }

@@ -21,13 +21,12 @@ private:
 	static const int COMPROMISED_YAW = 0.2;
 	static constexpr float YAW_DELTA = 0.1;
 
-	float _yaw;
 	float _neededYaw;
 
 	bool chooseDirection();
 
 public:
-	TurnInPlace(Robot * robot, float yaw);
+	TurnInPlace(Robot * robot, float neededYaw);
 	virtual ~TurnInPlace();
 
 	bool startCondition();

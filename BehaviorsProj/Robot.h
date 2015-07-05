@@ -8,11 +8,12 @@
 #ifndef ROBOT_H_
 #define ROBOT_H_
 
-#include "LocalizationManager.h"
+#include <vector>
 
 #include <libplayerc++/playerc++.h>
 
-#include <vector>
+#include "LocalizationManager.h"
+#include "Structs.h"
 
 using namespace PlayerCc;
 using namespace std;
@@ -24,18 +25,17 @@ class Robot {
 	LocalizationManager* _localizationManager;
 
 public:
+	virtual ~Robot();
+	Robot(char* ip, int port);
+
 	float getLaserDistance(int index);
 	vector<float> getLaserScan();
+	Structs::Location getLocation();
 	float getX();
 	float getY();
 	float getYaw();
 	void setRobotPosition(Structs::Point position, float yaw);
-	virtual ~Robot();
-
-	Robot(char* ip, int port);
-
 	void Read();
-
 	void setSpeed(float xSpeed, float angularSpeed);
 };
 

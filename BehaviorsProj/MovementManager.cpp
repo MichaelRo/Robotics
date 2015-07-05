@@ -8,10 +8,12 @@
 #include "MovementManager.h"
 
 MovementManager::~MovementManager() {
+	delete _robot;
 	delete _waypointsManager;
 }
 
-MovementManager::MovementManager(WaypointsManager * waypointsManager) {
+MovementManager::MovementManager(Robot * robot, WaypointsManager * waypointsManager) {
+	_robot = robot;
 	_waypointsManager = waypointsManager;
 }
 
@@ -23,6 +25,10 @@ void MovementManager::start() {
 	Structs::Point currentWayPoint;
 
 	while ((currentWayPoint = getCurrentWaypoint()) != NULL) {
-		GoToPoint goToPointBehavior();
+		GoToPoint * goToPointBehavior = new GoToPoint(_robot, currentWayPoint);
+
+		if (goToPointBehavior->startCondition())
+			while (!goToPointBehavior->stopCondition())
+				goToPointBehavior->action();
 	}
 }
