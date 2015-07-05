@@ -27,6 +27,7 @@ using namespace std;
 
 class PathPlanner {
 private:
+	const int COST_BETWEEN_NODES = 1;
 	list<Structs::Node> _openList;
 	std::priority_queue<Structs::Node,vector<Structs::Node>,AStarPriority> _openQueue;
 	list<Structs::Node> _closedList;
@@ -37,14 +38,12 @@ private:
 
 	list<Structs::Node> getNeighbors(Structs::Node *node);
 	list<Structs::Point> reconstruct_path(Structs::Point endPoint);
-	bool listContains(list<Structs::Node> list, Structs::Node nodeToLookFor);
 
 public:
 	PathPlanner(Map * map, Structs::Point * startPoint, Structs::Point * endPoint);
 	virtual ~PathPlanner(void);
 
 	list<Structs::Point> performAStar();
-	Structs::Node extractMinNode(list<Structs::Node> * list);
 };
 
 #endif

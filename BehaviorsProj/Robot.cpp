@@ -33,6 +33,10 @@ vector<float> Robot::getLaserScan() {
 	return laserScan;
 }
 
+void Robot::setRobotPosition(Structs::Point position, float yaw) {
+	//_position->SetOdometry(position.x, position.y, yaw);
+}
+
 float Robot::getX() {
 	return _position->GetXPos();
 }

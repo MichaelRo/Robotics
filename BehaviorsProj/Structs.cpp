@@ -23,10 +23,17 @@ Structs::Point::Point(Point * p) {
 
 }
 
-float Structs::Point::distanceBetweenPoints(Point * p) {
-	double aSide = pow(_x - p->_x, 2);
-	double bSide = pow(_y - p->_y, 2);
+float Structs::Point::distanceBetweenPoints(Point p) {
+	double aSide = pow(_x - p._x, 2);
+	double bSide = pow(_y - p._y, 2);
 	return sqrt(aSide + bSide);
+}
+
+float Structs::Point::manhattanDistance(Point p) {
+	double xSide = abs(_x - p._x);
+	double ySide = abs(_y - p._y);
+
+	return xSide + ySide;
 }
 
 int Structs::Point::hashCode() {
@@ -128,9 +135,9 @@ float Structs::Node::getF() {
 	return _g + _h;
 }
 
-void Structs::Node::calcHGrade(Point * goal) {
+void Structs::Node::calcHGrade(Point goal) {
 	// ManhattanDistance
-	_h = _point.distanceBetweenPoints(goal);
+	_h = _point.manhattanDistance(goal);
 }
 
 Structs::Size::Size(int width, int height) {
