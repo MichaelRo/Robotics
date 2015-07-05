@@ -1,25 +1,30 @@
 /*
- * TurnRight.cpp
+ * GoForward.h
  *
- *  Created on: Jun 26, 2015
- *      Author: Itay Desalto
+ *	Created on: Jun 26, 2015
+ *      Author: Noa Even Tsur, Itay Desalto, Michael Roytman
  */
 
 #ifndef GOFORWARD_H_
 #define GOFORWARD_H_
 
-#include <iostream>
 #include "Behavior.h"
-#include "../Robot.h"
 
-class GoForward: public Behavior
-{
+#include <iostream>
+
+using namespace std;
+
+class GoForward: public Behavior {
+private:
+	static const int COMPROMISED_DISTANCE = 0.2;
+
 public:
-	GoForward(Robot* robot);
+	GoForward(Robot * robot);
+	virtual ~GoForward();
+
 	bool startCondition();
 	bool stopCondition();
 	void action();
-	virtual ~GoForward();
 };
 
 #endif

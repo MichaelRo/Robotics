@@ -42,7 +42,7 @@ public:
 	const static int * getRGBA(int color);
 	
 	static const int SCAN_SPAN = 666;
-	static const int DEGREES = 270;
+	static const int DEGREES = 240;
 	static constexpr float MINIMUM_WALL_RANGE = 0.8;
 	static constexpr float TOTAL_SCAN_SPAN = SCAN_SPAN;
 	static constexpr float HALF_SCAN_SPAN = SCAN_SPAN / 2;
