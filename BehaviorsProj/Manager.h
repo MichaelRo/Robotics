@@ -9,6 +9,7 @@
 #define MANAGER_H_
 
 #include <list>
+#include <iostream>
 
 #include "Plans/PlnObstacleAvoid.h"
 #include "Robot.h"
