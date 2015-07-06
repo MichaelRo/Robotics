@@ -36,8 +36,6 @@ public:
 	WaypointsManager(list<Structs::Point> route);
 
 	list<Structs::Point> getWaypoints();
-	bool hasNext();
-	Structs::Point getNext();
 
 	static int getDirection(Structs::Point src, Structs::Point dest);
 };
