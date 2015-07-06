@@ -318,11 +318,11 @@ void Map::padACell(Structs::Point cellPoint, Matrix * matrix, int ratio) {
 	list<Structs::Point> neighbors = getCellsNeighbors(cellPoint, matrix, ratio);
 
 	for (list<Structs::Point>::iterator neighborsIterator = neighbors.begin(); neighborsIterator != neighbors.end(); neighborsIterator++) {
-		Structs::Point neighbor = neighborsIterator.operator ->();
+		Structs::Point * neighbor = neighborsIterator.operator ->();
 
 		// Sets the neighbor as a neighbor only if it isn't already occupied
-		if (_grid->getCellValue(neighbor._x, neighbor._y) == FREE_CELL)
-			matrix->setCellValue(neighbor._x, neighbor._y, PADDING_CELL);
+		if (_grid->getCellValue(neighbor->_x, neighbor->_y) == FREE_CELL)
+			matrix->setCellValue(neighbor->_x, neighbor->_y, PADDING_CELL);
 	}
 }
 
@@ -352,9 +352,9 @@ void Map::markWayPoints(list<Structs::Point> wayPoints, float resolution) {
 */
 void Map::markCells(list<Structs::Point> points, int cellType, float resolution) {
 	for (list<Structs::Point>::iterator pointsIterator = points.begin(); pointsIterator != points.end(); ++pointsIterator) {
-		Structs::Point point = pointsIterator.operator ->();
+		Structs::Point * point = pointsIterator.operator ->();
 
-		setCellValue(point._x, point._y, cellType, resolution);
+		setCellValue(point->_x, point->_y, cellType, resolution);
 	}
 }
 
