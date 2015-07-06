@@ -149,7 +149,13 @@ float Structs::Node::getF() {
 
 void Structs::Node::calcHGrade(Point goal) {
 	// ManhattanDistance
-	_h = _point.manhattanDistance(goal);
+	//_h = _point.manhattanDistance(goal);
+	// DiagonalDistance
+	double xSide = abs(_point._x - goal._x);
+	double ySide = abs(_point._y - goal._y);
+
+
+	_h = max(xSide, ySide);
 }
 
 Structs::Size::Size() {
