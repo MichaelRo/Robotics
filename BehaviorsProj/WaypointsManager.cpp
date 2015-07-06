@@ -26,12 +26,11 @@ WaypointsManager::WaypointsManager(list<Structs::Point> route) {
 */
 void WaypointsManager::markWaypoints(list<Structs::Point> route) {
 	list<Structs::Point>::iterator routePointsIterator = route.begin();
-	Structs::Point sourcePoint = routePointsIterator.operator ->();
-	_wayPoints.push_back(sourcePoint);
+	Structs::Point * sourcePoint = routePointsIterator.operator ->();
 	std::advance(routePointsIterator, 1);
-	Structs::Point destinationPoint = routePointsIterator.operator ->();
+	Structs::Point * destinationPoint = routePointsIterator.operator ->();
 
-	int continuingDirection = getDirection(sourcePoint, destinationPoint);
+	int continuingDirection = getDirection(*sourcePoint, *destinationPoint);
 
 	// Goes through all the points in the route and checks its direction
 	while (routePointsIterator != route.end()) {
@@ -39,13 +38,13 @@ void WaypointsManager::markWaypoints(list<Structs::Point> route) {
 		std::advance(routePointsIterator, 1);
 		destinationPoint = routePointsIterator.operator ->();
 
-		int currentDirection = getDirection(sourcePoint, destinationPoint);
+		int currentDirection = getDirection(*sourcePoint, *destinationPoint);
 
 		// If the direction from one point to another has changed, this point should be marked as a waypoint
 		if (currentDirection != continuingDirection) {
 			continuingDirection = currentDirection;
 
-			_wayPoints.push_back(sourcePoint);
+			_wayPoints.push_back(*sourcePoint);
 		}
 	}
 }
@@ -57,24 +56,6 @@ void WaypointsManager::markWaypoints(list<Structs::Point> route) {
 */
 list<Structs::Point> WaypointsManager::getWaypoints() {
 	return _wayPoints;
-}
-
-/**
-	Uses the waypoints Iterator to check whether there is more waypoins or not
-
-	@return - a boolean indicates whether there is more waypoints
-*/
-bool WaypointsManager::hasNext() {
-	return _wayPointsIterator != _wayPoints.end();
-}
-
-/**
-	Uses the waypoints Iterator to get the next waypoint
-
-	@return - the next waypoint
-*/
-Structs::Point WaypointsManager::getNext() {
-	return (++_wayPointsIterator).operator ->();
 }
 
 /**
