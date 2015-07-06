@@ -19,6 +19,8 @@ Particle::Particle(float x, float y, float yaw, Map * map) {
 	_location = newLocation;
 	_map = map;
 	_belief = 1;
+
+	cout << "Particle was created at: " << _location.toString() << "." << endl;
 }
 
 Particle::Particle(Structs::Location location, Map * map) {
@@ -29,6 +31,8 @@ Particle::Particle(Structs::Location location, Map * map) {
 	_location = newLocation;
 	_map = map;
 	_belief = 1;
+
+	cout << "Particle was created at: " << _location.toString() << "." << endl;
 }
 
 float Particle::getBelief() {
@@ -40,11 +44,16 @@ Structs::Location Particle::getLocation() {
 }
 
 float Particle::update(Structs::Location destination, vector<float> laserScan) {
+	cout << "Particle " << _location.toString();
+
 	_location._x += destination._x;
 	_location._y += destination._y;
 	_location._yaw += destination._yaw;
+	_belief = calculateBelief(destination, laserScan);
 
-	return _belief = calculateBelief(destination, laserScan);
+	cout << "was updated to: " << _location.toString() << ", with belief: " << _belief << "." << endl;
+
+	return _belief;
 }
 
 float Particle::calculatePredictedBelief(Structs::Location destination) {

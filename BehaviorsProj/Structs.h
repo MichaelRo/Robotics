@@ -8,6 +8,8 @@
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
+#include "Helper.h"
+
 #include <string>
 #include <vector>
 #include <cmath>
@@ -23,10 +25,12 @@ public:
 
 		Point();
 		Point (int x, int y);
+
 		float distanceBetweenPoints(Point point);
 		float manhattanDistance(Point point);
 		float diagonalDistance(Point point);
 		int hashCode();
+		string toString();
 
 		bool operator==(const Point & point) const;
 		bool operator!=(const Point & point) const;
@@ -50,7 +54,9 @@ public:
 		Location();
 		Location(float x, float y, float yaw = 0);
 		Location(Point p, float yaw = 0);
+
 		Point pointValue();
+		string toString();
 
 		bool operator==(const Location & location);
 		bool operator!=(const Location & location);
@@ -65,6 +71,7 @@ public:
 
 		Node();
 		Node(Point p, float GGrade);
+
 		float getF();
 		void calcHGrade(Point goal);
 	};
@@ -75,6 +82,8 @@ public:
 
 		Size();
 		Size(int width, int height);
+
+		string toString();
 
 		bool operator==(const Size & size);
 		bool operator!=(const Size & size);

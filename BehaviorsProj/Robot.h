@@ -9,7 +9,7 @@
 #define ROBOT_H_
 
 #include <vector>
-
+#include <iostream>
 #include <libplayerc++/playerc++.h>
 
 #include "LocalizationManager.h"

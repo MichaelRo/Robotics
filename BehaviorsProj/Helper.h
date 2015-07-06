@@ -8,10 +8,11 @@
 #ifndef HELPER_H_
 #define HELPER_H_
 
+#include <sstream>
 #include <map>
 #include <vector>
-
 #include <cmath>
+#include <string>
 
 using namespace std;
 
@@ -56,6 +57,8 @@ public:
 
 	static int IndexToDegrees(int index);
 	static int DegreesToIndex(int degrees);
+	static string intToString(int number);
+	static string floatToString(float number);
 };
 
 #endif
