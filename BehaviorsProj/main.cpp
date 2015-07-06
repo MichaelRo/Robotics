@@ -31,7 +31,7 @@ int main (int argc, const char * argv[]){
 	Structs::Point startPoint = conf->getRobotStartLocation().pointValue();
 	Structs::Point endPoint = conf->getRobotGoalLocation().pointValue();
 
-	PathPlanner pathPlanner = PathPlanner(map, &startPoint, &endPoint);
+	PathPlanner pathPlanner = PathPlanner(map, startPoint, endPoint);
 	list<Structs::Point> route = pathPlanner.performAStar();
 	cout << "route size is: " << route.size() << endl;
 	map->markRoute(route, map->getGridResolution());
