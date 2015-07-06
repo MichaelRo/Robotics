@@ -22,14 +22,14 @@ private:
 	void markWaypoints(list<Structs::Point> route);
 
 public:
-	static const int NORTH_WEST = 1;
-	static const int NORTH = 2;
-	static const int NORTH_EAST = 3;
-	static const int EAST = 4;
-	static const int SOUTH_EAST= 5;
-	static const int SOUTH = 6;
-	static const int SOUTH_WEST = 7;
-	static const int WEST = 8;
+	static const int NORTH = 1;
+	static const int NORTH_EAST = 2;
+	static const int EAST = 3;
+	static const int SOUTH_EAST = 4;
+	static const int SOUTH= 5;
+	static const int SOUTH_WEST = 6;
+	static const int WEST = 7;
+	static const int NORTH_WEST = 8;
 	static const int NONE = 9;
 
 	WaypointsManager();

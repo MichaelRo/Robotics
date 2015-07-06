@@ -99,9 +99,21 @@ Structs::Point Structs::Point::operator *(const int & number) const {
 	return Structs::Point(_x * number, _y * number);
 }
 
+Structs::Location::Location() {
+	this->_x = 0;
+	this->_y = 0;
+	this->_yaw = 0;
+}
+
 Structs::Location::Location(float x, float y, float yaw) {
 	this->_x = x;
 	this->_y = y;
+	this->_yaw = yaw;
+}
+
+Structs::Location::Location(Point p, float yaw) {
+	this->_x = p._x;
+	this->_y = p._y;
 	this->_yaw = yaw;
 }
 
@@ -118,17 +130,17 @@ bool Structs::Location::operator !=(const Location & location) {
 }
 
 Structs::Node::Node() {
-	_parent = NULL;
 	_point = Point();
 	_g = 0;
 	_h = 0;
+	_turnFactor = 0;
 }
 
-Structs::Node::Node(Point p, Node * parent, float GGrade) {
-	_parent = parent;
+Structs::Node::Node(Point p, float GGrade) {
 	_point = p;
 	_g = GGrade;
 	_h = 0;
+	_turnFactor = 0;
 }
 
 float Structs::Node::getF() {

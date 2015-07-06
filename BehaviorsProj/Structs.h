@@ -49,6 +49,7 @@ public:
 
 		Location();
 		Location(float x, float y, float yaw = 0);
+		Location(Point p, float yaw = 0);
 		Point pointValue();
 
 		bool operator==(const Location & location);
@@ -58,12 +59,12 @@ public:
 	struct Node {
 	public :
 		Point _point;
-		Node * _parent;
 		float _g; // The cost until this search cell g(x)
 		float _h; // The expected cost to the goal h(x)
+		float _turnFactor;
 
 		Node();
-		Node(Point p, Node * parent, float GGrade);
+		Node(Point p, float GGrade);
 		float getF();
 		void calcHGrade(Point goal);
 	};
