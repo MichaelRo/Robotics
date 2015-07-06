@@ -52,3 +52,15 @@ int Helper::IndexToDegrees(int index) {
 	int relativeIndex = index - Helper::HALF_SCAN_SPAN;
 	return relativeIndex / Helper::DEGREES_INDEX_RATIO;
 }
+
+string Helper::intToString (int number) {
+	stringstream ss;
+	ss << number;
+	return ss.str();
+}
+
+string Helper::floatToString (float number) {
+	stringstream ss;
+	ss << number;
+	return ss.str();
+}

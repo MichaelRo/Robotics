@@ -52,6 +52,10 @@ int Structs::Point::hashCode() {
 	return xPart + yPart;
 }
 
+string Structs::Point::toString() {
+	return "(" + Helper::intToString(_x) + ", " + Helper::intToString(_y) + ")";
+}
+
 bool Structs::Point::operator ==(const Point & point) const {
 	return (_x == point._x) && (_y == point._y);
 }
@@ -122,6 +126,10 @@ Structs::Point Structs::Location::pointValue() {
 	return Structs::Point(_x, _y);
 }
 
+string Structs::Location::toString() {
+	return "(" + Helper::intToString((int) floor(_x)) + ", " +Helper::intToString((int) floor(_y)) + ", " + Helper::floatToString(_yaw) + ")";
+}
+
 bool Structs::Location::operator ==(const Location & location) {
 	return (_x == location._x) && (_y == location._y) && (_yaw == location._yaw);
 }
@@ -160,6 +168,10 @@ Structs::Size::Size() {
 Structs::Size::Size(int width, int height) {
 	this->_width = width;
 	this->_height = height;
+}
+
+string Structs::Size::toString() {
+	return "(" + Helper::intToString(_width) + ", " + Helper::intToString(_height) + ")";
 }
 
 bool Structs::Size::operator ==(const Size & size) {

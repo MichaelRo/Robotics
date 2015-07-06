@@ -12,6 +12,7 @@
 #define METER_TO_CM(meter)				(meter * 100)
 
 #include <cmath>
+#include <iostream>
 
 #include "Structs.h"
 #include "Map.h"
