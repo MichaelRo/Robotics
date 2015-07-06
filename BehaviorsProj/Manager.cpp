@@ -46,7 +46,7 @@ void Manager::run() {
 
 	_localizationManager = new LocalizationManager(robotStartLocation, _map);
 
-	_movementManager = new MovementManager(_robot, _waypointsManager, _localizationManager);
+	_movementManager = new MovementManager(_robot, _localizationManager, wayPoints);
 	_movementManager->start();
 }
 
