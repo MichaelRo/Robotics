@@ -27,6 +27,7 @@ WaypointsManager::WaypointsManager(list<Structs::Point> route) {
 void WaypointsManager::markWaypoints(list<Structs::Point> route) {
 	list<Structs::Point>::iterator routePointsIterator = route.begin();
 	Structs::Point sourcePoint = routePointsIterator.operator ->();
+	_wayPoints.push_back(sourcePoint);
 	std::advance(routePointsIterator, 1);
 	Structs::Point destinationPoint = routePointsIterator.operator ->();
 

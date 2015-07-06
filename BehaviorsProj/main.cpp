@@ -13,41 +13,41 @@
 #include "Manager.h"
 
 int main (int argc, const char * argv[]){
-	Robot igal("localhost",6665);
-	ConfigurationManager configurationManager("Simulation/parameters.txt");
-	Manager* manager = new Manager(&configurationManager, &igal);
-	manager->run();
+//	Robot igal("localhost",6665);
+//	ConfigurationManager configurationManager("Simulation/parameters.txt");
+//	Manager* manager = new Manager(&configurationManager, &igal);
+//	manager->run();
 
-//	ConfigurationManager* conf = new ConfigurationManager("Simulation/parameters.txt");
-//
-//	Map* map = new Map(conf);
-//
-//	map->loadMap("Simulation/roboticLabMap.png");
-//	map->saveMap("originalMapMatrix.png");
-//
-//	map->padMapObstacles(conf->getRobotSize()._height / conf->getGridResolutionCM());
-//	map->saveMap("paddedMapMatrix.png");
-//
-//	Structs::Point startPoint = conf->getRobotStartLocation().pointValue();
-//	Structs::Point endPoint = conf->getRobotGoalLocation().pointValue();
-//
-//	PathPlanner pathPlanner = PathPlanner(map, &startPoint, &endPoint);
-//	list<Structs::Point> route = pathPlanner.performAStar();
-//	cout << "route size is: " << route.size() << endl;
-//	map->markRoute(route, map->getGridResolution());
-//
-//	map->saveMap("aStarMap.png");
-//
-//	list<Structs::Point> wayPoints = WaypointsManager(route).getWaypoints();
-//	map->markWayPoints(wayPoints, map->getGridResolution());
-//
-//	map->saveMap("wayPointsMap.png");
-//
-//	Structs::Location robotStartLocation = conf->getRobotStartLocation();
-//	Structs::Location robotGoalLocation = conf->getRobotGoalLocation();
-//
-//	map->setCellValue(robotStartLocation._x, robotStartLocation._y, Map::START_LOCATION_CELL, map->getMapResolution());
-//	map->setCellValue(robotGoalLocation._x, robotGoalLocation._y, Map::GOAL_LOCATION_CELL, map->getMapResolution());
-//
-//	map->saveMap("allPointsMap.png");
+	ConfigurationManager* conf = new ConfigurationManager("Simulation/parameters.txt");
+
+	Map* map = new Map(conf);
+
+	map->loadMap("Simulation/roboticLabMap.png");
+	map->saveMap("originalMapMatrix.png");
+
+	map->padMapObstacles(conf->getRobotSize()._height / conf->getGridResolutionCM());
+	map->saveMap("paddedMapMatrix.png");
+
+	Structs::Point startPoint = conf->getRobotStartLocation().pointValue();
+	Structs::Point endPoint = conf->getRobotGoalLocation().pointValue();
+
+	PathPlanner pathPlanner = PathPlanner(map, &startPoint, &endPoint);
+	list<Structs::Point> route = pathPlanner.performAStar();
+	cout << "route size is: " << route.size() << endl;
+	map->markRoute(route, map->getGridResolution());
+
+	map->saveMap("aStarMap.png");
+
+	list<Structs::Point> wayPoints = WaypointsManager(route).getWaypoints();
+	map->markWayPoints(wayPoints, map->getGridResolution());
+
+	map->saveMap("wayPointsMap.png");
+
+	Structs::Location robotStartLocation = conf->getRobotStartLocation();
+	Structs::Location robotGoalLocation = conf->getRobotGoalLocation();
+
+	map->setCellValue(robotStartLocation._x, robotStartLocation._y, Map::START_LOCATION_CELL, map->getMapResolution());
+	map->setCellValue(robotGoalLocation._x, robotGoalLocation._y, Map::GOAL_LOCATION_CELL, map->getMapResolution());
+
+	map->saveMap("allPointsMap.png");
 }
