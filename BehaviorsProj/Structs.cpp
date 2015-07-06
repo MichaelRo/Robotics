@@ -152,6 +152,11 @@ void Structs::Node::calcHGrade(Point goal) {
 	_h = _point.manhattanDistance(goal);
 }
 
+Structs::Size::Size() {
+	this->_width = 0;
+	this->_height = 0;
+}
+
 Structs::Size::Size(int width, int height) {
 	this->_width = width;
 	this->_height = height;
