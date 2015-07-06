@@ -36,34 +36,36 @@ void Manager::run() {
 	list<Structs::Point> wayPoints = WaypointsManager(route).getWaypoints();
 	_map->markWayPoints(wayPoints, _map->getGridResolution());
 
-	Structs::Location * robotStartLocation = _configurationManager->getRobotStartLocation();
-	Structs::Location * robotGoalLocation = _configurationManager->getRobotGoalLocation();
+	Structs::Location robotStartLocation = _configurationManager->getRobotStartLocation();
+	Structs::Location robotGoalLocation = _configurationManager->getRobotGoalLocation();
 
-	_map->setCellValue(robotStartLocation->_x, robotStartLocation->_y, Map::START_LOCATION_CELL, _map->getMapResolution());
-	_map->setCellValue(robotGoalLocation->_x, robotGoalLocation->_y, Map::GOAL_LOCATION_CELL, _map->getMapResolution());
+	_map->setCellValue(robotStartLocation._x, robotStartLocation._y, Map::START_LOCATION_CELL, _map->getMapResolution());
+	_map->setCellValue(robotGoalLocation._x, robotGoalLocation._y, Map::GOAL_LOCATION_CELL, _map->getMapResolution());
 
 	_map->saveMap("allPointsMap.png");
 
-	_movementManager = new MovementManager(_robot, _waypointsManager);
+	_localizationManager = new LocalizationManager(robotStartLocation, _map);
+
+	_movementManager = new MovementManager(_robot, _waypointsManager, _localizationManager);
 	_movementManager->start();
 }
 
 Map * Manager::initializeMap() {
 	Map* map = new Map(_configurationManager);
 
-	map->loadMap("/home/colman/Documents/conf/roboticLabMap.png");
+	map->loadMap("Simulation/roboticLabMap.png");
 	map->saveMap("originalMapGrid.png");
 
-	map->padMapObstacles(_configurationManager->getRobotSize()->_height / map->getGridResolution());
+	map->padMapObstacles(_configurationManager->getRobotSize()._height / map->getGridResolution());
 	map->saveMap("paddedMapGrid.png");
 
 	return map;
 }
 
 list<Structs::Point> Manager::getRoute() {
-	Structs::Point startPoint = _configurationManager->getRobotStartLocation()->pointValue();
-	Structs::Point endPoint = _configurationManager->getRobotGoalLocation()->pointValue();
-	_pathPlanner = new PathPlanner(_map, &startPoint, &endPoint);
+	Structs::Point startPoint = _configurationManager->getRobotStartLocation().pointValue();
+	Structs::Point endPoint = _configurationManager->getRobotGoalLocation().pointValue();
+	_pathPlanner = new PathPlanner(_map, startPoint, endPoint);
 
 	return _pathPlanner->performAStar();
 }

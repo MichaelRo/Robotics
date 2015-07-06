@@ -21,18 +21,16 @@ class GoToPoint: public Behavior {
 private:
 	static const int COMPROMISED_DISTANCE = 0.2;
 
-	Structs::Location _robotLocation;
 	Structs::Point _goalPoint;
 	float _wantedYaw;
 
 	TurnInPlace * _turnInPlaceBehavior;
 	GoForward * _goForwardBehavior;
 
-    float calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint);
     bool isGoalLocationReached();
 
 public:
-	GoToPoint(Robot * robot, Structs::Point goalPoint);
+	GoToPoint(Robot * robot, Structs::Point goalPoint, float wantedYaw);
 	virtual ~GoToPoint();
 
 	bool startCondition();

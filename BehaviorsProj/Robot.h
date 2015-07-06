@@ -19,23 +19,24 @@ using namespace PlayerCc;
 using namespace std;
 
 class Robot {
-	PlayerClient*_playerClient;
-	Position2dProxy* _position;
-	LaserProxy* _laserProxy;
-	LocalizationManager* _localizationManager;
+private:
+	PlayerClient *_playerClient;
+	Position2dProxy * _position;
+	LaserProxy * _laserProxy;
+
+	vector<float> getLaserScan();
 
 public:
 	virtual ~Robot();
 	Robot(char* ip, int port);
 
-	float getLaserDistance(int index);
-	vector<float> getLaserScan();
 	Structs::Location getLocation();
-	float getX();
-	float getY();
-	float getYaw();
+	Structs::Point getPosition();
+	void setRobotLocation(Structs::Location location);
 	void setRobotPosition(Structs::Point position, float yaw);
+
 	void Read();
+	float getLaserDistance(int index);
 	void setSpeed(float xSpeed, float angularSpeed);
 };
 

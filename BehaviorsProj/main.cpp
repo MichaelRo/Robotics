@@ -14,15 +14,15 @@
 
 int main (int argc, const char * argv[]){
 //	Robot igal("localhost",6665);
-//	ConfigurationManager configurationManager("/home/colman/Documents/conf/parameters.txt");
+//	ConfigurationManager configurationManager("Simulation/parameters.txt");
 //	Manager* manager = new Manager(&configurationManager, &igal);
 //	manager->run();
 
-	ConfigurationManager* conf = new ConfigurationManager("/home/colman/Documents/conf/parameters.txt");
+	ConfigurationManager* conf = new ConfigurationManager("Simulation/parameters.txt");
 
 	Map* map = new Map(conf);
 
-	map->loadMap("/home/colman/Documents/conf/roboticLabMap.png");
+	map->loadMap("Simulation/roboticLabMap.png");
 	map->saveMap("originalMapMatrix.png");
 
 	map->padMapObstacles(conf->getRobotSize()->_height / conf->getGridResolutionCM());
