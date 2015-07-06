@@ -38,9 +38,10 @@ private:
 
 	list<Structs::Node> getNeighbors(Structs::Node *node);
 	list<Structs::Point> reconstruct_path(Structs::Point endPoint);
+	float calcDirectionFactor(Structs::Point p1, Structs::Point p2, Structs::Point p3);
 
 public:
-	PathPlanner(Map * map, Structs::Point * startPoint, Structs::Point * endPoint);
+	PathPlanner(Map * map, Structs::Point startPoint, Structs::Point endPoint);
 	virtual ~PathPlanner(void);
 
 	list<Structs::Point> performAStar();
