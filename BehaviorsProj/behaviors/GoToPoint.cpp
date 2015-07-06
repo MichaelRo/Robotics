@@ -11,10 +11,9 @@ GoToPoint::~GoToPoint() {
 
 }
 
-GoToPoint::GoToPoint(Robot * robot, Structs::Point goalPoint) : Behavior(robot) {
-	_robotLocation = robot->getLocation();
+GoToPoint::GoToPoint(Robot * robot, Structs::Point goalPoint, float wantedYaw) : Behavior(robot) {
 	_goalPoint = goalPoint;
-	_wantedYaw = calculateWantedYaw(_robotLocation.pointValue(), _goalPoint);
+	_wantedYaw = wantedYaw;
 
 	// Maybe we need to send (_wantedYaw - _robotLocation._yaw) ?
 	_turnInPlaceBehavior = new TurnInPlace(robot, _wantedYaw);
@@ -24,12 +23,8 @@ GoToPoint::GoToPoint(Robot * robot, Structs::Point goalPoint) : Behavior(robot) 
 	addNext(_goForwardBehavior);
 }
 
-float GoToPoint::calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint) {
-	return acosf((goalPoint._x - startPoint._x) * startPoint.distanceBetweenPoints(goalPoint));
-}
-
 bool GoToPoint::isGoalLocationReached() {
-	return _robotLocation.pointValue().distanceBetweenPoints(_goalPoint) <= COMPROMISED_DISTANCE;
+	return _robot->getLocation().pointValue().distanceBetweenPoints(_goalPoint) <= COMPROMISED_DISTANCE;
 }
 
 bool GoToPoint::startCondition() {

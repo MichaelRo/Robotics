@@ -21,7 +21,7 @@ bool TurnInPlace::startCondition() {
 }
 
 bool TurnInPlace::stopCondition() {
-	if (abs(_robot->getYaw() - _neededYaw) <= COMPROMISED_YAW) {
+	if (abs(_robot->getLocation()._yaw - _neededYaw) <= COMPROMISED_YAW) {
 		int freePointsCount = 0;
 
 		// Count how many of the "forward" path is clear.
@@ -40,7 +40,7 @@ bool TurnInPlace::stopCondition() {
 }
 
 void TurnInPlace::action() {
-	float angularSpeedFactor = (_robot->getYaw() > _neededYaw) ? 1 : -1;
+	float angularSpeedFactor = (_robot->getLocation()._yaw > _neededYaw) ? 1 : -1;
 	float angularSpeed = angularSpeedFactor * YAW_DELTA;
 
 	_robot->setSpeed(0.0, angularSpeed);

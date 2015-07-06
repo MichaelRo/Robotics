@@ -8,7 +8,13 @@
 #include "Robot.h"
 #include "Helper.h"
 
-Robot::Robot(char* ip, int port) {
+Robot::~Robot() {
+	delete _playerClient;
+	delete _position;
+	delete _laserProxy;
+}
+
+Robot::Robot(char * ip, int port) {
 	_playerClient = new PlayerClient(ip,port);
 	_position = new Position2dProxy(_playerClient);
 	_laserProxy = new LaserProxy(_playerClient);
@@ -19,8 +25,24 @@ Robot::Robot(char* ip, int port) {
 		Read();
 }
 
-float Robot::getLaserDistance(int index) {
-	return _laserProxy->GetRange(index);
+Structs::Location Robot::getLocation() {
+	return Structs::Location(_position->GetXPos(), _position->GetYPos(), _position->GetYaw());
+}
+
+Structs::Point Robot::getPosition() {
+	return Structs::Point(_position->GetXPos(), _position->GetYPos());
+}
+
+void Robot::setRobotPosition(Structs::Point position, float yaw) {
+	_position->SetOdometry(position._x, position._y, yaw);
+}
+
+void Robot::setSpeed(float xSpeed, float angularSpeed) {
+	_position->SetSpeed(xSpeed, angularSpeed);
+}
+
+void Robot::Read() {
+	_playerClient->Read();
 }
 
 vector<float> Robot::getLaserScan() {
@@ -33,36 +55,6 @@ vector<float> Robot::getLaserScan() {
 	return laserScan;
 }
 
-void Robot::setRobotPosition(Structs::Point position, float yaw) {
-	//_position->SetOdometry(position.x, position.y, yaw);
-}
-
-Structs::Location Robot::getLocation() {
-	return Structs::Location(getX(), getY(), getYaw());
-}
-
-float Robot::getX() {
-	return _position->GetXPos();
-}
-
-float Robot::getY() {
-	return _position->GetYPos();
-}
-
-float Robot::getYaw() {
-	return _position->GetYaw();
-}
-
-void Robot::setSpeed(float xSpeed, float angularSpeed) {
-	_position->SetSpeed(xSpeed, angularSpeed);
-}
-
-void Robot::Read() {
-	_playerClient->Read();
-}
-
-Robot::~Robot() {
-	delete _playerClient;
-	delete _position;
-	delete _laserProxy;
+float Robot::getLaserDistance(int index) {
+	return _laserProxy->GetRange(index);
 }
