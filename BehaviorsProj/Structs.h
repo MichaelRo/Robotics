@@ -23,7 +23,6 @@ public:
 
 		Point();
 		Point (int x, int y);
-		Point (Point * p);
 		float distanceBetweenPoints(Point p);
 		float manhattanDistance(Point p);
 		int hashCode();

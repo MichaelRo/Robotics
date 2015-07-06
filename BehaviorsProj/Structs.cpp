@@ -17,12 +17,6 @@ Structs::Point::Point(int x, int y) {
 	_y = y;
 }
 
-Structs::Point::Point(Point * p) {
-	_x = p->_x;
-	_y = p->_y;
-
-}
-
 float Structs::Point::distanceBetweenPoints(Point p) {
 	double aSide = pow(_x - p._x, 2);
 	double bSide = pow(_y - p._y, 2);

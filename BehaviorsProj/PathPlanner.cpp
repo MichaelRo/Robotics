@@ -86,7 +86,7 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 					if ((_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Map::FREE_CELL) &&
 						!((node->_point._x == columnsIndex) && (node->_point._y == rowsIndex))) {
 						Structs::Point neighborPoint(columnsIndex, rowsIndex);
-						Structs::Node neighbor(&neighborPoint, std::numeric_limits<float>::max());
+						Structs::Node neighbor(neighborPoint, std::numeric_limits<float>::max());
 						// handle the direction factor
 						if (node->_point != _startPoint) {
 							neighbor._turnFactor = calcDirectionFactor(_parentsMap[node->_point.hashCode()], node->_point, neighborPoint);
