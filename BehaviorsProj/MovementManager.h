@@ -23,14 +23,13 @@ private:
 	static const int COMPROMISED_DISTANCE = 0.2;
 
 	Robot * _robot;
-	WaypointsManager * _waypointsManager;
 	LocalizationManager * _localizationManager;
+	list<Structs::Point> _wayPoints;
 
 	float calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint);
-	Structs::Point getCurrentWaypoint();
 
 public:
-	MovementManager(Robot * robot, WaypointsManager * waypointsManager, LocalizationManager * localizationManager);
+	MovementManager(Robot * robot, LocalizationManager * localizationManager, list<Structs::Point> wayPoints);
 	virtual ~MovementManager();
 
 	void start();
