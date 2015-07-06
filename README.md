@@ -15,3 +15,4 @@ Todo List:
   12. Refactoring (Standardization)
   13. Debug
   14. Add notes to all class files
+  15. A STAR GRADING FIX - handle turns factor - implement a method in node.cpp that calculates the grade by his parent           direction.
