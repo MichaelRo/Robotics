@@ -1,4 +1,7 @@
 # Robotics
+This code is developed for the legendary Robot Igal
+https://youtu.be/iGOmnC24BvE
+
 Todo List:
   1. Finish A* - DONE
   2. Keep non-padded map for laserScan check - DONE
