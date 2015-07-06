@@ -16,7 +16,7 @@ Particle::Particle(float x, float y, float yaw, Map * map) {
 	Structs::Location newLocation(x + deltaLocation._x,
 								  y + deltaLocation._y,
 								  yaw + deltaLocation._yaw);
-	_location = &newLocation;
+	_location = newLocation;
 	_map = map;
 	_belief = 1;
 }
@@ -26,7 +26,7 @@ Particle::Particle(Structs::Location location, Map * map) {
 	Structs::Location newLocation(location._x + deltaLocation._x,
 								  location._y + deltaLocation._y,
 								  location._yaw + deltaLocation._yaw);
-	_location = &newLocation;
+	_location = newLocation;
 	_map = map;
 	_belief = 1;
 }

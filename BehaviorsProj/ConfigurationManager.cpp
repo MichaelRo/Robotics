@@ -13,9 +13,6 @@ ConfigurationManager::~ConfigurationManager() {
 
 ConfigurationManager::ConfigurationManager(string configurationFilePath) {
 	_mapFilePath = "";
-	_robotStartLocation = Structs::Location(0, 0, 0);
-	_robotGoalLocation = Structs::Location(0, 0, 0);
-	_robotSize = Structs::Size(0, 0);
 	_mapResolutionCM = 0;
 	_gridResolutionCM = 0;
 
@@ -49,9 +46,11 @@ Structs::Location ConfigurationManager::getRobotStartLocation() {
 void ConfigurationManager::setRobotStartLocation(string startLocation) {
 	vector<string> LocationVector = splitString(startLocation, ' ');
 
-	_robotStartLocation._x = atoi(LocationVector[0].c_str());
-	_robotStartLocation._y = atoi(LocationVector[1].c_str());
-	_robotStartLocation._yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
+	int x = atoi(LocationVector[0].c_str());
+	int y = atoi(LocationVector[1].c_str());
+	float yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
+
+	_robotStartLocation = Structs::Location(x, y, yaw);
 }
 
 Structs::Location ConfigurationManager::getRobotGoalLocation() {
@@ -61,9 +60,11 @@ Structs::Location ConfigurationManager::getRobotGoalLocation() {
 void ConfigurationManager::setRobotGoalLocation(string goalLocation) {
 	vector<string> LocationVector = splitString(goalLocation, ' ');
 
-	_robotGoalLocation._x = atoi(LocationVector[0].c_str());
-	_robotGoalLocation._y = atoi(LocationVector[1].c_str());
-	_robotGoalLocation._yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
+	int x = atoi(LocationVector[0].c_str());
+	int y = atoi(LocationVector[1].c_str());
+	float yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
+
+	_robotGoalLocation = Structs::Location(x, y, yaw);
 }
 
 Structs::Size ConfigurationManager::getRobotSize() {
@@ -73,8 +74,10 @@ Structs::Size ConfigurationManager::getRobotSize() {
 void ConfigurationManager::setRobotSize(string size) {
 	vector<string> SizeVector = splitString(size, ' ');
 
-	_robotSize._width = atoi(SizeVector[0].c_str());
-	_robotSize._height = atoi(SizeVector[1].c_str());
+	int width = atoi(SizeVector[0].c_str());
+	int height = atoi(SizeVector[1].c_str());
+
+	_robotSize = Structs::Size(width, height);
 }
 
 float ConfigurationManager::getMapResolutionCM() {

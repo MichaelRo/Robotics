@@ -24,8 +24,6 @@ private:
 	Position2dProxy * _position;
 	LaserProxy * _laserProxy;
 
-	vector<float> getLaserScan();
-
 public:
 	virtual ~Robot();
 	Robot(char* ip, int port);
@@ -35,9 +33,10 @@ public:
 	void setRobotLocation(Structs::Location location);
 	void setRobotPosition(Structs::Point position, float yaw);
 
-	void Read();
-	float getLaserDistance(int index);
 	void setSpeed(float xSpeed, float angularSpeed);
+	void Read();
+	vector<float> getLaserScan();
+	float getLaserDistance(int index);
 };
 
 #endif
