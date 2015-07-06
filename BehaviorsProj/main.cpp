@@ -25,11 +25,11 @@ int main (int argc, const char * argv[]){
 	map->loadMap("Simulation/roboticLabMap.png");
 	map->saveMap("originalMapMatrix.png");
 
-	map->padMapObstacles(conf->getRobotSize()->_height / conf->getGridResolutionCM());
+	map->padMapObstacles(conf->getRobotSize()._height / conf->getGridResolutionCM());
 	map->saveMap("paddedMapMatrix.png");
 
-	Structs::Point startPoint = conf->getRobotStartLocation()->pointValue();
-	Structs::Point endPoint = conf->getRobotGoalLocation()->pointValue();
+	Structs::Point startPoint = conf->getRobotStartLocation().pointValue();
+	Structs::Point endPoint = conf->getRobotGoalLocation().pointValue();
 
 	PathPlanner pathPlanner = PathPlanner(map, &startPoint, &endPoint);
 	list<Structs::Point> route = pathPlanner.performAStar();
@@ -43,11 +43,11 @@ int main (int argc, const char * argv[]){
 
 	map->saveMap("wayPointsMap.png");
 
-	Structs::Location * robotStartLocation = conf->getRobotStartLocation();
-	Structs::Location * robotGoalLocation = conf->getRobotGoalLocation();
+	Structs::Location robotStartLocation = conf->getRobotStartLocation();
+	Structs::Location robotGoalLocation = conf->getRobotGoalLocation();
 
-	map->setCellValue(robotStartLocation->_x, robotStartLocation->_y, Map::START_LOCATION_CELL, map->getMapResolution());
-	map->setCellValue(robotGoalLocation->_x, robotGoalLocation->_y, Map::GOAL_LOCATION_CELL, map->getMapResolution());
+	map->setCellValue(robotStartLocation._x, robotStartLocation._y, Map::START_LOCATION_CELL, map->getMapResolution());
+	map->setCellValue(robotGoalLocation._x, robotGoalLocation._y, Map::GOAL_LOCATION_CELL, map->getMapResolution());
 
 	map->saveMap("allPointsMap.png");
 }

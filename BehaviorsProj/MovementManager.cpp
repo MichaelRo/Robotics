@@ -41,7 +41,8 @@ void MovementManager::start() {
 				while (!goToPointBehavior->stopCondition()) {
 					goToPointBehavior->action();
 
-					_localizationManager->updateParticles(Location(currentWayPoint, wantedYaw), _robot->getLaserScan());
+					Structs::Location wantedLocation(currentWayPoint, wantedYaw);
+					_localizationManager->updateParticles(wantedLocation, _robot->getLaserScan());
 					_robot->setRobotLocation(_localizationManager->getProbableLocation());
 				}
 			}
