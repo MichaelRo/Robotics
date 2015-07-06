@@ -140,7 +140,8 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
 Structs::Location Particle::getRandomDeltaLocation() {
 	int x = (rand() % (int) floor(_map->getWidth() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
 	int y = (rand() % (int) floor(_map->getHeight() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
-	int yaw = (rand() % (int) floor(DEGREES_TO_RADIANS(360) * MAX_PARTICLES_RELATIVE_YAW_CREATION));
+	// floor? how prevent this from returning zero?
+	int yaw = (rand() % (int) ceil(DEGREES_TO_RADIANS(360) * MAX_PARTICLES_RELATIVE_YAW_CREATION));
 
 	Structs::Location randomLocation = Structs::Location(x, y, yaw);
 
