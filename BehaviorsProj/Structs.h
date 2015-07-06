@@ -23,8 +23,9 @@ public:
 
 		Point();
 		Point (int x, int y);
-		float distanceBetweenPoints(Point p);
-		float manhattanDistance(Point p);
+		float distanceBetweenPoints(Point point);
+		float manhattanDistance(Point point);
+		float diagonalDistance(Point point);
 		int hashCode();
 
 		bool operator==(const Point & point) const;

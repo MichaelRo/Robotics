@@ -17,17 +17,24 @@ Structs::Point::Point(int x, int y) {
 	_y = y;
 }
 
-float Structs::Point::distanceBetweenPoints(Point p) {
-	double aSide = pow(_x - p._x, 2);
-	double bSide = pow(_y - p._y, 2);
+float Structs::Point::distanceBetweenPoints(Point point) {
+	double aSide = pow(_x - point._x, 2);
+	double bSide = pow(_y - point._y, 2);
 	return sqrt(aSide + bSide);
 }
 
-float Structs::Point::manhattanDistance(Point p) {
-	double xSide = abs(_x - p._x);
-	double ySide = abs(_y - p._y);
+float Structs::Point::manhattanDistance(Point point) {
+	double xSide = abs(_x - point._x);
+	double ySide = abs(_y - point._y);
 
 	return xSide + ySide;
+}
+
+float Structs::Point::diagonalDistance(Point point) {
+	double xSide = abs(_x - point._x);
+	double ySide = abs(_y - point._y);
+
+	return max(xSide, ySide);
 }
 
 int Structs::Point::hashCode() {
@@ -142,14 +149,7 @@ float Structs::Node::getF() {
 }
 
 void Structs::Node::calcHGrade(Point goal) {
-	// ManhattanDistance
-	//_h = _point.manhattanDistance(goal);
-	// DiagonalDistance
-	double xSide = abs(_point._x - goal._x);
-	double ySide = abs(_point._y - goal._y);
-
-
-	_h = max(xSide, ySide);
+	_h = _point.diagonalDistance(goal);
 }
 
 Structs::Size::Size() {

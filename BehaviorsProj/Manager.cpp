@@ -32,9 +32,11 @@ void Manager::run() {
 
 	list<Structs::Point> route = getRoute();
 	_map->markRoute(route, _map->getGridResolution());
+	cout << "The route size is: " << route.size() << ", ";
 
 	list<Structs::Point> wayPoints = WaypointsManager(route).getWaypoints();
 	_map->markWayPoints(wayPoints, _map->getGridResolution());
+	cout << wayPoints.size() << " of these are waypoints." << endl;
 
 	Structs::Location robotStartLocation = _configurationManager->getRobotStartLocation();
 	Structs::Location robotGoalLocation = _configurationManager->getRobotGoalLocation();
