@@ -7,6 +7,8 @@
 
 #include "Particle.h"
 
+int Particle::PARTICLE_ID_SEQUENCE = 0;
+
 Particle::~Particle() {
 
 }
@@ -19,6 +21,7 @@ Particle::Particle(float x, float y, float yaw, Map * map) {
 								  y + deltaLocation._y,
 								  yaw + deltaLocation._yaw);
 	_location = newLocation;
+	_id = PARTICLE_ID_SEQUENCE++;
 
 	cout << "Particle was created at: " << _location.toString() << "." << endl;
 }
@@ -29,8 +32,13 @@ Particle::Particle(Structs::Location location, Map * map) {
 	Structs::Location deltaLocation = getRandomDeltaLocation();
 	Structs::Location newLocation = location + deltaLocation;
 	_location = newLocation;
+	_id = PARTICLE_ID_SEQUENCE++;
 
 	cout << "Particle was created at: " << _location.toString() << "." << endl;
+}
+
+bool Particle::operator ==(const Particle & particle) const {
+	return _id == particle._id;
 }
 
 float Particle::getBelief() {
@@ -93,9 +101,9 @@ float Particle::checkObservationModel(vector<float> laserScan) {
 	return expectedObsticlesDetected / laserScan.size();
 }
 
-vector<Particle> Particle::createDescendantParticles(int amount) {
+list<Particle> Particle::createDescendantParticles(int amount) {
 	// The LocaliztionManager should create descendants, it should give a random location / delta destination as well
-	vector<Particle> descendantParticles = vector<Particle>();
+	list<Particle> descendantParticles = list<Particle>();
 
 	for (int index = 0; index < amount; index++) {
 		descendantParticles.push_back(Particle(_location, _map));

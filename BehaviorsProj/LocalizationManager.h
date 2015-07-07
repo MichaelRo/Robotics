@@ -9,6 +9,7 @@
 #define LOCALIZATIONMANAGER_H_
 
 #include <list>
+#include <iostream>
 
 #include "Map.h"
 #include "Particle.h"
@@ -19,7 +20,7 @@ using namespace std;
 class LocalizationManager {
 private:
 	static const int PARTICLES_AMOUNT = 100;
-	static const int BELIEF_THRESHOLD = 0.6; // 0.6 / 0.25
+	static constexpr float BELIEF_THRESHOLD = 0.6; // 0.6 / 0.25
 //	static const int STANDARD = 0.7 - maybe we need a high threshold
 
 	list<Particle> _particles;
