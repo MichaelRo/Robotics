@@ -132,11 +132,11 @@ float PathPlanner::calcDirectionFactor(Structs::Point p1, Structs::Point p2, Str
 		case 1: case 7:
 			return 0.2;
 		case 2: case 6:
-		   return 2;
+		   return 0.8;
 		case 3: case 5:
-			return 20;
+			return 100;
 		case 4:
-			return 24;
+			return 100;
 		default:
 			return 0;
     }
