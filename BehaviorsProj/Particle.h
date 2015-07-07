@@ -23,12 +23,15 @@ using namespace std;
 
 class Particle {
 private:
+	int _id;
 	Structs::Location _location;
 	Map* _map;
 	float _belief;
 
 	bool isObsticleDetectedAsExpected(float laserScan, int laserDegree);
 	Structs::Location getRandomDeltaLocation();
+
+	static int PARTICLE_ID_SEQUENCE;
 
 public:
 	static constexpr float NORMALIZATION_FACTOR = 1.2;
@@ -43,6 +46,8 @@ public:
 	Particle(Structs::Location location, Map* map);
 	virtual ~Particle();
 
+	bool operator==(const Particle & particle) const;
+
 	float getBelief();
 	Structs::Location getLocation();
 
@@ -51,7 +56,7 @@ public:
 	float calculateBelief(Structs::Location destination, vector<float> laserScan);
 	float calculateMotionModelProbability(Structs::Location destination);
 	float checkObservationModel(vector<float> laserScan);
-	vector<Particle> createDescendantParticles(int amount);
+	list<Particle> createDescendantParticles(int amount);
 
 	static float getDistance(Structs::Location destination);
 };
