@@ -21,3 +21,4 @@ Todo List:
   15. A STAR GRADING FIX - handle turns factor - implement a method in node.cpp that calculates the grade by his parent           direction. - DONE
   16. Fix the A* calculation. Manhatten has 3 less waypoints and the route seems weird
   17. Check why the random particle delta does not generates a number by its upper-bound
+  18. Fix the stop condition of turnInPlace
