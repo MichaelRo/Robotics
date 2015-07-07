@@ -104,6 +104,11 @@ Structs::Point Structs::Point::operator *(const int & number) const {
 	return Structs::Point(_x * number, _y * number);
 }
 
+void Structs::Point::operator =(const Structs::Point & point) {
+	_x = point._x;
+	_y = point._y;
+}
+
 Structs::Location::Location() {
 	this->_x = 0;
 	this->_y = 0;
@@ -130,12 +135,22 @@ string Structs::Location::toString() {
 	return "(" + Helper::intToString((int) floor(_x)) + ", " +Helper::intToString((int) floor(_y)) + ", " + Helper::floatToString(_yaw) + ")";
 }
 
-bool Structs::Location::operator ==(const Location & location) {
+bool Structs::Location::operator ==(const Location & location) const {
 	return (_x == location._x) && (_y == location._y) && (_yaw == location._yaw);
 }
 
-bool Structs::Location::operator !=(const Location & location) {
+bool Structs::Location::operator !=(const Location & location) const {
 	return (_x != location._x) || (_y != location._y) || (_yaw != location._yaw);
+}
+
+Structs::Location Structs::Location::operator +(const Location & location) const {
+	return Location(_x + location._x, _y + location._y, _yaw + location._yaw);
+}
+
+void Structs::Location::operator =(const Location & location) {
+	_x = location._x;
+	_y = location._y;
+	_yaw = location._yaw;
 }
 
 Structs::Node::Node() {
@@ -174,12 +189,21 @@ string Structs::Size::toString() {
 	return "(" + Helper::intToString(_width) + ", " + Helper::intToString(_height) + ")";
 }
 
-bool Structs::Size::operator ==(const Size & size) {
+bool Structs::Size::operator ==(const Size & size) const {
 	return (_width == size._width) && (_height == size._height);
 }
 
-bool Structs::Size::operator !=(const Size & size) {
+bool Structs::Size::operator !=(const Size & size) const {
 	return (_width != size._width) || (_height != size._height);
+}
+
+Structs::Size Structs::Size::operator +(const Size & size) const {
+	return Size(_width + size._width, _height + size._height);
+}
+
+void Structs::Size::operator =(const Size & size) {
+	_width = size._width;
+	_height = size._height;
 }
 
 Structs::ConfigurationProperty::ConfigurationProperty(string token, string value) {
