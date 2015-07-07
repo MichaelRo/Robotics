@@ -13,22 +13,22 @@ Particle::~Particle() {
 
 Particle::Particle(float x, float y, float yaw, Map * map) {
 	_map = map;
+	_belief = 1;
 	Structs::Location deltaLocation = getRandomDeltaLocation();
 	Structs::Location newLocation(x + deltaLocation._x,
 								  y + deltaLocation._y,
 								  yaw + deltaLocation._yaw);
 	_location = newLocation;
-	_belief = 1;
 
 	cout << "Particle was created at: " << _location.toString() << "." << endl;
 }
 
 Particle::Particle(Structs::Location location, Map * map) {
 	_map = map;
+	_belief = 1;
 	Structs::Location deltaLocation = getRandomDeltaLocation();
 	Structs::Location newLocation = location + deltaLocation;
 	_location = newLocation;
-	_belief = 1;
 
 	cout << "Particle was created at: " << _location.toString() << "." << endl;
 }
