@@ -25,7 +25,7 @@ Robot::Robot(char * ip, int port) {
 }
 
 Structs::Location Robot::getLocation() {
-	return Structs::Location(_position->GetXPos(), _position->GetYPos(), _position->GetYaw());
+	return Structs::Location(_position->GetXPos(), _position->GetYPos(), (_position->GetYaw() * 180) / M_PI);
 }
 
 Structs::Point Robot::getPosition() {
@@ -33,7 +33,7 @@ Structs::Point Robot::getPosition() {
 }
 
 void Robot::setRobotLocation(Structs::Location location) {
-	_position->SetOdometry(location._x, location._y, location._yaw);
+	_position->SetOdometry(location._x, location._y, (location._yaw * M_PI) / 180);
 
 	cout << "Robot position: " << location.toString() << endl;
 }
