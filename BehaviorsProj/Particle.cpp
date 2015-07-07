@@ -144,7 +144,6 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 }
 
 Structs::Location Particle::getRandomDeltaLocation() {
-	srand(time(NULL));
 
 	int xBoundary = floor(_map->getWidth() * MAX_PARTICLES_RELATIVE_RATIO_CREATION);
 	int yBoundary = floor(_map->getHeight() * MAX_PARTICLES_RELATIVE_RATIO_CREATION);

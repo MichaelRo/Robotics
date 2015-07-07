@@ -13,6 +13,7 @@ LocalizationManager::~LocalizationManager() {
 
 LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * map) {
 	_map = map;
+	srand(time(NULL));
 	_particles.push_front(*(new Particle(startLocation, map)));
 }
 

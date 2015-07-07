@@ -25,21 +25,23 @@ Robot::Robot(char * ip, int port) {
 }
 
 Structs::Location Robot::getLocation() {
-	return Structs::Location(_position->GetXPos(), _position->GetYPos(), (_position->GetYaw() * 180) / M_PI);
+	// need to move the convertions from deg to rad and from cm to m to HELPER
+	return Structs::Location((_position->GetXPos() * 100) / 2.5, (_position->GetYPos() * 100) / 2.5, (_position->GetYaw() * 180) / M_PI);
 }
 
 Structs::Point Robot::getPosition() {
-	return Structs::Point(_position->GetXPos(), _position->GetYPos());
+	return Structs::Point((_position->GetXPos() * 100) / 2.5, (_position->GetYPos() * 100) / 2.5);
 }
 
 void Robot::setRobotLocation(Structs::Location location) {
-	_position->SetOdometry(location._x, location._y, (location._yaw * M_PI) / 180);
+	// need to move the convertions from deg to rad and from cm to m to HELPER
+	_position->SetOdometry((location._x * 2.5) / 100, (location._y * 2.5) / 100, (location._yaw * M_PI) / 180);
 
 	cout << "Robot position: " << location.toString() << endl;
 }
 
 void Robot::setRobotPosition(Structs::Point position, float yaw) {
-	_position->SetOdometry(position._x, position._y, yaw);
+	_position->SetOdometry((position._x * 2.5) / 100, (position._y * 2.5) / 100, (yaw * M_PI) / 180);
 }
 
 void Robot::setSpeed(float xSpeed, float angularSpeed) {
