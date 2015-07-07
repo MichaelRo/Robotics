@@ -8,13 +8,11 @@
 #include "Manager.h"
 
 Manager::~Manager() {
-	delete _robot;
-	delete _configurationManager;
-	delete _map;
-	delete _pathPlanner;
-	delete _waypointsManager;
-	delete _localizationManager;
 	delete _movementManager;
+	delete _localizationManager;
+	delete _waypointsManager;
+	delete _pathPlanner;
+	delete _map;
 }
 
 Manager::Manager(ConfigurationManager* configurationManager, Robot* robot) {
@@ -45,6 +43,8 @@ void Manager::run() {
 	_map->setCellValue(robotGoalLocation._x, robotGoalLocation._y, Map::GOAL_LOCATION_CELL, _map->getMapResolution());
 
 	_map->saveMap("allPointsMap.png");
+
+	_robot->setRobotLocation(robotStartLocation);
 
 	_localizationManager = new LocalizationManager(robotStartLocation, _map);
 

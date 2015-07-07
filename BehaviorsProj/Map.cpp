@@ -11,7 +11,6 @@
 	Destructs the map
 */
 Map::~Map() {
-	delete _configurationManager;
 	delete _grid;
 }
 

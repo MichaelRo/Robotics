@@ -9,11 +9,14 @@
 
 #include "Structs.h"
 
+using namespace std;
+
 class AStarPriority {
 public:
-	bool operator() (Structs::Node first, Structs::Node second) const;
 	AStarPriority();
 	virtual ~AStarPriority();
+
+	bool operator() (Structs::Node first, Structs::Node second) const;
 };
 
 #endif

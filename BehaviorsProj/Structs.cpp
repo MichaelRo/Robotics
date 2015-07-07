@@ -147,6 +147,10 @@ Structs::Location Structs::Location::operator +(const Location & location) const
 	return Location(_x + location._x, _y + location._y, _yaw + location._yaw);
 }
 
+Structs::Location Structs::Location::operator -(const Location & location) const {
+	return Location(_x - location._x, _y - location._y, _yaw - location._yaw);
+}
+
 void Structs::Location::operator =(const Location & location) {
 	_x = location._x;
 	_y = location._y;
@@ -199,6 +203,10 @@ bool Structs::Size::operator !=(const Size & size) const {
 
 Structs::Size Structs::Size::operator +(const Size & size) const {
 	return Size(_width + size._width, _height + size._height);
+}
+
+Structs::Size Structs::Size::operator -(const Size & size) const {
+	return Size(_width - size._width, _height - size._height);
 }
 
 void Structs::Size::operator =(const Size & size) {

@@ -8,7 +8,7 @@
 #include "Particle.h"
 
 Particle::~Particle() {
-	delete _map;
+
 }
 
 Particle::Particle(float x, float y, float yaw, Map * map) {
@@ -81,12 +81,12 @@ float Particle::calculateMotionModelProbability(Structs::Location destination) {
 float Particle::checkObservationModel(vector<float> laserScan) {
 	int expectedObsticlesDetected;
 
-	for (int laserIndex = 0; laserIndex < Helper::TOTAL_SCAN_SPAN; laserIndex++) {
-		float currentLaserScan = laserScan[laserIndex];
+	for (int laserDegree = 0; laserDegree < Helper::DEGREES; laserDegree++) {
+		float currentLaserScan = laserScan[laserDegree];
 
 		expectedObsticlesDetected = 0;
 
-		if (isObsticleDetectedAsExpected(currentLaserScan, laserIndex))
+		if (isObsticleDetectedAsExpected(currentLaserScan, laserDegree))
 			expectedObsticlesDetected++;
 	}
 
@@ -95,7 +95,6 @@ float Particle::checkObservationModel(vector<float> laserScan) {
 
 vector<Particle> Particle::createDescendantParticles(int amount) {
 	// The LocaliztionManager should create descendants, it should give a random location / delta destination as well
-
 	vector<Particle> descendantParticles = vector<Particle>();
 
 	for (int index = 0; index < amount; index++) {
@@ -109,15 +108,15 @@ float Particle::getDistance(Structs::Location destination) {
 	return sqrt((destination._x * destination._x) + (destination._y * destination._y));
 }
 
-bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
+bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	int correctDetectionsNumber = 0;
 	int falseDetectionsNumber = 0;
 
 	if (laserScan < LASER_MAX_RANGE) {
 		for (int j = Helper::SENSOR_FROM_END; j <= Helper::SENSOR_DETECTION_RANGE; j +=  Helper::CELL_DIMENSION) {
-			Structs::Location detectedLocationInMap(_location._yaw + DEGREES_TO_RADIANS(Helper::IndexToDegrees(laserIndex)),
-													_location._x + (cos(detectedLocationInMap._yaw) * j),
-													_location._y + (sin(detectedLocationInMap._yaw) * j));
+			Structs::Location detectedLocationInMap(_location._x + (cos(detectedLocationInMap._yaw) * j),
+													_location._y + (sin(detectedLocationInMap._yaw) * j),
+													_location._yaw + DEGREES_TO_RADIANS(laserDegree));
 
 			int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y, _map->getMapResolution());
 
@@ -128,7 +127,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
 			}
 		}
 	} else {
-		Structs::Location detectedLocationInMap(_location._yaw + DEGREES_TO_RADIANS(Helper::IndexToDegrees(laserIndex)),
+		Structs::Location detectedLocationInMap(_location._yaw + DEGREES_TO_RADIANS(laserDegree),
 												_location._x + (cos(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)),
 												_location._y + (sin(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)));
 
@@ -145,14 +144,12 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
 }
 
 Structs::Location Particle::getRandomDeltaLocation() {
-//	int x = (rand() % (int) floor(_map->getWidth() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
-//	int y = (rand() % (int) floor(_map->getHeight() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
-//	// floor? how prevent this from returning zero?
-//	int yaw = (rand() % (int) ceil(DEGREES_TO_RADIANS(360) * MAX_PARTICLES_RELATIVE_YAW_CREATION));
-//
-//	Structs::Location randomLocation = Structs::Location(x, y, yaw);
+	srand(time(0));
+	int x = (rand() % (int) floor(_map->getWidth() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
+	int y = (rand() % (int) floor(_map->getHeight() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
+	double yaw = ((double) rand() / (RAND_MAX));
 
-	Structs::Location randomLocation = Structs::Location(2, 3, 1);
+	Structs::Location randomLocation = Structs::Location(x, y, yaw);
 
 	return randomLocation;
 }

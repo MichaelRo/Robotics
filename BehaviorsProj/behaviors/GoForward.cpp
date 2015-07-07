@@ -6,13 +6,12 @@
  */
 
 #include "GoForward.h"
-#include "../Helper.h"
 
 GoForward::~GoForward() {
 
 }
 
-GoForward::GoForward(Robot * robot) : Behavior(robot) {
+GoForward::GoForward(Robot * robot, LocalizationManager * localizationManager) : Behavior(robot, localizationManager) {
 
 }
 
@@ -30,6 +29,7 @@ bool GoForward::stopCondition() {
 	return false;
 }
 
-void GoForward::action() {
+void GoForward::behave() {
 	_robot->setSpeed(0.7, 0.0);
+	_robot->setSpeed(0, 0);
 }

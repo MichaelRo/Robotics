@@ -8,8 +8,7 @@
 #include "MovementManager.h"
 
 MovementManager::~MovementManager() {
-	delete _robot;
-	delete _localizationManager;
+
 }
 
 MovementManager::MovementManager(Robot * robot, LocalizationManager * localizationManager, list<Structs::Point> wayPoints) {
@@ -19,7 +18,7 @@ MovementManager::MovementManager(Robot * robot, LocalizationManager * localizati
 }
 
 float MovementManager::calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint) {
-	return acosf((goalPoint._x - startPoint._x) * startPoint.distanceBetweenPoints(goalPoint));
+	return acos(abs(goalPoint._x - startPoint._x) / startPoint.distanceBetweenPoints(goalPoint));
 }
 
 void MovementManager::start() {
@@ -31,15 +30,11 @@ void MovementManager::start() {
 		GoToPoint * goToPointBehavior;
 
 		while (_robot->getLocation().pointValue().distanceBetweenPoints(*currentWayPoint) > COMPROMISED_DISTANCE) {
-			goToPointBehavior = new GoToPoint(_robot, *currentWayPoint, wantedYaw);
+			goToPointBehavior = new GoToPoint(_robot, _localizationManager, *currentWayPoint, wantedYaw);
 
 			if (goToPointBehavior->startCondition()) {
 				while (!goToPointBehavior->stopCondition()) {
 					goToPointBehavior->action();
-
-					Structs::Location wantedLocation(*currentWayPoint, wantedYaw);
-					_localizationManager->updateParticles(wantedLocation, _robot->getLaserScan());
-					_robot->setRobotLocation(_localizationManager->getProbableLocation());
 				}
 			}
 		}

@@ -13,6 +13,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <stdlib.h>
 
 #include "Structs.h"
 #include "Map.h"
@@ -26,7 +27,7 @@ private:
 	Map* _map;
 	float _belief;
 
-	bool isObsticleDetectedAsExpected(float laserScan, int laserIndex);
+	bool isObsticleDetectedAsExpected(float laserScan, int laserDegree);
 	Structs::Location getRandomDeltaLocation();
 
 public:

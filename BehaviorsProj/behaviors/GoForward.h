@@ -9,6 +9,7 @@
 #define GOFORWARD_H_
 
 #include "Behavior.h"
+#include "../Helper.h"
 
 #include <iostream>
 
@@ -19,12 +20,12 @@ private:
 	static const int COMPROMISED_DISTANCE = 0.2;
 
 public:
-	GoForward(Robot * robot);
+	GoForward(Robot * robot, LocalizationManager * localizationManager);
 	virtual ~GoForward();
 
 	bool startCondition();
 	bool stopCondition();
-	void action();
+	void behave();
 };
 
 #endif
