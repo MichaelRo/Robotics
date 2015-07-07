@@ -19,7 +19,7 @@ using namespace std;
 class TurnInPlace: public Behavior {
 private:
 	static const int COMPROMISED_YAW = 0.1;
-	static constexpr float YAW_DELTA = 0.08;
+	static constexpr float YAW_DELTA = 0.1;
 
 	float _neededYaw;
 
