@@ -22,3 +22,4 @@ Todo List:
   16. Fix the A* calculation. Manhatten has 3 less waypoints and the route seems weird
   17. Check why the random particle delta does not generates a number by its upper-bound
   18. Fix the stop condition of turnInPlace
+  19. Add the start point yaw to the A* calculation (as the first direction)
