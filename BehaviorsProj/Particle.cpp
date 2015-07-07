@@ -25,9 +25,7 @@ Particle::Particle(float x, float y, float yaw, Map * map) {
 
 Particle::Particle(Structs::Location location, Map * map) {
 	Structs::Location deltaLocation = getRandomDeltaLocation();
-	Structs::Location newLocation(location._x + deltaLocation._x,
-								  location._y + deltaLocation._y,
-								  location._yaw + deltaLocation._yaw);
+	Structs::Location newLocation = location + deltaLocation;
 	_location = newLocation;
 	_map = map;
 	_belief = 1;
@@ -147,12 +145,14 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserIndex) {
 }
 
 Structs::Location Particle::getRandomDeltaLocation() {
-	int x = (rand() % (int) floor(_map->getWidth() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
-	int y = (rand() % (int) floor(_map->getHeight() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
-	// floor? how prevent this from returning zero?
-	int yaw = (rand() % (int) ceil(DEGREES_TO_RADIANS(360) * MAX_PARTICLES_RELATIVE_YAW_CREATION));
+//	int x = (rand() % (int) floor(_map->getWidth() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
+//	int y = (rand() % (int) floor(_map->getHeight() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
+//	// floor? how prevent this from returning zero?
+//	int yaw = (rand() % (int) ceil(DEGREES_TO_RADIANS(360) * MAX_PARTICLES_RELATIVE_YAW_CREATION));
+//
+//	Structs::Location randomLocation = Structs::Location(x, y, yaw);
 
-	Structs::Location randomLocation = Structs::Location(x, y, yaw);
+	Structs::Location randomLocation = Structs::Location(2, 3, 1);
 
 	return randomLocation;
 }

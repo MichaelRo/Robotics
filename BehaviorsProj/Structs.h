@@ -44,6 +44,7 @@ public:
 		Point operator-(const int & number) const;
 		Point operator/(const int & number) const;
 		Point operator*(const int & number) const;
+		void operator=(const Point & point);
 	};
 
 	struct Location{
@@ -58,8 +59,10 @@ public:
 		Point pointValue();
 		string toString();
 
-		bool operator==(const Location & location);
-		bool operator!=(const Location & location);
+		bool operator==(const Location & location) const;
+		bool operator!=(const Location & location) const;
+		Location operator+(const Location & location) const;
+		void operator=(const Location & location);
 	};
 
 	struct Node {
@@ -85,8 +88,10 @@ public:
 
 		string toString();
 
-		bool operator==(const Size & size);
-		bool operator!=(const Size & size);
+		bool operator==(const Size & size) const;
+		bool operator!=(const Size & size) const;
+		Size operator+(const Size & size) const;
+		void operator=(const Size & size);
 	};
 
 	struct ConfigurationProperty {
