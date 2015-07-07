@@ -12,22 +12,22 @@ Particle::~Particle() {
 }
 
 Particle::Particle(float x, float y, float yaw, Map * map) {
+	_map = map;
 	Structs::Location deltaLocation = getRandomDeltaLocation();
 	Structs::Location newLocation(x + deltaLocation._x,
 								  y + deltaLocation._y,
 								  yaw + deltaLocation._yaw);
 	_location = newLocation;
-	_map = map;
 	_belief = 1;
 
 	cout << "Particle was created at: " << _location.toString() << "." << endl;
 }
 
 Particle::Particle(Structs::Location location, Map * map) {
+	_map = map;
 	Structs::Location deltaLocation = getRandomDeltaLocation();
 	Structs::Location newLocation = location + deltaLocation;
 	_location = newLocation;
-	_map = map;
 	_belief = 1;
 
 	cout << "Particle was created at: " << _location.toString() << "." << endl;
@@ -144,10 +144,16 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 }
 
 Structs::Location Particle::getRandomDeltaLocation() {
-	srand(time(0));
-	int x = (rand() % (int) floor(_map->getWidth() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
-	int y = (rand() % (int) floor(_map->getHeight() * MAX_PARTICLES_RELATIVE_RATIO_CREATION));
-	double yaw = ((double) rand() / (RAND_MAX));
+	srand(time(NULL));
+
+	int xBoundary = floor(_map->getWidth() * MAX_PARTICLES_RELATIVE_RATIO_CREATION);
+	int yBoundary = floor(_map->getHeight() * MAX_PARTICLES_RELATIVE_RATIO_CREATION);
+
+	// Generates random number between negative and positive boundaries (same value)
+	int x = (rand() % (2 * xBoundary)) - xBoundary;
+	int y = (rand() % (2 * yBoundary)) - yBoundary;
+	// Change the 0.5 to a real boundary defining number
+	double yaw = ((double) rand() / (RAND_MAX)) - 0.5;
 
 	Structs::Location randomLocation = Structs::Location(x, y, yaw);
 

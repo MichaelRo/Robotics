@@ -23,11 +23,15 @@ void LocalizationManager::updateParticles(Structs::Location destination, vector<
 		float currentParticleBelief = particlesIterator->update(destination, laserScan);
 
 		if (currentParticleBelief < BELIEF_THRESHOLD) {
+			// Maybe we need to define how many particles we want to delete?
+			// there is a chance that we will delete them all
 			_particles.erase(particlesIterator++);
 		} else {
 			// Check if this works on the previous particle
 			particlesIterator++->createDescendantParticles(PARTICLES_AMOUNT - _particles.size());
 		}
+
+		// Maybe we want to create descendant particles to highest belief only
 	}
 }
 

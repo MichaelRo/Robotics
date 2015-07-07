@@ -36,7 +36,7 @@ public:
 	static constexpr float MAX_YAW = 2; // Check
 	static constexpr float MAP_MAX_CELLS_LASER = 5;
 	static constexpr float LASER_MAX_RANGE = METER_TO_CM(4); // Check value + check if meters/cm
-	static constexpr float MAX_PARTICLES_RELATIVE_RATIO_CREATION = 0.1;
+	static constexpr float MAX_PARTICLES_RELATIVE_RATIO_CREATION = 0.03;
 	static constexpr float MAX_PARTICLES_RELATIVE_YAW_CREATION = 0.1;
 
 	Particle(float x, float y, float yaw, Map* map);
