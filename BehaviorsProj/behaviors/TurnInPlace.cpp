@@ -49,5 +49,4 @@ void TurnInPlace::behave() {
 	float angularSpeed = angularSpeedFactor * YAW_DELTA;
 
 	_robot->setSpeed(0.0, angularSpeed);
-	_robot->setSpeed(0, 0);
 }
