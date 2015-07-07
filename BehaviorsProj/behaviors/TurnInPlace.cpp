@@ -8,11 +8,11 @@
 #include "TurnInPlace.h"
 #include "../Helper.h"
 
-TurnInPlace::~TurnInPlace(){
+TurnInPlace::~TurnInPlace() {
 
 }
 
-TurnInPlace::TurnInPlace(Robot * robot, float neededYaw): Behavior(robot) {
+TurnInPlace::TurnInPlace(Robot * robot, LocalizationManager * localizationManager, float neededYaw): Behavior(robot, localizationManager) {
 	_neededYaw = neededYaw;
 }
 
@@ -21,6 +21,7 @@ bool TurnInPlace::startCondition() {
 }
 
 bool TurnInPlace::stopCondition() {
+	float robotYaw = _robot->getLocation()._yaw;
 	if (abs(_robot->getLocation()._yaw - _neededYaw) <= COMPROMISED_YAW) {
 		int freePointsCount = 0;
 
@@ -39,9 +40,10 @@ bool TurnInPlace::stopCondition() {
 	return false;
 }
 
-void TurnInPlace::action() {
-	float angularSpeedFactor = (_robot->getLocation()._yaw > _neededYaw) ? 1 : -1;
+void TurnInPlace::behave() {
+	int angularSpeedFactor = (_robot->getLocation()._yaw > _neededYaw) ? 1 : -1;
 	float angularSpeed = angularSpeedFactor * YAW_DELTA;
 
 	_robot->setSpeed(0.0, angularSpeed);
+	_robot->setSpeed(0, 0);
 }

@@ -14,6 +14,7 @@
 
 #include "LocalizationManager.h"
 #include "Structs.h"
+#include "Helper.h"
 
 using namespace PlayerCc;
 using namespace std;

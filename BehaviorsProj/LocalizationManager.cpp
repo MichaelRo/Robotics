@@ -7,13 +7,13 @@
 
 #include "LocalizationManager.h"
 
+LocalizationManager::~LocalizationManager() {
+
+}
+
 LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * map) {
 	_map = map;
 	_particles.push_front(*(new Particle(startLocation, map)));
-}
-
-LocalizationManager::~LocalizationManager() {
-	delete _map;
 }
 
 void LocalizationManager::updateParticles(Structs::Location destination, vector<float> laserScan) {

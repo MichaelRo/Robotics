@@ -18,20 +18,20 @@ using namespace std;
 
 class TurnInPlace: public Behavior {
 private:
-	static const int COMPROMISED_YAW = 0.2;
-	static constexpr float YAW_DELTA = 0.1;
+	static const int COMPROMISED_YAW = 0.05;
+	static constexpr float YAW_DELTA = 0.01;
 
 	float _neededYaw;
 
 	bool chooseDirection();
 
 public:
-	TurnInPlace(Robot * robot, float neededYaw);
+	TurnInPlace(Robot * robot, LocalizationManager * localizationManager, float neededYaw);
 	virtual ~TurnInPlace();
 
 	bool startCondition();
 	bool stopCondition();
-	void action();
+	void behave();
 };
 
 #endif

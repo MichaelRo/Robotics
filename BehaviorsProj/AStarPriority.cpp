@@ -6,13 +6,14 @@
  */
 #include "AStarPriority.h"
 
-bool AStarPriority::operator() (Structs::Node first, Structs::Node second) const
-{
-	return (first.getF() > second.getF());
+AStarPriority::~AStarPriority() {
+
 }
 
 AStarPriority::AStarPriority() {
+
 }
 
-AStarPriority::~AStarPriority() {
+bool AStarPriority::operator() (Structs::Node first, Structs::Node second) const {
+	return first.getF() > second.getF();
 }

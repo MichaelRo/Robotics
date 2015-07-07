@@ -8,16 +8,17 @@
 #include "GoToPoint.h"
 
 GoToPoint::~GoToPoint() {
-
+	delete _turnInPlaceBehavior;
+	delete _goForwardBehavior;
 }
 
-GoToPoint::GoToPoint(Robot * robot, Structs::Point goalPoint, float wantedYaw) : Behavior(robot) {
+GoToPoint::GoToPoint(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint, float wantedYaw) : Behavior(robot, localizationManager) {
 	_goalPoint = goalPoint;
 	_wantedYaw = wantedYaw;
 
 	// Maybe we need to send (_wantedYaw - _robotLocation._yaw) ?
-	_turnInPlaceBehavior = new TurnInPlace(robot, _wantedYaw);
-	_goForwardBehavior = new GoForward(robot);
+	_turnInPlaceBehavior = new TurnInPlace(robot, localizationManager, _wantedYaw);
+	_goForwardBehavior = new GoForward(robot, localizationManager);
 
 	addNext(_turnInPlaceBehavior);
 	addNext(_goForwardBehavior);
@@ -35,12 +36,15 @@ bool GoToPoint::stopCondition() {
 	return isGoalLocationReached();
 }
 
-void GoToPoint::action() {
+void GoToPoint::behave() {
 	Behavior * behavior;
 
 	while ((behavior = getNext()) != NULL) {
 		while (!behavior->stopCondition()) {
 			behavior->action();
 		}
+
+		// Consider to implement a stop method
+		_robot->setSpeed(0, 0);
 	}
 }

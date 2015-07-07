@@ -7,7 +7,6 @@
 #include "Robot.h"
 #include "ConfigurationManager.h"
 #include "Map.h"
-#include "Plans/PlnObstacleAvoid.h"
 #include "PathPlanner.h"
 #include "WaypointsManager.h"
 #include "Manager.h"

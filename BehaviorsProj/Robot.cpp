@@ -6,7 +6,6 @@
  */
 
 #include "Robot.h"
-#include "Helper.h"
 
 Robot::~Robot() {
 	delete _playerClient;
@@ -54,7 +53,7 @@ void Robot::Read() {
 vector<float> Robot::getLaserScan() {
 	vector<float> laserScan;
 
-	for (int i = 0; i <= Helper::DEGREES; i++) {
+	for (int i = 0; i < Helper::DEGREES; i++) {
 		laserScan.push_back(getLaserDistance(Helper::DegreesToIndex(i)));
 	}
 

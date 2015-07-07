@@ -11,7 +11,6 @@
 #include <list>
 #include <iostream>
 
-#include "Plans/PlnObstacleAvoid.h"
 #include "Robot.h"
 #include "Map.h"
 #include "PathPlanner.h"

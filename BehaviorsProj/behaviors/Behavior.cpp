@@ -7,8 +7,13 @@
 
 #include "Behavior.h"
 
-Behavior::Behavior(Robot * robot) {
+Behavior::~Behavior() {
+    _behaviors.clear();
+}
+
+Behavior::Behavior(Robot * robot, LocalizationManager * localizationManager) {
     _robot = robot;
+    _localizationManager = localizationManager;
 }
 
 /*
@@ -33,6 +38,14 @@ Behavior * Behavior::getNext() {
     return NULL;
 }
 
-Behavior::~Behavior() {
-    _behaviors.clear();
+void Behavior::action() {
+	Structs::Location locationBeforeAction = _robot->getLocation();
+
+	behave();
+
+	Structs::Location locationAfterAction = _robot->getLocation();
+	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
+
+	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
+	_robot->setRobotLocation(_localizationManager->getProbableLocation());
 }

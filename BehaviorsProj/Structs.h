@@ -62,6 +62,7 @@ public:
 		bool operator==(const Location & location) const;
 		bool operator!=(const Location & location) const;
 		Location operator+(const Location & location) const;
+		Location operator-(const Location & location) const;
 		void operator=(const Location & location);
 	};
 
@@ -91,6 +92,7 @@ public:
 		bool operator==(const Size & size) const;
 		bool operator!=(const Size & size) const;
 		Size operator+(const Size & size) const;
+		Size operator-(const Size & size) const;
 		void operator=(const Size & size);
 	};
 

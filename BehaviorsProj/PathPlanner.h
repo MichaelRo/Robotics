@@ -11,6 +11,7 @@
 #include "Map.h"
 #include "Structs.h"
 #include "AStarPriority.h"
+#include "WaypointsManager.h"
 
 #include <iostream>
 #include <iomanip>

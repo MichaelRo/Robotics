@@ -30,12 +30,12 @@ private:
     bool isGoalLocationReached();
 
 public:
-	GoToPoint(Robot * robot, Structs::Point goalPoint, float wantedYaw);
+	GoToPoint(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint, float wantedYaw);
 	virtual ~GoToPoint();
 
 	bool startCondition();
 	bool stopCondition();
-	void action();
+	void behave();
 };
 
 #endif

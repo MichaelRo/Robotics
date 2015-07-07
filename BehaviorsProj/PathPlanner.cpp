@@ -6,12 +6,11 @@
  */
 
 #include "PathPlanner.h"
-#include "WaypointsManager.h"
 
 using namespace std;
 
 PathPlanner::~PathPlanner(void) {
-	delete _map;
+
 }
 
 PathPlanner::PathPlanner(Map * map, Structs::Point startPoint, Structs::Point endPoint) {
