@@ -60,9 +60,13 @@ void Robot::Read() {
 vector<float> Robot::getLaserScan() {
 	vector<float> laserScan;
 
+	Read();
+
 	for (int i = 0; i < Helper::DEGREES; i++) {
 		laserScan.push_back(getLaserDistance(Helper::DegreesToIndex(i)));
 	}
+
+	Read();
 
 	return laserScan;
 }
