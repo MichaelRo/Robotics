@@ -40,8 +40,6 @@ void MovementManager::start() {
 				while (!goToPointBehavior->stopCondition()) {
 					goToPointBehavior->action();
 				}
-
-				_robot->Read();
 			}
 		}
 
