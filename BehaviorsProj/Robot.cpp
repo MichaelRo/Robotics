@@ -19,8 +19,9 @@ Robot::Robot(char * ip, int port) {
 	_laserProxy = new LaserProxy(_playerClient);
 
 	_position->SetMotorEnable(true);
-	//For fixing Player's reading BUG
-	for(int i=0;i<15;i++)
+
+	// Fixing Player's reading bug
+	for(int i = 0; i < 15; i++)
 		Read();
 }
 
@@ -42,6 +43,8 @@ void Robot::setRobotLocation(Structs::Location location) {
 
 void Robot::setRobotPosition(Structs::Point position, float yaw) {
 	_position->SetOdometry(((double) (position._x * 2.5) / 100), ((double) (position._y * 2.5) / 100), ((double) (yaw * M_PI) / 180));
+
+	cout << "Robot position: " << getLocation().toString() << endl;
 }
 
 void Robot::setSpeed(float xSpeed, float angularSpeed) {
@@ -50,6 +53,8 @@ void Robot::setSpeed(float xSpeed, float angularSpeed) {
 
 void Robot::Read() {
 	_playerClient->Read();
+
+	cout << "Robot is reading" << endl;
 }
 
 vector<float> Robot::getLaserScan() {

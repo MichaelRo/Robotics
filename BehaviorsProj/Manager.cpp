@@ -46,8 +46,7 @@ void Manager::run() {
 
 	_robot->setRobotLocation(robotStartLocation);
 
-	Structs::Location loc = _robot->getLocation();
-
+	_robot->Read();
 	_localizationManager = new LocalizationManager(robotStartLocation, _map);
 
 	_movementManager = new MovementManager(_robot, _localizationManager, wayPoints);

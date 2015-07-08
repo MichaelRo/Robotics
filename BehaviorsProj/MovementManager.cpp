@@ -29,13 +29,19 @@ void MovementManager::start() {
 
 		GoToPoint * goToPointBehavior;
 
+		_robot->Read();
+
 		while (_robot->getLocation().pointValue().distanceBetweenPoints(*currentWayPoint) > COMPROMISED_DISTANCE) {
 			goToPointBehavior = new GoToPoint(_robot, _localizationManager, *currentWayPoint, wantedYaw);
+
+			_robot->Read();
 
 			if (goToPointBehavior->startCondition()) {
 				while (!goToPointBehavior->stopCondition()) {
 					goToPointBehavior->action();
 				}
+
+				_robot->Read();
 			}
 		}
 
