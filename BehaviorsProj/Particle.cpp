@@ -89,7 +89,7 @@ float Particle::calculateMotionModelProbability(Structs::Location destination) {
 float Particle::checkObservationModel(vector<float> laserScan) {
 	int expectedObsticlesDetected;
 
-	for (int laserDegree = 0; laserDegree < Helper::DEGREES; laserDegree++) {
+	for (int laserDegree = 0; laserDegree < laserScan.size(); laserDegree++) {
 		float currentLaserScan = laserScan[laserDegree];
 
 		expectedObsticlesDetected = 0;
@@ -135,9 +135,9 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 			}
 		}
 	} else {
-		Structs::Location detectedLocationInMap(_location._yaw + DEGREES_TO_RADIANS(laserDegree),
-												_location._x + (cos(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)),
-												_location._y + (sin(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)));
+		Structs::Location detectedLocationInMap(_location._x + (cos(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)),
+												_location._y + (sin(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)),
+												_location._yaw + DEGREES_TO_RADIANS(laserDegree));
 
 		int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y, _map->getMapResolution());
 

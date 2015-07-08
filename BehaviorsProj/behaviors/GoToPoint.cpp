@@ -42,6 +42,8 @@ void GoToPoint::behave() {
 	for (vector<Behavior*>::iterator behaviorsIterator = behaviors.begin(); behaviorsIterator != behaviors.end(); behaviorsIterator++) {
 		Behavior * behavior = *(behaviorsIterator).operator ->();
 
+		_robot->Read();
+
 		if (behavior->startCondition()) {
 			while (!behavior->stopCondition()) {
 				behavior->action();
@@ -49,6 +51,8 @@ void GoToPoint::behave() {
 
 			// Consider to implement a stop method
 			_robot->setSpeed((float) 0, (float) 0);
+
+			_robot->Read();
 		}
 	}
 }

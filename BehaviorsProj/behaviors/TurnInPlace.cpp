@@ -6,7 +6,6 @@
  */
 
 #include "TurnInPlace.h"
-#include "../Helper.h"
 
 TurnInPlace::~TurnInPlace() {
 
@@ -42,7 +41,7 @@ bool TurnInPlace::stopCondition() {
 }
 
 void TurnInPlace::behave() {
-	int angularSpeedFactor = (_robot->getLocation()._yaw > _neededYaw) ? -1 : 1;
+	int angularSpeedFactor = (_robot->getLocation()._yaw > _neededYaw) ? 1 : -1;
 	float angularSpeed = angularSpeedFactor * YAW_DELTA;
 
 	_robot->setSpeed((float) 0, (float) angularSpeed);

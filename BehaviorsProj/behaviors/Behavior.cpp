@@ -38,6 +38,8 @@ void Behavior::action() {
 
 	behave();
 
+	_robot->Read();
+
 	Structs::Location locationAfterAction = _robot->getLocation();
 	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
 
