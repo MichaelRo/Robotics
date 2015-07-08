@@ -32,3 +32,4 @@ Todo List:
   22. Fix the A* grading - add wall factor.
   23. make the a star grade 100%, that means each factor will be multiplied by a grading factor (0-1).
   24. add to GoToPoint.cpp - Read() in the inner while.
+  25. Clean unused consts
