@@ -20,7 +20,11 @@ bool TurnInPlace::startCondition() {
 }
 
 bool TurnInPlace::stopCondition() {
-	if (abs(_robot->getLocation()._yaw - _neededYaw) <= COMPROMISED_YAW) {
+	float yawww = abs(_robot->getLocation()._yaw - _neededYaw);
+
+	cout << "(currentYaw - neededYaw): " << Helper::floatToString(yawww) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
+
+	if (yawww <= COMPROMISED_YAW) {
 //		int freePointsCount = 0;
 //
 //		// Count how many of the "forward" path is clear.

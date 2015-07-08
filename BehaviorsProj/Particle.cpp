@@ -15,7 +15,7 @@ Particle::~Particle() {
 
 Particle::Particle(float x, float y, float yaw, Map * map) {
 	_map = map;
-	_belief = 1;
+	_belief = 0.1; // 1?
 	Structs::Location deltaLocation = getRandomDeltaLocation();
 	Structs::Location newLocation(x + deltaLocation._x,
 								  y + deltaLocation._y,
@@ -28,7 +28,7 @@ Particle::Particle(float x, float y, float yaw, Map * map) {
 
 Particle::Particle(Structs::Location location, Map * map) {
 	_map = map;
-	_belief = 1;
+	_belief = 0.1; // 1?
 	Structs::Location deltaLocation = getRandomDeltaLocation();
 	Structs::Location newLocation = location + deltaLocation;
 	_location = newLocation;

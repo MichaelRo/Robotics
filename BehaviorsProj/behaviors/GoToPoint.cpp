@@ -51,8 +51,6 @@ void GoToPoint::behave() {
 
 			// Consider to implement a stop method
 			_robot->setSpeed((float) 0, (float) 0);
-
-			_robot->Read();
 		}
 	}
 }

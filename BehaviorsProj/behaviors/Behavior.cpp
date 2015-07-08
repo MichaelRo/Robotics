@@ -38,13 +38,15 @@ void Behavior::action() {
 
 	behave();
 
-	_robot->Read();
-
 	Structs::Location locationAfterAction = _robot->getLocation();
 	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
 
 	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
 
-	// What if all the beliefs are 0? the robot will get a false location?
-	_robot->setRobotLocation(_localizationManager->getProbableLocation());
+	if (_localizationManager->getHighestBelief() >= LocalizationManager::BELIEF_THRESHOLD) {
+		cout << "Highest belief: " << _localizationManager->getHighestBelief() << endl;
+
+		// What if all the beliefs are 0? the robot will get a false location?
+		_robot->setRobotLocation(_localizationManager->getProbableLocation());
+	}
 }

@@ -77,12 +77,18 @@ Particle * LocalizationManager::getHighestBeliefParticle() {
 	list<Particle>::iterator particlesIterator = _particles.begin();
 	Particle * highestBeliefParticle = particlesIterator.operator ->();
 
+	int particlesSize = _particles.size();
+
 	for (particlesIterator = _particles.begin(); particlesIterator != _particles.end(); ++particlesIterator) {
 		if (particlesIterator->getBelief() > highestBeliefParticle->getBelief())
 			highestBeliefParticle = particlesIterator.operator ->();
 	}
 
 	return highestBeliefParticle;
+}
+
+float LocalizationManager::getHighestBelief() {
+	return getHighestBeliefParticle()->getBelief();
 }
 
 Structs::Location LocalizationManager::getProbableLocation() {
