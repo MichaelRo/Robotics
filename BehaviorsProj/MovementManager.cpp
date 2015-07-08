@@ -14,11 +14,24 @@ MovementManager::~MovementManager() {
 MovementManager::MovementManager(Robot * robot, LocalizationManager * localizationManager, list<Structs::Point> wayPoints) {
 	_robot = robot;
 	_localizationManager = localizationManager;
+	// Check if the waypoints are really different than the points that the robot returns (the player)
 	_wayPoints = wayPoints;
+//	_wayPoints = initializeWaypoints(wayPoints);
+}
+
+list<Structs::Point> MovementManager::initializeWaypoints(list<Structs::Point> mapWayPoints) {
+	list<Structs::Point> realLifeWayPoints = list<Structs::Point>(mapWayPoints.size());
+
+	for (list<Structs::Point>::iterator mapWayPointsIterator = mapWayPoints.begin(); mapWayPointsIterator != mapWayPoints.end(); mapWayPointsIterator++) {
+		// Multiply in map resolution
+		realLifeWayPoints.push_back(*(mapWayPointsIterator.operator ->()) * 2.5);
+	}
+
+	return realLifeWayPoints;
 }
 
 float MovementManager::calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint) {
-	return acos(abs(goalPoint._x - startPoint._x) / startPoint.distanceBetweenPoints(goalPoint));
+	return abs(acos(abs(goalPoint._y - startPoint._y) / startPoint.distanceBetweenPoints(goalPoint)) - M_PI);
 }
 
 void MovementManager::start() {

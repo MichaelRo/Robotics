@@ -19,7 +19,7 @@ using namespace std;
 
 class GoToPoint: public Behavior {
 private:
-	static const int COMPROMISED_DISTANCE = 0.2;
+	static constexpr float COMPROMISED_DISTANCE = 0.4;
 
 	Structs::Point _goalPoint;
 	float _wantedYaw;
@@ -28,6 +28,7 @@ private:
 	GoForward * _goForwardBehavior;
 
     bool isGoalLocationReached();
+    void initializeGoToPointBehavior();
 
 public:
 	GoToPoint(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint, float wantedYaw);
