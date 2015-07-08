@@ -148,7 +148,10 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 		}
 	}
 
-	return correctDetectionsNumber / (correctDetectionsNumber + falseDetectionsNumber);
+//	return correctDetectionsNumber / (correctDetectionsNumber + falseDetectionsNumber);
+
+	// ????
+	return correctDetectionsNumber > falseDetectionsNumber;
 }
 
 Structs::Location Particle::getRandomDeltaLocation() {

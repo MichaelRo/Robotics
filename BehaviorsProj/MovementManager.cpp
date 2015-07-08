@@ -38,5 +38,7 @@ void MovementManager::start() {
 				}
 			}
 		}
+
+		// Maybe (delete goToPointBehavior;) ?
 	}
 }

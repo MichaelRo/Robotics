@@ -37,14 +37,18 @@ bool GoToPoint::stopCondition() {
 }
 
 void GoToPoint::behave() {
-	Behavior * behavior;
+	vector<Behavior*> behaviors = getBehaviors();
 
-	while ((behavior = getNext()) != NULL) {
-		while (!behavior->stopCondition()) {
-			behavior->action();
+	for (vector<Behavior*>::iterator behaviorsIterator = behaviors.begin(); behaviorsIterator != behaviors.end(); behaviorsIterator++) {
+		Behavior * behavior = *(behaviorsIterator).operator ->();
+
+		if (behavior->startCondition()) {
+			while (!behavior->stopCondition()) {
+				behavior->action();
+			}
+
+			// Consider to implement a stop method
+			_robot->setSpeed((float) 0, (float) 0);
 		}
-
-		// Consider to implement a stop method
-		_robot->setSpeed(0, 0);
 	}
 }

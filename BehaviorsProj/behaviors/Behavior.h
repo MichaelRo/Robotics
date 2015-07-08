@@ -38,7 +38,7 @@ public:
 
     void action();
     void addNext(Behavior * behavior);
-    Behavior * getNext();
+    vector<Behavior*> getBehaviors();
 };
 
 #endif
