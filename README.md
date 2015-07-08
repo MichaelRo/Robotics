@@ -35,3 +35,4 @@ Todo List:
   25. Clean unused consts
   26. Check why the wantedYaw calculates to the opposite 180deg (MovementManager)
   27. Make GoToPoint try again when he fails to get to the correct point
+  28. Check if the waypoints are really different than the points that the robot returns (the player)
