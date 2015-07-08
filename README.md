@@ -29,4 +29,6 @@ Todo List:
   21. Sometimes the delta that we achieve when we're trying to update the robot's location and 
       localizationManager isn't zero valued. 
       Maybe it's related to the fact we don't stop our robot while debug? maybe we can't debug it?
-  22. Fix the A* grading
+  22. Fix the A* grading - add wall factor.
+  23. make the a star grade 100%, that means each factor will be multiplied by a grading factor (0-1).
+  24. add to GoToPoint.cpp - Read() in the inner while.
