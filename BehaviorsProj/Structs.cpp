@@ -162,6 +162,7 @@ Structs::Node::Node() {
 	_g = 0;
 	_h = 0;
 	_turnFactor = 0;
+	_wallFactor = 0;
 }
 
 Structs::Node::Node(Point p, float GGrade) {
@@ -169,6 +170,7 @@ Structs::Node::Node(Point p, float GGrade) {
 	_g = GGrade;
 	_h = 0;
 	_turnFactor = 0;
+	_wallFactor = 0;
 }
 
 float Structs::Node::getF() {
@@ -176,7 +178,7 @@ float Structs::Node::getF() {
 }
 
 void Structs::Node::calcHGrade(Point goal) {
-	_h = _point.diagonalDistance(goal);
+	_h = _point.manhattanDistance(goal);
 }
 
 Structs::Size::Size() {

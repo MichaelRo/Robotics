@@ -72,6 +72,7 @@ public:
 		float _g; // The cost until this search cell g(x)
 		float _h; // The expected cost to the goal h(x)
 		float _turnFactor;
+		float _wallFactor;
 
 		Node();
 		Node(Point p, float GGrade);
