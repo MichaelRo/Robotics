@@ -20,12 +20,13 @@ using namespace std;
 
 class MovementManager {
 private:
-	static const int COMPROMISED_DISTANCE = 0.2;
+	static constexpr float COMPROMISED_DISTANCE = 0.4;
 
 	Robot * _robot;
 	LocalizationManager * _localizationManager;
 	list<Structs::Point> _wayPoints;
 
+	list<Structs::Point> initializeWaypoints(list<Structs::Point> mapWayPoints);
 	float calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint);
 
 public:

@@ -20,7 +20,7 @@ bool TurnInPlace::startCondition() {
 }
 
 bool TurnInPlace::stopCondition() {
-	float yawww = abs(_robot->getLocation()._yaw - _neededYaw);
+	float yawww = abs((_robot->getLocation()._yaw * (M_PI / 180)) - _neededYaw);
 
 	cout << "(currentYaw - neededYaw): " << Helper::floatToString(yawww) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
 
@@ -45,8 +45,13 @@ bool TurnInPlace::stopCondition() {
 }
 
 void TurnInPlace::behave() {
-	int angularSpeedFactor = (_robot->getLocation()._yaw > _neededYaw) ? 1 : -1;
-	float angularSpeed = angularSpeedFactor * YAW_DELTA;
+	int angularSpeedFactor = 1;
 
-	_robot->setSpeed((float) 0, (float) angularSpeed);
+	if (_robot->getLocation()._yaw > 0) {
+		angularSpeedFactor = (_robot->getLocation()._yaw > _neededYaw) ? 1 : -1;
+	} else {
+		angularSpeedFactor = (_robot->getLocation()._yaw < _neededYaw) ? 1 : -1;
+	}
+
+	_robot->setSpeed((float) 0, (float) angularSpeedFactor * YAW_DELTA);
 }

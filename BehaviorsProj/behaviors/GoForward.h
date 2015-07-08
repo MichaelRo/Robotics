@@ -17,10 +17,11 @@ using namespace std;
 
 class GoForward: public Behavior {
 private:
-	static const int COMPROMISED_DISTANCE = 0.2;
+	static constexpr float COMPROMISED_DISTANCE = 0.4;
+	Structs::Point _goalPoint;
 
 public:
-	GoForward(Robot * robot, LocalizationManager * localizationManager);
+	GoForward(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint);
 	virtual ~GoForward();
 
 	bool startCondition();

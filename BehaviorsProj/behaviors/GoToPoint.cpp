@@ -17,9 +17,13 @@ GoToPoint::GoToPoint(Robot * robot, LocalizationManager * localizationManager, S
 	_wantedYaw = wantedYaw;
 
 	// Maybe we need to send (_wantedYaw - _robotLocation._yaw) ?
-	_turnInPlaceBehavior = new TurnInPlace(robot, localizationManager, _wantedYaw);
-	_goForwardBehavior = new GoForward(robot, localizationManager);
+	_turnInPlaceBehavior = new TurnInPlace(_robot, _localizationManager, _wantedYaw);
+	_goForwardBehavior = new GoForward(_robot, _localizationManager, goalPoint);
 
+	initializeGoToPointBehavior();
+}
+
+void GoToPoint::initializeGoToPointBehavior() {
 	addNext(_turnInPlaceBehavior);
 	addNext(_goForwardBehavior);
 }
@@ -52,5 +56,12 @@ void GoToPoint::behave() {
 			// Consider to implement a stop method
 			_robot->setSpeed((float) 0, (float) 0);
 		}
+	}
+
+	// What to do when the robot miss the point?
+	if (!isGoalLocationReached()) {
+		initializeGoToPointBehavior();
+
+		action();
 	}
 }
