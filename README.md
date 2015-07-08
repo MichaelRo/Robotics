@@ -34,3 +34,4 @@ Todo List:
   24. add to GoToPoint.cpp - Read() in the inner while.
   25. Clean unused consts
   26. Check why the wantedYaw calculates to the opposite 180deg (MovementManager)
+  27. Make GoToPoint try again when he fails to get to the correct point
