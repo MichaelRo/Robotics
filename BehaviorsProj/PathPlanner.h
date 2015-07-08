@@ -40,6 +40,7 @@ private:
 	list<Structs::Node> getNeighbors(Structs::Node *node);
 	list<Structs::Point> reconstruct_path(Structs::Point endPoint);
 	float calcDirectionFactor(Structs::Point p1, Structs::Point p2, Structs::Point p3);
+	float calcWallFactor(Structs::Point point, int wallDis);
 
 public:
 	PathPlanner(Map * map, Structs::Point startPoint, Structs::Point endPoint);

@@ -49,7 +49,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 				continue;
 			}
 
-			float tempNeighborGGrade = currMinNode._g + COST_BETWEEN_NODES + currNeighbor->_turnFactor;
+			float tempNeighborGGrade = (currMinNode._g + COST_BETWEEN_NODES)*0.05 + currNeighbor->_turnFactor*0.75 + currNeighbor->_wallFactor*0.2;
 
 			// if we haven't visit this neighbor or if the grade that we calculated is less than what the neighbor have
 			if (!openMap[currNeighbor->_point.hashCode()] || tempNeighborGGrade < currNeighbor->_g) {
@@ -91,6 +91,8 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 							neighbor._turnFactor = calcDirectionFactor(_parentsMap[node->_point.hashCode()], node->_point, neighborPoint);
 						}
 
+						neighbor._wallFactor = calcWallFactor(neighborPoint, 1);
+
 						neighbors.push_back(neighbor);
 					}
 				}
@@ -129,14 +131,32 @@ float PathPlanner::calcDirectionFactor(Structs::Point p1, Structs::Point p2, Str
 		case 0:
 			return 0;
 		case 1: case 7:
-			return 0.2;
+			return 2;
 		case 2: case 6:
-		   return 0.8;
+		   return 3.9;
 		case 3: case 5:
-			return 100;
+			return 8;
 		case 4:
-			return 100;
+			return 30;
 		default:
 			return 0;
     }
+}
+
+float PathPlanner::calcWallFactor(Structs::Point point, int wallDis) {
+	int wallCounter = 0;
+	for (int rowsIndex = point._y - wallDis; rowsIndex <= point._y + wallDis; rowsIndex++) {
+		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
+			for (int columnsIndex = point._x - wallDis; columnsIndex <= point._x + wallDis; columnsIndex++) {
+				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
+					if (_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Map::PADDING_CELL ||
+						_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Map::OCCUPIED_CELL) {
+						wallCounter++;
+					}
+				}
+			}
+		}
+	}
+
+	return wallCounter * 5;
 }
