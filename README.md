@@ -33,3 +33,4 @@ Todo List:
   23. make the a star grade 100%, that means each factor will be multiplied by a grading factor (0-1).
   24. add to GoToPoint.cpp - Read() in the inner while.
   25. Clean unused consts
+  26. Check why the wantedYaw calculates to the opposite 180deg (MovementManager)
