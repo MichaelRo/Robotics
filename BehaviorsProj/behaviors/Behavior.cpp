@@ -28,14 +28,9 @@ void Behavior::addNext(Behavior * behavior) {
  *
  * Returns NULL if no behavior is available.
  */
-Behavior * Behavior::getNext() {
-    for (vector<Behavior*>::iterator it = _behaviors.begin(); it != _behaviors.end(); ++it) {
-        if ((*it)->startCondition()) {
-            return *it;
-        }
-    }
-
-    return NULL;
+// Maybe think about nice getNext() method?
+vector<Behavior*> Behavior::getBehaviors() {
+    return _behaviors;
 }
 
 void Behavior::action() {
@@ -47,5 +42,7 @@ void Behavior::action() {
 	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
 
 	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
+
+	// What if all the beliefs are 0? the robot will get a false location?
 	_robot->setRobotLocation(_localizationManager->getProbableLocation());
 }
