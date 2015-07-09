@@ -64,3 +64,7 @@ string Helper::floatToString (float number) {
 	ss << number;
 	return ss.str();
 }
+
+Structs::Point Helper::robotPointToRealPoint(Structs::Point point) {
+	return Structs::Point(point._x * 40, point._y * 40);
+}

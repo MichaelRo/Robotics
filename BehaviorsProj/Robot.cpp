@@ -27,11 +27,11 @@ Robot::Robot(char * ip, int port) {
 
 Structs::Location Robot::getLocation() {
 	// need to move the convertions from deg to rad and from cm to m to HELPER
-	return Structs::Location(((float) (_position->GetXPos() * 100) / 2.5), ((float) (_position->GetYPos() * 100) / 2.5), ((float) (_position->GetYaw() * 180) / M_PI));
+	return Structs::Location();
 }
 
 Structs::Point Robot::getPosition() {
-	return Structs::Point((_position->GetXPos() * 100) / 2.5, (_position->GetYPos() * 100) / 2.5);
+	return Structs::Point();
 }
 
 void Robot::setRobotLocation(Structs::Location location) {
