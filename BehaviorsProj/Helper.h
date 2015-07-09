@@ -60,7 +60,6 @@ public:
 	static int DegreesToIndex(int degrees);
 	static string intToString(int number);
 	static string floatToString(float number);
-	static Structs::Point robotPointToRealPoint(Structs::Point point);
 };
 
 #endif
