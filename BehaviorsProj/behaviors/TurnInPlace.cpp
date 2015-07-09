@@ -20,24 +20,10 @@ bool TurnInPlace::startCondition() {
 }
 
 bool TurnInPlace::stopCondition() {
-	float yawww = abs((_robot->getLocation()._yaw * (M_PI / 180)) - _neededYaw);
-
+	float yawww = abs(_robot->getLocation()._yaw - _neededYaw);
 	cout << "(currentYaw - neededYaw): " << Helper::floatToString(yawww) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
 
 	if (yawww <= COMPROMISED_YAW) {
-//		int freePointsCount = 0;
-//
-//		// Count how many of the "forward" path is clear.
-//		for (int i = Helper::DegreesToIndex(-30); i < Helper::DegreesToIndex(30); i = i + 3) {
-//			if (_robot->getLaserDistance(i) > Helper::MINIMUM_WALL_RANGE) {
-//				// If e counted at least 20 clear paths (based on the angles) we can stop turning
-//				// and go forward
-//				if (++freePointsCount >= 20) {
-//					return true;
-//				}
-//			}
-//		}
-
 		return true;
 	}
 
@@ -47,10 +33,11 @@ bool TurnInPlace::stopCondition() {
 void TurnInPlace::behave() {
 	int angularSpeedFactor = 1;
 
-	if (_robot->getLocation()._yaw > 0) {
-		angularSpeedFactor = (_robot->getLocation()._yaw > _neededYaw) ? 1 : -1;
-	} else {
-		angularSpeedFactor = (_robot->getLocation()._yaw < _neededYaw) ? 1 : -1;
+	float realYaw = _robot->getLocation().robotLocationToRealLocation()._yaw;
+	float realNeeded = (_neededYaw * 180) / M_PI;
+
+	if (abs(realYaw - realNeeded) > abs(realYaw - (360 - realNeeded))) {
+		angularSpeedFactor = -1;
 	}
 
 	_robot->setSpeed((float) 0, (float) angularSpeedFactor * YAW_DELTA);
