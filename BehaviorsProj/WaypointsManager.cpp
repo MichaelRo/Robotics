@@ -12,7 +12,9 @@
 
 	@param route - Route of points, represented as list<Structs::Point>
 */
-WaypointsManager::WaypointsManager(list<Structs::Point> route) {
+WaypointsManager::WaypointsManager(list<Structs::Point> route, Map * map) {
+	_map = map;
+
 	markWaypoints(route);
 
 	// Initializes the waypoints iterator
@@ -54,10 +56,17 @@ void WaypointsManager::markWaypoints(list<Structs::Point> route) {
 /**
 	Gets the waypoints that have been marked within the route that was given to the constructor
 
+	@param resolution - the wanted resolution
 	@return - Waypoints, represented as list<Structs::Point>
 */
-list<Structs::Point> WaypointsManager::getWaypoints() {
-	return _wayPoints;
+list<Structs::Point> WaypointsManager::getWaypoints(float resolution) {
+	list<Structs::Point> wayPoints = list<Structs::Point>(_wayPoints.size());
+
+	for (list<Structs::Point>::iterator wayPointsIterator = _wayPoints.begin(); wayPointsIterator != _wayPoints.end(); wayPointsIterator++) {
+		wayPoints.push_back((*wayPointsIterator.operator ->()) / ceil(_map->getGridResolution() / resolution));
+	}
+
+	return wayPoints;
 }
 
 /**

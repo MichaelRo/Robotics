@@ -32,7 +32,8 @@ void Manager::run() {
 	_map->markRoute(route, _map->getGridResolution());
 	cout << "The route size is: " << route.size() << ", ";
 
-	list<Structs::Point> wayPoints = WaypointsManager(route).getWaypoints();
+	_waypointsManager = new WaypointsManager(route, _map);
+	list<Structs::Point> wayPoints = _waypointsManager->getWaypoints(_map->getGridResolution());
 	_map->markWayPoints(wayPoints, _map->getGridResolution());
 	cout << wayPoints.size() << " of these are waypoints." << endl;
 
@@ -51,7 +52,7 @@ void Manager::run() {
 	_robot->Read();
 	_localizationManager = new LocalizationManager(robotStartLocation, _map);
 
-	_movementManager = new MovementManager(_robot, _localizationManager, wayPoints);
+	_movementManager = new MovementManager(_robot, _localizationManager, _waypointsManager->getWaypoints(_map->getMapResolution()));
 	_movementManager->start();
 }
 
