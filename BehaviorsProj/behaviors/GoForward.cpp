@@ -35,7 +35,7 @@ bool GoForward::stopCondition() {
 }
 
 void GoForward::behave() {
-	_robot->setSpeed((float) 0.7, (float) 0);
+	_robot->setSpeed((float) 0.5, (float) 0);
 
 	cout << "Going forward" << endl;
 }
