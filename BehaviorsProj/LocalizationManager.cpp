@@ -14,7 +14,7 @@ LocalizationManager::~LocalizationManager() {
 LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * map) {
 	_map = map;
 	srand(time(NULL));
-	_particles.push_front(*(new Particle(startLocation, map)));
+	_particles.push_front(*(new Particle(startLocation, 0.1, map)));
 
 	createNewParticles();
 }
@@ -57,8 +57,6 @@ void LocalizationManager::updateParticles(Structs::Location destination, vector<
 
 	for (list<Particle>::iterator particlesForDeleteIterator = particlesForDelete.begin(); particlesForDeleteIterator != particlesForDelete.end(); particlesForDeleteIterator++) {
 		Particle * particleForRemove = particlesForDeleteIterator.operator ->();
-
-		cout << "Particle " << (particleForRemove->getLocation().toString()) << " disposed." << endl;
 
 		_particles.remove(*particleForRemove);
 	}

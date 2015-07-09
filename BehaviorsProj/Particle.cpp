@@ -13,9 +13,9 @@ Particle::~Particle() {
 
 }
 
-Particle::Particle(float x, float y, float yaw, Map * map) {
+Particle::Particle(float x, float y, float yaw, float belief, Map * map) {
 	_map = map;
-	_belief = 0.1; // 1?
+	_belief = belief;
 	Structs::Location deltaLocation = getRandomDeltaLocation();
 	Structs::Location newLocation(x + deltaLocation._x,
 								  y + deltaLocation._y,
@@ -26,15 +26,13 @@ Particle::Particle(float x, float y, float yaw, Map * map) {
 	cout << "Particle was created at: " << _location.toString() << "." << endl;
 }
 
-Particle::Particle(Structs::Location location, Map * map) {
+Particle::Particle(Structs::Location location, float belief, Map * map) {
 	_map = map;
 	_belief = 0.1; // 1?
 	Structs::Location deltaLocation = getRandomDeltaLocation();
 	Structs::Location newLocation = location + deltaLocation;
 	_location = newLocation;
 	_id = PARTICLE_ID_SEQUENCE++;
-
-	cout << "Particle was created at: " << _location.toString() << "." << endl;
 }
 
 bool Particle::operator ==(const Particle & particle) const {
@@ -50,14 +48,10 @@ Structs::Location Particle::getLocation() {
 }
 
 float Particle::update(Structs::Location destination, vector<float> laserScan) {
-	cout << "Particle " << _location.toString();
-
 	_location._x += destination._x;
 	_location._y += destination._y;
 	_location._yaw += destination._yaw;
 	_belief = calculateBelief(destination, laserScan);
-
-	cout << "was updated to: " << _location.toString() << ", with belief: " << _belief << "." << endl;
 
 	return _belief;
 }
@@ -106,7 +100,7 @@ list<Particle> Particle::createDescendantParticles(int amount) {
 	list<Particle> descendantParticles = list<Particle>();
 
 	for (int index = 0; index < amount; index++) {
-		descendantParticles.push_back(Particle(_location, _map));
+		descendantParticles.push_back(Particle(_location, _belief, _map));
 	}
 
 	return descendantParticles;
