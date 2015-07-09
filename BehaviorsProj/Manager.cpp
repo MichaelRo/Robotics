@@ -49,7 +49,7 @@ void Manager::run() {
 	_mapForRobot = new MapForRobot(_map);
 
 	// Check if the waypoints are really different than the points that the robot returns (the player)
-	_robot->setRobotLocation(robotStartLocation.realLocationToRobotLocation());
+	_robot->setRobotLocation(robotStartLocation);
 //	_robot->setRobotPosition(robotStartLocation.pointValue() * 2.5, robotStartLocation._yaw);
 
 	_robot->Read();
