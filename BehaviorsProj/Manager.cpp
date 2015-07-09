@@ -8,11 +8,11 @@
 #include "Manager.h"
 
 Manager::~Manager() {
-	delete _movementManager;
-	delete _localizationManager;
-	delete _waypointsManager;
-	delete _pathPlanner;
-	delete _map;
+//	delete _movementManager;
+//	delete _localizationManager;
+//	delete _waypointsManager;
+//	delete _pathPlanner;
+//	delete _map;
 }
 
 Manager::Manager(ConfigurationManager* configurationManager, Robot* robot) {
@@ -23,6 +23,7 @@ Manager::Manager(ConfigurationManager* configurationManager, Robot* robot) {
 	_pathPlanner = NULL;
 	_localizationManager = NULL;
 	_movementManager = NULL;
+	_mapForRobot = NULL;
 }
 
 void Manager::run() {
@@ -45,12 +46,14 @@ void Manager::run() {
 
 	_map->saveMap("allPointsMap.png");
 
+	_mapForRobot = new MapForRobot(_map);
+
 	// Check if the waypoints are really different than the points that the robot returns (the player)
-	_robot->setRobotLocation(robotStartLocation);
+//	_robot->setRobotLocation(robotStartLocation);
 //	_robot->setRobotPosition(robotStartLocation.pointValue() * 2.5, robotStartLocation._yaw);
 
 	_robot->Read();
-	_localizationManager = new LocalizationManager(robotStartLocation, _map);
+	_localizationManager = new LocalizationManager(robotStartLocation, _mapForRobot);
 
 	_movementManager = new MovementManager(_robot, _localizationManager, _waypointsManager->getWaypoints(_map->getMapResolution()));
 	_movementManager->start();

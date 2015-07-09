@@ -11,7 +11,7 @@ LocalizationManager::~LocalizationManager() {
 
 }
 
-LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * map) {
+LocalizationManager::LocalizationManager(Structs::Location startLocation, MapForRobot * map) {
 	_map = map;
 	srand(time(NULL));
 	_particles.push_front(*(new Particle(startLocation, 0.1, map)));

@@ -40,5 +40,11 @@ int MapForRobot::getCellValue(int column, int row) {
 	int mapColumn = column + (_map->getWidth() / 2);
 	int mapRow = (row * (-1)) + (_map->getHeight() / 2);
 
-	return _map->getCellValue(mapColumn, mapRow, _map->getMapResolution());
+	int cellValue = _map->getCellValue(mapColumn, mapRow, _map->getMapResolution());
+
+	return ((cellValue == Map::GOAL_LOCATION_CELL) ||
+			(cellValue == Map::START_LOCATION_CELL) ||
+			(cellValue == Map::PADDING_CELL) ||
+			(cellValue == Map::ROUTE_CELL) ||
+			(cellValue == Map::WAYPOINT_CELL)) ? Map::FREE_CELL : cellValue;
 }
