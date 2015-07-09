@@ -32,7 +32,6 @@ public:
 	Structs::Location getLocation();
 	Structs::Point getPosition();
 	void setRobotLocation(Structs::Location location);
-	void setRobotPosition(Structs::Point position, float yaw);
 
 	void setSpeed(float xSpeed, float angularSpeed);
 	void Read();

@@ -37,6 +37,14 @@ float Structs::Point::diagonalDistance(Point point) {
 	return max(xSide, ySide);
 }
 
+Structs::Point Structs::Point::robotPointToRealPoint() {
+	return Point(_x, _y) * 40;
+}
+
+Structs::Point Structs::Point::realPointToRobotPoint() {
+	return Point(_x, _y) / 40;
+}
+
 int Structs::Point::hashCode() {
 	int xPart = _x;
 	int yPart = _y;
@@ -133,6 +141,24 @@ Structs::Location::Location(Point p, float yaw) {
 
 Structs::Point Structs::Location::pointValue() {
 	return Structs::Point(_x, _y);
+}
+
+Structs::Location Structs::Location::robotLocationToRealLocation() {
+	float realYaw = (_yaw * 180) / M_PI;
+	if (realYaw < 0) {
+		realYaw += 360;
+	}
+
+	return Location(_x * 40, _y * 40, realYaw);
+}
+
+Structs::Location Structs::Location::realLocationToRobotLocation() {
+	float realYaw = _yaw;
+	if (realYaw > 180) {
+		realYaw -= 360;
+	}
+
+	return Location(_x / 40, _y / 40, (realYaw * M_PI) / 180);
 }
 
 string Structs::Location::toString() {

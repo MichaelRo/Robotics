@@ -29,6 +29,8 @@ public:
 		float distanceBetweenPoints(Point point);
 		float manhattanDistance(Point point);
 		float diagonalDistance(Point point);
+		Point robotPointToRealPoint();
+		Point realPointToRobotPoint();
 		int hashCode();
 		string toString();
 
@@ -58,6 +60,8 @@ public:
 		Location(Point p, float yaw = 0);
 
 		Point pointValue();
+		Location robotLocationToRealLocation();
+		Location realLocationToRobotLocation();
 		string toString();
 
 		bool operator==(const Location & location) const;
