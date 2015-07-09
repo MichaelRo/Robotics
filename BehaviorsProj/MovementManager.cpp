@@ -19,17 +19,6 @@ MovementManager::MovementManager(Robot * robot, LocalizationManager * localizati
 //	_wayPoints = initializeWaypoints(wayPoints);
 }
 
-list<Structs::Point> MovementManager::initializeWaypoints(list<Structs::Point> mapWayPoints) {
-	list<Structs::Point> realLifeWayPoints = list<Structs::Point>(mapWayPoints.size());
-
-	for (list<Structs::Point>::iterator mapWayPointsIterator = mapWayPoints.begin(); mapWayPointsIterator != mapWayPoints.end(); mapWayPointsIterator++) {
-		// Multiply in map resolution
-		realLifeWayPoints.push_back(*(mapWayPointsIterator.operator ->()) * 2.5);
-	}
-
-	return realLifeWayPoints;
-}
-
 float MovementManager::calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint) {
 	return abs(acos(abs(goalPoint._y - startPoint._y) / startPoint.distanceBetweenPoints(goalPoint)) - M_PI) + _robot->getLocation()._yaw;
 }
@@ -38,7 +27,7 @@ void MovementManager::start() {
 	//++ before or after?
 	for (list<Structs::Point>::iterator wayPointsIterator = _wayPoints.begin(); wayPointsIterator != _wayPoints.end(); wayPointsIterator++) {
 		Structs::Point * currentWayPoint = wayPointsIterator.operator ->();
-		float wantedYaw = calculateWantedYaw(_robot->getLocation().pointValue(), currentWayPoint->realPointToRobotPoint());
+		float wantedYaw = calculateWantedYaw(_robot->getLocation().pointValue(), *currentWayPoint);
 
 		GoToPoint * goToPointBehavior;
 

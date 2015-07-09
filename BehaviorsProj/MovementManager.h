@@ -26,7 +26,6 @@ private:
 	LocalizationManager * _localizationManager;
 	list<Structs::Point> _wayPoints;
 
-	list<Structs::Point> initializeWaypoints(list<Structs::Point> mapWayPoints);
 	float calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint);
 
 public:
