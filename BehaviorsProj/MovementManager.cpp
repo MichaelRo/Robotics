@@ -31,21 +31,21 @@ list<Structs::Point> MovementManager::initializeWaypoints(list<Structs::Point> m
 }
 
 float MovementManager::calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint) {
-	return abs(acos(abs(goalPoint._y - startPoint._y) / startPoint.distanceBetweenPoints(goalPoint)) - M_PI);
+	return abs(acos(abs(goalPoint._y - startPoint._y) / startPoint.distanceBetweenPoints(goalPoint)) - M_PI) + _robot->getLocation()._yaw;
 }
 
 void MovementManager::start() {
 	//++ before or after?
 	for (list<Structs::Point>::iterator wayPointsIterator = _wayPoints.begin(); wayPointsIterator != _wayPoints.end(); wayPointsIterator++) {
 		Structs::Point * currentWayPoint = wayPointsIterator.operator ->();
-		float wantedYaw = calculateWantedYaw(_robot->getLocation().pointValue(), *currentWayPoint);
+		float wantedYaw = calculateWantedYaw(_robot->getLocation().pointValue(), currentWayPoint->realPointToRobotPoint());
 
 		GoToPoint * goToPointBehavior;
 
 		_robot->Read();
 
-		while (_robot->getLocation().pointValue().distanceBetweenPoints(*currentWayPoint) > COMPROMISED_DISTANCE) {
-			goToPointBehavior = new GoToPoint(_robot, _localizationManager, *currentWayPoint, wantedYaw);
+		while (_robot->getLocation().pointValue().distanceBetweenPoints(currentWayPoint->realPointToRobotPoint()) > COMPROMISED_DISTANCE) {
+			goToPointBehavior = new GoToPoint(_robot, _localizationManager, currentWayPoint->realPointToRobotPoint(), wantedYaw);
 
 			_robot->Read();
 

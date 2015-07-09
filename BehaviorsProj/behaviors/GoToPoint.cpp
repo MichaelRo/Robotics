@@ -16,7 +16,6 @@ GoToPoint::GoToPoint(Robot * robot, LocalizationManager * localizationManager, S
 	_goalPoint = goalPoint;
 	_wantedYaw = wantedYaw;
 
-	// Maybe we need to send (_wantedYaw - _robotLocation._yaw) ?
 	_turnInPlaceBehavior = new TurnInPlace(_robot, _localizationManager, _wantedYaw);
 	_goForwardBehavior = new GoForward(_robot, _localizationManager, goalPoint);
 
