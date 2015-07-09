@@ -14,9 +14,9 @@ LocalizationManager::~LocalizationManager() {
 LocalizationManager::LocalizationManager(Structs::Location startLocation, MapForRobot * map) {
 	_map = map;
 	srand(time(NULL));
-	_particles.push_front(*(new Particle(startLocation, 0.1, map)));
+	_particles.push_back(Particle(startLocation, (float) 1, map));
 
-	createNewParticles();
+	createNewParticles(startLocation);
 }
 
 void LocalizationManager::updateParticles(Structs::Location destination, vector<float> laserScan) {
@@ -93,8 +93,10 @@ Structs::Location LocalizationManager::getProbableLocation() {
 	return getHighestBeliefParticle()->getLocation();
 }
 
-void LocalizationManager::createNewParticles() {
-	// Decide who randoms the location - the LocalizationManager or the Particle itself
-	list<Particle> decendantParticles = getHighestBeliefParticle()->createDescendantParticles(PARTICLES_AMOUNT - _particles.size());
-	_particles.insert(_particles.end(), decendantParticles.begin(), decendantParticles.end());
+void LocalizationManager::createNewParticles(Structs::Location location) {
+//	list<Particle> decendantParticles = getHighestBeliefParticle()->createDescendantParticles(PARTICLES_AMOUNT - _particles.size());
+//	_particles.insert(_particles.end(), decendantParticles.begin(), decendantParticles.end());
+
+	for (int particleCreationIndex = 0; particleCreationIndex < (PARTICLES_AMOUNT - 1); particleCreationIndex++)
+		_particles.push_back(Particle(location, (float) 0.1, _map));
 }

@@ -36,7 +36,7 @@ public:
 
 	void updateParticles(Structs::Location destination, vector<float> laserScan);
 	Structs::Location getProbableLocation();
-	void createNewParticles();
+	void createNewParticles(Structs::Location location);
 	float getHighestBelief();
 };
 

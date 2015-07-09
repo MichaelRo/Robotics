@@ -34,10 +34,14 @@ public:
 	static const int NORTH_WEST = 8;
 	static const int NONE = 9;
 
+	static const int WAYPOINT_FOR_MAP = 1;
+	static const int WAYPOINT_FOR_GRID = 2;
+	static const int WAYPOINT_FOR_ROBOT = 3;
+
 	WaypointsManager();
 	WaypointsManager(list<Structs::Point> route, Map * map);
 
-	list<Structs::Point> getWaypoints(float resolution);
+	list<Structs::Point> getWaypoints(int waypointsType);
 
 	static int getDirection(Structs::Point src, Structs::Point dest);
 };
