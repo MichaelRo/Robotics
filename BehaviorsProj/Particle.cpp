@@ -13,7 +13,7 @@ Particle::~Particle() {
 
 }
 
-Particle::Particle(float x, float y, float yaw, float belief, Map * map) {
+Particle::Particle(float x, float y, float yaw, float belief, MapForRobot * map) {
 	_map = map;
 	_belief = belief;
 	Structs::Location deltaLocation = getRandomDeltaLocation();
@@ -26,7 +26,7 @@ Particle::Particle(float x, float y, float yaw, float belief, Map * map) {
 	cout << "Particle was created at: " << _location.toString() << "." << endl;
 }
 
-Particle::Particle(Structs::Location location, float belief, Map * map) {
+Particle::Particle(Structs::Location location, float belief, MapForRobot * map) {
 	_map = map;
 	_belief = 0.1; // 1?
 	Structs::Location deltaLocation = getRandomDeltaLocation();
@@ -120,7 +120,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 													_location._y + (sin(detectedLocationInMap._yaw) * j),
 													_location._yaw + DEGREES_TO_RADIANS(laserDegree));
 
-			int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y, _map->getMapResolution());
+			int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y);
 
 			if (detectedLocationValue == Map::FREE_CELL) {
 				correctDetectionsNumber++;
@@ -133,7 +133,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 												_location._y + (sin(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)),
 												_location._yaw + DEGREES_TO_RADIANS(laserDegree));
 
-		int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y, _map->getMapResolution());
+		int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y);
 
 		if (detectedLocationValue == Map::FREE_CELL) {
 			falseDetectionsNumber++;

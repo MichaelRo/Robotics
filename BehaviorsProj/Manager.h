@@ -13,6 +13,7 @@
 
 #include "Robot.h"
 #include "Map.h"
+#include "MapForRobot.h"
 #include "PathPlanner.h"
 #include "WaypointsManager.h"
 #include "LocalizationManager.h"
@@ -26,6 +27,7 @@ private:
 	Robot * _robot;
 	ConfigurationManager * _configurationManager;
 	Map * _map;
+	MapForRobot * _mapForRobot;
 	PathPlanner * _pathPlanner;
 	WaypointsManager * _waypointsManager;
 	LocalizationManager * _localizationManager;
