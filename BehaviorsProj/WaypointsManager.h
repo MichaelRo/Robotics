@@ -9,6 +9,7 @@
 #define WAYPOINTSMANAGER_H_
 
 #include "Structs.h"
+#include "Map.h"
 
 #include <list>
 
@@ -16,6 +17,7 @@ using namespace std;
 
 class WaypointsManager {
 private:
+	Map * _map;
 	list<Structs::Point> _wayPoints;
 	list<Structs::Point>::iterator _wayPointsIterator;
 
@@ -33,9 +35,9 @@ public:
 	static const int NONE = 9;
 
 	WaypointsManager();
-	WaypointsManager(list<Structs::Point> route);
+	WaypointsManager(list<Structs::Point> route, Map * map);
 
-	list<Structs::Point> getWaypoints();
+	list<Structs::Point> getWaypoints(float resolution);
 
 	static int getDirection(Structs::Point src, Structs::Point dest);
 };

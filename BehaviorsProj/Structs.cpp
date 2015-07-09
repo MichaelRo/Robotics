@@ -100,6 +100,10 @@ Structs::Point Structs::Point::operator /(const int & number) const {
 	return Structs::Point(_x / number, _y / number);
 }
 
+Structs::Point Structs::Point::operator /(float & number) const {
+	return Structs::Point(ceil(_x / number), ceil(_y / number));
+}
+
 Structs::Point Structs::Point::operator *(const int & number) const {
 	return Structs::Point(_x * number, _y * number);
 }

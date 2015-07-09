@@ -43,6 +43,7 @@ public:
 		Point operator+(const int & number) const;
 		Point operator-(const int & number) const;
 		Point operator/(const int & number) const;
+		Point operator/(float & number) const;
 		Point operator*(const int & number) const;
 		void operator=(const Point & point);
 	};
