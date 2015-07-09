@@ -34,7 +34,7 @@ void Manager::run() {
 	cout << "The route size is: " << route.size() << ", ";
 
 	_waypointsManager = new WaypointsManager(route, _map);
-	list<Structs::Point> wayPoints = _waypointsManager->getWaypoints(_map->getGridResolution());
+	list<Structs::Point> wayPoints = _waypointsManager->getWaypoints(WaypointsManager::WAYPOINT_FOR_GRID);
 	_map->markWayPoints(wayPoints, _map->getGridResolution());
 	cout << wayPoints.size() << " of these are waypoints." << endl;
 
@@ -49,13 +49,13 @@ void Manager::run() {
 	_mapForRobot = new MapForRobot(_map);
 
 	// Check if the waypoints are really different than the points that the robot returns (the player)
-	_robot->setRobotLocation(robotStartLocation);
+	_robot->setRobotLocation(robotStartLocation.realLocationToRobotLocation());
 //	_robot->setRobotPosition(robotStartLocation.pointValue() * 2.5, robotStartLocation._yaw);
 
 	_robot->Read();
 	_localizationManager = new LocalizationManager(robotStartLocation, _mapForRobot);
 
-	_movementManager = new MovementManager(_robot, _localizationManager, _waypointsManager->getWaypoints(_map->getMapResolution()));
+	_movementManager = new MovementManager(_robot, _localizationManager, _waypointsManager->getWaypoints(WaypointsManager::WAYPOINT_FOR_ROBOT));
 	_movementManager->start();
 }
 
