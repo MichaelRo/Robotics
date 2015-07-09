@@ -59,11 +59,30 @@ void WaypointsManager::markWaypoints(list<Structs::Point> route) {
 	@param resolution - the wanted resolution
 	@return - Waypoints, represented as list<Structs::Point>
 */
-list<Structs::Point> WaypointsManager::getWaypoints(float resolution) {
+list<Structs::Point> WaypointsManager::getWaypoints(int waypointsType) {
 	list<Structs::Point> wayPoints = list<Structs::Point>(_wayPoints.size());
 
 	for (list<Structs::Point>::iterator wayPointsIterator = _wayPoints.begin(); wayPointsIterator != _wayPoints.end(); wayPointsIterator++) {
-		wayPoints.push_back((*wayPointsIterator.operator ->()) / ceil(_map->getGridResolution() / resolution));
+		Structs::Point waypoint;
+
+		switch (waypointsType) {
+			case WAYPOINT_FOR_MAP:
+				waypoint = (*wayPointsIterator.operator ->()) / ceil(_map->getGridResolution() / _map->getMapResolution());
+
+				break;
+			case WAYPOINT_FOR_GRID:
+				waypoint = (*wayPointsIterator.operator ->()) / ceil(_map->getGridResolution() / _map->getGridResolution());
+
+				break;
+			case WAYPOINT_FOR_ROBOT:
+				waypoint = ((*wayPointsIterator.operator ->()) / ceil(_map->getGridResolution() / _map->getMapResolution())).realPointToRobotPoint();
+
+				break;
+			default:
+				break;
+		}
+
+		wayPoints.push_back(waypoint);
 	}
 
 	return wayPoints;
