@@ -20,7 +20,7 @@ bool TurnInPlace::startCondition() {
 }
 
 bool TurnInPlace::stopCondition() {
-	float yawww = abs(_robot->getLocation().robotLocationToRealLocation()._yaw - ((_neededYaw * 180) / M_PI));
+	float yawww = abs(_robot->getLocation()._yaw - ((_neededYaw * 180) / M_PI));
 	cout << "(currentYaw - neededYaw): " << Helper::floatToString(yawww) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
 
 	if (yawww <= COMPROMISED_YAW) {

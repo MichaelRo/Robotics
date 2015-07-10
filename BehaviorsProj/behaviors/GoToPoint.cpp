@@ -28,7 +28,7 @@ void GoToPoint::initializeGoToPointBehavior() {
 }
 
 bool GoToPoint::isGoalLocationReached() {
-	return _robot->getLocation().pointValue().distanceBetweenPoints(_goalPoint) <= COMPROMISED_DISTANCE;
+	return _robot->getLocation().pointValue().realPointToRobotPoint().distanceBetweenPoints(_goalPoint) <= COMPROMISED_DISTANCE;
 }
 
 bool GoToPoint::startCondition() {

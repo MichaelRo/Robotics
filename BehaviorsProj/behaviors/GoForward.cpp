@@ -20,7 +20,7 @@ bool GoForward::startCondition() {
 }
 
 bool GoForward::stopCondition() {
-	if (_robot->getPosition().distanceBetweenPoints(_goalPoint) <= COMPROMISED_DISTANCE)
+	if (_robot->getPosition().realPointToRobotPoint().distanceBetweenPoints(_goalPoint) <= COMPROMISED_DISTANCE)
 		return true;
 
 	for (int i = Helper::DegreesToIndex(-30); i < Helper::DegreesToIndex(30); i++) {
