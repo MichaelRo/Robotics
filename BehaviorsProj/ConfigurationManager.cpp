@@ -97,18 +97,18 @@ void ConfigurationManager::setGridResolutionCM(string gridResolution) {
 }
 
 int ConfigurationManager::setConfigurationProperty(Structs::ConfigurationProperty property) {
-	if (property._token == "map") {
-		setMapFilePath(property._value);
-	} else if (property._token == "startLocation") {
-		setRobotStartLocation(property._value);
-	} else if (property._token == "goal") {
-		setRobotGoalLocation(property._value);
-	} else if (property._token == "robotSize") {
-		setRobotSize(property._value);
-	} else if (property._token == "MapResolutionCM") {
-		setMapResolutionCM(property._value);
-	} else if (property._token == "GridResolutionCM") {
-		setGridResolutionCM(property._value);
+	if (property.getToken() == "map") {
+		setMapFilePath(property.getValue());
+	} else if (property.getToken() == "startLocation") {
+		setRobotStartLocation(property.getValue());
+	} else if (property.getToken() == "goal") {
+		setRobotGoalLocation(property.getValue());
+	} else if (property.getToken() == "robotSize") {
+		setRobotSize(property.getValue());
+	} else if (property.getToken() == "MapResolutionCM") {
+		setMapResolutionCM(property.getValue());
+	} else if (property.getToken() == "GridResolutionCM") {
+		setGridResolutionCM(property.getValue());
 	} else {
 		// In case that the token wasn't valid
 		return 0;

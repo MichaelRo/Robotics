@@ -17,9 +17,9 @@ Particle::Particle(float x, float y, float yaw, float belief, MapForRobot * map)
 	_map = map;
 	_belief = belief;
 	Structs::Location deltaLocation = getRandomDeltaLocation();
-	Structs::Location newLocation(x + deltaLocation._x,
-								  y + deltaLocation._y,
-								  yaw + deltaLocation._yaw);
+	Structs::Location newLocation(x + deltaLocation.getX(),
+								  y + deltaLocation.getY(),
+								  yaw + deltaLocation.getYaw());
 	_location = newLocation;
 	_id = PARTICLE_ID_SEQUENCE++;
 
@@ -48,9 +48,9 @@ Structs::Location Particle::getLocation() {
 }
 
 float Particle::update(Structs::Location destination, vector<float> laserScan) {
-	_location._x += destination._x;
-	_location._y += destination._y;
-	_location._yaw += destination._yaw;
+	_location.setX(_location.getX() + destination.getX());
+	_location.setY(_location.getY() + destination.getY());
+	_location.setYaw(_location.getYaw() + destination.getYaw());
 	_belief = calculateBelief(destination, laserScan);
 
 	return _belief;
@@ -66,7 +66,7 @@ float Particle::calculateBelief(Structs::Location destination, vector<float> las
 
 float Particle::calculateMotionModelProbability(Structs::Location destination) {
 	float distance = getDistance(destination);
-	float yaw = abs(destination._yaw);
+	float yaw = abs(destination.getYaw());
 
 	float propability = 0.25;
 
@@ -107,7 +107,7 @@ list<Particle> Particle::createDescendantParticles(int amount) {
 }
 
 float Particle::getDistance(Structs::Location destination) {
-	return sqrt((destination._x * destination._x) + (destination._y * destination._y));
+	return sqrt((destination.getX() * destination.getX()) + (destination.getY() * destination.getY()));
 }
 
 bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
@@ -115,12 +115,13 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	int falseDetectionsNumber = 0;
 
 	if (laserScan < LASER_MAX_RANGE) {
-		for (int j = Helper::SENSOR_FROM_END; j <= Helper::SENSOR_DETECTION_RANGE; j +=  Helper::CELL_DIMENSION) {
-			Structs::Location detectedLocationInMap(_location._x + (cos(detectedLocationInMap._yaw) * j),
-													_location._y + (sin(detectedLocationInMap._yaw) * j),
-													_location._yaw + DEGREES_TO_RADIANS(laserDegree));
+//		for (int j = Helper::SENSOR_FROM_END; j <= Helper::SENSOR_DETECTION_RANGE; j +=  Helper::CELL_DIMENSION) {
+		for (int j = Helper::SENSOR_FROM_END; j <= Helper::SENSOR_DETECTION_RANGE; j++) {
+			Structs::Location detectedLocationInMap(_location.getX() + (cos(detectedLocationInMap.getYaw()) * j),
+													_location.getY() + (sin(detectedLocationInMap.getYaw()) * j),
+													_location.getYaw() + DEGREES_TO_RADIANS(laserDegree));
 
-			int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y);
+			int detectedLocationValue = _map->getCellValue(detectedLocationInMap.getX(), detectedLocationInMap.getY());
 
 			if (detectedLocationValue == Map::FREE_CELL) {
 				correctDetectionsNumber++;
@@ -129,11 +130,11 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 			}
 		}
 	} else {
-		Structs::Location detectedLocationInMap(_location._x + (cos(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)),
-												_location._y + (sin(detectedLocationInMap._yaw) * METER_TO_CM(laserScan)),
-												_location._yaw + DEGREES_TO_RADIANS(laserDegree));
+		Structs::Location detectedLocationInMap(_location.getX() + (cos(detectedLocationInMap.getYaw()) * METER_TO_CM(laserScan)),
+												_location.getY() + (sin(detectedLocationInMap.getYaw()) * METER_TO_CM(laserScan)),
+												_location.getYaw() + DEGREES_TO_RADIANS(laserDegree));
 
-		int detectedLocationValue = _map->getCellValue(detectedLocationInMap._x, detectedLocationInMap._y);
+		int detectedLocationValue = _map->getCellValue(detectedLocationInMap.getX(), detectedLocationInMap.getY());
 
 		if (detectedLocationValue == Map::FREE_CELL) {
 			falseDetectionsNumber++;

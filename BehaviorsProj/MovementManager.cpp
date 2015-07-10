@@ -18,7 +18,7 @@ MovementManager::MovementManager(Robot * robot, LocalizationManager * localizati
 }
 
 float MovementManager::calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint) {
-	return abs(acos(abs(goalPoint._y - startPoint._y) / startPoint.distanceBetweenPoints(goalPoint)) - M_PI);
+	return abs(acos(abs(goalPoint.getY() - startPoint.getY()) / startPoint.distanceBetweenPoints(goalPoint)) - M_PI);
 }
 
 void MovementManager::start() {

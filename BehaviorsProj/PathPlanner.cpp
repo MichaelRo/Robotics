@@ -33,35 +33,36 @@ list<Structs::Point> PathPlanner::performAStar() {
 		Structs::Node currMinNode = _openQueue.top();
 
 		// if we arrived the end point
-		if (currMinNode._point == _endPoint) {
-			return reconstruct_path(currMinNode._point);
+		if (currMinNode.getPoint() == _endPoint) {
+			return reconstruct_path(currMinNode.getPoint());
 		}
+
 		_openQueue.pop();
-		openMap[currMinNode._point.hashCode()] = false;
-		closedMap[currMinNode._point.hashCode()] = true;
+		openMap[currMinNode.getPoint().hashCode()] = false;
+		closedMap[currMinNode.getPoint().hashCode()] = true;
 
 		// get the neighbors of the current node and iterate it
 		list<Structs::Node> neighbors = getNeighbors(&currMinNode);
 		for (list<Structs::Node>::iterator nodesIterator = neighbors.begin(); nodesIterator != neighbors.end(); nodesIterator++) {
 			Structs::Node *currNeighbor = nodesIterator.operator ->();
 			// if we already finished dealing with this neighbor we continue
-			if (closedMap[currNeighbor->_point.hashCode()]) {
+			if (closedMap[currNeighbor->getPoint().hashCode()]) {
 				continue;
 			}
 
-			float tempNeighborGGrade = (currMinNode._g + COST_BETWEEN_NODES)*0.05 + currNeighbor->_turnFactor*0.75 + currNeighbor->_wallFactor*0.2;
+			float tempNeighborGGrade = (currMinNode.getG() + COST_BETWEEN_NODES)*0.05 + currNeighbor->getTurnFactor()*0.75 + currNeighbor->getWallFactor()*0.2;
 
 			// if we haven't visit this neighbor or if the grade that we calculated is less than what the neighbor have
-			if (!openMap[currNeighbor->_point.hashCode()] || tempNeighborGGrade < currNeighbor->_g) {
+			if (!openMap[currNeighbor->getPoint().hashCode()] || tempNeighborGGrade < currNeighbor->getG()) {
 				// set parent node and grades
-				_parentsMap[currNeighbor->_point.hashCode()] = currMinNode._point;
-				currNeighbor->_g = tempNeighborGGrade;
+				_parentsMap[currNeighbor->getPoint().hashCode()] = currMinNode.getPoint();
+				currNeighbor->setG(tempNeighborGGrade);
 				currNeighbor->calcHGrade(_endPoint);
 
 				// if this neighbor is not in the open list, add it.
-				if (!openMap[currNeighbor->_point.hashCode()]) {
+				if (!openMap[currNeighbor->getPoint().hashCode()]) {
 					_openQueue.push(*currNeighbor);
-					openMap[currNeighbor->_point.hashCode()] = true;
+					openMap[currNeighbor->getPoint().hashCode()] = true;
 				}
 			}
 		}
@@ -78,20 +79,21 @@ list<Structs::Point> PathPlanner::performAStar() {
 list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 	list<Structs::Node> neighbors;
 
-	for (int rowsIndex = node->_point._y - 1; rowsIndex <= node->_point._y + 1; rowsIndex++) {
+	for (int rowsIndex = node->getPoint().getY() - 1; rowsIndex <= node->getPoint().getY() + 1; rowsIndex++) {
 		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
-			for (int columnsIndex = node->_point._x - 1; columnsIndex <= node->_point._x + 1; columnsIndex++) {
+			for (int columnsIndex = node->getPoint().getX() - 1; columnsIndex <= node->getPoint().getX() + 1; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
 					if ((_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Map::FREE_CELL) &&
-						!((node->_point._x == columnsIndex) && (node->_point._y == rowsIndex))) {
+						!((node->getPoint().getX() == columnsIndex) && (node->getPoint().getY() == rowsIndex))) {
+
 						Structs::Point neighborPoint(columnsIndex, rowsIndex);
 						Structs::Node neighbor(neighborPoint, std::numeric_limits<float>::max());
 						// handle the direction factor
-						if (node->_point != _startPoint) {
-							neighbor._turnFactor = calcDirectionFactor(_parentsMap[node->_point.hashCode()], node->_point, neighborPoint);
+						if (node->getPoint() != _startPoint) {
+							neighbor.setTurnFactor(calcDirectionFactor(_parentsMap[node->getPoint().hashCode()], node->getPoint(), neighborPoint));
 						}
 
-						neighbor._wallFactor = calcWallFactor(neighborPoint, 1);
+						neighbor.setWallFactor(calcWallFactor(neighborPoint, 1));
 
 						neighbors.push_back(neighbor);
 					}
@@ -145,9 +147,9 @@ float PathPlanner::calcDirectionFactor(Structs::Point p1, Structs::Point p2, Str
 
 float PathPlanner::calcWallFactor(Structs::Point point, int wallDis) {
 	int wallCounter = 0;
-	for (int rowsIndex = point._y - wallDis; rowsIndex <= point._y + wallDis; rowsIndex++) {
+	for (int rowsIndex = point.getY() - wallDis; rowsIndex <= point.getY() + wallDis; rowsIndex++) {
 		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
-			for (int columnsIndex = point._x - wallDis; columnsIndex <= point._x + wallDis; columnsIndex++) {
+			for (int columnsIndex = point.getX() - wallDis; columnsIndex <= point.getX() + wallDis; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
 					if (_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Map::PADDING_CELL ||
 						_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Map::OCCUPIED_CELL) {

@@ -19,16 +19,24 @@ using namespace std;
 class Structs {
 public:
 	struct Point {
-	public :
+	private:
 		int _x;
 		int _y;
 
+	public :
 		Point();
 		Point (int x, int y);
+
+		int getX();
+		void setX(int x);
+		int getY();
+		void setY(int y);
 
 		float distanceBetweenPoints(Point point);
 		float manhattanDistance(Point point);
 		float diagonalDistance(Point point);
+		float squaredEuclideanDistance(Point point);
+
 		Point robotPointToRealPoint();
 		Point realPointToRobotPoint();
 		int hashCode();
@@ -51,17 +59,27 @@ public:
 	};
 
 	struct Location{
+	private:
 		float _x;
 		float _y;
 		float _yaw;
 
+	public:
 		Location();
 		Location(float x, float y, float yaw = 0);
 		Location(Point p, float yaw = 0);
 
-		Point pointValue();
+		float getX();
+		void setX(float x);
+		float getY();
+		void setY(float y);
+		float getYaw();
+		void setYaw(float yaw);
+
 		Location robotLocationToRealLocation();
 		Location realLocationToRobotLocation();
+
+		Point pointValue();
 		string toString();
 
 		bool operator==(const Location & location) const;
@@ -72,26 +90,44 @@ public:
 	};
 
 	struct Node {
-	public :
+	private:
 		Point _point;
 		float _g; // The cost until this search cell g(x)
 		float _h; // The expected cost to the goal h(x)
 		float _turnFactor;
 		float _wallFactor;
 
+	public :
 		Node();
 		Node(Point p, float GGrade);
 
+		Point getPoint();
+		void setPoint(Point point);
+		float getG();
+		void setG(float g);
+		float getH();
 		float getF();
+		float getTurnFactor();
+		void setTurnFactor(float turnFactor);
+		float getWallFactor();
+		void setWallFactor(float wallFactor);
+
 		void calcHGrade(Point goal);
 	};
 
 	struct Size {
+	private:
 		int _width;
 		int _height;
 
+	public:
 		Size();
 		Size(int width, int height);
+
+		int getWidth();
+		void setWidth(int width);
+		int getHeight();
+		void setHeight(int height);
 
 		string toString();
 
@@ -103,8 +139,14 @@ public:
 	};
 
 	struct ConfigurationProperty {
+	private:
 		string _token;
 		string _value;
+
+	public:
+		string getToken();
+		string getValue();
+		void setValue(string value);
 
 		ConfigurationProperty(string token, string value);
 	};
