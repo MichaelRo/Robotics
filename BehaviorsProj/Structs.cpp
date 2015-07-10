@@ -38,11 +38,11 @@ float Structs::Point::diagonalDistance(Point point) {
 }
 
 Structs::Point Structs::Point::robotPointToRealPoint() {
-	return Point(_x, _y) * 40;
+	return Point(_x * 40 + 275, _y * (-40) + 190);
 }
 
 Structs::Point Structs::Point::realPointToRobotPoint() {
-	return Point(_x, _y) / 40;
+	return Point((_x - 275) / 40, (_y -190) % (-40));
 }
 
 int Structs::Point::hashCode() {
