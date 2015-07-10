@@ -8,9 +8,10 @@ Todo List:
   3. Check why the route not goes straight of the start point and to the goal point
   4. Check why the waypoints gets to the MovementManager as (0,0) or nan points
   5. Check that the waypoints conversion to map resolution really works
-  6. Check what with the first waypoint (the one that close to the start)
-  7. Make GoToPoint try again when he fails to get to the correct point
-  8. Check why the Particle's belief doesn't calculates well / at all (maybe something with the previous belief factor)
-  9. Clear unimportant console prints and add the relevant ones
-  10. Clean unused consts
-  11. Add notes to all class files
+  6. Add yaw change for obstacle avoidence
+  7. Check what with the first waypoint (the one that close to the start)
+  8. Make GoToPoint try again when he fails to get to the correct point
+  9. Check why the Particle's belief doesn't calculates well / at all (maybe something with the previous belief factor)
+  10. Clear unimportant console prints and add the relevant ones
+  11. Clean unused consts
+  12. Add notes to all class files
