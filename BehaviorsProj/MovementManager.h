@@ -29,7 +29,7 @@ private:
 	float calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint);
 
 public:
-	MovementManager(Robot * robot, LocalizationManager * localizationManager, list<Structs::Point> wayPoints);
+	MovementManager(Robot * robot, LocalizationManager * localizationManager, WaypointsManager * _waypointsManager);
 	virtual ~MovementManager();
 
 	void start();
