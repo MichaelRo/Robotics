@@ -46,8 +46,6 @@ void Robot::setSpeed(float xSpeed, float angularSpeed) {
 
 void Robot::Read() {
 	_playerClient->Read();
-
-	cout << "Robot is reading" << endl;
 }
 
 vector<float> Robot::getLaserScan() {
