@@ -17,24 +17,47 @@ Structs::Point::Point(int x, int y) {
 	_y = y;
 }
 
+int Structs::Point::getX() {
+	return _x;
+}
+
+void Structs::Point::setX(int x) {
+	_x = x;
+}
+
+int Structs::Point::getY() {
+	return _y;
+}
+
+void Structs::Point::setY(int y) {
+	_y = y;
+}
+
 float Structs::Point::distanceBetweenPoints(Point point) {
-	double aSide = pow(_x - point._x, 2);
-	double bSide = pow(_y - point._y, 2);
+	double aSide = pow(_x - point.getX(), 2);
+	double bSide = pow(_y - point.getY(), 2);
 	return sqrt(aSide + bSide);
 }
 
 float Structs::Point::manhattanDistance(Point point) {
-	double xSide = abs(_x - point._x);
-	double ySide = abs(_y - point._y);
+	double xSide = abs(_x - point.getX());
+	double ySide = abs(_y - point.getY());
 
-	return xSide + ySide;
+	return (xSide + ySide);
 }
 
 float Structs::Point::diagonalDistance(Point point) {
-	double xSide = abs(_x - point._x);
-	double ySide = abs(_y - point._y);
+	double xSide = abs(_x - point.getX());
+	double ySide = abs(_y - point.getY());
 
 	return max(xSide, ySide);
+}
+
+float Structs::Point::squaredEuclideanDistance(Point point) {
+	double xSide = abs(_x - point.getX());
+	double ySide = abs(_y - point.getY());
+
+	return pow(xSide, 2) + pow(ySide, 2);
 }
 
 Structs::Point Structs::Point::robotPointToRealPoint() {
@@ -134,9 +157,33 @@ Structs::Location::Location(float x, float y, float yaw) {
 }
 
 Structs::Location::Location(Point p, float yaw) {
-	this->_x = p._x;
-	this->_y = p._y;
+	this->_x = p.getX();
+	this->_y = p.getY();
 	this->_yaw = yaw;
+}
+
+float Structs::Location::getX() {
+	return _x;
+}
+
+void Structs::Location::setX(float x) {
+	_x = x;
+}
+
+float Structs::Location::getY() {
+	return _y;
+}
+
+void Structs::Location::setY(float y) {
+	_y = y;
+}
+
+float Structs::Location::getYaw() {
+	return _yaw;
+}
+
+void Structs::Location::setYaw(float yaw) {
+	_yaw = yaw;
 }
 
 Structs::Point Structs::Location::pointValue() {
@@ -203,12 +250,48 @@ Structs::Node::Node(Point p, float GGrade) {
 	_wallFactor = 0;
 }
 
+Structs::Point Structs::Node::getPoint() {
+	return _point;
+}
+
+void Structs::Node::setPoint(Structs::Point point) {
+	_point = point;
+}
+
+float Structs::Node::getG() {
+	return _g;
+}
+
+void Structs::Node::setG(float g) {
+	_g = g;
+}
+
+float Structs::Node::getH() {
+	return _h;
+}
+
 float Structs::Node::getF() {
 	return _g + _h;
 }
 
+float Structs::Node::getTurnFactor() {
+	return _turnFactor;
+}
+
+void Structs::Node::setTurnFactor(float turnFactor) {
+	_turnFactor = turnFactor;
+}
+
+float Structs::Node::getWallFactor() {
+	return _wallFactor;
+}
+
+void Structs::Node::setWallFactor(float wallFactor) {
+	_wallFactor = wallFactor;
+}
+
 void Structs::Node::calcHGrade(Point goal) {
-	_h = _point.manhattanDistance(goal);
+	_h = _point.manhattanDistance(goal) * 2;
 }
 
 Structs::Size::Size() {
@@ -219,6 +302,22 @@ Structs::Size::Size() {
 Structs::Size::Size(int width, int height) {
 	this->_width = width;
 	this->_height = height;
+}
+
+int Structs::Size::getWidth() {
+	return _width;
+}
+
+void Structs::Size::setWidth(int width) {
+	_width = width;
+}
+
+int Structs::Size::getHeight() {
+	return _height;
+}
+
+void Structs::Size::setHeight(int height) {
+	_height = height;
 }
 
 string Structs::Size::toString() {
@@ -248,5 +347,17 @@ void Structs::Size::operator =(const Size & size) {
 
 Structs::ConfigurationProperty::ConfigurationProperty(string token, string value) {
 	_token = token;
+	_value = value;
+}
+
+string Structs::ConfigurationProperty::getToken() {
+	return _token;
+}
+
+string Structs::ConfigurationProperty::getValue() {
+	return _value;
+}
+
+void Structs::ConfigurationProperty::setValue(string value) {
 	_value = value;
 }

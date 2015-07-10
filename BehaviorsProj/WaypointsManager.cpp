@@ -60,7 +60,7 @@ void WaypointsManager::markWaypoints(list<Structs::Point> route) {
 	@return - Waypoints, represented as list<Structs::Point>
 */
 list<Structs::Point> WaypointsManager::getWaypoints(int waypointsType) {
-	list<Structs::Point> wayPoints = list<Structs::Point>(_wayPoints.size());
+	list<Structs::Point> wayPoints = list<Structs::Point>();
 
 	for (list<Structs::Point>::iterator wayPointsIterator = _wayPoints.begin(); wayPointsIterator != _wayPoints.end(); wayPointsIterator++) {
 		Structs::Point waypoint;
@@ -98,24 +98,24 @@ list<Structs::Point> WaypointsManager::getWaypoints(int waypointsType) {
 int WaypointsManager::getDirection(Structs::Point src, Structs::Point dest) {
 	int direction = NONE;
 
-	if (dest._y > src._y) {
-		if (dest._x < src._x)
+	if (dest.getY() > src.getY()) {
+		if (dest.getX() < src.getX())
 			direction = NORTH_WEST;
-		else if (dest._x > src._x)
+		else if (dest.getX() > src.getX())
 			direction = NORTH_EAST;
 		else
 			direction = NORTH;
-	} else if (dest._y < src._y) {
-		if (dest._x < src._x)
+	} else if (dest.getY() < src.getY()) {
+		if (dest.getX() < src.getX())
 			direction = SOUTH_WEST;
-		else if (dest._x > src._x)
+		else if (dest.getX() > src.getX())
 			direction = SOUTH_EAST;
 		else
 			direction = SOUTH;
 	} else {
-		if (dest._x < src._x)
+		if (dest.getX() < src.getX())
 			direction = WEST;
-		else if (dest._x > src._x)
+		else if (dest.getX() > src.getX())
 			direction = EAST;
 	}
 

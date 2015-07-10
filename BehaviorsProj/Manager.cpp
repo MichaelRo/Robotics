@@ -41,14 +41,14 @@ void Manager::run() {
 	Structs::Location robotStartLocation = _configurationManager->getRobotStartLocation();
 	Structs::Location robotGoalLocation = _configurationManager->getRobotGoalLocation();
 
-	_map->setCellValue(robotStartLocation._x, robotStartLocation._y, Map::START_LOCATION_CELL, _map->getMapResolution());
-	_map->setCellValue(robotGoalLocation._x, robotGoalLocation._y, Map::GOAL_LOCATION_CELL, _map->getMapResolution());
+	_map->setCellValue(robotStartLocation.getX(), robotStartLocation.getY(), Map::START_LOCATION_CELL, _map->getMapResolution());
+	_map->setCellValue(robotGoalLocation.getX(), robotGoalLocation.getY(), Map::GOAL_LOCATION_CELL, _map->getMapResolution());
 
 	_map->saveMap("allPointsMap.png");
 
 	_mapForRobot = new MapForRobot(_map);
 
-	Structs::Location realRobotStartLocation(robotStartLocation.pointValue().realPointToRobotPoint(), robotStartLocation._yaw);
+	Structs::Location realRobotStartLocation(robotStartLocation.pointValue().realPointToRobotPoint(), robotStartLocation.getYaw());
 	_robot->setRobotLocation(realRobotStartLocation);
 
 	_robot->Read();
@@ -64,7 +64,7 @@ Map * Manager::initializeMap() {
 	map->loadMap("Simulation/roboticLabMap.png");
 	map->saveMap("originalMapGrid.png");
 
-	map->padMapObstacles(_configurationManager->getRobotSize()._height / map->getGridResolution());
+	map->padMapObstacles(_configurationManager->getRobotSize().getHeight() / map->getGridResolution());
 	map->saveMap("paddedMapGrid.png");
 
 	return map;

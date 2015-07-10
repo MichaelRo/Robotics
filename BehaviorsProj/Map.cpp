@@ -320,8 +320,8 @@ void Map::padACell(Structs::Point cellPoint, Matrix * matrix, int ratio) {
 		Structs::Point * neighbor = neighborsIterator.operator ->();
 
 		// Sets the neighbor as a neighbor only if it isn't already occupied
-		if (_grid->getCellValue(neighbor->_x, neighbor->_y) == FREE_CELL)
-			matrix->setCellValue(neighbor->_x, neighbor->_y, PADDING_CELL);
+		if (_grid->getCellValue(neighbor->getX(), neighbor->getY()) == FREE_CELL)
+			matrix->setCellValue(neighbor->getX(), neighbor->getY(), PADDING_CELL);
 	}
 }
 
@@ -353,7 +353,7 @@ void Map::markCells(list<Structs::Point> points, int cellType, float resolution)
 	for (list<Structs::Point>::iterator pointsIterator = points.begin(); pointsIterator != points.end(); ++pointsIterator) {
 		Structs::Point * point = pointsIterator.operator ->();
 
-		setCellValue(point->_x, point->_y, cellType, resolution);
+		setCellValue(point->getX(), point->getY(), cellType, resolution);
 	}
 }
 
@@ -368,10 +368,10 @@ void Map::markCells(list<Structs::Point> points, int cellType, float resolution)
 list<Structs::Point> Map::getCellsNeighbors(Structs::Point point, Matrix * matrix, int ratio) {
 	list<Structs::Point> neighbors = list<Structs::Point>();
 
-	for (int rowsIndex = point._y - ratio; rowsIndex <= point._y + ratio; rowsIndex++) {
+	for (int rowsIndex = point.getY() - ratio; rowsIndex <= point.getY() + ratio; rowsIndex++) {
 		// Checks that the current cell is within the matrix row boundaries
 		if (!(rowsIndex < 0 || rowsIndex >= matrix->getHeight())) {
-			for (int columnsIndex = point._x - ratio; columnsIndex <= point._x + ratio; columnsIndex++) {
+			for (int columnsIndex = point.getX() - ratio; columnsIndex <= point.getX() + ratio; columnsIndex++) {
 				// Checks that the current cell is within the matrix column boundaries
 				if (!(columnsIndex < 0 || columnsIndex >= matrix->getWidth())) {
 					Structs::Point neighbor(columnsIndex, rowsIndex);

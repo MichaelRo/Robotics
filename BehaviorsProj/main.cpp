@@ -24,7 +24,7 @@ int main (int argc, const char * argv[]){
 //	map->loadMap("Simulation/roboticLabMap.png");
 //	map->saveMap("originalMapMatrix.png");
 //
-//	map->padMapObstacles(conf->getRobotSize()._height / conf->getGridResolutionCM());
+//	map->padMapObstacles(conf->getRobotSize().getHeight() / conf->getGridResolutionCM());
 //	map->saveMap("paddedMapMatrix.png");
 //
 //	Structs::Point startPoint = conf->getRobotStartLocation().pointValue();
@@ -32,12 +32,14 @@ int main (int argc, const char * argv[]){
 //
 //	PathPlanner pathPlanner = PathPlanner(map, startPoint, endPoint);
 //	list<Structs::Point> route = pathPlanner.performAStar();
-//	cout << "route size is: " << route.size() << endl;
+//	cout << "The route size is: " << route.size() << ", ";
 //	map->markRoute(route, map->getGridResolution());
 //
 //	map->saveMap("aStarMap.png");
 //
-//	list<Structs::Point> wayPoints = WaypointsManager(route).getWaypoints();
+//	WaypointsManager * waypointsManager = new WaypointsManager(route, map);
+//	list<Structs::Point> wayPoints = waypointsManager->getWaypoints(WaypointsManager::WAYPOINT_FOR_GRID);
+//	cout << wayPoints.size() << " of these are waypoints." << endl;
 //	map->markWayPoints(wayPoints, map->getGridResolution());
 //
 //	map->saveMap("wayPointsMap.png");
@@ -45,8 +47,8 @@ int main (int argc, const char * argv[]){
 //	Structs::Location robotStartLocation = conf->getRobotStartLocation();
 //	Structs::Location robotGoalLocation = conf->getRobotGoalLocation();
 //
-//	map->setCellValue(robotStartLocation._x, robotStartLocation._y, Map::START_LOCATION_CELL, map->getMapResolution());
-//	map->setCellValue(robotGoalLocation._x, robotGoalLocation._y, Map::GOAL_LOCATION_CELL, map->getMapResolution());
+//	map->setCellValue(robotStartLocation.getX(), robotStartLocation.getY(), Map::START_LOCATION_CELL, map->getMapResolution());
+//	map->setCellValue(robotGoalLocation.getX(), robotGoalLocation.getY(), Map::GOAL_LOCATION_CELL, map->getMapResolution());
 //
 //	map->saveMap("allPointsMap.png");
 }
