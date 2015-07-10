@@ -48,12 +48,11 @@ void Manager::run() {
 
 	_mapForRobot = new MapForRobot(_map);
 
-	// Check if the waypoints are really different than the points that the robot returns (the player)
-	_robot->setRobotLocation(robotStartLocation.realLocationToRobotLocation());
-//	_robot->setRobotPosition(robotStartLocation.pointValue() * 2.5, robotStartLocation._yaw);
+	Structs::Location realRobotStartLocation(robotStartLocation.pointValue().realPointToRobotPoint(), robotStartLocation._yaw);
+	_robot->setRobotLocation(realRobotStartLocation);
 
 	_robot->Read();
-	_localizationManager = new LocalizationManager(robotStartLocation, _mapForRobot);
+	_localizationManager = new LocalizationManager(realRobotStartLocation, _mapForRobot);
 
 	_movementManager = new MovementManager(_robot, _localizationManager, _waypointsManager->getWaypoints(WaypointsManager::WAYPOINT_FOR_ROBOT));
 	_movementManager->start();

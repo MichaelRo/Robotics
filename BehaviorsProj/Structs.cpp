@@ -247,6 +247,6 @@ void Structs::Size::operator =(const Size & size) {
 }
 
 Structs::ConfigurationProperty::ConfigurationProperty(string token, string value) {
-	this->_token = token;
-	this->_value = value;
+	_token = token;
+	_value = value;
 }
