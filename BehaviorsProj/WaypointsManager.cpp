@@ -67,15 +67,15 @@ list<Structs::Point> WaypointsManager::getWaypoints(int waypointsType) {
 
 		switch (waypointsType) {
 			case WAYPOINT_FOR_MAP:
-				waypoint = (*wayPointsIterator.operator ->()) / ceil(_map->getGridResolution() / _map->getMapResolution());
+				waypoint = (*wayPointsIterator.operator ->()) * ceil(_map->getGridResolution() / _map->getMapResolution());
 
 				break;
 			case WAYPOINT_FOR_GRID:
-				waypoint = (*wayPointsIterator.operator ->()) / ceil(_map->getGridResolution() / _map->getGridResolution());
+				waypoint = *wayPointsIterator.operator ->();
 
 				break;
 			case WAYPOINT_FOR_ROBOT:
-				waypoint = ((*wayPointsIterator.operator ->()) / ceil(_map->getGridResolution() / _map->getMapResolution())).realPointToRobotPoint();
+				waypoint = ((*wayPointsIterator.operator ->()) * ceil(_map->getGridResolution() / _map->getMapResolution())).realPointToRobotPoint();
 
 				break;
 			default:
