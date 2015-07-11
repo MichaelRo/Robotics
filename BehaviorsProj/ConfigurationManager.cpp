@@ -7,10 +7,18 @@
 
 #include "ConfigurationManager.h"
 
+/**
+	Destructs ConfigurationManager.
+*/
 ConfigurationManager::~ConfigurationManager() {
 
 }
 
+/**
+	Initializes the ConfigurationManager.
+
+	@param configurationFilePath - the path to the configuration file.
+*/
 ConfigurationManager::ConfigurationManager(string configurationFilePath) {
 	_mapFilePath = "";
 	_mapResolutionCM = 0;
@@ -31,18 +39,38 @@ ConfigurationManager::ConfigurationManager(string configurationFilePath) {
 	}
 }
 
+/**
+	This method return the path of the map file.
+
+	@return - the path of the map file.
+ */
 string ConfigurationManager::getMapFilePath() {
 	return _mapFilePath;
 }
 
+/**
+	This method set the path of the map file.
+
+	@param filePath - the path map file to set.
+ */
 void ConfigurationManager::setMapFilePath(string filePath) {
 	_mapFilePath = filePath;
 }
 
+/**
+	This method return the robot location.
+
+	@return - the robot location.
+ */
 Structs::Location ConfigurationManager::getRobotStartLocation() {
 	return _robotStartLocation;
 }
 
+/**
+	This method read from the configuration file the start location of the robot.
+
+	@param startLocation - read the start location of the robot and create a location object.
+ */
 void ConfigurationManager::setRobotStartLocation(string startLocation) {
 	vector<string> LocationVector = splitString(startLocation, ' ');
 
@@ -53,10 +81,20 @@ void ConfigurationManager::setRobotStartLocation(string startLocation) {
 	_robotStartLocation = Structs::Location(x, y, yaw);
 }
 
+/**
+	This method return the goal location for the robot.
+
+	@return - the goal robot location.
+ */
 Structs::Location ConfigurationManager::getRobotGoalLocation() {
 	return _robotGoalLocation;
 }
 
+/**
+	Set the goal location of the robot.
+
+	@param goalLocation - set the goal location of the robot.
+ */
 void ConfigurationManager::setRobotGoalLocation(string goalLocation) {
 	vector<string> LocationVector = splitString(goalLocation, ' ');
 
@@ -67,10 +105,20 @@ void ConfigurationManager::setRobotGoalLocation(string goalLocation) {
 	_robotGoalLocation = Structs::Location(x, y, yaw);
 }
 
+/**
+	Get the size of the robot.
+
+	@return - return the size of the robot.
+ */
 Structs::Size ConfigurationManager::getRobotSize() {
 	return _robotSize;
 }
 
+/**
+	read the size file from the configuration file.
+
+	@param size - read the size of the robot from the configuration file.
+ */
 void ConfigurationManager::setRobotSize(string size) {
 	vector<string> SizeVector = splitString(size, ' ');
 
@@ -80,22 +128,49 @@ void ConfigurationManager::setRobotSize(string size) {
 	_robotSize = Structs::Size(width, height);
 }
 
+/**
+	Get the resolution of the map in cm.
+
+	@ return - the resolution of the map.
+ */
 float ConfigurationManager::getMapResolutionCM() {
 	return _mapResolutionCM;
 }
 
+/**
+	Read the map resolution from the configuration file.
+
+	@param mapResolution - read the map resolution from the configuration file.
+ */
 void ConfigurationManager::setMapResolutionCM(string mapResolution) {
 	_mapResolutionCM = atof(mapResolution.c_str());
 }
 
+/**
+	Get the resolution of the grid in cm.
+
+	@ return - the resolution of the grid.
+ */
 float ConfigurationManager::getGridResolutionCM() {
 	return _gridResolutionCM;
 }
 
+/**
+	Read the grid resolution from the configuration file.
+
+	@param gridResolution - read the grid resolution from the configuration file.
+ */
 void ConfigurationManager::setGridResolutionCM(string gridResolution) {
 	_gridResolutionCM = atof(gridResolution.c_str());
 }
 
+/**
+	This method get set the values of the given properties.
+
+	@param property - a property from the configuration file.
+
+	@return - 0 - invalid property, 1 - valid property.
+ */
 int ConfigurationManager::setConfigurationProperty(Structs::ConfigurationProperty property) {
 	if (property.getToken() == "map") {
 		setMapFilePath(property.getValue());
@@ -117,6 +192,11 @@ int ConfigurationManager::setConfigurationProperty(Structs::ConfigurationPropert
 	return 1;
 }
 
+/**
+	Get the wanted property.
+
+	@ return - the wanted property.
+ */
 Structs::ConfigurationProperty ConfigurationManager::getProperty(string s) {
 	vector<string> propertyVector = splitString(s, DELIMITER);
 	Structs::ConfigurationProperty property(propertyVector[0], propertyVector[1]);
@@ -124,6 +204,13 @@ Structs::ConfigurationProperty ConfigurationManager::getProperty(string s) {
 	return property;
 }
 
+/**
+	This method remove the spaces from the given string.
+
+	@param s - string with spaces.
+
+	@return - string without spaces.
+ */
 string ConfigurationManager::removeSurroundingSpaceCharacters(string s) {
 	while (s.find_first_of(" ") == 0) {
 		s = s.substr(1, s.length() + 1);

@@ -7,32 +7,46 @@
 
 #include "Behavior.h"
 
+/**
+	Destructs behavior.
+*/
 Behavior::~Behavior() {
     _behaviors.clear();
 }
 
+/**
+	Initializes a new Behavior.
+
+	@param robot - the access of the details about the robot will happen with this object.
+	@param localizationManager - get information about the locations of the particles.
+*/
 Behavior::Behavior(Robot * robot, LocalizationManager * localizationManager) {
     _robot = robot;
     _localizationManager = localizationManager;
 }
 
-/*
- * This method will add possible behavior that will that is possible to run after this one.
- */
+/**
+	This method will add possible behavior that will that is possible to run after this one.
+
+	@param behavior - this behavior will be added to the list of the behaviors that the robot will do.
+*/
 void Behavior::addNext(Behavior * behavior) {
     _behaviors.push_back(behavior);
 }
 
-/*
- * This method returns the first possible behavior that the robot can use.
- *
- * Returns NULL if no behavior is available.
- */
+/**
+	This method returns the first possible behavior that the robot can use.
+
+	@return - the behaviors and NULL if no behavior is available.
+*/
 // Maybe think about nice getNext() method?
 vector<Behavior*> Behavior::getBehaviors() {
     return _behaviors;
 }
 
+/**
+	This method will make the robot do the current behavior.
+ */
 void Behavior::action() {
 	Structs::Location locationBeforeAction = _robot->getLocation();
 

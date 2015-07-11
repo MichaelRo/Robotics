@@ -7,18 +7,38 @@
 
 #include "TurnInPlace.h"
 
+/**
+	Destructs the TurnInPlace
+*/
 TurnInPlace::~TurnInPlace() {
 
 }
 
+/**
+	Initializes a GoToPoint object
+
+	@param robot - the access of the details about the robot will happen with this object.
+	@param localizationManager - get information about the locations of the particles.
+	@param neededYaw - the yaw the robot need to turn.
+*/
 TurnInPlace::TurnInPlace(Robot * robot, LocalizationManager * localizationManager, float neededYaw): Behavior(robot, localizationManager) {
 	_neededYaw = neededYaw;
 }
 
+/**
+	 The condition if the robot can start GoForward.
+
+	 @return - true.
+ */
 bool TurnInPlace::startCondition() {
 	return true;
 }
 
+/**
+	 The condition if the robot need to turn more in order to arrive the wanred yaw.
+
+	 @return - if the robot close enough to the taw.
+ */
 bool TurnInPlace::stopCondition() {
 	float yaw = abs(_robot->getLocation().getYaw() - ((_neededYaw * 180) / M_PI));
 	cout << "(currentYaw - neededYaw): " << Helper::floatToString(yaw) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
@@ -30,6 +50,9 @@ bool TurnInPlace::stopCondition() {
 	return false;
 }
 
+/**
+	This method set the yaw the robot need to turn.
+ */
 void TurnInPlace::behave() {
 	int angularSpeedFactor = 1;
 

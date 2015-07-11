@@ -7,18 +7,38 @@
 
 #include "GoForward.h"
 
+/**
+	Destructs the GoForward
+*/
 GoForward::~GoForward() {
 
 }
 
+/**
+	Initializes a GoForward object
+
+	@param robot - the access of the details about the robot will happen with this object.
+	@param localizationManager - get information about the locations of the particles.
+	@param goalPoint - the point the robot supposed to arrived to.
+*/
 GoForward::GoForward(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint) : Behavior(robot, localizationManager) {
 	_goalPoint = goalPoint;
 }
 
+/**
+	 The condition if the robot can start GoForward.
+
+	 @return - true.
+ */
 bool GoForward::startCondition() {
 	return true;
 }
 
+/**
+	 The condition if the robot need to stop GoForward.
+
+	 @return - if the robot close enough or there is an obstacle in his way.
+ */
 bool GoForward::stopCondition() {
 	if (_robot->getPosition().realPointToRobotPoint().distanceBetweenPoints(_goalPoint) <= COMPROMISED_DISTANCE)
 		return true;
@@ -34,6 +54,9 @@ bool GoForward::stopCondition() {
 	return false;
 }
 
+/**
+	This method set the speed of the robot when GoForward.
+ */
 void GoForward::behave() {
 	_robot->setSpeed((float) 0.5, (float) 0);
 
