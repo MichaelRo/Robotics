@@ -83,7 +83,7 @@ float Particle::calculateMotionModelProbability(Structs::Location destination) {
 float Particle::checkObservationModel(vector<float> laserScan) {
 	int expectedObsticlesDetected;
 
-	for (int laserDegree = 0; laserDegree < laserScan.size(); laserDegree++) {
+	for (unsigned int laserDegree = 0; laserDegree < laserScan.size(); laserDegree++) {
 		float currentLaserScan = laserScan[laserDegree];
 
 		expectedObsticlesDetected = 0;
