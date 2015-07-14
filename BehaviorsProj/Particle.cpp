@@ -28,7 +28,7 @@ Particle::Particle(float x, float y, float yaw, float belief, MapForRobot * map)
 
 Particle::Particle(Structs::Location location, float belief, MapForRobot * map) {
 	_map = map;
-	_belief = 0.1; // 1?
+	_belief = belief;
 	Structs::Location deltaLocation = getRandomDeltaLocation();
 	Structs::Location newLocation = location + deltaLocation;
 	_location = newLocation;
@@ -100,7 +100,8 @@ list<Particle> Particle::createDescendantParticles(int amount) {
 	list<Particle> descendantParticles = list<Particle>();
 
 	for (int index = 0; index < amount; index++) {
-		descendantParticles.push_back(Particle(_location, _belief, _map));
+//		descendantParticles.push_back(Particle(_location, _belief, _map));
+		descendantParticles.push_back(Particle(_location, _belief * 0.9, _map));
 	}
 
 	return descendantParticles;
