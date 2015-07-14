@@ -3,7 +3,7 @@ This code is developed for the legendary Robot Igal
 https://youtu.be/iGOmnC24BvE
 
 Todo List:
-  1. Check why the a star pics the upper point instead of the upper left (the upper has a higher grades)
+  1. Check why the a star pics the upper point instead of the upper left (the upper has a higher grades) - Somehow the upper doesn't even gets out of the open queue (doesn't get picked as a currentMinCell)
   2. Check why the robot goes to a different yaw (almost 180°)
   3. Check why the route not goes straight of the start point and to the goal point
   4. Check why the waypoints gets to the MovementManager as (0,0) or nan points
