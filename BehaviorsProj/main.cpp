@@ -27,8 +27,8 @@ int main (int argc, const char * argv[]){
 //	map->padMapObstacles(conf->getRobotSize().getHeight() / conf->getGridResolutionCM());
 //	map->saveMap("paddedMapMatrix.png");
 //
-//	Structs::Point startPoint = conf->getRobotStartLocation().pointValue();
-//	Structs::Point endPoint = conf->getRobotGoalLocation().pointValue();
+//	Structs::Point startPoint = conf->getRobotStartLocation().pointValue() / (map->getGridMapResolutionRatio() / 2);
+//	Structs::Point endPoint = conf->getRobotGoalLocation().pointValue() / (map->getGridMapResolutionRatio() / 2);
 //
 //	PathPlanner pathPlanner = PathPlanner(map, startPoint, endPoint);
 //	list<Structs::Point> route = pathPlanner.performAStar();
@@ -44,11 +44,8 @@ int main (int argc, const char * argv[]){
 //
 //	map->saveMap("wayPointsMap.png");
 //
-//	Structs::Location robotStartLocation = conf->getRobotStartLocation();
-//	Structs::Location robotGoalLocation = conf->getRobotGoalLocation();
-//
-//	map->setCellValue(robotStartLocation.getX(), robotStartLocation.getY(), Map::START_LOCATION_CELL, map->getMapResolution());
-//	map->setCellValue(robotGoalLocation.getX(), robotGoalLocation.getY(), Map::GOAL_LOCATION_CELL, map->getMapResolution());
+//	map->markStartPoint(startPoint, map->getGridResolution());
+//	map->markGoalPoint(endPoint, map->getGridResolution());
 //
 //	map->saveMap("allPointsMap.png");
 }

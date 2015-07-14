@@ -9,9 +9,11 @@
 
 #include "Structs.h"
 
+#include <functional>
+
 using namespace std;
 
-class AStarPriority {
+struct AStarPriority : public std::binary_function<Structs::Node, Structs::Node, bool>{
 public:
 	AStarPriority();
 	virtual ~AStarPriority();

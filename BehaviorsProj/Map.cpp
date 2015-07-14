@@ -346,6 +346,30 @@ void Map::markWayPoints(list<Structs::Point> wayPoints, float resolution) {
 /**
 	Marks given waypoints in the map
 
+	@param wayPoints - the waypoints, represented as list<Structs::Point>
+*/
+void Map::markStartPoint(Structs::Point startPoint, float resolution) {
+	list<Structs::Point> cells = list<Structs::Point>();
+	cells.push_back(startPoint);
+
+	markCells(cells, START_LOCATION_CELL, resolution);
+}
+
+/**
+	Marks given waypoints in the map
+
+	@param wayPoints - the waypoints, represented as list<Structs::Point>
+*/
+void Map::markGoalPoint(Structs::Point goalPoint, float resolution) {
+	list<Structs::Point> cells = list<Structs::Point>();
+	cells.push_back(goalPoint);
+
+	markCells(cells, GOAL_LOCATION_CELL, resolution);
+}
+
+/**
+	Marks given waypoints in the map
+
 	@param points - the points, represented as list<Structs::Point>
 	@param cellType - the cell type that the points will be marked as
 */

@@ -30,14 +30,14 @@ class PathPlanner {
 private:
 	const int COST_BETWEEN_NODES = 1;
 	list<Structs::Node> _openList;
-	std::priority_queue<Structs::Node,vector<Structs::Node>,AStarPriority> _openQueue;
+	std::priority_queue<Structs::Node, vector<Structs::Node>, AStarPriority> _openQueue;
 	list<Structs::Node> _closedList;
 	Structs::Point _startPoint;
 	Structs::Point _endPoint;
 	Map * _map;
 	map<int, Structs::Point> _parentsMap;
 
-	list<Structs::Node> getNeighbors(Structs::Node *node);
+	list<Structs::Node> getNeighbors(Structs::Node * node);
 	list<Structs::Point> reconstruct_path(Structs::Point endPoint);
 	float calcDirectionFactor(Structs::Point p1, Structs::Point p2, Structs::Point p3);
 	float calcWallFactor(Structs::Point point, int wallDis);
