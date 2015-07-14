@@ -69,6 +69,8 @@ public:
 	void padMapObstacles(int ratio);
 	void markRoute(list<Structs::Point> route, float resolution);
 	void markWayPoints(list<Structs::Point> wayPoints, float resolution);
+	void markStartPoint(Structs::Point startPoint, float resolution);
+	void markGoalPoint(Structs::Point goalPoint, float resolution);
 	void initializeGrid(int width, int height);
 	void swapMap(Map * map);
 };

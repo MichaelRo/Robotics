@@ -15,8 +15,8 @@ PathPlanner::~PathPlanner(void) {
 
 PathPlanner::PathPlanner(Map * map, Structs::Point startPoint, Structs::Point endPoint) {
 	_map = map;
-	_startPoint = startPoint / (map->getGridMapResolutionRatio() / 2);
-	_endPoint = endPoint / (map->getGridMapResolutionRatio() / 2);
+	_startPoint = startPoint;
+	_endPoint = endPoint;
 }
 
 list<Structs::Point> PathPlanner::performAStar() {
