@@ -18,7 +18,8 @@ LocalizationManager::LocalizationManager(Structs::Location startLocation, MapFor
 	// Initializing the particles list by the PARTICLES_AMOUNT value
 	_particles.push_back(Particle(startLocation, (float) 1, map));
 
-	getHighestBeliefParticle()->createDescendantParticles(PARTICLES_AMOUNT - 1);
+	list<Particle> descendantParticles = getHighestBeliefParticle()->createDescendantParticles(PARTICLES_AMOUNT - 1);
+	_particles.insert(_particles.end(), descendantParticles.begin(), descendantParticles.end());
 
 //	for (int particleCreationIndex = 0; particleCreationIndex < (PARTICLES_AMOUNT - 1); particleCreationIndex++)
 //		_particles.push_back(Particle(startLocation, (float) 0.1, _map));
