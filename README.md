@@ -3,7 +3,7 @@ This code is developed for the legendary Robot Igal
 https://youtu.be/iGOmnC24BvE
 
 Todo List:
-  1. Check why the robot goes to a different yaw (almost 180°)
+  1. Check why the robot goes to a different yaw (almost 180°) - looks like it depends on the conversion (robot to real)
   2. Check why the route doesn't go straight at the first intersection (and generates two waypoints instead)
   3. Check why the waypoints gets to the MovementManager as (0,0) or nan points
   4. Add yaw change for obstacle avoidence
