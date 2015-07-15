@@ -39,7 +39,6 @@ void Behavior::addNext(Behavior * behavior) {
 
 	@return - the behaviors and NULL if no behavior is available.
 */
-// Maybe think about nice getNext() method?
 vector<Behavior*> Behavior::getBehaviors() {
     return _behaviors;
 }
