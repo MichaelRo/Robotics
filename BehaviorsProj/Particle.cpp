@@ -108,57 +108,68 @@ list<Particle> Particle::createDescendantParticles(int amount) {
 }
 
 bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
-	// WHATTTTTTTTTTTTTTTTTTTT??
-	// degrees conversions and detectedLocationInMap akward reuse (and yaw unuse)
-
 	int correctDetectionsNumber = 0;
-	int falseDetectionsNumber = 0;
+	int incorrectDetectionsNumber = 0;
 
-	if (laserScan < LASER_MAX_RANGE) {
-//		for (int j = Helper::SENSOR_FROM_END; j <= Helper::SENSOR_DETECTION_RANGE; j +=  Helper::CELL_DIMENSION) {
-		for (int j = Helper::SENSOR_FROM_END; j <= Helper::SENSOR_DETECTION_RANGE; j++) {
-			Structs::Location detectedLocationInMap(_location.getX() + (cos(detectedLocationInMap.getYaw()) * j),
-													_location.getY() + (sin(detectedLocationInMap.getYaw()) * j),
-													_location.getYaw() + Helper::degreesToRadians(laserDegree));
+	if (laserScan < Helper::LASER_MAX_DETECTION_RANGE) {
+		// floor?
+		int leftDetectionRange = floor(METER_TO_CM(Helper::LASER_MAX_DETECTION_RANGE)) - floor(METER_TO_CM(laserScan));
 
-			int detectedLocationValue = _map->getCellValue(detectedLocationInMap.getX(), detectedLocationInMap.getY());
+		// Going through all the spotted points in the lasers way (until the laser scanned point)
+		for (int spottedPointsIndex = 0; spottedPointsIndex < leftDetectionRange; spottedPointsIndex++) {
+			float distanceFromSpottedPoint = METER_TO_CM(laserScan) + spottedPointsIndex;
 
-			if (detectedLocationValue == Map::FREE_CELL) {
+			// Calculating the spotted point location (as a delta to the particle itself)
+			// Laser degree as an offset, plus or minus depends on the laser scan start direction
+			float spottedPointYaw = abs(Helper::degreesToRadians(getLocation().getYaw() - laserDegree) - M_PI);
+			float deltaX = cos(spottedPointYaw) / distanceFromSpottedPoint;
+			float deltaY = sin(spottedPointYaw) / distanceFromSpottedPoint;
+
+			Structs::Point spottedPoint(_location.getX() + deltaX, _location.getY() + deltaY);
+
+			int spottedPointValue = _map->getCellValue(spottedPoint);
+
+			// If the spotted point, which stands in the way to the laser current scan, is occupied - the laser should have detected other obstacle earlier
+			if (spottedPointValue == Map::FREE_CELL) {
 				correctDetectionsNumber++;
-			} else if (detectedLocationValue == Map::OCCUPIED_CELL) {
-				falseDetectionsNumber++;
+			} else if (spottedPointValue == Map::OCCUPIED_CELL) {
+				incorrectDetectionsNumber++;
 			}
 		}
 	} else {
-		Structs::Location detectedLocationInMap(_location.getX() + (cos(detectedLocationInMap.getYaw()) * METER_TO_CM(laserScan)),
-												_location.getY() + (sin(detectedLocationInMap.getYaw()) * METER_TO_CM(laserScan)),
-												_location.getYaw() + Helper::degreesToRadians(laserDegree));
+		float distanceFromSpottedPoint = METER_TO_CM(laserScan);
 
-		int detectedLocationValue = _map->getCellValue(detectedLocationInMap.getX(), detectedLocationInMap.getY());
+		// Calculating the laser scanned point location (as a delta to the particle itself)
+		// Laser degree as an offset, plus or minus depends on the laser scan start direction
+		float laserScannedPointYaw = abs(Helper::degreesToRadians(getLocation().getYaw() - laserDegree) - M_PI);
+		float deltaX = cos(laserScannedPointYaw) / distanceFromSpottedPoint;
+		float deltaY = sin(laserScannedPointYaw) / distanceFromSpottedPoint;
 
-		if (detectedLocationValue == Map::FREE_CELL) {
-			falseDetectionsNumber++;
-		} else if (detectedLocationValue == Map::OCCUPIED_CELL) {
+		Structs::Point spottedPoint(_location.getX() + deltaX, _location.getY() + deltaY);
+
+		int spottedPointValue = _map->getCellValue(spottedPoint);
+
+		// If the spotted laser scan, is free - the particle probably isn't the right place
+		if (spottedPointValue == Map::FREE_CELL) {
+			incorrectDetectionsNumber++;
+		} else if (spottedPointValue == Map::OCCUPIED_CELL) {
 			correctDetectionsNumber++;
 		}
 	}
 
-//	return correctDetectionsNumber / (correctDetectionsNumber + falseDetectionsNumber);
-
-	// ????
-	return correctDetectionsNumber > falseDetectionsNumber;
+	return correctDetectionsNumber > incorrectDetectionsNumber;
 }
 
 Structs::Location Particle::getRandomDeltaLocation() {
 
 	int xBoundary = floor(_map->getWidth() * MAX_PARTICLES_RELATIVE_RATIO_CREATION);
 	int yBoundary = floor(_map->getHeight() * MAX_PARTICLES_RELATIVE_RATIO_CREATION);
+	int yawBoundary = floor(180 * MAX_PARTICLES_RELATIVE_YAW_CREATION);
 
 	// Generates random number between negative and positive boundaries (same value)
 	int x = (rand() % (2 * xBoundary)) - xBoundary;
 	int y = (rand() % (2 * yBoundary)) - yBoundary;
-	// Change the 0.5 to a real boundary defining number
-	int yaw = (rand() % (2 * 180)) - 180;
+	int yaw = (rand() % (2 * yawBoundary)) - yawBoundary;
 //	double yaw = ((double) rand() / (RAND_MAX)) - 0.5;
 
 	Structs::Location randomLocation = Structs::Location(x, y, yaw);

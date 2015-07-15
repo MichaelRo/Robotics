@@ -53,7 +53,7 @@ public:
 
 	static constexpr float OPEN_PATH_RANGE = 0.75;
 	static constexpr float SENSOR_FROM_END = 15;
-	static constexpr float SENSOR_DETECTION_RANGE = 5;
+	static constexpr float LASER_MAX_DETECTION_RANGE = 4.095;
 	static constexpr float CELL_DIMENSION = 5;
 
 	static int indexToDegrees(int index);
