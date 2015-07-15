@@ -61,7 +61,11 @@ public:
 	float getMapResolution();
 	float getGridMapResolutionRatio();
 	int getCellValue(int column, int row, float resolution);
+	int getCellValue(Structs::Point point, float resolution);
+	int getCellValue(Structs::Location location, float resolution);
 	void setCellValue(int column, int row, int value, float resolution);
+	void setCellValue(Structs::Point point, int value, float resolution);
+	void setCellValue(Structs::Location location, int value, float resolution);
 
 	void printMap(string fileName);
 	void loadMap(string pngFilePath);

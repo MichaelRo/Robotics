@@ -25,13 +25,15 @@ void MovementManager::start() {
 	//++ before or after?
 	for (list<Structs::Point>::iterator wayPointsIterator = _wayPoints.begin(); wayPointsIterator != _wayPoints.end(); wayPointsIterator++) {
 		Structs::Point currentWayPoint = *wayPointsIterator.operator ->();
-		float wantedYaw = calculateWantedYaw(_robot->getLocation().pointValue().realPointToRobotPoint(), currentWayPoint);
+//		float wantedYaw = calculateWantedYaw(_robot->getLocation().pointValue().realPointToRobotPoint(), currentWayPoint);
+		float wantedYaw = calculateWantedYaw(_robot->getPosition(), currentWayPoint);
 
 		GoToPoint * goToPointBehavior;
 
 		_robot->Read();
 
-		while (_robot->getLocation().pointValue().realPointToRobotPoint().distanceBetweenPoints(currentWayPoint) > COMPROMISED_DISTANCE) {
+//		while (_robot->getLocation().pointValue().realPointToRobotPoint().distanceBetweenPoints(currentWayPoint) > COMPROMISED_DISTANCE) {
+		while (_robot->getPosition().distanceBetweenPoints(currentWayPoint) > COMPROMISED_DISTANCE) {
 			goToPointBehavior = new GoToPoint(_robot, _localizationManager, currentWayPoint, wantedYaw);
 
 			_robot->Read();

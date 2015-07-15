@@ -139,6 +139,14 @@ int Map::getCellValue(int column, int row, float resolution) {
 							   row / ceil(((getGridResolution() / resolution) / 2)));
 }
 
+int Map::getCellValue(Structs::Point point, float resolution) {
+	return getCellValue(point.getX(), point.getY(), resolution);
+}
+
+int Map::getCellValue(Structs::Location location, float resolution) {
+	return getCellValue(location.getX(), location.getY(), resolution);
+}
+
 /**
 	Sets a certain cell value
 
@@ -151,6 +159,14 @@ void Map::setCellValue(int column, int row, int value, float resolution) {
 	_grid->setCellValue(round(column / ceil(((getGridResolution() / resolution) / 2))),
 						round(row / ceil(((getGridResolution() / resolution) / 2))),
 						value);
+}
+
+void Map::setCellValue(Structs::Point point, int value, float resolution) {
+	setCellValue(point.getX(), point.getY(), value, resolution);
+}
+
+void Map::setCellValue(Structs::Location location, int value, float resolution) {
+	setCellValue(location.getX(), location.getY(), value, resolution);
 }
 
 /**

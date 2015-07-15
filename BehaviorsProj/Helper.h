@@ -56,8 +56,10 @@ public:
 	static constexpr float SENSOR_DETECTION_RANGE = 5;
 	static constexpr float CELL_DIMENSION = 5;
 
-	static int IndexToDegrees(int index);
-	static int DegreesToIndex(int degrees);
+	static int indexToDegrees(int index);
+	static int degreesToIndex(int degrees);
+	static float degreesToRadians(float degrees);
+	static float radiansToDegrees(float radians);
 	static string intToString(int number);
 	static string floatToString(float number);
 };

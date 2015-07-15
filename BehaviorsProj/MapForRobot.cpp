@@ -48,3 +48,11 @@ int MapForRobot::getCellValue(int column, int row) {
 			(cellValue == Map::ROUTE_CELL) ||
 			(cellValue == Map::WAYPOINT_CELL)) ? Map::FREE_CELL : cellValue;
 }
+
+int MapForRobot::getCellValue(Structs::Point point) {
+	return getCellValue(point.getX(), point.getY());
+}
+
+int MapForRobot::getCellValue(Structs::Location location) {
+	return getCellValue(location.getX(), location.getY());
+}

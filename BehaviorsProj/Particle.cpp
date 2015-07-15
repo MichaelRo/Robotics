@@ -65,7 +65,7 @@ float Particle::calculateBelief(Structs::Location destination, vector<float> las
 }
 
 float Particle::calculateMotionModelProbability(Structs::Location destination) {
-	float distance = getDistance(destination);
+	float distance = _location.pointValue().distanceBetweenPoints(destination.pointValue());
 	float yaw = abs(destination.getYaw());
 
 	float propability = 0.25;
@@ -107,11 +107,10 @@ list<Particle> Particle::createDescendantParticles(int amount) {
 	return descendantParticles;
 }
 
-float Particle::getDistance(Structs::Location destination) {
-	return sqrt((destination.getX() * destination.getX()) + (destination.getY() * destination.getY()));
-}
-
 bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
+	// WHATTTTTTTTTTTTTTTTTTTT??
+	// degrees conversions and detectedLocationInMap akward reuse (and yaw unuse)
+
 	int correctDetectionsNumber = 0;
 	int falseDetectionsNumber = 0;
 
@@ -120,7 +119,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 		for (int j = Helper::SENSOR_FROM_END; j <= Helper::SENSOR_DETECTION_RANGE; j++) {
 			Structs::Location detectedLocationInMap(_location.getX() + (cos(detectedLocationInMap.getYaw()) * j),
 													_location.getY() + (sin(detectedLocationInMap.getYaw()) * j),
-													_location.getYaw() + DEGREES_TO_RADIANS(laserDegree));
+													_location.getYaw() + Helper::degreesToRadians(laserDegree));
 
 			int detectedLocationValue = _map->getCellValue(detectedLocationInMap.getX(), detectedLocationInMap.getY());
 
@@ -133,7 +132,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	} else {
 		Structs::Location detectedLocationInMap(_location.getX() + (cos(detectedLocationInMap.getYaw()) * METER_TO_CM(laserScan)),
 												_location.getY() + (sin(detectedLocationInMap.getYaw()) * METER_TO_CM(laserScan)),
-												_location.getYaw() + DEGREES_TO_RADIANS(laserDegree));
+												_location.getYaw() + Helper::degreesToRadians(laserDegree));
 
 		int detectedLocationValue = _map->getCellValue(detectedLocationInMap.getX(), detectedLocationInMap.getY());
 
@@ -159,7 +158,8 @@ Structs::Location Particle::getRandomDeltaLocation() {
 	int x = (rand() % (2 * xBoundary)) - xBoundary;
 	int y = (rand() % (2 * yBoundary)) - yBoundary;
 	// Change the 0.5 to a real boundary defining number
-	double yaw = ((double) rand() / (RAND_MAX)) - 0.5;
+	int yaw = (rand() % (2 * 180)) - 180;
+//	double yaw = ((double) rand() / (RAND_MAX)) - 0.5;
 
 	Structs::Location randomLocation = Structs::Location(x, y, yaw);
 
