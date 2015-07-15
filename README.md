@@ -14,3 +14,4 @@ Todo List:
   9. CHANGE ALL THE MOVEMENT/WAYPOINTS MANAGERS AND BEHAVIORS TO WORK WITH MAP RESOLUTION AND DEGREES, ONLY THE ROBOT INPUT AND OUTPUT NEED TO DO THE COVERSION. (and the calcWantedYaw).
   10. Pray to the Gay Iranian community.
   11. In addition to 4, when the robot goes forward, check every X iterations that the robot is in the right way (else fix it).
+  12. Looks like the belief calculation takes too much time
