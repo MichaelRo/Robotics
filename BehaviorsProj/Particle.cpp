@@ -132,10 +132,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 			if ((laserScan < Helper::LASER_MAX_DETECTION_RANGE) && (distanceFromSpottedPoint == floor(METER_TO_CM(laserScan)))) {
 				// The spotted laser scan is occupied - the particle is probably in the right place
 				correctDetectionsNumber++;
-			} else if (laserScan < Helper::LASER_MAX_DETECTION_RANGE) {
-				// If the spotted point, which stands in the way to the laser current scan, is occupied - the laser was supposed to detect an obstacle
-				incorrectDetectionsNumber++;
-			} else if (laserScan >= Helper::LASER_MAX_DETECTION_RANGE) {
+			} else {
 				// If the spotted point, which stands in the way to the laser current scan, is occupied - the laser was supposed to detect an obstacle
 				incorrectDetectionsNumber++;
 			}
@@ -143,10 +140,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 			if ((laserScan < Helper::LASER_MAX_DETECTION_RANGE) && (distanceFromSpottedPoint == floor(METER_TO_CM(laserScan)))) {
 				// If the spotted laser scan isn't occupied - the particle probably isn't in the right place
 				incorrectDetectionsNumber++;
-			} else if (laserScan < Helper::LASER_MAX_DETECTION_RANGE) {
-				// The spotted point stands in the way to the laser current scan supposed to be free, otherwise the laser scan would be smaller
-				correctDetectionsNumber++;
-			} else if (laserScan >= Helper::LASER_MAX_DETECTION_RANGE) {
+			} else {
 				// The spotted point stands in the way to the laser current scan supposed to be free, otherwise the laser scan would be smaller
 				correctDetectionsNumber++;
 			}
