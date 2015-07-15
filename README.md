@@ -7,7 +7,7 @@ Todo List:
   2. Check why the route doesn't go straight at the first intersection (and generates two waypoints instead)
   3. Add yaw change for obstacle avoidence
   4. Make GoToPoint try again when he fails to get to the correct point
-  5. Check the particle's isObsticleDetectedAsExpected method
+  5. The particles new location calculates slower than the robot's behavior (movement), so the location the localizaitonManager gives to the robot is "delayed"
   6. Clear unimportant console prints and add the relevant ones
   7. Clean unused consts
   8. Add notes to all class files
