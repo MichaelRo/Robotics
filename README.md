@@ -11,3 +11,5 @@ Todo List:
   6. Clear unimportant console prints and add the relevant ones
   7. Clean unused consts
   8. Add notes to all class files
+  9. CHANGE ALL THE MOVEMENT/WAYPOINTS MANAGERS AND BEHAVIORS TO WORK WITH MAP RESOLUTION AND DEGREES, ONLY THE ROBOT INPUT AND OUTPUT NEED TO DO THE COVERSION. (and the calcWantedYaw).
+  10. Pray to the Gay Iranian community.
