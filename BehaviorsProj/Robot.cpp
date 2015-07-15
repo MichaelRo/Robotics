@@ -26,18 +26,17 @@ Robot::Robot(char * ip, int port) {
 }
 
 Structs::Location Robot::getLocation() {
-	return Structs::Location(_position->GetXPos(), _position->GetYPos(), _position->GetYaw()).robotLocationToRealLocation();
+	return Structs::Location(_position->GetXPos(), _position->GetYPos(), _position->GetYaw());
 }
 
 Structs::Point Robot::getPosition() {
-	return Structs::Point(_position->GetXPos(), _position->GetYPos()).robotPointToRealPoint();
+	return Structs::Point(_position->GetXPos(), _position->GetYPos());
 }
 
 void Robot::setRobotLocation(Structs::Location location) {
-	Structs::Location robotLoc = location.realLocationToRobotLocation();
-	_position->SetOdometry(robotLoc.getX(), robotLoc.getY(), robotLoc.getYaw());
+	_position->SetOdometry(location.getX(), location.getY(), location.getYaw());
 
-	cout << "Robot position: " << location.toString() << endl;
+	cout << "Robot position: " << location.robotLocationToRealLocation().toString() << endl;
 }
 
 void Robot::setSpeed(float xSpeed, float angularSpeed) {
@@ -54,7 +53,7 @@ vector<float> Robot::getLaserScan() {
 	Read();
 
 	for (int i = 0; i < Helper::DEGREES; i++) {
-		laserScan.push_back(getLaserDistance(Helper::DegreesToIndex(i)));
+		laserScan.push_back(getLaserDistance(Helper::degreesToIndex(i)));
 	}
 
 	Read();

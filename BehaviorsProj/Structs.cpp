@@ -191,21 +191,11 @@ Structs::Point Structs::Location::pointValue() {
 }
 
 Structs::Location Structs::Location::robotLocationToRealLocation() {
-	float realYaw = (_yaw * 180) / M_PI;
-	if (realYaw < 0) {
-		realYaw += 360;
-	}
-
-	return Location(_x * 40, _y * 40, realYaw);
+	return Location(_x * 40, _y * 40, Helper::radiansToDegrees(_yaw));
 }
 
 Structs::Location Structs::Location::realLocationToRobotLocation() {
-	float realYaw = _yaw;
-	if (realYaw > 180) {
-		realYaw -= 360;
-	}
-
-	return Location(_x / 40, _y / 40, (realYaw * M_PI) / 180);
+	return Location(_x / 40, _y / 40, Helper::degreesToRadians(_yaw));
 }
 
 string Structs::Location::toString() {

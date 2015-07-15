@@ -49,8 +49,8 @@ void Manager::run() {
 
 	_mapForRobot = new MapForRobot(_map);
 
-	Structs::Location realRobotStartLocation(startPoint.realPointToRobotPoint(), _configurationManager->getRobotStartLocation().getYaw());
-	_robot->setRobotLocation(realRobotStartLocation);
+	Structs::Location realRobotStartLocation(startPoint, _configurationManager->getRobotStartLocation().getYaw());
+	_robot->setRobotLocation(realRobotStartLocation.realLocationToRobotLocation());
 
 	_robot->Read();
 	_localizationManager = new LocalizationManager(realRobotStartLocation, _mapForRobot);

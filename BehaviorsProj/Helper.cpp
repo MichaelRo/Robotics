@@ -43,14 +43,26 @@ const int* Helper::getRGBA(int color) {
 	}
 }
 
-int Helper::DegreesToIndex(int degrees) {
+int Helper::degreesToIndex(int degrees) {
 	int indexDifference = degrees * Helper::DEGREES_INDEX_RATIO;
 	return Helper::HALF_SCAN_SPAN + indexDifference;
 }
 
-int Helper::IndexToDegrees(int index) {
+int Helper::indexToDegrees(int index) {
 	int relativeIndex = index - Helper::HALF_SCAN_SPAN;
 	return relativeIndex / Helper::DEGREES_INDEX_RATIO;
+}
+
+float Helper::degreesToRadians(float degrees) {
+	float yaw = (degrees > 180) ? degrees - 360 : degrees;
+
+	return (yaw * M_PI) / 180;
+}
+
+float Helper::radiansToDegrees(float radians) {
+	float yaw = (radians * 180) / M_PI;
+
+	return (yaw < 0) ? yaw + 360 : yaw;
 }
 
 string Helper::intToString (int number) {

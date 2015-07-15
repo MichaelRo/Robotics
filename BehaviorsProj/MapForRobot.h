@@ -26,6 +26,8 @@ public:
 	float getMapResolution();
 	float getGridMapResolutionRatio();
 	int getCellValue(int column, int row);
+	int getCellValue(Structs::Point point);
+	int getCellValue(Structs::Location location);
 };
 
 #endif

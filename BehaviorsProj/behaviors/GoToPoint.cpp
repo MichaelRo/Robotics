@@ -47,7 +47,7 @@ void GoToPoint::initializeGoToPointBehavior() {
 	@return - Is the robot arrive to the goal point?
  */
 bool GoToPoint::isGoalLocationReached() {
-	return _robot->getLocation().pointValue().realPointToRobotPoint().distanceBetweenPoints(_goalPoint) <= COMPROMISED_DISTANCE;
+	return _robot->getPosition().distanceBetweenPoints(_goalPoint) <= COMPROMISED_DISTANCE;
 }
 
 /**
