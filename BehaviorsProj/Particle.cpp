@@ -111,49 +111,45 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	int correctDetectionsNumber = 0;
 	int incorrectDetectionsNumber = 0;
 
-	if (laserScan < Helper::LASER_MAX_DETECTION_RANGE) {
-		// floor?
-		int leftDetectionRange = floor(METER_TO_CM(Helper::LASER_MAX_DETECTION_RANGE)) - floor(METER_TO_CM(laserScan));
+	// Going through all the spotted points in the lasers way (until the laser scanned point)
+	// Maybe ceil ?
+	for (int distanceFromSpottedPoint = 0; distanceFromSpottedPoint <= floor(METER_TO_CM(laserScan)); distanceFromSpottedPoint++) {
+		// Calculating the spotted point location (as a delta to the particle itself)
 
-		// Going through all the spotted points in the lasers way (until the laser scanned point)
-		for (int spottedPointsIndex = 0; spottedPointsIndex < leftDetectionRange; spottedPointsIndex++) {
-			float distanceFromSpottedPoint = METER_TO_CM(laserScan) + spottedPointsIndex;
-
-			// Calculating the spotted point location (as a delta to the particle itself)
-			// Laser degree as an offset, plus or minus depends on the laser scan start direction
-			float spottedPointYaw = abs(Helper::degreesToRadians(getLocation().getYaw() - laserDegree) - M_PI);
-			float deltaX = cos(spottedPointYaw) / distanceFromSpottedPoint;
-			float deltaY = sin(spottedPointYaw) / distanceFromSpottedPoint;
-
-			Structs::Point spottedPoint(_location.getX() + deltaX, _location.getY() + deltaY);
-
-			int spottedPointValue = _map->getCellValue(spottedPoint);
-
-			// If the spotted point, which stands in the way to the laser current scan, is occupied - the laser should have detected other obstacle earlier
-			if (spottedPointValue == Map::FREE_CELL) {
-				correctDetectionsNumber++;
-			} else if (spottedPointValue == Map::OCCUPIED_CELL) {
-				incorrectDetectionsNumber++;
-			}
-		}
-	} else {
-		float distanceFromSpottedPoint = METER_TO_CM(laserScan);
-
-		// Calculating the laser scanned point location (as a delta to the particle itself)
 		// Laser degree as an offset, plus or minus depends on the laser scan start direction
-		float laserScannedPointYaw = abs(Helper::degreesToRadians(getLocation().getYaw() - laserDegree) - M_PI);
-		float deltaX = cos(laserScannedPointYaw) / distanceFromSpottedPoint;
-		float deltaY = sin(laserScannedPointYaw) / distanceFromSpottedPoint;
+		float spottedPointYaw = Helper::degreesToRadians(getLocation().getYaw() + laserDegree);
+//		float spottedPointYaw = abs(Helper::degreesToRadians(getLocation().getYaw() + laserDegree) - M_PI);
 
+		float deltaX = cos(spottedPointYaw) / distanceFromSpottedPoint;
+		float deltaY = sin(spottedPointYaw) / distanceFromSpottedPoint;
+
+		// Maybe ceil or floor?
 		Structs::Point spottedPoint(_location.getX() + deltaX, _location.getY() + deltaY);
 
 		int spottedPointValue = _map->getCellValue(spottedPoint);
 
-		// If the spotted laser scan, is free - the particle probably isn't the right place
-		if (spottedPointValue == Map::FREE_CELL) {
-			incorrectDetectionsNumber++;
-		} else if (spottedPointValue == Map::OCCUPIED_CELL) {
-			correctDetectionsNumber++;
+		if (spottedPointValue == Map::OCCUPIED_CELL) {
+			if ((laserScan < Helper::LASER_MAX_DETECTION_RANGE) && (distanceFromSpottedPoint == floor(METER_TO_CM(laserScan)))) {
+				// The spotted laser scan is occupied - the particle is probably in the right place
+				correctDetectionsNumber++;
+			} else if (laserScan < Helper::LASER_MAX_DETECTION_RANGE) {
+				// If the spotted point, which stands in the way to the laser current scan, is occupied - the laser was supposed to detect an obstacle
+				incorrectDetectionsNumber++;
+			} else if (laserScan >= Helper::LASER_MAX_DETECTION_RANGE) {
+				// If the spotted point, which stands in the way to the laser current scan, is occupied - the laser was supposed to detect an obstacle
+				incorrectDetectionsNumber++;
+			}
+		} else {
+			if ((laserScan < Helper::LASER_MAX_DETECTION_RANGE) && (distanceFromSpottedPoint == floor(METER_TO_CM(laserScan)))) {
+				// If the spotted laser scan isn't occupied - the particle probably isn't in the right place
+				incorrectDetectionsNumber++;
+			} else if (laserScan < Helper::LASER_MAX_DETECTION_RANGE) {
+				// The spotted point stands in the way to the laser current scan supposed to be free, otherwise the laser scan would be smaller
+				correctDetectionsNumber++;
+			} else if (laserScan >= Helper::LASER_MAX_DETECTION_RANGE) {
+				// The spotted point stands in the way to the laser current scan supposed to be free, otherwise the laser scan would be smaller
+				correctDetectionsNumber++;
+			}
 		}
 	}
 
