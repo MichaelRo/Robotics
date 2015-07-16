@@ -13,10 +13,9 @@ Todo List:
      We can make the GoToPoint (or goForward) check every X iterations that the robot is in the right way
      (if not, we can start a new GoToPoint from the updated robot location).
   7. Somehow robot Igal's location started to update really slow. Maybe it's the update particles and belief calculation fault?
-  8. Clear unimportant console prints and add the relevant ones.
-  9. Clean unused consts and methods.
-  10. Add notes to all class files, and delete the unimportant / debug notes.
-  11. Check why the needed delta yaw describes a 360° turn - 
-      seems like the yaws conversion does'nt go that well (negative values and maybe some factor multiply)
-  12. Check what happens when yaws getting greater than 360 (for example, delta's addition)
+  8. Check why the needed delta yaw describes a 180° turn
+  9. Check what happens when yaws getting greater than 360 (for example, delta's addition)
+  10. Clear unimportant console prints and add the relevant ones.
+  11. Clean unused consts and methods.
+  12. Add notes to all class files, and delete the unimportant / debug notes.
   13. Pray to the Gay Iranian community.
