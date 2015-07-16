@@ -23,7 +23,6 @@ Manager::Manager(ConfigurationManager* configurationManager, Robot* robot) {
 	_pathPlanner = NULL;
 	_localizationManager = NULL;
 	_movementManager = NULL;
-	_mapForRobot = NULL;
 }
 
 void Manager::run() {
@@ -47,13 +46,11 @@ void Manager::run() {
 
 	_map->saveMap("allPointsMap.png");
 
-	_mapForRobot = new MapForRobot(_map);
-
-	Structs::Location realRobotStartLocation(startPoint, _configurationManager->getRobotStartLocation().getYaw());
-	_robot->setRobotLocation(realRobotStartLocation.realLocationToRobotLocation());
+	Structs::Location realRobotStartLocation(_configurationManager->getRobotStartLocation().pointValue(), _configurationManager->getRobotStartLocation().getYaw());
+	_robot->setRobotLocation(realRobotStartLocation);
 
 	_robot->Read();
-	_localizationManager = new LocalizationManager(realRobotStartLocation, _mapForRobot);
+	_localizationManager = new LocalizationManager(realRobotStartLocation, _map, _robot);
 
 	_movementManager = new MovementManager(_robot, _localizationManager, _waypointsManager);
 	_movementManager->start();

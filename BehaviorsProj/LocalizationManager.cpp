@@ -11,8 +11,9 @@ LocalizationManager::~LocalizationManager() {
 
 }
 
-LocalizationManager::LocalizationManager(Structs::Location startLocation, MapForRobot * map) {
+LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * map, Robot * robot) {
 	_map = map;
+	_robot = robot;
 	srand(time(NULL));
 
 	// Initializing the particles list by the PARTICLES_AMOUNT value
@@ -20,17 +21,16 @@ LocalizationManager::LocalizationManager(Structs::Location startLocation, MapFor
 
 	list<Particle> descendantParticles = getHighestBeliefParticle()->createDescendantParticles(PARTICLES_AMOUNT - 1);
 	_particles.insert(_particles.end(), descendantParticles.begin(), descendantParticles.end());
-
-//	for (int particleCreationIndex = 0; particleCreationIndex < (PARTICLES_AMOUNT - 1); particleCreationIndex++)
-//		_particles.push_back(Particle(startLocation, (float) 0.1, _map));
 }
 
-void LocalizationManager::updateParticles(Structs::Location destination, vector<float> laserScan) {
+void LocalizationManager::updateParticles(Structs::Location destination) {
 	list<Particle> particlesForDelete = list<Particle>();
 	list<Particle> particlesForMultiply = list<Particle>();
 
 	for (list<Particle>::iterator particlesIterator = _particles.begin(); particlesIterator != _particles.end(); particlesIterator++) {
-		float currentParticleBelief = particlesIterator->update(destination, laserScan);
+		float currentParticleBelief = particlesIterator->update(destination, _robot->getLaserScan());
+
+		_robot->Read();
 
 		if (currentParticleBelief < BELIEF_THRESHOLD) {
 			if (particlesForDelete.size() < 4) {
@@ -80,8 +80,6 @@ void LocalizationManager::updateParticles(Structs::Location destination, vector<
 Particle * LocalizationManager::getHighestBeliefParticle() {
 	list<Particle>::iterator particlesIterator = _particles.begin();
 	Particle * highestBeliefParticle = particlesIterator.operator ->();
-
-	int particlesSize = _particles.size();
 
 	for (particlesIterator = _particles.begin(); particlesIterator != _particles.end(); ++particlesIterator) {
 		if (particlesIterator->getBelief() > highestBeliefParticle->getBelief())

@@ -15,6 +15,10 @@ MapForRobot::MapForRobot(Map * map) {
 	_map = map;
 }
 
+Map * MapForRobot::getMap() {
+	return _map;
+}
+
 int MapForRobot::getWidth() {
 	return _map->getWidth();
 }

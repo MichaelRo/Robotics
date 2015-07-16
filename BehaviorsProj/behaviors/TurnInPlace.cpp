@@ -40,10 +40,11 @@ bool TurnInPlace::startCondition() {
 	 @return - if the robot close enough to the yaw.
  */
 bool TurnInPlace::stopCondition() {
-	float yaw = abs(_robot->getLocation().getYaw() - _neededYaw);
-	cout << "(currentYaw - neededYaw): " << Helper::floatToString(yaw) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
+//	float yaw = abs(_robot->getLocation().getYaw() - _neededYaw);
+	float neededYawDelta = _neededYaw - _robot->getLocation().getYaw();
+	cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
 
-	if (yaw <= COMPROMISED_YAW) {
+	if (neededYawDelta <= COMPROMISED_YAW) {
 		return true;
 	}
 
@@ -56,10 +57,7 @@ bool TurnInPlace::stopCondition() {
 void TurnInPlace::behave() {
 	int angularSpeedFactor = 1;
 
-	float realYaw = _robot->getLocation().robotLocationToRealLocation().getYaw();
-	float realNeeded = Helper::radiansToDegrees(_neededYaw);
-
-	if (abs(realYaw - realNeeded) > abs(realYaw - (360 - realNeeded))) {
+	if (abs(_robot->getLocation().getYaw() - _neededYaw) > abs(_robot->getLocation().getYaw() - (360 - _neededYaw))) {
 		angularSpeedFactor = -1;
 	}
 

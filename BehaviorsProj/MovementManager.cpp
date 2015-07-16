@@ -14,25 +14,35 @@ MovementManager::~MovementManager() {
 MovementManager::MovementManager(Robot * robot, LocalizationManager * localizationManager, WaypointsManager * waypointsManager) {
 	_robot = robot;
 	_localizationManager = localizationManager;
-	_wayPoints = waypointsManager->getWaypoints(WaypointsManager::WAYPOINT_FOR_ROBOT);
+	_wayPoints = waypointsManager->getWaypoints(WaypointsManager::WAYPOINT_FOR_MAP);
 }
 
-float MovementManager::calculateWantedYaw(Structs::Point startPoint, Structs::Point goalPoint) {
-	return abs(acos(abs(goalPoint.getY() - startPoint.getY()) / startPoint.distanceBetweenPoints(goalPoint)) - M_PI);
+/**
+	Calculates the needed (non-relative) yaw to get from a ceirtain start point to a goal point
+
+	@param startPoint - the start point
+	@param goalPoint - the goal point
+	@return - yaw in degrees
+*/
+float MovementManager::calculateNeededYaw(Structs::Point startPoint, Structs::Point goalPoint) {
+	float yDeltaToPoint = abs(goalPoint.getY() - startPoint.getY());
+	float distanceToPoint = startPoint.distanceBetweenPoints(goalPoint);
+
+	return Helper::radiansToDegrees(abs(acos(yDeltaToPoint / distanceToPoint) - M_PI));
 }
 
 void MovementManager::start() {
 	//++ before or after?
 	for (list<Structs::Point>::iterator wayPointsIterator = _wayPoints.begin(); wayPointsIterator != _wayPoints.end(); wayPointsIterator++) {
 		Structs::Point currentWayPoint = *wayPointsIterator.operator ->();
-		float wantedYaw = calculateWantedYaw(_robot->getPosition(), currentWayPoint);
+		float neededYaw = calculateNeededYaw(_robot->getPosition(), currentWayPoint);
 
 		GoToPoint * goToPointBehavior;
 
 		_robot->Read();
 
 		while (_robot->getPosition().distanceBetweenPoints(currentWayPoint) > COMPROMISED_DISTANCE) {
-			goToPointBehavior = new GoToPoint(_robot, _localizationManager, currentWayPoint, wantedYaw);
+			goToPointBehavior = new GoToPoint(_robot, _localizationManager, currentWayPoint, neededYaw);
 
 			_robot->Read();
 

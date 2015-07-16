@@ -8,6 +8,8 @@
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
+#define METER_TO_CM(meter) (meter * 100)
+
 #include "Helper.h"
 
 #include <string>

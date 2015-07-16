@@ -26,7 +26,7 @@ class Particle {
 private:
 	int _id;
 	Structs::Location _location;
-	MapForRobot * _map;
+	Map * _map;
 	float _belief;
 
 	bool isObsticleDetectedAsExpected(float laserScan, int laserDegree);
@@ -42,8 +42,8 @@ public:
 	static constexpr float MAX_PARTICLES_RELATIVE_RATIO_CREATION = 0.015;
 	static constexpr float MAX_PARTICLES_RELATIVE_YAW_CREATION = 0.1;
 
-	Particle(float x, float y, float yaw, float belief, MapForRobot * map);
-	Particle(Structs::Location location, float belief, MapForRobot * map);
+	Particle(float x, float y, float yaw, float belief, Map * map);
+	Particle(Structs::Location location, float belief, Map * map);
 	virtual ~Particle();
 
 	bool operator==(const Particle & particle) const;

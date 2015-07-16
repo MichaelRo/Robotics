@@ -22,7 +22,7 @@ private:
 	static constexpr float COMPROMISED_DISTANCE = 0.4;
 
 	Structs::Point _goalPoint;
-	float _wantedYaw;
+	float _neededYaw;
 
 	TurnInPlace * _turnInPlaceBehavior;
 	GoForward * _goForwardBehavior;
@@ -31,7 +31,7 @@ private:
     void initializeGoToPointBehavior();
 
 public:
-	GoToPoint(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint, float wantedYaw);
+	GoToPoint(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint, float neededYaw);
 	virtual ~GoToPoint();
 
 	bool startCondition();
