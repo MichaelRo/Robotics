@@ -17,3 +17,4 @@ Todo List:
   9. Clean unused consts and methods.
   10. Add notes to all class files, and delete the unimportant / debug notes.
   11. Pray to the Gay Iranian community.
+  12. Check why the needed delta yaw describes a 360° turn
