@@ -16,7 +16,6 @@ Todo List:
   8. Clear unimportant console prints and add the relevant ones.
   9. Clean unused consts and methods.
   10. Add notes to all class files, and delete the unimportant / debug notes.
-  11. Pray to the Gay Iranian community.
-  12. Check why the needed delta yaw describes a 360° turn
-  13. Delete MapForRobot
-  14. Get rid of robotToReal and realToRobot
+  11. Check why the needed delta yaw describes a 360° turn - 
+      seems like the update particles takes too much time and doesn't let the behavior do it's job
+  12. Pray to the Gay Iranian community.
