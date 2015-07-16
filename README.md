@@ -17,5 +17,6 @@ Todo List:
   9. Clean unused consts and methods.
   10. Add notes to all class files, and delete the unimportant / debug notes.
   11. Check why the needed delta yaw describes a 360° turn - 
-      seems like the update particles takes too much time and doesn't let the behavior do it's job
-  12. Pray to the Gay Iranian community.
+      seems like the yaws conversion does'nt go that well (negative values and maybe some factor multiply)
+  12. Check what happens when yaws getting greater than 360 (for example, delta's addition)
+  13. Pray to the Gay Iranian community.
