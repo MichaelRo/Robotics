@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <iostream>
+#include <cmath>
 #include <libplayerc++/playerc++.h>
 
 #include "LocalizationManager.h"

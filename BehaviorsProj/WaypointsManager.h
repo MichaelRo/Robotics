@@ -36,7 +36,6 @@ public:
 
 	static const int WAYPOINT_FOR_MAP = 1;
 	static const int WAYPOINT_FOR_GRID = 2;
-	static const int WAYPOINT_FOR_ROBOT = 3;
 
 	WaypointsManager();
 	WaypointsManager(list<Structs::Point> route, Map * map);

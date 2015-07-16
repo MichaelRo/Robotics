@@ -60,16 +60,6 @@ float Structs::Point::squaredEuclideanDistance(Point point) {
 	return pow(xSide, 2) + pow(ySide, 2);
 }
 
-Structs::Point Structs::Point::robotPointToRealPoint() {
-	return Point((_x * (METER_TO_CM(1) / 2.5)) + (550 / 2),
-				 (_y * (METER_TO_CM(-1) / 2.5)) + (380 / 2));
-}
-
-Structs::Point Structs::Point::realPointToRobotPoint() {
-	return Point((_x - (550 / 2)) / (METER_TO_CM(1) / 2.5),
-				 (_y - (380 / 2)) / (METER_TO_CM(-1) / 2.5));
-}
-
 int Structs::Point::hashCode() {
 	int xPart = _x;
 	int yPart = _y;
@@ -190,18 +180,6 @@ void Structs::Location::setYaw(float yaw) {
 
 Structs::Point Structs::Location::pointValue() {
 	return Structs::Point(_x, _y);
-}
-
-Structs::Location Structs::Location::robotLocationToRealLocation() {
-	return Location((_x * (METER_TO_CM(1) / 2.5)) + (550 / 2),
-			 	 	(_y * (METER_TO_CM(-1) / 2.5)) + (380 / 2),
-			 	 	Helper::radiansToDegrees(_yaw));
-}
-
-Structs::Location Structs::Location::realLocationToRobotLocation() {
-	return Location((_x - (550 / 2)) / (METER_TO_CM(1) / 2.5),
-			 	 	(_y - (380 / 2)) / (METER_TO_CM(-1) / 2.5),
-			 	 	Helper::degreesToRadians(_yaw));
 }
 
 string Structs::Location::toString() {

@@ -17,7 +17,6 @@
 
 #include "Structs.h"
 #include "Map.h"
-#include "MapForRobot.h"
 #include "Helper.h"
 
 using namespace std;
