@@ -27,7 +27,6 @@ private:
 	Robot * _robot;
 	ConfigurationManager * _configurationManager;
 	Map * _map;
-	MapForRobot * _mapForRobot;
 	PathPlanner * _pathPlanner;
 	WaypointsManager * _waypointsManager;
 	LocalizationManager * _localizationManager;

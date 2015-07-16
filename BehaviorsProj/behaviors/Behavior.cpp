@@ -47,20 +47,19 @@ vector<Behavior*> Behavior::getBehaviors() {
 	This method will make the robot do the current behavior.
  */
 void Behavior::action() {
-	Structs::Location locationBeforeAction = _robot->getLocation().robotLocationToRealLocation();
+	Structs::Location locationBeforeAction = _robot->getLocation();
 
 	behave();
 
-	Structs::Location locationAfterAction = _robot->getLocation().robotLocationToRealLocation();
+	Structs::Location locationAfterAction = _robot->getLocation();
 	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
 
-	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
+	_localizationManager->updateParticles(locationDelta);
 
 	// Maybe should be moved to update once per behavior?
 	if (_localizationManager->getHighestBelief() >= LocalizationManager::BELIEF_THRESHOLD) {
 		cout << "Highest belief: " << _localizationManager->getHighestBelief() << endl;
 
-		// What if all the beliefs are 0? the robot will get a false location?
-		_robot->setRobotLocation(_localizationManager->getProbableLocation().realLocationToRobotLocation());
+		_robot->setRobotLocation(_localizationManager->getProbableLocation());
 	}
 }

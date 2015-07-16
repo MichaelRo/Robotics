@@ -23,11 +23,11 @@ GoToPoint::~GoToPoint() {
 	@param goalPoint - the point the robot supposed to arrived to.
 	@param wantedYaw - the yaw the robot supposed to turn before GoForward.
 */
-GoToPoint::GoToPoint(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint, float wantedYaw) : Behavior(robot, localizationManager) {
+GoToPoint::GoToPoint(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint, float neededYaw) : Behavior(robot, localizationManager) {
 	_goalPoint = goalPoint;
-	_wantedYaw = wantedYaw;
+	_neededYaw = neededYaw;
 
-	_turnInPlaceBehavior = new TurnInPlace(_robot, _localizationManager, _wantedYaw);
+	_turnInPlaceBehavior = new TurnInPlace(_robot, _localizationManager, _neededYaw);
 	_goForwardBehavior = new GoForward(_robot, _localizationManager, goalPoint);
 
 	initializeGoToPointBehavior();

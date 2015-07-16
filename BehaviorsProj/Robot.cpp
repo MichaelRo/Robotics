@@ -25,18 +25,38 @@ Robot::Robot(char * ip, int port) {
 		Read();
 }
 
+/**
+	Returns the robot's location as defined in the normal map ((0, 0) as the top left corner) with map's resolution
+
+	@return - the robot's location (cm, cm, degrees)
+*/
 Structs::Location Robot::getLocation() {
-	return Structs::Location(_position->GetXPos(), _position->GetYPos(), _position->GetYaw());
+	return Structs::Location((_position->GetXPos() * (METER_TO_CM(1) / 2.5)) + (550 / 2),
+							 (_position->GetYPos() * (METER_TO_CM(-1) / 2.5)) + (380 / 2),
+							 Helper::radiansToDegrees(_position->GetYaw()));
 }
 
+/**
+	Returns the robot's position as defined in the normal map ((0, 0) as the top left corner) with map's resolution
+
+	@return - the robot's position (cm, cm)
+*/
 Structs::Point Robot::getPosition() {
-	return Structs::Point(_position->GetXPos(), _position->GetYPos());
+	return Structs::Point((_position->GetXPos() * (METER_TO_CM(1) / 2.5)) + (550 / 2),
+			 	 	 	  (_position->GetYPos() * (METER_TO_CM(-1) / 2.5)) + (380 / 2));
 }
 
-void Robot::setRobotLocation(Structs::Location location) {
-	_position->SetOdometry(location.getX(), location.getY(), location.getYaw());
+/**
+	Set's robot location (odometry) by his rules ((0, 0) as the middle point)
 
-	cout << "Robot position: " << location.robotLocationToRealLocation().toString() << endl;
+	@param location - the robot's location (cm, cm, degrees) as defined in the normal map with map's resolution
+*/
+void Robot::setRobotLocation(Structs::Location location) {
+	_position->SetOdometry((location.getX() - (550 / 2)) / (METER_TO_CM(1) / 2.5),
+						   (location.getY() - (380 / 2)) / (METER_TO_CM(-1) / 2.5),
+						   Helper::degreesToRadians(location.getYaw()));
+
+	cout << "Robot position: " << location.toString() << endl;
 }
 
 void Robot::setSpeed(float xSpeed, float angularSpeed) {

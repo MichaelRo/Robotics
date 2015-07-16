@@ -20,6 +20,8 @@ public:
 	MapForRobot(Map * map);
 	virtual ~MapForRobot();
 
+	Map * getMap();
+
 	int getWidth();
 	int getHeight();
 	float getGridResolution();
