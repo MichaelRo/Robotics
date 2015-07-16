@@ -12,7 +12,6 @@
 #include <iostream>
 
 #include "Map.h"
-#include "MapForRobot.h"
 #include "Particle.h"
 #include "Structs.h"
 #include "Robot.h"
@@ -25,7 +24,6 @@ private:
 
 	list<Particle> _particles;
 	Map * _map;
-	Robot * _robot;
 
 	Particle * getHighestBeliefParticle();
 
@@ -33,10 +31,10 @@ public:
 	static constexpr float BELIEF_THRESHOLD = 0.6; // 0.6 / 0.25
 //	static const int STANDARD = 0.7 - maybe we need a high threshold
 
-	LocalizationManager(Structs::Location startLocation, Map * map, Robot * robot);
+	LocalizationManager(Structs::Location startLocation, Map * map);
 	virtual ~LocalizationManager();
 
-	void updateParticles(Structs::Location destination);
+	void updateParticles(Structs::Location destination, vector<float> laserScan);
 	Structs::Location getProbableLocation();
 	float getHighestBelief();
 };

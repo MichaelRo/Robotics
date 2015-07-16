@@ -31,9 +31,11 @@ Robot::Robot(char * ip, int port) {
 	@return - the robot's location (cm, cm, degrees)
 */
 Structs::Location Robot::getLocation() {
+	float degreeRobotYaw = Helper::radiansToDegrees(_position->GetYaw());
+
 	return Structs::Location((_position->GetXPos() * (METER_TO_CM(1) / 2.5)) + (550 / 2),
 							 (_position->GetYPos() * (METER_TO_CM(-1) / 2.5)) + (380 / 2),
-							 Helper::radiansToDegrees(_position->GetYaw()));
+							 (degreeRobotYaw < 0) ? (360 + degreeRobotYaw) : degreeRobotYaw);
 }
 
 /**
@@ -52,9 +54,11 @@ Structs::Point Robot::getPosition() {
 	@param location - the robot's location (cm, cm, degrees) as defined in the normal map with map's resolution
 */
 void Robot::setRobotLocation(Structs::Location location) {
+	float robotYaw = (location.getYaw() > 180) ? ((-1) * (360 - location.getYaw())) : location.getYaw();
+
 	_position->SetOdometry((location.getX() - (550 / 2)) / (METER_TO_CM(1) / 2.5),
 						   (location.getY() - (380 / 2)) / (METER_TO_CM(-1) / 2.5),
-						   Helper::degreesToRadians(location.getYaw()));
+						   Helper::degreesToRadians(robotYaw));
 
 	cout << "Robot position: " << location.toString() << endl;
 }

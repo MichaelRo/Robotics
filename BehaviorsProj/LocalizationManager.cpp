@@ -11,9 +11,8 @@ LocalizationManager::~LocalizationManager() {
 
 }
 
-LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * map, Robot * robot) {
+LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * map) {
 	_map = map;
-	_robot = robot;
 	srand(time(NULL));
 
 	// Initializing the particles list by the PARTICLES_AMOUNT value
@@ -23,14 +22,12 @@ LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * 
 	_particles.insert(_particles.end(), descendantParticles.begin(), descendantParticles.end());
 }
 
-void LocalizationManager::updateParticles(Structs::Location destination) {
+void LocalizationManager::updateParticles(Structs::Location destination, vector<float> laserScan) {
 	list<Particle> particlesForDelete = list<Particle>();
 	list<Particle> particlesForMultiply = list<Particle>();
 
 	for (list<Particle>::iterator particlesIterator = _particles.begin(); particlesIterator != _particles.end(); particlesIterator++) {
-		float currentParticleBelief = particlesIterator->update(destination, _robot->getLaserScan());
-
-		_robot->Read();
+		float currentParticleBelief = particlesIterator->update(destination, laserScan);
 
 		if (currentParticleBelief < BELIEF_THRESHOLD) {
 			if (particlesForDelete.size() < 4) {

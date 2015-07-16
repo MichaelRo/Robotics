@@ -74,10 +74,6 @@ list<Structs::Point> WaypointsManager::getWaypoints(int waypointsType) {
 				waypoint = *wayPointsIterator.operator ->();
 
 				break;
-			case WAYPOINT_FOR_ROBOT:
-				waypoint = ((*wayPointsIterator.operator ->()) * ceil(_map->getGridResolution() / _map->getMapResolution())).realPointToRobotPoint();
-
-				break;
 			default:
 				break;
 		}

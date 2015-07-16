@@ -50,7 +50,7 @@ void Manager::run() {
 	_robot->setRobotLocation(realRobotStartLocation);
 
 	_robot->Read();
-	_localizationManager = new LocalizationManager(realRobotStartLocation, _map, _robot);
+	_localizationManager = new LocalizationManager(realRobotStartLocation, _map);
 
 	_movementManager = new MovementManager(_robot, _localizationManager, _waypointsManager);
 	_movementManager->start();

@@ -13,7 +13,6 @@
 
 #include "Robot.h"
 #include "Map.h"
-#include "MapForRobot.h"
 #include "PathPlanner.h"
 #include "WaypointsManager.h"
 #include "LocalizationManager.h"

@@ -54,7 +54,7 @@ void Behavior::action() {
 	Structs::Location locationAfterAction = _robot->getLocation();
 	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
 
-	_localizationManager->updateParticles(locationDelta);
+	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
 
 	// Maybe should be moved to update once per behavior?
 	if (_localizationManager->getHighestBelief() >= LocalizationManager::BELIEF_THRESHOLD) {

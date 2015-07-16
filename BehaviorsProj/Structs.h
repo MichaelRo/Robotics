@@ -39,8 +39,6 @@ public:
 		float diagonalDistance(Point point);
 		float squaredEuclideanDistance(Point point);
 
-		Point robotPointToRealPoint();
-		Point realPointToRobotPoint();
 		int hashCode();
 		string toString();
 
@@ -77,9 +75,6 @@ public:
 		void setY(float y);
 		float getYaw();
 		void setYaw(float yaw);
-
-		Location robotLocationToRealLocation();
-		Location realLocationToRobotLocation();
 
 		Point pointValue();
 		string toString();
