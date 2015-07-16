@@ -14,4 +14,5 @@ Todo List:
   7. Clear unimportant console prints and add the relevant ones.
   8. Clean unused consts and methods.
   9. Add notes to all class files, and delete the unimportant / debug notes.
-  10. Pray to the Gay Iranian community.
+  10. Reorder all files in new directories
+  11. Pray to the Gay Iranian community.
