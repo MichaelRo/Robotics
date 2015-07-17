@@ -44,8 +44,8 @@ public:
 	static constexpr float COMPROMISED_YAW = 2;
 	static constexpr float COMPROMISED_DISTANCE = 20;
 	static constexpr float LASER_MAX_DETECTION_RANGE = 4.095;
-	static constexpr float MINIMUM_DISTANCE_FROM_WALL = 0.8;
-	static constexpr float YAW_TURN_DELTA = 0.15;
+	static constexpr float MINIMUM_DISTANCE_FROM_WALL = 0.5;
+	static constexpr float YAW_TURN_DELTA = 0.16;
 
 	static const int * getRGBA(int color);
 
