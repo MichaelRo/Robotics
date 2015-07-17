@@ -16,9 +16,9 @@ Todo List:
      Sometimes the yaw also continue running when he got stuck.
   7. Connect the localization manager - maybe in a different thread? (Too slow performance)
   8. Check why the route doesn't planned to go straight at the first intersection (and generates two waypoints instead).
-  8. Check what happens when yaws getting greater than 360° (for example, delta's addition)
-  9. Clear unimportant console prints and add the relevant ones.
-  10. Clean unused consts and methods.
-  11. Add notes to all class files, and delete the unimportant / debug notes.
-  12. Reorder all files in new directories
-  13. Pray to the Gay Iranian community.
+  9. Check what happens when yaws getting greater than 360° (for example, delta's addition)
+  10. Clear unimportant console prints and add the relevant ones.
+  11. Clean unused consts and methods.
+  12. Add notes to all class files, and delete the unimportant / debug notes.
+  13. Reorder all files in new directories
+  14. Pray to the Gay Iranian community.
