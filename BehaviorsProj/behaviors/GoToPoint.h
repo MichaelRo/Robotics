@@ -14,6 +14,7 @@
 #include "TurnInPlace.h"
 #include "GoForward.h"
 #include "../Structs.h"
+#include "../Map.h"
 
 using namespace std;
 
@@ -27,6 +28,8 @@ private:
 	float calculateNeededYaw();
 	void initializeGoToPointBehavior();
     bool isGoalLocationReached();
+
+    Structs::Point getClosestRoutePoint(Structs::Point currentPoint);
 
 public:
 	GoToPoint(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint);

@@ -26,7 +26,7 @@ private:
 	Particle * getHighestBeliefParticle();
 
 public:
-	static constexpr float BELIEF_THRESHOLD = 0.6; // 0.6 / 0.25
+	static constexpr float BELIEF_THRESHOLD = 0.55; // 0.6 / 0.25
 //	static const int STANDARD = 0.7 - maybe we need a high threshold
 
 	LocalizationManager(Structs::Location startLocation, Map * map);
@@ -35,6 +35,8 @@ public:
 	void updateParticles(Structs::Location destination, vector<float> laserScan);
 	Structs::Location getProbableLocation();
 	float getHighestBelief();
+
+	Map * getMap();
 };
 
 #endif

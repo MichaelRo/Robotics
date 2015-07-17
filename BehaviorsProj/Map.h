@@ -17,6 +17,7 @@
 #include <fstream>
 #include <cmath>
 #include <list>
+#include <algorithm>
 
 using namespace std;
 
@@ -75,6 +76,7 @@ public:
 	void markGoalPoint(Structs::Point goalPoint, float resolution);
 	void initializeGrid(int width, int height);
 	void swapMap(Map * map);
+	list<Structs::Point> getCellsNeighborsByValue(Structs::Point point, list<int> neighborsValues, float resolution);
 };
 
 #endif

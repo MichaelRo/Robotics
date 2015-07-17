@@ -93,3 +93,7 @@ float LocalizationManager::getHighestBelief() {
 Structs::Location LocalizationManager::getProbableLocation() {
 	return getHighestBeliefParticle()->getLocation();
 }
+
+Map * LocalizationManager::getMap() {
+	return _map;
+}
