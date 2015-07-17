@@ -42,7 +42,7 @@ public:
 	static constexpr float TOTAL_SCAN_SPAN = 666;
 	static constexpr float TOTAL_DEGREES = 240;
 	static constexpr float COMPROMISED_YAW = 2;
-	static constexpr float COMPROMISED_DISTANCE = 20;
+	static constexpr float COMPROMISED_DISTANCE = 30;
 	static constexpr float LASER_MAX_DETECTION_RANGE = 4.095;
 	static constexpr float MINIMUM_DISTANCE_FROM_WALL = 0.5;
 	static constexpr float YAW_TURN_DELTA = 0.16;
