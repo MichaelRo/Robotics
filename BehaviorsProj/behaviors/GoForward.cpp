@@ -43,8 +43,9 @@ bool GoForward::stopCondition() {
 	if (_robot->getPosition().distanceBetweenPoints(_goalPoint) <= COMPROMISED_DISTANCE)
 		return true;
 
-	for (int i = Helper::degreesToIndex(-30); i < Helper::degreesToIndex(30); i++) {
-		if (_robot->getLaserDistance(i) < Helper::MINIMUM_WALL_RANGE) {
+//	for (int i = Helper::degreesToIndex(-30); i < Helper::degreesToIndex(30); i++) {
+	for (int i = Helper::degreesToIndex(-3); i < Helper::degreesToIndex(3); i++) {
+		if (_robot->getLaserDistance(i) < Helper::MINIMUM_DISTANCE_FROM_WALL) {
 			cout << "Stopped going forward because of an obstacle" << endl;
 
 			return true;

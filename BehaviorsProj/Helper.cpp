@@ -54,7 +54,8 @@ int Helper::indexToDegrees(int index) {
 }
 
 float Helper::degreesToRadians(float degrees) {
-	float yaw = (degrees > 180) ? degrees - 360 : degrees;
+//	float yaw = (degrees > 180) ? degrees - 360 : degrees;
+	float yaw = degrees;
 
 	return (yaw * M_PI) / 180;
 }
@@ -62,7 +63,8 @@ float Helper::degreesToRadians(float degrees) {
 float Helper::radiansToDegrees(float radians) {
 	float yaw = (radians * 180) / M_PI;
 
-	return (yaw < 0) ? yaw + 360 : yaw;
+	return yaw;
+//	return (yaw < 0) ? yaw + 360 : yaw;
 }
 
 string Helper::intToString (int number) {
