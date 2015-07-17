@@ -5,7 +5,9 @@ https://youtu.be/iGOmnC24BvE
 Todo List:
   1. Check why robot Igal goes to a different yaw (neededDeltaYaw describes a 180° turn somehow although it's 115°).
      Somehow a full circle is 180°..
-  2. Add yaw change for obstacle avoidence
+  2. When robot Igal changes direction (TurnInPlace), 
+     Igal is confidently sure that he is going to the same direction (the neededYaw and Igal's yaw is growing)
+  3. Add yaw change for obstacle avoidence
   3. Make GoToPoint try again when he fails to get to the correct point.
      We can make the GoToPoint (or goForward) check every X iterations that the robot is in the right way
      (if not, we can start a new GoToPoint from the updated robot location).
