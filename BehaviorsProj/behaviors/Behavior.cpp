@@ -58,13 +58,12 @@ void Behavior::action() {
 	Structs::Location locationAfterAction = _robot->getLocation();
 	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
 
-//	Add this code when you connect the localizationManager
-//	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
-//
-//	// Maybe should be moved to update once per behavior?
-//	if (_localizationManager->getHighestBelief() >= LocalizationManager::BELIEF_THRESHOLD) {
-//		cout << "Highest belief: " << _localizationManager->getHighestBelief() << endl;
-//
-//		_robot->setRobotLocation(_localizationManager->getProbableLocation());
-//	}
+	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
+
+	// Maybe should be moved to update once per behavior?
+	if (_localizationManager->getHighestBelief() >= LocalizationManager::BELIEF_THRESHOLD) {
+		cout << "Highest belief: " << _localizationManager->getHighestBelief() << endl;
+
+		_robot->setRobotLocation(_localizationManager->getProbableLocation());
+	}
 }

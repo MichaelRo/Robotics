@@ -41,8 +41,6 @@ Structs::Point Robot::getPosition() {
 	@return - the robot's location (cm, cm, degrees)
 */
 Structs::Location Robot::getLocation() {
-//	Add this code when you connect the localizationManager
-//	float degreeRobotYaw = Helper::radiansToDegrees(_position->GetYaw()) * 2;
 	float degreeRobotYaw = Helper::radiansToDegrees(_position->GetYaw());
 
 	return Structs::Location((_position->GetXPos() * (METER_TO_CM(1) / 2.5)) + (550 / 2),
@@ -61,8 +59,6 @@ void Robot::setRobotLocation(Structs::Location location) {
 	_position->SetOdometry((location.getX() - (550 / 2)) / (METER_TO_CM(1) / 2.5),
 						   (location.getY() - (380 / 2)) / (METER_TO_CM(-1) / 2.5),
 						   Helper::degreesToRadians(robotYaw));
-//	Add this code when you connect the localizationManager
-//						   Helper::degreesToRadians(robotYaw) / 2);
 
 	cout << "Robot position: " << location.toString() << endl;
 }

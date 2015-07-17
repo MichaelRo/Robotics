@@ -83,7 +83,7 @@ float Particle::calculateMotionModelProbability(Structs::Location destination) {
 float Particle::checkObservationModel(vector<float> laserScan) {
 	int expectedObsticlesDetected;
 
-	for (unsigned int laserDegree = 0; laserDegree < laserScan.size(); laserDegree++) {
+	for (unsigned int laserDegree = 0; laserDegree < laserScan.size(); laserDegree += 10) {
 		float currentLaserScan = laserScan[laserDegree];
 
 		expectedObsticlesDetected = 0;
@@ -115,7 +115,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 
 	// Going through all the spotted points in the lasers way (without the laser scanned point)
 	// Maybe ceil ?
-	for (int distanceFromSpottedPoint = 1; distanceFromSpottedPoint < floor(METER_TO_CM(laserScan)); distanceFromSpottedPoint++) {
+	for (int distanceFromSpottedPoint = 1; distanceFromSpottedPoint < floor(METER_TO_CM(laserScan)); distanceFromSpottedPoint += 10) {
 		// Calculating the spotted point location (as a delta to the particle itself)
 
 		// Laser degree as an offset, plus or minus depends on the laser scan start direction
