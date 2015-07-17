@@ -14,7 +14,8 @@ Todo List:
   5. Somehow robot Igal's location started to update really slow. Maybe it's the update particles and belief calculation fault?
   6. Robot Igal is drunk. He get stuck into walls. Looks like the 60° wall check is too slow and doesn't complete the check
      Sometimes the yaw also continue running when he got stuck.
-  7. Check why the route doesn't planned to go straight at the first intersection (and generates two waypoints instead).
+  7. Connect the localization manager - maybe in a different thread? (Too slow performance)
+  8. Check why the route doesn't planned to go straight at the first intersection (and generates two waypoints instead).
   8. Check what happens when yaws getting greater than 360° (for example, delta's addition)
   9. Clear unimportant console prints and add the relevant ones.
   10. Clean unused consts and methods.
