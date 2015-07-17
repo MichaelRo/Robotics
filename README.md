@@ -11,4 +11,4 @@ Todo List:
   6. Clean unused consts and methods.
   7. Add notes to all class files, and delete the unimportant / debug notes.
   8. Reorder all files in new directories
-  9. Pray to the Gay Iranian community.
+  9. Save the planet from the Gay Iranian community missle.
