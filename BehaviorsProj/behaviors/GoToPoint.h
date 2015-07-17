@@ -20,7 +20,7 @@ using namespace std;
 class GoToPoint: public Behavior {
 private:
 	static constexpr float COMPROMISED_YAW = 2;
-	static constexpr float COMPROMISED_DISTANCE = 0.4;
+	static constexpr float COMPROMISED_DISTANCE = 20;
 
 	Structs::Point _goalPoint;
 
