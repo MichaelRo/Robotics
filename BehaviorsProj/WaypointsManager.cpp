@@ -32,8 +32,6 @@ void WaypointsManager::markWaypoints(list<Structs::Point> route) {
 	std::advance(routePointsIterator, 1);
 	Structs::Point * destinationPoint = routePointsIterator.operator ->();
 
-	_wayPoints.push_back(*sourcePoint);
-
 	int continuingDirection = getDirection(*sourcePoint, *destinationPoint);
 
 	// Goes through all the points in the route and checks its direction
@@ -67,7 +65,7 @@ list<Structs::Point> WaypointsManager::getWaypoints(int waypointsType) {
 
 		switch (waypointsType) {
 			case WAYPOINT_FOR_MAP:
-				waypoint = (*wayPointsIterator.operator ->()) * ceil(_map->getGridResolution() / _map->getMapResolution());
+				waypoint = (*wayPointsIterator.operator ->()) * (ceil(_map->getGridResolution() / _map->getMapResolution()) / 2);
 
 				break;
 			case WAYPOINT_FOR_GRID:

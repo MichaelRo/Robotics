@@ -23,20 +23,35 @@ GoToPoint::~GoToPoint() {
 	@param goalPoint - the point the robot supposed to arrived to.
 	@param wantedYaw - the yaw the robot supposed to turn before GoForward.
 */
-GoToPoint::GoToPoint(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint, float neededYaw) : Behavior(robot, localizationManager) {
+GoToPoint::GoToPoint(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint) : Behavior(robot, localizationManager) {
 	_goalPoint = goalPoint;
-	_neededYaw = neededYaw;
-
-	_turnInPlaceBehavior = new TurnInPlace(_robot, _localizationManager, _neededYaw);
-	_goForwardBehavior = new GoForward(_robot, _localizationManager, goalPoint);
 
 	initializeGoToPointBehavior();
+}
+
+/**
+	Calculates the needed (non-relative) yaw to get from the robot's current location to a goal point
+
+	@param goalPoint - the goal point
+	@return - yaw in degrees
+*/
+float GoToPoint::calculateNeededYaw(Structs::Point goalPoint) {
+//	_robot->Read();
+	Structs::Point startPoint = _robot->getPosition();
+
+	float yDeltaToPoint = abs(goalPoint.getY() - startPoint.getY());
+	float distanceToPoint = startPoint.distanceBetweenPoints(goalPoint);
+
+	return Helper::radiansToDegrees(abs(acos(yDeltaToPoint / distanceToPoint) - M_PI));
 }
 
 /**
 	This method initialize the yaw the robot need to turn, and the GoForward object.
  */
 void GoToPoint::initializeGoToPointBehavior() {
+	_turnInPlaceBehavior = new TurnInPlace(_robot, _localizationManager, calculateNeededYaw(_goalPoint));
+	_goForwardBehavior = new GoForward(_robot, _localizationManager, _goalPoint);
+
 	addNext(_turnInPlaceBehavior);
 	addNext(_goForwardBehavior);
 }
