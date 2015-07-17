@@ -30,17 +30,17 @@ GoToPoint::GoToPoint(Robot * robot, LocalizationManager * localizationManager, S
 }
 
 /**
-	Calculates the needed (non-relative) yaw to get from the robot's current location to a goal point
+	Calculates the needed (non-relative) yaw to get from the robot's current location to the goal point
 
-	@param goalPoint - the goal point
 	@return - yaw in degrees
 */
-float GoToPoint::calculateNeededYaw(Structs::Point goalPoint) {
-//	_robot->Read();
+float GoToPoint::calculateNeededYaw() {
+	_robot->Read();
+
 	Structs::Point startPoint = _robot->getPosition();
 
-	float yDeltaToPoint = abs(goalPoint.getY() - startPoint.getY());
-	float distanceToPoint = startPoint.distanceBetweenPoints(goalPoint);
+	float yDeltaToPoint = abs(_goalPoint.getY() - startPoint.getY());
+	float distanceToPoint = startPoint.distanceBetweenPoints(_goalPoint);
 
 	return Helper::radiansToDegrees(abs(acos(yDeltaToPoint / distanceToPoint) - M_PI));
 }
@@ -49,7 +49,7 @@ float GoToPoint::calculateNeededYaw(Structs::Point goalPoint) {
 	This method initialize the yaw the robot need to turn, and the GoForward object.
  */
 void GoToPoint::initializeGoToPointBehavior() {
-	_turnInPlaceBehavior = new TurnInPlace(_robot, _localizationManager, calculateNeededYaw(_goalPoint));
+	_turnInPlaceBehavior = new TurnInPlace(_robot, _localizationManager, calculateNeededYaw());
 	_goForwardBehavior = new GoForward(_robot, _localizationManager, _goalPoint);
 
 	addNext(_turnInPlaceBehavior);
@@ -62,7 +62,7 @@ void GoToPoint::initializeGoToPointBehavior() {
 	@return - Is the robot arrive to the goal point?
  */
 bool GoToPoint::isGoalLocationReached() {
-	return _robot->getPosition().distanceBetweenPoints(_goalPoint) <= COMPROMISED_DISTANCE;
+	return _robot->getPosition().distanceBetweenPoints(_goalPoint) <= Helper::COMPROMISED_DISTANCE;
 }
 
 /**
@@ -120,16 +120,17 @@ void GoToPoint::behave() {
 				// IterationIndex reinitialization
 				iterationIndex = 1;
 
-				float neededYawDelta = calculateNeededYaw(_goalPoint) - _robot->getLocation().getYaw();
-				cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
+				float neededYawDelta = calculateNeededYaw() - _robot->getLocation().getYaw();
+				cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(Helper::COMPROMISED_YAW) << endl;
 
-				if (neededYawDelta > COMPROMISED_YAW)
+				if (((neededYawDelta >= 0) && (neededYawDelta > Helper::COMPROMISED_YAW)) ||
+					((neededYawDelta < 0) && (neededYawDelta < (-1 * Helper::COMPROMISED_YAW))))
 					break;
 			}
 		}
 
 		// Consider to implement a stop method
-		_robot->setSpeed((float) 0, (float) 0);
+		_robot->setSpeed(0, 0);
 	}
 
 	// Checking if the robot arrived to the goal location

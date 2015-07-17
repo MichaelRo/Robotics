@@ -22,11 +22,6 @@ TurnInPlace::TurnInPlace(Robot * robot, LocalizationManager * localizationManage
 	_neededYaw = neededYaw;
 }
 
-/**
-	 The condition if the robot can start GoForward.
-
-	 @return - true.
- */
 bool TurnInPlace::startCondition() {
 	return true;
 }
@@ -37,13 +32,11 @@ bool TurnInPlace::startCondition() {
 	 @return - if the robot close enough to the yaw.
  */
 bool TurnInPlace::stopCondition() {
-//	_robot->Read();
 	float neededYawDelta = _neededYaw - _robot->getLocation().getYaw();
-	cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
+	cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(Helper::COMPROMISED_YAW) << endl;
 
-//	if (abs(neededYawDelta) <= COMPROMISED_YAW) {
-	if (((neededYawDelta >= 0) && (neededYawDelta <= COMPROMISED_YAW)) ||
-		((neededYawDelta < 0) && (neededYawDelta >= (-1 * COMPROMISED_YAW)))) {
+	if (((neededYawDelta >= 0) && (neededYawDelta <= Helper::COMPROMISED_YAW)) ||
+		((neededYawDelta < 0) && (neededYawDelta >= (-1 * Helper::COMPROMISED_YAW)))) {
 		return true;
 	}
 
@@ -53,9 +46,8 @@ bool TurnInPlace::stopCondition() {
 void TurnInPlace::behave() {
 	int angularSpeedFactor = 1;
 
-	if (abs(_robot->getLocation().getYaw() - _neededYaw) > abs(_robot->getLocation().getYaw() - (360 - _neededYaw))) {
+	if (_neededYaw - _robot->getLocation().getYaw() < 0)
 		angularSpeedFactor = -1;
-	}
 
-	_robot->setSpeed((float) 0, (float) angularSpeedFactor * YAW_DELTA);
+	_robot->setSpeed((float) 0, (float) angularSpeedFactor * Helper::YAW_TURN_DELTA);
 }

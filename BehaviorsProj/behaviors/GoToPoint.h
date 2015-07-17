@@ -19,15 +19,12 @@ using namespace std;
 
 class GoToPoint: public Behavior {
 private:
-	static constexpr float COMPROMISED_YAW = 2;
-	static constexpr float COMPROMISED_DISTANCE = 20;
-
 	Structs::Point _goalPoint;
 
 	TurnInPlace * _turnInPlaceBehavior;
 	GoForward * _goForwardBehavior;
 
-	float calculateNeededYaw(Structs::Point goalPoint);
+	float calculateNeededYaw();
 	void initializeGoToPointBehavior();
     bool isGoalLocationReached();
 

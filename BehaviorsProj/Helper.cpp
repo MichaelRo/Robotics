@@ -20,23 +20,23 @@ const int Helper::NO_COLOR[] = {0, 0, 0, 0};
 
 const int* Helper::getRGBA(int color) {
 	switch (color) {
-		case BLACK :
+		case Helper::Color::BLACK :
 			return BLACK_RGBA;
-		case WHITE :
+		case Helper::Color::WHITE :
 			return WHITE_RGBA;
-		case BLUE :
+		case Helper::Color::BLUE :
 			return BLUE_RGBA;
-		case GREEN :
+		case Helper::Color::GREEN :
 			return GREEN_RGBA;
-		case RED :
+		case Helper::Color::RED :
 			return RED_RGBA;
-		case PINK :
+		case Helper::Color::PINK :
 			return PINK_RGBA;
-		case LIGHT_BLUE :
+		case Helper::Color::LIGHT_BLUE :
 			return LIGHT_BLUE_RGBA;
-		case YELLOW :
+		case Helper::Color::YELLOW :
 			return YELLOW_RGBA;
-		case GRAY :
+		case Helper::Color::GRAY :
 			return GRAY_RGBA;
 		default :
 			return NO_COLOR;
@@ -44,13 +44,13 @@ const int* Helper::getRGBA(int color) {
 }
 
 int Helper::degreesToIndex(int degrees) {
-	int indexDifference = degrees * Helper::DEGREES_INDEX_RATIO;
-	return Helper::HALF_SCAN_SPAN + indexDifference;
+	int indexDifference = degrees * (Helper::TOTAL_SCAN_SPAN / Helper::TOTAL_DEGREES);
+	return (Helper::TOTAL_SCAN_SPAN / 2) + indexDifference;
 }
 
 int Helper::indexToDegrees(int index) {
-	int relativeIndex = index - Helper::HALF_SCAN_SPAN;
-	return relativeIndex / Helper::DEGREES_INDEX_RATIO;
+	int relativeIndex = index - (Helper::TOTAL_SCAN_SPAN / 2);
+	return relativeIndex / (Helper::TOTAL_SCAN_SPAN / Helper::TOTAL_DEGREES);
 }
 
 float Helper::degreesToRadians(float degrees) {

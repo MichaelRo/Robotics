@@ -19,8 +19,6 @@ using namespace std;
 
 class ConfigurationManager {
 private:
-	const static char DELIMITER = ':';
-
 	string _mapFilePath;
 	Structs::Location _robotStartLocation;
 	Structs::Location _robotGoalLocation;

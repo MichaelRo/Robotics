@@ -22,8 +22,6 @@ using namespace std;
 
 class Map {
 private:
-	static const int BYTES_PER_PIXEL = 4;
-
 	int _width;
 	int _height;
 	ConfigurationManager * _configurationManager;

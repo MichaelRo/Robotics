@@ -37,7 +37,7 @@ void Manager::run() {
 	cout << "The route size is: " << route.size() << ", ";
 
 	_waypointsManager = new WaypointsManager(route, _map);
-	list<Structs::Point> wayPoints = _waypointsManager->getWaypoints(WaypointsManager::WAYPOINT_FOR_GRID);
+	list<Structs::Point> wayPoints = _waypointsManager->getWaypoints(WaypointsManager::WaypointType::WAYPOINT_FOR_GRID);
 	_map->markWayPoints(wayPoints, _map->getGridResolution());
 	cout << wayPoints.size() << " of these are waypoints." << endl;
 

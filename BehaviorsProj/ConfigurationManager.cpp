@@ -198,7 +198,7 @@ int ConfigurationManager::setConfigurationProperty(Structs::ConfigurationPropert
 	@ return - the wanted property.
  */
 Structs::ConfigurationProperty ConfigurationManager::getProperty(string s) {
-	vector<string> propertyVector = splitString(s, DELIMITER);
+	vector<string> propertyVector = splitString(s, Helper::CONFIGURATION_DELIMITER);
 	Structs::ConfigurationProperty property(propertyVector[0], propertyVector[1]);
 
 	return property;

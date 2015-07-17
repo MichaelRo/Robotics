@@ -20,8 +20,6 @@ using namespace std;
 
 class MovementManager {
 private:
-	static constexpr float COMPROMISED_DISTANCE = 20;
-
 	Robot * _robot;
 	LocalizationManager * _localizationManager;
 	list<Structs::Point> _wayPoints;

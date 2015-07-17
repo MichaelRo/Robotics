@@ -31,30 +31,23 @@ private:
 	static const int NO_COLOR[];
 
 public:
-	static const int BLACK = 1;
-	static const int WHITE = 2;
-	static const int BLUE = 3;
-	static const int GREEN = 4;
-	static const int RED = 5;
-	static const int PINK = 6;
-	static const int LIGHT_BLUE = 7;
-	static const int YELLOW = 8;
-	static const int GRAY = 9;
-
-	const static int * getRGBA(int color);
+	enum Color {BLACK, WHITE, BLUE, GREEN, RED, PINK, LIGHT_BLUE, YELLOW, GRAY};
 	
-	static const int SCAN_SPAN = 666;
-	static const int DEGREES = 240;
-	static constexpr float MINIMUM_DISTANCE_FROM_WALL = 0.8;
-	static constexpr float TOTAL_SCAN_SPAN = SCAN_SPAN;
-	static constexpr float HALF_SCAN_SPAN = SCAN_SPAN / 2;
-	static constexpr float TOTAL_DEGREES = DEGREES;
-	static constexpr float DEGREES_INDEX_RATIO = SCAN_SPAN / DEGREES;
+	const static char CONFIGURATION_DELIMITER = ':';
 
-	static constexpr float OPEN_PATH_RANGE = 0.75;
-	static constexpr float SENSOR_FROM_END = 15;
+	static const int BYTES_PER_PIXEL_IN_PNG = 4;
+
+	static const int TOTAL_PARTICLES_AMOUNT = 100;
+
+	static constexpr float TOTAL_SCAN_SPAN = 666;
+	static constexpr float TOTAL_DEGREES = 240;
+	static constexpr float COMPROMISED_YAW = 2;
+	static constexpr float COMPROMISED_DISTANCE = 20;
 	static constexpr float LASER_MAX_DETECTION_RANGE = 4.095;
-	static constexpr float CELL_DIMENSION = 5;
+	static constexpr float MINIMUM_DISTANCE_FROM_WALL = 0.8;
+	static constexpr float YAW_TURN_DELTA = 0.15;
+
+	static const int * getRGBA(int color);
 
 	static int indexToDegrees(int index);
 	static int degreesToIndex(int degrees);

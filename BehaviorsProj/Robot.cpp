@@ -76,7 +76,7 @@ vector<float> Robot::getLaserScan() {
 
 	Read();
 
-	for (int i = 0; i < Helper::DEGREES; i++) {
+	for (int i = 0; i < Helper::TOTAL_DEGREES; i++) {
 		laserScan.push_back(getLaserDistance(Helper::degreesToIndex(i)));
 	}
 

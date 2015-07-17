@@ -17,7 +17,6 @@ using namespace std;
 
 class GoForward: public Behavior {
 private:
-	static constexpr float COMPROMISED_DISTANCE = 20;
 	Structs::Point _goalPoint;
 
 public:

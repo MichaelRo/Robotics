@@ -25,7 +25,7 @@ void MovementManager::start() {
 
 		_robot->Read();
 
-		while (_robot->getPosition().distanceBetweenPoints(currentWayPoint) > COMPROMISED_DISTANCE) {
+		while (_robot->getPosition().distanceBetweenPoints(currentWayPoint) > Helper::COMPROMISED_DISTANCE) {
 			goToPointBehavior = new GoToPoint(_robot, _localizationManager, currentWayPoint);
 
 			_robot->Read();
@@ -36,7 +36,5 @@ void MovementManager::start() {
 				}
 			}
 		}
-
-		// Maybe (delete goToPointBehavior;) ?
 	}
 }
