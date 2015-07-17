@@ -88,33 +88,51 @@ bool GoToPoint::stopCondition() {
  */
 void GoToPoint::behave() {
 	vector<Behavior*> behaviors = getBehaviors();
+	vector<Behavior*>::iterator behaviorsIterator = behaviors.begin();
 
-	for (vector<Behavior*>::iterator behaviorsIterator = behaviors.begin(); behaviorsIterator != behaviors.end(); behaviorsIterator++) {
-		Behavior * behavior = *(behaviorsIterator).operator ->();
+	// TurnInPlace behavior
+	Behavior * turnInPlacebehavior = *(behaviorsIterator).operator ->();
+	_robot->Read();
 
-		_robot->Read();
-
-		if (behavior->startCondition()) {
-			int iterationIndex = 1;
-
-			while (!behavior->stopCondition()) {
-				behavior->action();
-
-				if (iterationIndex++ > 10) {
-					float neededYawDelta = calculateNeededYaw(_goalPoint) - _robot->getLocation().getYaw();
-					cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
-
-					if (neededYawDelta > COMPROMISED_YAW)
-						break;
-				}
-			}
-
-			// Consider to implement a stop method
-			_robot->setSpeed((float) 0, (float) 0);
+	if (turnInPlacebehavior->startCondition()) {
+		while (!turnInPlacebehavior->stopCondition()) {
+			turnInPlacebehavior->action();
 		}
+
+		// Consider to implement a stop method
+		_robot->setSpeed((float) 0, (float) 0);
 	}
 
-	// What to do when the robot miss the point?
+	behaviorsIterator++;
+
+	// GoForward behavior
+	Behavior * goForwardBehavior = *(behaviorsIterator).operator ->();
+
+	_robot->Read();
+
+	if (goForwardBehavior->startCondition()) {
+		int iterationIndex = 1;
+
+		while (!goForwardBehavior->stopCondition()) {
+			goForwardBehavior->action();
+
+			if (iterationIndex++ > 10) {
+				// IterationIndex reinitialization
+				iterationIndex = 1;
+
+				float neededYawDelta = calculateNeededYaw(_goalPoint) - _robot->getLocation().getYaw();
+				cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
+
+				if (neededYawDelta > COMPROMISED_YAW)
+					break;
+			}
+		}
+
+		// Consider to implement a stop method
+		_robot->setSpeed((float) 0, (float) 0);
+	}
+
+	// Checking if the robot arrived to the goal location
 	if (!isGoalLocationReached()) {
 		initializeGoToPointBehavior();
 
