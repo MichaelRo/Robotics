@@ -26,8 +26,6 @@ private:
 	LocalizationManager * _localizationManager;
 	list<Structs::Point> _wayPoints;
 
-	float calculateNeededYaw(Structs::Point startPoint, Structs::Point goalPoint);
-
 public:
 	MovementManager(Robot * robot, LocalizationManager * localizationManager, WaypointsManager * _waypointsManager);
 	virtual ~MovementManager();

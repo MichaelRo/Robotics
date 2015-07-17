@@ -46,10 +46,15 @@ void Manager::run() {
 
 	_map->saveMap("allPointsMap.png");
 
+	_robot->Read();
+
 	Structs::Location realRobotStartLocation(_configurationManager->getRobotStartLocation().pointValue(), _configurationManager->getRobotStartLocation().getYaw());
 	_robot->setRobotLocation(realRobotStartLocation);
 
-	_robot->Read();
+	// Fixing Player's reading bug
+	for(int i = 0; i < 15; i++)
+		_robot->Read();
+
 	_localizationManager = new LocalizationManager(realRobotStartLocation, _map);
 
 	_movementManager = new MovementManager(_robot, _localizationManager, _waypointsManager);
