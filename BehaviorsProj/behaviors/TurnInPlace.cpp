@@ -41,9 +41,9 @@ bool TurnInPlace::stopCondition() {
 	float neededYawDelta = _neededYaw - _robot->getLocation().getYaw();
 	cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
 
-//	if (abs(neededYawDelta) <= COMPROMISED_YAW) {
-	if (((neededYawDelta >= 0) && (neededYawDelta <= COMPROMISED_YAW)) ||
-		((neededYawDelta < 0) && (neededYawDelta >= (-1 * COMPROMISED_YAW)))) {
+	if (abs(neededYawDelta) <= COMPROMISED_YAW) {
+//	if (((neededYawDelta >= 0) && (neededYawDelta <= COMPROMISED_YAW)) ||
+//		((neededYawDelta < 0) && (neededYawDelta >= (-1 * COMPROMISED_YAW)))) {
 		return true;
 	}
 

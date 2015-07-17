@@ -49,17 +49,22 @@ vector<Behavior*> Behavior::getBehaviors() {
 void Behavior::action() {
 	Structs::Location locationBeforeAction = _robot->getLocation();
 
+	_robot->Read();
+
 	behave();
+
+	_robot->Read();
 
 	Structs::Location locationAfterAction = _robot->getLocation();
 	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
 
-	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
-
-	// Maybe should be moved to update once per behavior?
-	if (_localizationManager->getHighestBelief() >= LocalizationManager::BELIEF_THRESHOLD) {
-		cout << "Highest belief: " << _localizationManager->getHighestBelief() << endl;
-
-		_robot->setRobotLocation(_localizationManager->getProbableLocation());
-	}
+//	Add this code when you connect the localizationManager
+//	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
+//
+//	// Maybe should be moved to update once per behavior?
+//	if (_localizationManager->getHighestBelief() >= LocalizationManager::BELIEF_THRESHOLD) {
+//		cout << "Highest belief: " << _localizationManager->getHighestBelief() << endl;
+//
+//		_robot->setRobotLocation(_localizationManager->getProbableLocation());
+//	}
 }
