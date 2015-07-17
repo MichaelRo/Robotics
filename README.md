@@ -3,7 +3,8 @@ This code is developed for the legendary Robot Igal
 https://youtu.be/iGOmnC24BvE
 
 Todo List:
-  1. For some reason robot Igal does not know where he stands (after we are setting his location)
+  1. For some reason robot Igal does not know where he stands (after we are setting his location).
+     When I tried to move it in the simulator before the first getLocation, it showed the right one
   2. Check why robot Igal goes to a different yaw (neededDeltaYaw describes a 180° turn somehow).
   3. Add yaw change for obstacle avoidence
   4. Make GoToPoint try again when he fails to get to the correct point.
