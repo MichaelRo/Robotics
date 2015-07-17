@@ -30,8 +30,8 @@ public:
 	virtual ~Robot();
 	Robot(char* ip, int port);
 
-	Structs::Location getLocation();
 	Structs::Point getPosition();
+	Structs::Location getLocation();
 	void setRobotLocation(Structs::Location location);
 
 	void setSpeed(float xSpeed, float angularSpeed);

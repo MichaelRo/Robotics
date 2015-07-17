@@ -7,9 +7,6 @@
 
 #include "TurnInPlace.h"
 
-/**
-	Destructs the TurnInPlace
-*/
 TurnInPlace::~TurnInPlace() {
 
 }
@@ -40,20 +37,19 @@ bool TurnInPlace::startCondition() {
 	 @return - if the robot close enough to the yaw.
  */
 bool TurnInPlace::stopCondition() {
-//	float yaw = abs(_robot->getLocation().getYaw() - _neededYaw);
+//	_robot->Read();
 	float neededYawDelta = _neededYaw - _robot->getLocation().getYaw();
 	cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
 
-	if (neededYawDelta <= COMPROMISED_YAW) {
+//	if (abs(neededYawDelta) <= COMPROMISED_YAW) {
+	if (((neededYawDelta >= 0) && (neededYawDelta <= COMPROMISED_YAW)) ||
+		((neededYawDelta < 0) && (neededYawDelta >= (-1 * COMPROMISED_YAW)))) {
 		return true;
 	}
 
 	return false;
 }
 
-/**
-	This method set the yaw the robot need to turn.
- */
 void TurnInPlace::behave() {
 	int angularSpeedFactor = 1;
 
