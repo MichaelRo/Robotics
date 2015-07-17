@@ -95,8 +95,18 @@ void GoToPoint::behave() {
 		_robot->Read();
 
 		if (behavior->startCondition()) {
+			int iterationIndex = 1;
+
 			while (!behavior->stopCondition()) {
 				behavior->action();
+
+				if (iterationIndex++ > 10) {
+					float neededYawDelta = calculateNeededYaw(_goalPoint) - _robot->getLocation().getYaw();
+					cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(COMPROMISED_YAW) << endl;
+
+					if (neededYawDelta > COMPROMISED_YAW)
+						break;
+				}
 			}
 
 			// Consider to implement a stop method
