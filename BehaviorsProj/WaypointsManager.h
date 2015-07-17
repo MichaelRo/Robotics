@@ -24,18 +24,8 @@ private:
 	void markWaypoints(list<Structs::Point> route);
 
 public:
-	static const int NORTH = 1;
-	static const int NORTH_EAST = 2;
-	static const int EAST = 3;
-	static const int SOUTH_EAST = 4;
-	static const int SOUTH= 5;
-	static const int SOUTH_WEST = 6;
-	static const int WEST = 7;
-	static const int NORTH_WEST = 8;
-	static const int NONE = 9;
-
-	static const int WAYPOINT_FOR_MAP = 1;
-	static const int WAYPOINT_FOR_GRID = 2;
+	enum Direction {NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST, NONE};
+	enum WaypointType {WAYPOINT_FOR_MAP, WAYPOINT_FOR_GRID};
 
 	WaypointsManager();
 	WaypointsManager(list<Structs::Point> route, Map * map);

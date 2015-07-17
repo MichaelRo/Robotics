@@ -191,15 +191,15 @@ void Map::loadMap(string pngFilePath) {
 
 	// Runs overs the imagePixelVector (4 cells each time as the RGBA color type)
 	for (int rowsIndex = 0; rowsIndex < getHeight(); rowsIndex += (getGridMapResolutionRatio() / 2)) {
-		for (int columnsIndex = 0; columnsIndex < getWidth() * BYTES_PER_PIXEL; columnsIndex += (BYTES_PER_PIXEL * (getGridMapResolutionRatio() / 2))) {
+		for (int columnsIndex = 0; columnsIndex < getWidth() * Helper::BYTES_PER_PIXEL_IN_PNG; columnsIndex += (Helper::BYTES_PER_PIXEL_IN_PNG * (getGridMapResolutionRatio() / 2))) {
 			bool isACertainCellOccupied = false;
 
 			// Runs over neighbor cells in order to unite cells for resolution change (as defined in the configuration file)
 			for (int unitedRowsIndex = rowsIndex; (unitedRowsIndex < rowsIndex + (getGridMapResolutionRatio() / 2)) &&
 												  (unitedRowsIndex < (_grid->getHeight() * (getGridMapResolutionRatio() / 2)) - 1) && !isACertainCellOccupied; unitedRowsIndex++) {
-				for (int unitedColumnsIndex = columnsIndex; (unitedColumnsIndex < columnsIndex + ((getGridMapResolutionRatio() / 2) * BYTES_PER_PIXEL)) &&
-															(ceil(unitedColumnsIndex / BYTES_PER_PIXEL) < (_grid->getWidth() * (getGridMapResolutionRatio() / 2)) - 1) && !isACertainCellOccupied; unitedColumnsIndex += BYTES_PER_PIXEL) {
-					int cell = (unitedRowsIndex * (width * BYTES_PER_PIXEL)) + unitedColumnsIndex;
+				for (int unitedColumnsIndex = columnsIndex; (unitedColumnsIndex < columnsIndex + ((getGridMapResolutionRatio() / 2) * Helper::BYTES_PER_PIXEL_IN_PNG)) &&
+															(ceil(unitedColumnsIndex / Helper::BYTES_PER_PIXEL_IN_PNG) < (_grid->getWidth() * (getGridMapResolutionRatio() / 2)) - 1) && !isACertainCellOccupied; unitedColumnsIndex += Helper::BYTES_PER_PIXEL_IN_PNG) {
+					int cell = (unitedRowsIndex * (width * Helper::BYTES_PER_PIXEL_IN_PNG)) + unitedColumnsIndex;
 
 					// Checks if the cell is occupied by checking if it isn't white
 					// the last cell (the A of RGBA) doesn't matter because it describes the alpha and not the color itself
@@ -236,19 +236,19 @@ void Map::saveMap(string pngFilePath) {
 		for(int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
 			// Marks the cell by it's type
 			if (_grid->getCellValue(columnsIndex, rowsIndex) == FREE_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::WHITE);
+				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::WHITE);
 			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == START_LOCATION_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::RED);
+				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::RED);
 			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == GOAL_LOCATION_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::BLUE);
+				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::BLUE);
 			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == ROUTE_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::GREEN);
+				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::GREEN);
 			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == WAYPOINT_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::YELLOW);
+				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::YELLOW);
 			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == PADDING_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::GRAY);
+				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::GRAY);
 			} else {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::BLACK);
+				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::BLACK);
 			}
 		}
 	}

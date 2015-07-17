@@ -20,8 +20,6 @@ using namespace std;
 
 class LocalizationManager {
 private:
-	static const int PARTICLES_AMOUNT = 100;
-
 	list<Particle> _particles;
 	Map * _map;
 

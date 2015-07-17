@@ -18,7 +18,7 @@ LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * 
 	// Initializing the particles list by the PARTICLES_AMOUNT value
 	_particles.push_back(Particle(startLocation, (float) 1, map));
 
-	list<Particle> descendantParticles = getHighestBeliefParticle()->createDescendantParticles(PARTICLES_AMOUNT - 1);
+	list<Particle> descendantParticles = getHighestBeliefParticle()->createDescendantParticles(Helper::TOTAL_PARTICLES_AMOUNT - 1);
 	_particles.insert(_particles.end(), descendantParticles.begin(), descendantParticles.end());
 }
 
@@ -68,7 +68,7 @@ void LocalizationManager::updateParticles(Structs::Location destination, vector<
 		particlesForMultiply.push_back(*getHighestBeliefParticle());
 
 	for (list<Particle>::iterator particlesForMultiplyIterator = particlesForMultiply.begin(); particlesForMultiplyIterator != particlesForMultiply.end(); particlesForMultiplyIterator++) {
-		list<Particle> decendantParticles = particlesForMultiplyIterator->createDescendantParticles((PARTICLES_AMOUNT - _particles.size()) / particlesForMultiply.size());
+		list<Particle> decendantParticles = particlesForMultiplyIterator->createDescendantParticles((Helper::TOTAL_PARTICLES_AMOUNT - _particles.size()) / particlesForMultiply.size());
 		_particles.insert(_particles.end(), decendantParticles.begin(), decendantParticles.end());
 	}
 }
