@@ -7,6 +7,8 @@
 
 #include "ConfigurationManager.h"
 
+ConfigurationManager * ConfigurationManager::_instance = NULL;
+
 /**
 	Destructs ConfigurationManager.
 */
@@ -19,12 +21,12 @@ ConfigurationManager::~ConfigurationManager() {
 
 	@param configurationFilePath - the path to the configuration file.
 */
-ConfigurationManager::ConfigurationManager(string configurationFilePath) {
+ConfigurationManager::ConfigurationManager() {
 	_mapFilePath = "";
 	_mapResolutionCM = 0;
 	_gridResolutionCM = 0;
 
-	ifstream configurationFile(configurationFilePath.c_str());
+	ifstream configurationFile(Helper::CONFIGURATION_FILE_PATH.c_str());
 
 	if (configurationFile.is_open()) {
 		string line;
@@ -37,6 +39,13 @@ ConfigurationManager::ConfigurationManager(string configurationFilePath) {
 	} else {
 		cout << "Unable to open file";
 	}
+}
+
+ConfigurationManager * ConfigurationManager::getInstance() {
+	if (ConfigurationManager::_instance == NULL)
+		_instance = new ConfigurationManager();
+
+	return _instance;
 }
 
 /**

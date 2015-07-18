@@ -19,10 +19,10 @@ Map::~Map() {
 
 	@param configurationManager - configurationManager that holds the configuration properties.
 */
-Map::Map(ConfigurationManager * configurationManager) {
-	_configurationManager = configurationManager;
-	_gridResolution = configurationManager->getGridResolutionCM();
-	_mapResolution = configurationManager->getMapResolutionCM();
+Map::Map() {
+	_configurationManager = ConfigurationManager::getInstance();
+	_gridResolution = _configurationManager->getGridResolutionCM();
+	_mapResolution = _configurationManager->getMapResolutionCM();
 	_grid = NULL;
 	_height = 0;
 	_width = 0;

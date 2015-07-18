@@ -13,13 +13,12 @@
 
 int main (int argc, const char * argv[]){
 	Robot igal("localhost",6665);
-	ConfigurationManager configurationManager("Simulation/parameters.txt");
-	Manager* manager = new Manager(&configurationManager, &igal);
+	Manager* manager = new Manager(&igal);
 	manager->run();
 
-//	ConfigurationManager* conf = new ConfigurationManager("Simulation/parameters.txt");
+//	ConfigurationManager* conf = ConfigurationManager::getInstance();
 //
-//	Map* map = new Map(conf);
+//	Map* map = new Map();
 //
 //	map->loadMap("Simulation/roboticLabMap.png");
 //	map->saveMap("originalMapMatrix.png");

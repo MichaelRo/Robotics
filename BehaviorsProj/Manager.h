@@ -32,7 +32,7 @@ private:
 	MovementManager * _movementManager;
 
 public:
-	Manager(ConfigurationManager * configurationManager, Robot * robot);
+	Manager(Robot * robot);
 	virtual ~Manager();
 
 	void run();

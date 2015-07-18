@@ -15,9 +15,10 @@ Manager::~Manager() {
 //	delete _map;
 }
 
-Manager::Manager(ConfigurationManager* configurationManager, Robot* robot) {
+Manager::Manager(Robot* robot) {
+	_configurationManager = ConfigurationManager::getInstance();
+
 	_robot = robot;
-	_configurationManager = configurationManager;
 	_map = NULL;
 	_waypointsManager = NULL;
 	_pathPlanner = NULL;
@@ -62,7 +63,7 @@ void Manager::run() {
 }
 
 Map * Manager::initializeMap() {
-	Map* map = new Map(_configurationManager);
+	Map* map = new Map();
 
 	map->loadMap("Simulation/roboticLabMap.png");
 	map->saveMap("originalMapGrid.png");
