@@ -26,6 +26,7 @@ private:
 	GoForward * _goForwardBehavior;
 
 	float calculateNeededYaw();
+	int getQuarter(Structs::Point startPoint);
 	void initializeGoToPointBehavior();
     bool isGoalLocationReached();
 
