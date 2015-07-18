@@ -11,7 +11,11 @@
 	Destructs Manager.
 */
 Manager::~Manager() {
-
+//	delete _movementManager;
+//	delete _localizationManager;
+//	delete _waypointsManager;
+//	delete _pathPlanner;
+//	delete _map;
 }
 
 /**
