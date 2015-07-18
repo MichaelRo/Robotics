@@ -29,33 +29,6 @@ GoToPoint::GoToPoint(Robot * robot, LocalizationManager * localizationManager, S
 	initializeGoToPointBehavior();
 }
 
-Structs::Point GoToPoint::getClosestRoutePoint(Structs::Point currentPoint) {
-	list<int> neighborsValues = list<int>();
-//	neighborsValues.push_back(Map::FREE_CELL);
-//	neighborsValues.push_back(Map::ROUTE_CELL);
-	neighborsValues.push_back(0);
-	neighborsValues.push_back(5);
-//	neighborsValues.push_back(Map::PADDING_CELL);
-
-	list<Structs::Point> neighbors = _localizationManager->getMap()->getCellsNeighborsByValue(currentPoint, neighborsValues, _localizationManager->getMap()->getMapResolution());
-	neighbors.sort();
-
-	// Running twice - first searching for route cells, second - searching for their neighbors
-	for (int iteration = 0; iteration < 2; iteration++) {
-		for (list<Structs::Point>::iterator neighborsIterator = neighbors.begin(); neighborsIterator != neighbors.end(); neighborsIterator++) {
-			Structs::Point currentNeighbor = *neighborsIterator.operator ->();
-
-			if (_localizationManager->getMap()->getCellValue(currentNeighbor, _localizationManager->getMap()->getMapResolution()) == Map::ROUTE_CELL)
-				return *neighborsIterator.operator ->();
-			else if (iteration >= 1)
-				// Need to add a limit!!!!
-				return getClosestRoutePoint(currentNeighbor);
-		}
-	}
-
-	return Structs::Point(0,0);
-}
-
 /**
 	Calculates the needed (non-relative) yaw to get from the robot's current location to the goal point
 
@@ -169,30 +142,18 @@ void GoToPoint::behave() {
 		_robot->setSpeed(0, 0);
 	}
 
-//	// Checks if the robot got stuck by an obstacle, if not, checking if the robot arrived to the goal location
-//	// REMOVE THIS HORANI CAST
-//	if (goForwardBehavior->isStuck()) {
-//		// Navigating to the closest route point
-//		Structs::Point closestRoutePoint = getClosestRoutePoint(_robot->getPosition());
-//		GoToPoint * goToPointBehavior;
-//
-//		_robot->Read();
-//
-//		// Trying to get to the route point
-//		while (_robot->getPosition().distanceBetweenPoints(closestRoutePoint) > Helper::COMPROMISED_DISTANCE) {
-//			goToPointBehavior = new GoToPoint(_robot, _localizationManager, closestRoutePoint);
-//
-//			_robot->Read();
-//
-//			if (goToPointBehavior->startCondition()) {
-//				while (!goToPointBehavior->stopCondition()) {
-//					goToPointBehavior->action();
-//				}
-//			}
-//		}
-//	} else if (!isGoalLocationReached()) {
 	if (!isGoalLocationReached()) {
 		cout << "Stopped going forward because of an obstacle" << endl;
+
+		_robot->setSpeed(float ((-1) * Helper::MOVEMENT_DELTA), 0);
+		_robot->setSpeed(0, 0);
+
+		if (isLeftSideBlocked())
+			_robot->setSpeed(0, (float) ((-1) * Helper::YAW_TURN_DELTA) * 10);
+		else if (isRightSideBlocked())
+			_robot->setSpeed(0, (float) Helper::YAW_TURN_DELTA * 10);
+
+		_robot->setSpeed(0, 0);
 
 		initializeGoToPointBehavior();
 
@@ -213,4 +174,24 @@ int GoToPoint::getQuarter(Structs::Point startPoint) {
 		else
 			return Helper::Quarters::FOURTH;
 	}
+}
+
+bool GoToPoint::isLeftSideBlocked() {
+	for (int i = Helper::degreesToIndex((Helper::TOTAL_DEGREES / 2) - 30); i < Helper::degreesToIndex(Helper::TOTAL_DEGREES / 2); i += Helper::degreesToIndex(3)) {
+		if (_robot->getLaserDistance(i) < Helper::MINIMUM_DISTANCE_FROM_WALL) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool GoToPoint::isRightSideBlocked() {
+	for (int i = Helper::degreesToIndex(Helper::TOTAL_DEGREES / 2); i < Helper::degreesToIndex((Helper::TOTAL_DEGREES / 2) + 30); i += Helper::degreesToIndex(3)) {
+		if (_robot->getLaserDistance(i) < Helper::MINIMUM_DISTANCE_FROM_WALL) {
+			return true;
+		}
+	}
+
+	return false;
 }

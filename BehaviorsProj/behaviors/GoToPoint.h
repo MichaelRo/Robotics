@@ -30,8 +30,6 @@ private:
 	void initializeGoToPointBehavior();
     bool isGoalLocationReached();
 
-    Structs::Point getClosestRoutePoint(Structs::Point currentPoint);
-
 public:
 	GoToPoint(Robot * robot, LocalizationManager * localizationManager, Structs::Point goalPoint);
 	virtual ~GoToPoint();
@@ -39,6 +37,9 @@ public:
 	bool startCondition();
 	bool stopCondition();
 	void behave();
+
+	bool isLeftSideBlocked();
+	bool isRightSideBlocked();
 };
 
 #endif

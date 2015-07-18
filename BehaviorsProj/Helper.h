@@ -48,6 +48,7 @@ public:
 	static constexpr float COMPROMISED_DISTANCE = 9;
 	static constexpr float MINIMUM_DISTANCE_FROM_WALL = 0.5;
 	static constexpr float YAW_TURN_DELTA = 0.16;
+	static constexpr float MOVEMENT_DELTA = 0.4;
 
 	static const int * getRGBA(int color);
 

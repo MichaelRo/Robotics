@@ -11,7 +11,7 @@
 	Destructs the TurnInPlace
 */
 TurnInPlace::~TurnInPlace() {
-
+	_iterationNumber = 0;
 }
 
 /**
@@ -22,10 +22,13 @@ TurnInPlace::~TurnInPlace() {
 	@param neededYaw - the yaw the robot need to turn.
 */
 TurnInPlace::TurnInPlace(Robot * robot, LocalizationManager * localizationManager, float neededYaw): Behavior(robot, localizationManager) {
+	_iterationNumber = 0;
 	_neededYaw = neededYaw;
 }
 
 bool TurnInPlace::startCondition() {
+	++_iterationNumber;
+
 	return true;
 }
 
@@ -36,10 +39,13 @@ bool TurnInPlace::startCondition() {
  */
 bool TurnInPlace::stopCondition() {
 	float neededYawDelta = _neededYaw - _robot->getLocation().getYaw();
-	cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(Helper::COMPROMISED_YAW) << endl;
 
-	if (((neededYawDelta >= 0) && (neededYawDelta <= Helper::COMPROMISED_YAW)) ||
-		((neededYawDelta < 0) && (neededYawDelta >= (-1 * Helper::COMPROMISED_YAW)))) {
+	float currentCompromizedYaw = (_iterationNumber == 1) ? Helper::COMPROMISED_YAW : (float) (Helper::COMPROMISED_YAW / 1.75);
+
+	cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(currentCompromizedYaw) << endl;
+
+	if (((neededYawDelta >= 0) && (neededYawDelta <= currentCompromizedYaw)) ||
+		((neededYawDelta < 0) && (neededYawDelta >= (-1 * currentCompromizedYaw)))) {
 		return true;
 	}
 
@@ -55,5 +61,5 @@ void TurnInPlace::behave() {
 	if (_neededYaw - _robot->getLocation().getYaw() < 0)
 		angularSpeedFactor = -1;
 
-	_robot->setSpeed((float) 0, (float) angularSpeedFactor * Helper::YAW_TURN_DELTA);
+	_robot->setSpeed(0, (float) angularSpeedFactor * Helper::YAW_TURN_DELTA);
 }

@@ -19,6 +19,7 @@ using namespace std;
 class TurnInPlace: public Behavior {
 private:
 	float _neededYaw;
+	int _iterationNumber;
 
 	bool chooseDirection();
 

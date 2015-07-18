@@ -21,7 +21,6 @@ using namespace std;
 //Class which handles the robot's behavior system control
 class Behavior {
 protected:
-	bool _isStuck = false;
 	Robot * _robot;
 	LocalizationManager * _localizationManager;
 
@@ -33,8 +32,6 @@ private:
 public:
     Behavior(Robot * robot, LocalizationManager * localizationManager);
     virtual ~Behavior();
-
-    bool isStuck();
 
     virtual bool startCondition() = 0;
     virtual bool stopCondition() = 0;
