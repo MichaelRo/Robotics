@@ -7,12 +7,21 @@
 
 #include "Robot.h"
 
+/**
+	Destructs Robot.
+*/
 Robot::~Robot() {
 	delete _playerClient;
 	delete _position;
 	delete _laserProxy;
 }
 
+/**
+	Initializes the Robot.
+
+	@param ip - the ip of the robot we need to connect.
+	@param port - the port of the connection with the robot.
+*/
 Robot::Robot(char * ip, int port) {
 	_playerClient = new PlayerClient(ip,port);
 	_position = new Position2dProxy(_playerClient);
@@ -63,14 +72,28 @@ void Robot::setRobotLocation(Structs::Location location) {
 	cout << "Robot position: " << location.toString() << endl;
 }
 
+/**
+	SetSpeed of the robot.
+
+	@param xSpeed - the speed of the robot.
+	@param angularSpeed - the yaw we want the robot move.
+ */
 void Robot::setSpeed(float xSpeed, float angularSpeed) {
 	_position->SetSpeed(xSpeed, angularSpeed);
 }
 
+/**
+  	This method read details about the robot from the robot.
+ */
 void Robot::Read() {
 	_playerClient->Read();
 }
 
+/**
+	This method get the result of the scanning laser.
+
+	@return - the result of the scanning laser.
+*/
 vector<float> Robot::getLaserScan() {
 	vector<float> laserScan;
 
@@ -85,6 +108,12 @@ vector<float> Robot::getLaserScan() {
 	return laserScan;
 }
 
+/**
+	This method get the result of the scanning laser.
+
+	@param index - the degrees of checking the result from the laser scan.
+	@return - the result of the scanning laser.
+*/
 float Robot::getLaserDistance(int index) {
 	return _laserProxy->GetRange(index);
 }
