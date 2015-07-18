@@ -7,10 +7,19 @@
 
 #include "LocalizationManager.h"
 
+/**
+	Destructs LocalizationManager.
+*/
 LocalizationManager::~LocalizationManager() {
 
 }
 
+/**
+	Initializes a LocalizationManager.
+
+	@param startLocation - this value is start location of one particle.
+	@param map - every particle save this map.
+*/
 LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * map) {
 	_map = map;
 	srand(time(NULL));
@@ -76,6 +85,11 @@ void LocalizationManager::updateParticles(Structs::Location destination, vector<
 	}
 }
 
+/**
+	This method returns the best particle (with the highest belief).
+
+	@return - the particle with the highest belief.
+*/
 // Maybe it should return a list so we can use it in updateParticles?
 Particle * LocalizationManager::getHighestBeliefParticle() {
 	list<Particle>::iterator particlesIterator = _particles.begin();
@@ -89,14 +103,29 @@ Particle * LocalizationManager::getHighestBeliefParticle() {
 	return highestBeliefParticle;
 }
 
+/**
+	This method returns the belief of the best particle (with the highest belief).
+
+	@return - the belief of the particle with the highest belief.
+*/
 float LocalizationManager::getHighestBelief() {
 	return getHighestBeliefParticle()->getBelief();
 }
 
+/**
+	This method returns the location of best particle (with the highest belief).
+
+	@return - the location of the particle with the highest belief.
+*/
 Structs::Location LocalizationManager::getProbableLocation() {
 	return getHighestBeliefParticle()->getLocation();
 }
 
+/**
+	Get map data member.
+
+	@return - map.
+*/
 Map * LocalizationManager::getMap() {
 	return _map;
 }

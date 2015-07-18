@@ -7,14 +7,18 @@
 
 #include "Manager.h"
 
+/**
+	Destructs Manager.
+*/
 Manager::~Manager() {
-//	delete _movementManager;
-//	delete _localizationManager;
-//	delete _waypointsManager;
-//	delete _pathPlanner;
-//	delete _map;
+
 }
 
+/**
+	Initializes the Manager.
+
+	@param robot - initialize the robot at the manager object.
+*/
 Manager::Manager(Robot* robot) {
 	_configurationManager = ConfigurationManager::getInstance();
 
@@ -26,6 +30,9 @@ Manager::Manager(Robot* robot) {
 	_movementManager = NULL;
 }
 
+/**
+  	this method run all activities of the robot.
+ */
 void Manager::run() {
 	_map = initializeMap();
 
@@ -62,6 +69,11 @@ void Manager::run() {
 	_movementManager->start();
 }
 
+/**
+	This method return the map after load, save and pad.
+
+	@return - Map after load, save and pad.
+ */
 Map * Manager::initializeMap() {
 	Map* map = new Map();
 

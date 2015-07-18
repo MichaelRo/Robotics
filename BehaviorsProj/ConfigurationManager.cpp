@@ -41,6 +41,11 @@ ConfigurationManager::ConfigurationManager() {
 	}
 }
 
+/**
+	This method return an instance of this object(singleton).
+
+	@return - Instance of configurationManager object.
+ */
 ConfigurationManager * ConfigurationManager::getInstance() {
 	if (ConfigurationManager::_instance == NULL)
 		_instance = new ConfigurationManager();
