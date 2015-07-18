@@ -9,14 +9,33 @@
 
 int Particle::PARTICLE_ID_SEQUENCE = 0;
 
+/**
+	Destructs Particle.
+*/
 Particle::~Particle() {
 
 }
 
+/**
+	Initializes the Particle.
+
+	@param x - the x index of the particle.
+	@param y - the y index of the particle.
+	@param yaw - the yaw of the particle.
+	@param belief - the belief of the particle.
+	@param map - the map that the particle.
+*/
 Particle::Particle(float x, float y, float yaw, float belief, Map * map) : Particle(Structs::Location(x, y, yaw), belief, map) {
 
 }
 
+/**
+	Initializes the Particle.
+
+	@param location - the location of the particle.
+	@param belief - the belief of the particle.
+	@param map - the map that the particle.
+*/
 Particle::Particle(Structs::Location location, float belief, Map * map) {
 	_id = ++PARTICLE_ID_SEQUENCE;
 	_map = map;
@@ -26,18 +45,41 @@ Particle::Particle(Structs::Location location, float belief, Map * map) {
 	_location = newLocation;
 }
 
+/**
+	This method implement the operator == of the object Particle.
+	in this case by equalization by the id of the particle.
+
+	@return - is the ids of the two particles equals.
+ */
 bool Particle::operator ==(const Particle & particle) const {
 	return _id == particle._id;
 }
 
+/**
+	GetBelief of this particle.
+
+	@return - the belief of the particle.
+ */
 float Particle::getBelief() {
 	return _belief;
 }
 
+/**
+	GetLocation of this particle.
+
+	@return - the belief of the particle.
+ */
 Structs::Location Particle::getLocation() {
 	return _location;
 }
 
+/**
+	Update the details of the Particle.
+
+	@param destination - the destination location of the particle.
+	@param laserScan - the result of the laser scan of the robot.
+	@return - the belief of the particle.
+*/
 float Particle::update(Structs::Location destination, vector<float> laserScan) {
 	_belief = calculateBelief(destination, laserScan);
 
@@ -48,14 +90,33 @@ float Particle::update(Structs::Location destination, vector<float> laserScan) {
 	return _belief;
 }
 
+/**
+	CalculatePredictedBelief of this particle.
+
+	@param destination - the destination location of the particle.
+	@return - the belief of the particle.
+ */
 float Particle::calculatePredictedBelief(Structs::Location destination) {
 	return calculateMotionModelProbability(destination) * getBelief();
 }
 
+/**
+	CalculateBelief of this particle.
+
+	@param destination - the destination location of the particle.
+	@param laserScan - the result of the laser scan of the robot.
+	@return - the belief of the particle.
+ */
 float Particle::calculateBelief(Structs::Location destination, vector<float> laserScan) {
 	return NORMALIZATION_FACTOR * checkObservationModel(laserScan) * calculatePredictedBelief(destination);
 }
 
+/**
+	CalculateMotionModelProbability of this particle.
+
+	@param destination - the destination location of the particle.
+	@return - the calculated propability of the particle.
+ */
 float Particle::calculateMotionModelProbability(Structs::Location destination) {
 	float distance = _location.pointValue().distanceBetweenPoints(destination.pointValue());
 	float yaw = abs(destination.getYaw());
@@ -72,6 +133,12 @@ float Particle::calculateMotionModelProbability(Structs::Location destination) {
 	return propability;
 }
 
+/**
+	CheckObservationModel of this particle.
+
+	@param laserScan - the result of the laser scan of the robot.
+	@return - the check if there is an obsticle by the result of the laser scan of the robot.
+ */
 float Particle::checkObservationModel(vector<float> laserScan) {
 	int expectedObsticlesDetected = 0;
 
@@ -85,6 +152,12 @@ float Particle::checkObservationModel(vector<float> laserScan) {
 	return expectedObsticlesDetected / (laserScan.size() / 10);
 }
 
+/**
+	createDescendantParticles of this particle.
+
+	@param amount - the amount of the descendant particles to create.
+	@return - the created descendant particles.
+ */
 list<Particle> Particle::createDescendantParticles(int amount) {
 	// The LocaliztionManager should create descendants, it should give a random location / delta destination as well
 	list<Particle> descendantParticles = list<Particle>();
@@ -96,6 +169,13 @@ list<Particle> Particle::createDescendantParticles(int amount) {
 	return descendantParticles;
 }
 
+/**
+	Check if obsticle detected as expected.
+
+	@param laserScan - the result of the laser scan of the robot.
+	@param laserDegree - the yaw of the result.
+	@return - if obsticle detected as expected.
+ */
 bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	int correctDetectionsNumber = 0;
 	int incorrectDetectionsNumber = 0;
@@ -159,6 +239,11 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	return correctDetectionsNumber > incorrectDetectionsNumber;
 }
 
+/**
+	GetRandomDeltaLocation to a new particle.
+
+	@return - the random location.
+ */
 Structs::Location Particle::getRandomDeltaLocation() {
 	int xBoundary = floor((_map->getWidth() / 2) * MAX_PARTICLES_RELATIVE_RATIO_CREATION);
 	int yBoundary = floor((_map->getHeight() / 2) * MAX_PARTICLES_RELATIVE_RATIO_CREATION);

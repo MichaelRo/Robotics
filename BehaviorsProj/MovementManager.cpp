@@ -7,16 +7,29 @@
 
 #include "MovementManager.h"
 
+/**
+	Destructs MovementManager.
+*/
 MovementManager::~MovementManager() {
 
 }
 
+/**
+	Initializes the MovementManager.
+
+	@param robot - the robot object to connect with him (get information and give commands).
+	@param localizationManager - the object that help to know the real location of the robot by particles.
+	@param waypointsManager - the object that manage the calculation the path from the start point to the end point.
+*/
 MovementManager::MovementManager(Robot * robot, LocalizationManager * localizationManager, WaypointsManager * waypointsManager) {
 	_robot = robot;
 	_localizationManager = localizationManager;
 	_wayPoints = waypointsManager->getWaypoints(WaypointsManager::WAYPOINT_FOR_MAP);
 }
 
+/**
+  	This method tell the robot where to go by the waypoints.
+ */
 void MovementManager::start() {
 	for (list<Structs::Point>::iterator wayPointsIterator = _wayPoints.begin(); wayPointsIterator != _wayPoints.end(); wayPointsIterator++) {
 		Structs::Point currentWayPoint = *wayPointsIterator.operator ->();

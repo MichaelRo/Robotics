@@ -9,16 +9,31 @@
 
 using namespace std;
 
+/**
+	Destructs PathPlanner.
+*/
 PathPlanner::~PathPlanner(void) {
 
 }
 
+/**
+	Initializes the PathPlanner.
+
+	@param map - the map of the place.
+	@param startPoint - the startPoint of the robot.
+	@param endPoint - the endPoint the robot need to arrived.
+*/
 PathPlanner::PathPlanner(Map * map, Structs::Point startPoint, Structs::Point endPoint) {
 	_map = map;
 	_startPoint = startPoint;
 	_endPoint = endPoint;
 }
 
+/**
+	This method implement A* algorithm in order to calculate the way the robot should go.
+
+	@return - list of points the robot should go in order to arrived to the target in the fastest way.
+ */
 list<Structs::Point> PathPlanner::performAStar() {
 	Structs::Node startNode(_startPoint, 0);
 	startNode.calcHGrade(_endPoint);
@@ -74,7 +89,10 @@ list<Structs::Point> PathPlanner::performAStar() {
 }
 
 /**
- * this method get a node in the matrix and return his "neighbors" - the cells that close to the node.
+	This method get a node in the matrix and return his "neighbors" - the cells that close to the node.
+
+	@param node - current node.
+	@return - list of Node of the neighbors of the given node.
  */
 list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 	list<Structs::Node> neighbors;
@@ -105,6 +123,12 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 	return neighbors;
 }
 
+/**
+	This method reconstruct the path the robot should go by the end point.
+
+	@param endPoint - the end point the robot need to arrived to.
+	@return - list of points of the way the robot should go in order to arrived to the end point in the fastest way.
+ */
 list<Structs::Point> PathPlanner::reconstruct_path(Structs::Point endPoint) {
 	list<Structs::Point> path = list<Structs::Point>();
 	Structs::Point tempPoint= endPoint;
@@ -120,6 +144,14 @@ list<Structs::Point> PathPlanner::reconstruct_path(Structs::Point endPoint) {
 	return path;
 }
 
+/**
+	This method calculate the direction factor.
+
+	@param p1 - the point the robot was before the current point.
+	@param p2 - the current point of the robot.
+	@param p3 - the next point(point of neighbor of the current point).
+	@return - the factor of the direction in order to decide which neighbor is the best.
+ */
 float PathPlanner::calcDirectionFactor(Structs::Point p1, Structs::Point p2, Structs::Point p3) {
 	int firstDir = WaypointsManager::getDirection(p1,p2);
 	int secondDir = WaypointsManager::getDirection(p2,p3);
@@ -145,6 +177,13 @@ float PathPlanner::calcDirectionFactor(Structs::Point p1, Structs::Point p2, Str
     }
 }
 
+/**
+	This method calculate the wall factor.
+
+	@param point - the next point(point of neighbor of the current point).
+	@param wallDis - the distance from wall we check.
+	@return - the factor of the wall distance.
+ */
 float PathPlanner::calcWallFactor(Structs::Point point, int wallDis) {
 	int wallCounter = 0;
 	for (int rowsIndex = point.getY() - wallDis; rowsIndex <= point.getY() + wallDis; rowsIndex++) {
