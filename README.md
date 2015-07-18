@@ -14,5 +14,4 @@ Todo List:
   7. Clean unused consts and methods.
   8. Add notes to all class files, and delete the unimportant / debug notes.
   9. Reorder all files in new directories
-  10. Remove Horani
-  11. Save the planet from the Gay Iranian community missle.
+  10. Save the planet from the Gay Iranian community missle.
