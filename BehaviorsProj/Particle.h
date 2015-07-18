@@ -35,8 +35,8 @@ private:
 
 public:
 	static constexpr float NORMALIZATION_FACTOR = 1.2;
-	static constexpr float MAX_DISTANCE = METER_TO_CM(2); // Check
-	static constexpr float MAX_YAW = 2; // Check
+	static constexpr float MAX_DISTANCE = METER_TO_CM(1); // Check
+	static constexpr float MAX_YAW = 8; // Check
 	static constexpr float MAX_PARTICLES_RELATIVE_RATIO_CREATION = 0.015;
 	static constexpr float MAX_PARTICLES_RELATIVE_YAW_CREATION = 0.1;
 

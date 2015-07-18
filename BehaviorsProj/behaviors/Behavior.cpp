@@ -25,10 +25,6 @@ Behavior::Behavior(Robot * robot, LocalizationManager * localizationManager) {
     _localizationManager = localizationManager;
 }
 
-bool Behavior::isStuck() {
-	return _isStuck;
-}
-
 /**
 	This method will add possible behavior that will that is possible to run after this one.
 

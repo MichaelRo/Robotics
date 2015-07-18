@@ -47,8 +47,6 @@ bool GoForward::stopCondition() {
 
 	for (int i = Helper::degreesToIndex((Helper::TOTAL_DEGREES / 2) - 20); i < Helper::degreesToIndex((Helper::TOTAL_DEGREES / 2) + 20); i += Helper::degreesToIndex(3)) {
 		if (_robot->getLaserDistance(i) < Helper::MINIMUM_DISTANCE_FROM_WALL) {
-			_isStuck = true;
-
 			return true;
 		}
 	}
@@ -60,5 +58,5 @@ bool GoForward::stopCondition() {
 	This method set the speed of the robot when GoForward.
  */
 void GoForward::behave() {
-	_robot->setSpeed((float) 0.4, (float) 0);
+	_robot->setSpeed((float) Helper::MOVEMENT_DELTA, 0);
 }
