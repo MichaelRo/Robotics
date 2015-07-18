@@ -60,30 +60,23 @@ void WaypointsManager::markWaypoints(list<Structs::Point> route) {
 list<Structs::Point> WaypointsManager::getWaypoints(int waypointsType) {
 	list<Structs::Point> wayPoints = list<Structs::Point>();
 
-	int index = 1;
-
 	for (list<Structs::Point>::iterator wayPointsIterator = _wayPoints.begin(); wayPointsIterator != _wayPoints.end(); wayPointsIterator++) {
 		Structs::Point waypoint;
 
-		// VERY HORANI!
-		if (index != 1 && index != 2 && index != 4 && index != 5) {
-			switch (waypointsType) {
-				case WaypointType::WAYPOINT_FOR_MAP:
-					waypoint = (*wayPointsIterator.operator ->()) * (ceil(_map->getGridResolution() / _map->getMapResolution()) / 2);
+		switch (waypointsType) {
+			case WaypointType::WAYPOINT_FOR_MAP:
+				waypoint = (*wayPointsIterator.operator ->()) * (ceil(_map->getGridResolution() / _map->getMapResolution()) / 2);
 
-					break;
-				case WaypointType::WAYPOINT_FOR_GRID:
-					waypoint = *wayPointsIterator.operator ->();
+				break;
+			case WaypointType::WAYPOINT_FOR_GRID:
+				waypoint = *wayPointsIterator.operator ->();
 
-					break;
-				default:
-					break;
-			}
-
-			wayPoints.push_back(waypoint);
+				break;
+			default:
+				break;
 		}
 
-		index++;
+		wayPoints.push_back(waypoint);
 	}
 
 	return wayPoints;

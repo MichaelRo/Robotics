@@ -11,7 +11,7 @@
 #include "WaypointsManager.h"
 #include "Manager.h"
 
-int main (int argc, const char * argv[]){
+int main (int argc, const char * argv[]) {
 	Robot igal("localhost",6665);
 	Manager* manager = new Manager(&igal);
 	manager->run();

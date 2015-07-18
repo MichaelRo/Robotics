@@ -192,6 +192,8 @@ void GoToPoint::behave() {
 //		}
 //	} else if (!isGoalLocationReached()) {
 	if (!isGoalLocationReached()) {
+		cout << "Stopped going forward because of an obstacle" << endl;
+
 		initializeGoToPointBehavior();
 
 		action();

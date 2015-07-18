@@ -20,6 +20,9 @@ LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * 
 
 	list<Particle> descendantParticles = getHighestBeliefParticle()->createDescendantParticles(Helper::TOTAL_PARTICLES_AMOUNT - 1);
 	_particles.insert(_particles.end(), descendantParticles.begin(), descendantParticles.end());
+
+	// Erasing the first particle (the true one)
+	_particles.erase(_particles.begin());
 }
 
 void LocalizationManager::updateParticles(Structs::Location destination, vector<float> laserScan) {
