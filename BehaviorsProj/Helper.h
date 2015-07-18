@@ -32,9 +32,10 @@ private:
 
 public:
 	enum Color {BLACK, WHITE, BLUE, GREEN, RED, PINK, LIGHT_BLUE, YELLOW, GRAY};
-	
+	enum Quarters {FIRST = 1, SECOND, THIRD, FOURTH};
+
 	static const string CONFIGURATION_FILE_PATH;
-	static const char CONFIGURATION_DELIMITER = ':';
+	const static char CONFIGURATION_DELIMITER = ':';
 
 	static const int BYTES_PER_PIXEL_IN_PNG = 4;
 
@@ -43,8 +44,8 @@ public:
 	static constexpr float TOTAL_SCAN_SPAN = 666;
 	static constexpr float TOTAL_DEGREES = 240;
 	static constexpr float COMPROMISED_YAW = 2;
-	static constexpr float COMPROMISED_DISTANCE = 30;
 	static constexpr float LASER_MAX_DETECTION_RANGE = 4.095;
+	static constexpr float COMPROMISED_DISTANCE = 10;
 	static constexpr float MINIMUM_DISTANCE_FROM_WALL = 0.5;
 	static constexpr float YAW_TURN_DELTA = 0.16;
 
