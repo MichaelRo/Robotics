@@ -33,7 +33,8 @@ private:
 public:
 	enum Color {BLACK, WHITE, BLUE, GREEN, RED, PINK, LIGHT_BLUE, YELLOW, GRAY};
 	
-	const static char CONFIGURATION_DELIMITER = ':';
+	static const string CONFIGURATION_FILE_PATH;
+	static const char CONFIGURATION_DELIMITER = ':';
 
 	static const int BYTES_PER_PIXEL_IN_PNG = 4;
 

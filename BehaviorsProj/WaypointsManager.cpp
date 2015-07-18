@@ -66,7 +66,7 @@ list<Structs::Point> WaypointsManager::getWaypoints(int waypointsType) {
 		Structs::Point waypoint;
 
 		// VERY HORANI!
-		if (index != 1 && index != 2) {
+		if (index != 1 && index != 2 && index != 4 && index != 5) {
 			switch (waypointsType) {
 				case WaypointType::WAYPOINT_FOR_MAP:
 					waypoint = (*wayPointsIterator.operator ->()) * (ceil(_map->getGridResolution() / _map->getMapResolution()) / 2);

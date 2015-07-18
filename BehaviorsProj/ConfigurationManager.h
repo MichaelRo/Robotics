@@ -9,6 +9,7 @@
 #define CONFIGURATIONMANAGER_H_
 
 #include "Structs.h"
+#include "Helper.h"
 
 #include <iostream>
 #include <fstream>
@@ -19,6 +20,8 @@ using namespace std;
 
 class ConfigurationManager {
 private:
+	static ConfigurationManager * _instance;
+
 	string _mapFilePath;
 	Structs::Location _robotStartLocation;
 	Structs::Location _robotGoalLocation;
@@ -26,9 +29,14 @@ private:
 	float _mapResolutionCM;
 	float _gridResolutionCM;
 
+	ConfigurationManager();
+	ConfigurationManager(ConfigurationManager const&);
+	ConfigurationManager& operator=(ConfigurationManager const&);
+
 public:
 	~ConfigurationManager();
-	ConfigurationManager(string configurationFilePath);
+
+	static ConfigurationManager * getInstance();
 
 	string getMapFilePath();
 	void setMapFilePath(string filePath);

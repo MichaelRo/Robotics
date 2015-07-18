@@ -7,6 +7,8 @@
 
 #include "Helper.h"
 
+const string Helper::CONFIGURATION_FILE_PATH = "Simulation/parameters.txt";
+
 const int Helper::BLACK_RGBA[]  = {0, 0, 0, 255};
 const int Helper::WHITE_RGBA[]  = {255, 255, 255, 255};
 const int Helper::BLUE_RGBA[] = {0, 0, 255, 255};

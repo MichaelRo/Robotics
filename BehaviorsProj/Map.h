@@ -51,7 +51,7 @@ public:
 	static const int PADDING_CELL = 8;
 
 	~Map();
-	Map(ConfigurationManager * configurationManager);
+	Map();
 	Map(Map * map);
 
 	int getWidth();

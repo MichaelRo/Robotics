@@ -93,7 +93,7 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 							neighbor.setTurnFactor(calcDirectionFactor(_parentsMap[node->getPoint().hashCode()], node->getPoint(), neighborPoint));
 						}
 
-						neighbor.setWallFactor(calcWallFactor(neighborPoint, 1));
+						neighbor.setWallFactor(calcWallFactor(neighborPoint, 3));
 
 						neighbors.push_back(neighbor);
 					}
