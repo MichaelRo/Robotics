@@ -31,6 +31,8 @@ GoForward::GoForward(Robot * robot, LocalizationManager * localizationManager, S
 	 @return - true.
  */
 bool GoForward::startCondition() {
+	cout << "Going forward" << endl;
+
 	return true;
 }
 
@@ -43,10 +45,9 @@ bool GoForward::stopCondition() {
 	if (_robot->getPosition().distanceBetweenPoints(_goalPoint) <= Helper::COMPROMISED_DISTANCE)
 		return true;
 
-	for (int i = Helper::degreesToIndex(-20); i < Helper::degreesToIndex(20); i++) {
+	for (int i = Helper::degreesToIndex((Helper::TOTAL_DEGREES / 2) - 20); i < Helper::degreesToIndex((Helper::TOTAL_DEGREES / 2) + 20); i += Helper::degreesToIndex(3)) {
 		if (_robot->getLaserDistance(i) < Helper::MINIMUM_DISTANCE_FROM_WALL) {
 			_isStuck = true;
-			cout << "Stopped going forward because of an obstacle" << endl;
 
 			return true;
 		}
@@ -60,6 +61,4 @@ bool GoForward::stopCondition() {
  */
 void GoForward::behave() {
 	_robot->setSpeed((float) 0.4, (float) 0);
-
-	cout << "Going forward" << endl;
 }

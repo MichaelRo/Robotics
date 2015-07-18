@@ -13,26 +13,17 @@ Particle::~Particle() {
 
 }
 
-Particle::Particle(float x, float y, float yaw, float belief, Map * map) {
-	_map = map;
-	_belief = belief;
-	Structs::Location deltaLocation = getRandomDeltaLocation();
-	Structs::Location newLocation(x + deltaLocation.getX(),
-								  y + deltaLocation.getY(),
-								  yaw + deltaLocation.getYaw());
-	_location = newLocation;
-	_id = PARTICLE_ID_SEQUENCE++;
+Particle::Particle(float x, float y, float yaw, float belief, Map * map) : Particle(Structs::Location(x, y, yaw), belief, map) {
 
-	cout << "Particle was created at: " << _location.toString() << "." << endl;
 }
 
 Particle::Particle(Structs::Location location, float belief, Map * map) {
+	_id = ++PARTICLE_ID_SEQUENCE;
 	_map = map;
 	_belief = belief;
-	Structs::Location deltaLocation = getRandomDeltaLocation();
+	Structs::Location deltaLocation = (_id == 1) ? (Structs::Location()) : getRandomDeltaLocation();
 	Structs::Location newLocation = location + deltaLocation;
 	_location = newLocation;
-	_id = PARTICLE_ID_SEQUENCE++;
 }
 
 bool Particle::operator ==(const Particle & particle) const {
@@ -48,10 +39,11 @@ Structs::Location Particle::getLocation() {
 }
 
 float Particle::update(Structs::Location destination, vector<float> laserScan) {
+	_belief = calculateBelief(destination, laserScan);
+
 	_location.setX(_location.getX() + destination.getX());
 	_location.setY(_location.getY() + destination.getY());
 	_location.setYaw(_location.getYaw() + destination.getYaw());
-	_belief = calculateBelief(destination, laserScan);
 
 	return _belief;
 }
@@ -81,18 +73,16 @@ float Particle::calculateMotionModelProbability(Structs::Location destination) {
 }
 
 float Particle::checkObservationModel(vector<float> laserScan) {
-	int expectedObsticlesDetected;
+	int expectedObsticlesDetected = 0;
 
 	for (unsigned int laserDegree = 0; laserDegree < laserScan.size(); laserDegree += 10) {
 		float currentLaserScan = laserScan[laserDegree];
-
-		expectedObsticlesDetected = 0;
 
 		if (isObsticleDetectedAsExpected(currentLaserScan, laserDegree))
 			expectedObsticlesDetected++;
 	}
 
-	return expectedObsticlesDetected / laserScan.size();
+	return expectedObsticlesDetected / (laserScan.size() / 10);
 }
 
 list<Particle> Particle::createDescendantParticles(int amount) {
@@ -100,7 +90,6 @@ list<Particle> Particle::createDescendantParticles(int amount) {
 	list<Particle> descendantParticles = list<Particle>();
 
 	for (int index = 0; index < amount; index++) {
-//		descendantParticles.push_back(Particle(_location, _belief, _map));
 		descendantParticles.push_back(Particle(_location, _belief * 0.9, _map));
 	}
 
@@ -171,7 +160,6 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 }
 
 Structs::Location Particle::getRandomDeltaLocation() {
-
 	int xBoundary = floor((_map->getWidth() / 2) * MAX_PARTICLES_RELATIVE_RATIO_CREATION);
 	int yBoundary = floor((_map->getHeight() / 2) * MAX_PARTICLES_RELATIVE_RATIO_CREATION);
 	int yawBoundary = floor((360 / 2) * MAX_PARTICLES_RELATIVE_YAW_CREATION);

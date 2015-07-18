@@ -66,7 +66,7 @@ void Behavior::action() {
 
 	// Maybe should be moved to update once per behavior?
 	if (_localizationManager->getHighestBelief() >= LocalizationManager::BELIEF_THRESHOLD) {
-		cout << "Highest belief: " << _localizationManager->getHighestBelief() << endl;
+		cout << "Robot location changed to the Particle " << _localizationManager->getProbableLocation().pointValue().toString() << " who owns highest belief: " << Helper::floatToString(_localizationManager->getHighestBelief()) << endl;
 
 		_robot->setRobotLocation(_localizationManager->getProbableLocation());
 	}
