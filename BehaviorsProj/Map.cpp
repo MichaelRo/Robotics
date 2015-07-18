@@ -139,10 +139,24 @@ int Map::getCellValue(int column, int row, float resolution) {
 							   row / ceil(((getGridResolution() / resolution) / 2)));
 }
 
+/**
+	Gets a certain cell value
+
+	@param point - the cell's point
+	@param resolution - wanted resolution
+	@return - the cell value
+*/
 int Map::getCellValue(Structs::Point point, float resolution) {
 	return getCellValue(point.getX(), point.getY(), resolution);
 }
 
+/**
+	Gets a certain cell value
+
+	@param location - the cell's location
+	@param resolution - wanted resolution
+	@return - the cell value
+*/
 int Map::getCellValue(Structs::Location location, float resolution) {
 	return getCellValue(location.getX(), location.getY(), resolution);
 }
@@ -161,10 +175,24 @@ void Map::setCellValue(int column, int row, int value, float resolution) {
 						value);
 }
 
+/**
+	Sets a certain cell value
+
+	@param point - the cell's point
+	@param value - the cell value
+	@param resolution - wanted resolution
+*/
 void Map::setCellValue(Structs::Point point, int value, float resolution) {
 	setCellValue(point.getX(), point.getY(), value, resolution);
 }
 
+/**
+	Sets a certain cell value
+
+	@param location - the cell's location
+	@param value - the cell value
+	@param resolution - wanted resolution
+*/
 void Map::setCellValue(Structs::Location location, int value, float resolution) {
 	setCellValue(location.getX(), location.getY(), value, resolution);
 }

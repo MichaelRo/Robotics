@@ -7,6 +7,9 @@
 
 #include "TurnInPlace.h"
 
+/**
+	Destructs the TurnInPlace
+*/
 TurnInPlace::~TurnInPlace() {
 
 }
@@ -43,6 +46,9 @@ bool TurnInPlace::stopCondition() {
 	return false;
 }
 
+/**
+	This method make the robot turn to the wanted yaw.
+ */
 void TurnInPlace::behave() {
 	int angularSpeedFactor = 1;
 
