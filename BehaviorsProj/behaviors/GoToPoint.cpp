@@ -149,9 +149,11 @@ void GoToPoint::behave() {
 		_robot->setSpeed(0, 0);
 
 		if (isLeftSideBlocked())
-			_robot->setSpeed(0, (float) ((-1) * Helper::YAW_TURN_DELTA) * 10);
+			for (int i = 0; i < 15; i++)
+				_robot->setSpeed(0, (float) ((-1) * Helper::YAW_TURN_DELTA) * 10);
 		else if (isRightSideBlocked())
-			_robot->setSpeed(0, (float) Helper::YAW_TURN_DELTA * 10);
+			for (int i = 0; i < 15; i++)
+				_robot->setSpeed(0, (float) Helper::YAW_TURN_DELTA * 10);
 
 		_robot->setSpeed(0, 0);
 

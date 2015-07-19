@@ -201,3 +201,16 @@ float PathPlanner::calcWallFactor(Structs::Point point, int wallDis) {
 
 	return wallCounter * 5;
 }
+
+list<Structs::Point> PathPlanner::StraightenRoute(list<Structs::Point> route) {
+//	list<Structs::Point>::iterator pointsIterator = route.begin();
+//	int intervalX = pointsIterator.operator ->()->getX();
+//	int currentY = pointsIterator.operator ->()->getY();
+//
+//	for (++pointsIterator; pointsIterator != route.end(); pointsIterator++) {
+//		int pointX = pointsIterator.operator ->()->getX();
+//		int pointY = pointsIterator.operator ->()->getY();
+//	}
+
+	return route;
+}

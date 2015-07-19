@@ -48,6 +48,8 @@ public:
 	virtual ~PathPlanner(void);
 
 	list<Structs::Point> performAStar();
+	list<Structs::Point> StraightenRoute(list<Structs::Point> route);
+
 };
 
 #endif

@@ -22,17 +22,18 @@ class LocalizationManager {
 private:
 	list<Particle> _particles;
 	Map * _map;
+	Structs::Location _estimatedRobotLocation;
 
 	Particle * getHighestBeliefParticle();
 
 public:
-	static constexpr float BELIEF_THRESHOLD = 0.55; // 0.6 / 0.25
-//	static const int STANDARD = 0.7 - maybe we need a high threshold
+	static constexpr float BELIEF_THRESHOLD = 0.7;
+	static constexpr float MINIMUM_BELIEF = 0.3;
 
 	LocalizationManager(Structs::Location startLocation, Map * map);
 	virtual ~LocalizationManager();
 
-	void updateParticles(Structs::Location destination, vector<float> laserScan);
+	void updateParticles(Structs::Location destinationDelta, Structs::Location estimatedRobotLocation, vector<float> laserScan);
 	Structs::Location getProbableLocation();
 	float getHighestBelief();
 

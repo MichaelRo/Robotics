@@ -58,8 +58,6 @@ void Manager::run() {
 
 	_map->saveMap("allPointsMap.png");
 
-	_robot->Read();
-
 	Structs::Location realRobotStartLocation(_configurationManager->getRobotStartLocation().pointValue(), _configurationManager->getRobotStartLocation().getYaw());
 	_robot->setRobotLocation(realRobotStartLocation);
 

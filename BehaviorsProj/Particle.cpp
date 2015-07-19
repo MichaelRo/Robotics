@@ -80,12 +80,12 @@ Structs::Location Particle::getLocation() {
 	@param laserScan - the result of the laser scan of the robot.
 	@return - the belief of the particle.
 */
-float Particle::update(Structs::Location destination, vector<float> laserScan) {
-	_belief = calculateBelief(destination, laserScan);
+float Particle::update(Structs::Location destinationDelta, vector<float> laserScan) {
+	_belief = calculateBelief(destinationDelta, laserScan);
 
-	_location.setX(_location.getX() + destination.getX());
-	_location.setY(_location.getY() + destination.getY());
-	_location.setYaw(_location.getYaw() + destination.getYaw());
+	_location.setX(_location.getX() + destinationDelta.getX());
+	_location.setY(_location.getY() + destinationDelta.getY());
+	_location.setYaw(_location.getYaw() + destinationDelta.getYaw());
 
 	return _belief;
 }
@@ -96,8 +96,8 @@ float Particle::update(Structs::Location destination, vector<float> laserScan) {
 	@param destination - the destination location of the particle.
 	@return - the belief of the particle.
  */
-float Particle::calculatePredictedBelief(Structs::Location destination) {
-	return calculateMotionModelProbability(destination) * getBelief();
+float Particle::calculatePredictedBelief(Structs::Location destinationDelta) {
+	return calculateMotionModelProbability(destinationDelta) * getBelief();
 }
 
 /**
@@ -107,8 +107,8 @@ float Particle::calculatePredictedBelief(Structs::Location destination) {
 	@param laserScan - the result of the laser scan of the robot.
 	@return - the belief of the particle.
  */
-float Particle::calculateBelief(Structs::Location destination, vector<float> laserScan) {
-	return NORMALIZATION_FACTOR * checkObservationModel(laserScan) * calculatePredictedBelief(destination);
+float Particle::calculateBelief(Structs::Location destinationDelta, vector<float> laserScan) {
+	return NORMALIZATION_FACTOR * checkObservationModel(laserScan) * calculatePredictedBelief(destinationDelta);
 }
 
 /**
@@ -117,9 +117,9 @@ float Particle::calculateBelief(Structs::Location destination, vector<float> las
 	@param destination - the destination location of the particle.
 	@return - the calculated propability of the particle.
  */
-float Particle::calculateMotionModelProbability(Structs::Location destination) {
-	float distance = _location.pointValue().distanceBetweenPoints(destination.pointValue());
-	float yaw = abs(destination.getYaw());
+float Particle::calculateMotionModelProbability(Structs::Location destinationDelta) {
+	float distance = _location.pointValue().distanceBetweenPoints(destinationDelta.pointValue());
+	float yaw = abs(destinationDelta.getYaw());
 
 	float propability = 0.25;
 
@@ -142,14 +142,14 @@ float Particle::calculateMotionModelProbability(Structs::Location destination) {
 float Particle::checkObservationModel(vector<float> laserScan) {
 	int expectedObsticlesDetected = 0;
 
-	for (unsigned int laserDegree = 0; laserDegree < laserScan.size(); laserDegree += 10) {
+	for (unsigned int laserDegree = 0; laserDegree < laserScan.size(); laserDegree += 3) {
 		float currentLaserScan = laserScan[laserDegree];
 
 		if (isObsticleDetectedAsExpected(currentLaserScan, laserDegree))
 			expectedObsticlesDetected++;
 	}
 
-	return expectedObsticlesDetected / (laserScan.size() / 10);
+	return expectedObsticlesDetected / (laserScan.size() / 3);
 }
 
 /**
@@ -180,11 +180,13 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	int correctDetectionsNumber = 0;
 	int incorrectDetectionsNumber = 0;
 
+	set<Structs::Point> pointsInCurrentLaserBeam;
+
 	// CONSIDER IMPLEMENTING A METHOD FOR FINDING THE SPOTTED POINT CELL VALUE
 
 	// Going through all the spotted points in the lasers way (without the laser scanned point)
 	// Maybe ceil ?
-	for (int distanceFromSpottedPoint = 1; distanceFromSpottedPoint < floor(METER_TO_CM(laserScan)); distanceFromSpottedPoint += 10) {
+	for (int distanceFromSpottedPoint = 1; distanceFromSpottedPoint < floor(METER_TO_CM(laserScan)); distanceFromSpottedPoint += 3) {
 		// Calculating the spotted point location (as a delta to the particle itself)
 
 		// Laser degree as an offset, plus or minus depends on the laser scan start direction
@@ -195,9 +197,16 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 		// Maybe ceil or floor?
 		Structs::Point spottedPoint(round(_location.getX() + deltaX), round(_location.getY() + deltaY));
 
-		if ((spottedPoint.getX() >= 0 && spottedPoint.getX() < _map->getWidth()) &&
-			(spottedPoint.getY() >= 0 && spottedPoint.getY() < _map->getHeight())) {
-			int spottedPointValue = _map->getCellValue(spottedPoint, _map->getMapResolution());
+		pointsInCurrentLaserBeam.insert(spottedPoint);
+	}
+
+	for (set<Structs::Point>::iterator beamPointsIterator = pointsInCurrentLaserBeam.begin(); beamPointsIterator != pointsInCurrentLaserBeam.end(); beamPointsIterator++) {
+//		if (((*beamPointsIterator.operator ->()).getX() >= 0 && (*beamPointsIterator.operator ->()).getX() < _map->getWidth()) &&
+//			((*beamPointsIterator.operator ->()).getY() >= 0 && (*beamPointsIterator.operator ->()).getY() < _map->getHeight())) {
+		if ((beamPointsIterator.operator ->())->getX()>= 0) {
+			int spottedPointValue = _map->getCellValue((*beamPointsIterator.operator ->()), _map->getMapResolution());
+
+			cout << "Particle " << getLocation().toString() << " has cell value " << spottedPointValue << " in degree " << getLocation().getYaw() + laserDegree << endl;
 
 			if (spottedPointValue == Map::OCCUPIED_CELL) {
 				// If the spotted point, which stands in the way to the laser current scan, is occupied - the laser was supposed to detect an obstacle
@@ -236,7 +245,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 		}
 	}
 
-	return correctDetectionsNumber > incorrectDetectionsNumber;
+	return correctDetectionsNumber > (pointsInCurrentLaserBeam.size() + 1);
 }
 
 /**

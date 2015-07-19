@@ -14,6 +14,7 @@
 #include <cmath>
 #include <iostream>
 #include <stdlib.h>
+#include <set>
 
 #include "Structs.h"
 #include "Map.h"
@@ -36,9 +37,9 @@ private:
 public:
 	static constexpr float NORMALIZATION_FACTOR = 1.2;
 	static constexpr float MAX_DISTANCE = METER_TO_CM(1); // Check
-	static constexpr float MAX_YAW = 8; // Check
-	static constexpr float MAX_PARTICLES_RELATIVE_RATIO_CREATION = 0.015;
-	static constexpr float MAX_PARTICLES_RELATIVE_YAW_CREATION = 0.1;
+	static constexpr float MAX_YAW = 10; // Check
+	static constexpr float MAX_PARTICLES_RELATIVE_RATIO_CREATION = 0.019;
+	static constexpr float MAX_PARTICLES_RELATIVE_YAW_CREATION = 0.05;
 
 	Particle(float x, float y, float yaw, float belief, Map * map);
 	Particle(Structs::Location location, float belief, Map * map);
@@ -49,10 +50,10 @@ public:
 	float getBelief();
 	Structs::Location getLocation();
 
-	float update(Structs::Location destination, vector<float> laserScan);
-	float calculatePredictedBelief(Structs::Location destination);
-	float calculateBelief(Structs::Location destination, vector<float> laserScan);
-	float calculateMotionModelProbability(Structs::Location destination);
+	float update(Structs::Location destinationDelta, vector<float> laserScan);
+	float calculatePredictedBelief(Structs::Location destinationDelta);
+	float calculateBelief(Structs::Location destinationDelta, vector<float> laserScan);
+	float calculateMotionModelProbability(Structs::Location destinationDelta);
 	float checkObservationModel(vector<float> laserScan);
 	list<Particle> createDescendantParticles(int amount);
 

@@ -12,6 +12,7 @@
 #include "Manager.h"
 
 int main (int argc, const char * argv[]) {
+//	Robot igal("10.10.245.63",6665);
 	Robot igal("localhost",6665);
 	Manager* manager = new Manager(&igal);
 	manager->run();
