@@ -65,6 +65,8 @@ Structs::Location Robot::getLocation() {
 void Robot::setRobotLocation(Structs::Location location) {
 	float robotYaw = (location.getYaw() > 180) ? ((-1) * (360 - location.getYaw())) : location.getYaw();
 
+	Read();
+
 	_position->SetOdometry((location.getX() - (550 / 2)) / (METER_TO_CM(1) / 2.5),
 						   (location.getY() - (380 / 2)) / (METER_TO_CM(-1) / 2.5),
 						   Helper::degreesToRadians(robotYaw));
@@ -86,7 +88,7 @@ void Robot::setSpeed(float xSpeed, float angularSpeed) {
   	This method read details about the robot from the robot.
  */
 void Robot::Read() {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 		_playerClient->Read();
 }
 
