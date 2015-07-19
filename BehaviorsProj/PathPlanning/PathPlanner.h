@@ -8,10 +8,10 @@
 #ifndef PATHPLANNER_H_
 #define PATHPLANNER_H_
 
-#include "Map.h"
-#include "Structs.h"
 #include "AStarPriority.h"
 #include "WaypointsManager.h"
+#include "../Framework/Map.h"
+#include "../Framework/Structs.h"
 
 #include <iostream>
 #include <iomanip>
@@ -48,8 +48,6 @@ public:
 	virtual ~PathPlanner(void);
 
 	list<Structs::Point> performAStar();
-	list<Structs::Point> StraightenRoute(list<Structs::Point> route);
-
 };
 
 #endif

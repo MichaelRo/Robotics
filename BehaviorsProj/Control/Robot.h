@@ -13,9 +13,9 @@
 #include <cmath>
 #include <libplayerc++/playerc++.h>
 
-#include "LocalizationManager.h"
-#include "Structs.h"
-#include "Helper.h"
+#include "../Localization/LocalizationManager.h"
+#include "../Framework/Structs.h"
+#include "../Utils/Helper.h"
 
 using namespace PlayerCc;
 using namespace std;
@@ -26,13 +26,18 @@ private:
 	Position2dProxy * _position;
 	LaserProxy * _laserProxy;
 
+	Structs::Location _location;
+
 public:
 	virtual ~Robot();
 	Robot(char* ip, int port);
 
 	Structs::Point getPosition();
 	Structs::Location getLocation();
+	Structs::Location getOdometry();
+	Structs::Point getOdometryPoint();
 	void setRobotLocation(Structs::Location location);
+	void setOdometry(Structs::Location location);
 
 	void setSpeed(float xSpeed, float angularSpeed);
 	void Read();

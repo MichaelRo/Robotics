@@ -31,8 +31,6 @@ GoForward::GoForward(Robot * robot, LocalizationManager * localizationManager, S
 	 @return - true.
  */
 bool GoForward::startCondition() {
-	cout << "Going forward" << endl;
-
 	return true;
 }
 

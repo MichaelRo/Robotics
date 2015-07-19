@@ -45,25 +45,26 @@ vector<Behavior*> Behavior::getBehaviors() {
 
 /**
 	This method will make the robot do the current behavior.
+	NOTE: remove the comments mark before adding LocalizationManager
  */
 void Behavior::action() {
-	Structs::Location locationBeforeAction = _robot->getLocation();
+//	Structs::Location locationBeforeAction = _robot->getOdometry();
 
 	_robot->Read();
 
 	behave();
 
-	_robot->Read();
+ 	_robot->Read();
 
-	Structs::Location locationAfterAction = _robot->getLocation();
-	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
-
-//	_localizationManager->updateParticles(locationDelta, _robot->getLocation(), _robot->getLaserScan());
+//	Structs::Location locationAfterAction = _robot->getOdometry();
+//	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
+//
+//	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
 //
 //	// Maybe should be moved to update once per behavior?
 //	if (_localizationManager->getHighestBelief() >= LocalizationManager::BELIEF_THRESHOLD) {
-//		cout << "Robot location changed to the Particle " << _localizationManager->getProbableLocation().pointValue().toString() << " who owns highest belief: " << Helper::floatToString(_localizationManager->getHighestBelief()) << endl;
-//
 //		_robot->setRobotLocation(_localizationManager->getProbableLocation());
+//	} else {
+		_robot->setRobotLocation(_robot->getOdometry());
 //	}
 }

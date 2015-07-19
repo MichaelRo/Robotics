@@ -8,8 +8,8 @@
 #ifndef CONFIGURATIONMANAGER_H_
 #define CONFIGURATIONMANAGER_H_
 
-#include "Structs.h"
 #include "Helper.h"
+#include "../Framework/Structs.h"
 
 #include <iostream>
 #include <fstream>

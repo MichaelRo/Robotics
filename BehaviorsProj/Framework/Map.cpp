@@ -42,7 +42,7 @@ void Map::initializeGrid(int width, int height) {
 	// The resolution: (Grid's resolution / Map's (png) resolution) / 2
 	_grid = new Matrix(ceil(getWidth() / (getGridMapResolutionRatio() / 2)),
 					   ceil(getHeight() / (getGridMapResolutionRatio() / 2)),
-					   UNKNOWN_CELL);
+					   Helper::CellType::UNKNOWN_CELL);
 }
 
 /**
@@ -238,9 +238,9 @@ void Map::loadMap(string pngFilePath) {
 
 			// Marks the cell type in the grid
 			if (isACertainCellOccupied)
-				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, OCCUPIED_CELL);
+				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, Helper::CellType::OCCUPIED_CELL);
 			else
-				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, FREE_CELL);
+				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, Helper::CellType::FREE_CELL);
 
 			gridVectorColumnsIndex++;
 		}
@@ -263,17 +263,17 @@ void Map::saveMap(string pngFilePath) {
 	for (int rowsIndex = 0; rowsIndex < _grid->getHeight(); rowsIndex++){
 		for(int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
 			// Marks the cell by it's type
-			if (_grid->getCellValue(columnsIndex, rowsIndex) == FREE_CELL) {
+			if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::FREE_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::WHITE);
-			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == START_LOCATION_CELL) {
+			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::START_LOCATION_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::RED);
-			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == GOAL_LOCATION_CELL) {
+			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::GOAL_LOCATION_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::BLUE);
-			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == ROUTE_CELL) {
+			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::ROUTE_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::GREEN);
-			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == WAYPOINT_CELL) {
+			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::WAYPOINT_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::YELLOW);
-			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == PADDING_CELL) {
+			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::PADDING_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::GRAY);
 			} else {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::BLACK);
@@ -293,16 +293,13 @@ void Map::saveMap(string pngFilePath) {
 */
 void Map::printMap(string fileName) {
 	ofstream vectorOutputFile((fileName).c_str());
-	cout << "Printing Map: " << endl;
 
 	// Runs over all the cells and prints it's value
 	for (int rowsIndex = 0; rowsIndex < _grid->getHeight(); rowsIndex++) {
 		for (int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
-			cout << _grid->getCellValue(columnsIndex, rowsIndex);
 			vectorOutputFile << _grid->getCellValue(columnsIndex, rowsIndex);
 		}
 
-		cout << endl;
 		vectorOutputFile << endl;
 	}
 
@@ -333,13 +330,13 @@ void Map::swapMap(Map * map) {
 	@param ratio - the padding ratio
 */
 void Map::padMapObstacles(int ratio) {
-	Matrix tempMatrix(_grid->getWidth(), _grid->getHeight(), FREE_CELL);
+	Matrix tempMatrix(_grid->getWidth(), _grid->getHeight(), Helper::CellType::FREE_CELL);
 
 	for (int rowsIndex = 0; rowsIndex < _grid->getHeight(); rowsIndex++) {
 		for (int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
-			if (_grid->getCellValue(columnsIndex, rowsIndex) == OCCUPIED_CELL) {
+			if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::OCCUPIED_CELL) {
 				// Setting the cell itself in the temporary matrix
-				tempMatrix.setCellValue(columnsIndex, rowsIndex, OCCUPIED_CELL);
+				tempMatrix.setCellValue(columnsIndex, rowsIndex, Helper::CellType::OCCUPIED_CELL);
 
 				// Setting the cell's neighbors in the temporary matrix
 				padACell(Structs::Point(columnsIndex, rowsIndex), &tempMatrix, ratio);
@@ -364,8 +361,8 @@ void Map::padACell(Structs::Point cellPoint, Matrix * matrix, int ratio) {
 		Structs::Point * neighbor = neighborsIterator.operator ->();
 
 		// Sets the neighbor as a neighbor only if it isn't already occupied
-		if (_grid->getCellValue(neighbor->getX(), neighbor->getY()) == FREE_CELL)
-			matrix->setCellValue(neighbor->getX(), neighbor->getY(), PADDING_CELL);
+		if (_grid->getCellValue(neighbor->getX(), neighbor->getY()) == Helper::CellType::FREE_CELL)
+			matrix->setCellValue(neighbor->getX(), neighbor->getY(), Helper::CellType::PADDING_CELL);
 	}
 }
 
@@ -375,7 +372,7 @@ void Map::padACell(Structs::Point cellPoint, Matrix * matrix, int ratio) {
 	@param route - the given route, represented as list<Structs::Point>
 */
 void Map::markRoute(list<Structs::Point> route, float resolution) {
-	markCells(route, ROUTE_CELL, resolution);
+	markCells(route, Helper::CellType::ROUTE_CELL, resolution);
 }
 
 /**
@@ -384,7 +381,7 @@ void Map::markRoute(list<Structs::Point> route, float resolution) {
 	@param wayPoints - the waypoints, represented as list<Structs::Point>
 */
 void Map::markWayPoints(list<Structs::Point> wayPoints, float resolution) {
-	markCells(wayPoints, WAYPOINT_CELL, resolution);
+	markCells(wayPoints, Helper::CellType::WAYPOINT_CELL, resolution);
 }
 
 /**
@@ -396,7 +393,7 @@ void Map::markStartPoint(Structs::Point startPoint, float resolution) {
 	list<Structs::Point> cells = list<Structs::Point>();
 	cells.push_back(startPoint);
 
-	markCells(cells, START_LOCATION_CELL, resolution);
+	markCells(cells, Helper::CellType::START_LOCATION_CELL, resolution);
 }
 
 /**
@@ -408,7 +405,7 @@ void Map::markGoalPoint(Structs::Point goalPoint, float resolution) {
 	list<Structs::Point> cells = list<Structs::Point>();
 	cells.push_back(goalPoint);
 
-	markCells(cells, GOAL_LOCATION_CELL, resolution);
+	markCells(cells, Helper::CellType::GOAL_LOCATION_CELL, resolution);
 }
 
 /**

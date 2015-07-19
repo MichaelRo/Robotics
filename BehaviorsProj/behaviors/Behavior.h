@@ -8,9 +8,9 @@
 #ifndef BEHAVIOR_H_
 #define BEHAVIOR_H_
 
-#include "../Robot.h"
-#include "../LocalizationManager.h"
-#include "../Structs.h"
+#include "../Control/Robot.h"
+#include "../Localization/LocalizationManager.h"
+#include "../Framework/Structs.h"
 
 #include <string>
 #include <sstream>
@@ -18,7 +18,6 @@
 
 using namespace std;
 
-//Class which handles the robot's behavior system control
 class Behavior {
 protected:
 	Robot * _robot;

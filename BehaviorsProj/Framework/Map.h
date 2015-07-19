@@ -8,10 +8,10 @@
 #ifndef MAP_H_
 #define MAP_H_
 
-#include "WriteToPng/lodepng.h"
-#include "ConfigurationManager.h"
-#include "Matrix.h"
-#include "Helper.h"
+#include "../WriteToPng/lodepng.h"
+#include "../Utils/ConfigurationManager.h"
+#include "../Framework/Matrix.h"
+#include "../Utils/Helper.h"
 
 #include <iostream>
 #include <fstream>
@@ -41,15 +41,6 @@ private:
 	static void pushRGBAColorToAVector(vector<unsigned char> * vector, int color);
 
 public:
-	static const int FREE_CELL = 0;
-	static const int OCCUPIED_CELL = 1;
-	static const int UNKNOWN_CELL = 2;
-	static const int START_LOCATION_CELL = 3;
-	static const int GOAL_LOCATION_CELL = 4;
-	static const int ROUTE_CELL = 5;
-	static const int WAYPOINT_CELL = 6;
-	static const int PADDING_CELL = 8;
-
 	~Map();
 	Map();
 	Map(Map * map);

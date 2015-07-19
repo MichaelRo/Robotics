@@ -4,12 +4,12 @@
  *  Created on: June 13, 2015
  *      Author: Noa Even Tsur, Itay Desalto, Michael Roytman
  */
-#include "Robot.h"
-#include "ConfigurationManager.h"
-#include "Map.h"
-#include "PathPlanner.h"
-#include "WaypointsManager.h"
-#include "Manager.h"
+#include "Control/Robot.h"
+#include "Utils/ConfigurationManager.h"
+#include "Framework/Map.h"
+#include "PathPlanning/PathPlanner.h"
+#include "PathPlanning/WaypointsManager.h"
+#include "Control/Manager.h"
 
 int main (int argc, const char * argv[]) {
 //	Robot igal("10.10.245.65",6665);

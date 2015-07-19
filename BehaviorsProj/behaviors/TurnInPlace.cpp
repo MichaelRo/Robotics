@@ -42,8 +42,6 @@ bool TurnInPlace::stopCondition() {
 
 	float currentCompromizedYaw = (_iterationNumber == 1) ? Helper::COMPROMISED_YAW : (float) (Helper::COMPROMISED_YAW / 1.75);
 
-	cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(currentCompromizedYaw) << endl;
-
 	if (((neededYawDelta >= 0) && (neededYawDelta <= currentCompromizedYaw)) ||
 		((neededYawDelta < 0) && (neededYawDelta >= (-1 * currentCompromizedYaw)))) {
 		return true;

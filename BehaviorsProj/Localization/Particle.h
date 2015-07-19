@@ -16,9 +16,9 @@
 #include <stdlib.h>
 #include <set>
 
-#include "Structs.h"
-#include "Map.h"
-#include "Helper.h"
+#include "../Framework/Structs.h"
+#include "../Framework/Map.h"
+#include "../Utils/Helper.h"
 
 using namespace std;
 
@@ -60,4 +60,4 @@ public:
 	static float getDistance(Structs::Location destination);
 };
 
-#endif /* PARTICLE_H_ */
+#endif
