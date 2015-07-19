@@ -40,9 +40,7 @@ Particle::Particle(Structs::Location location, float belief, Map * map) {
 	_id = ++PARTICLE_ID_SEQUENCE;
 	_map = map;
 	_belief = belief;
-	Structs::Location deltaLocation = (_id == 1) ? (Structs::Location()) : getRandomDeltaLocation();
-	Structs::Location newLocation = location + deltaLocation;
-	_location = newLocation;
+	_location = location;
 }
 
 /**
@@ -81,11 +79,13 @@ Structs::Location Particle::getLocation() {
 	@return - the belief of the particle.
 */
 float Particle::update(Structs::Location destinationDelta, vector<float> laserScan) {
-	_belief = calculateBelief(destinationDelta, laserScan);
+	Structs::Location deltaLocation = destinationDelta + getRandomDeltaLocation();
 
-	_location.setX(_location.getX() + destinationDelta.getX());
-	_location.setY(_location.getY() + destinationDelta.getY());
-	_location.setYaw(_location.getYaw() + destinationDelta.getYaw());
+	_belief = calculateBelief(deltaLocation, laserScan);
+
+	_location.setX(_location.getX() + deltaLocation.getX());
+	_location.setY(_location.getY() + deltaLocation.getY());
+	_location.setYaw(_location.getYaw() + deltaLocation.getYaw());
 
 	return _belief;
 }
@@ -108,7 +108,9 @@ float Particle::calculatePredictedBelief(Structs::Location destinationDelta) {
 	@return - the belief of the particle.
  */
 float Particle::calculateBelief(Structs::Location destinationDelta, vector<float> laserScan) {
-	return NORMALIZATION_FACTOR * checkObservationModel(laserScan) * calculatePredictedBelief(destinationDelta);
+	float belief = NORMALIZATION_FACTOR * checkObservationModel(laserScan) * calculatePredictedBelief(destinationDelta);
+
+	return (belief > 1) ? 1 : belief;
 }
 
 /**
@@ -129,6 +131,17 @@ float Particle::calculateMotionModelProbability(Structs::Location destinationDel
 		propability += 0.25;
 	if (yaw == 0)
 		propability += 0.25;
+
+//	if (distance < 0.2)
+//		propability = 1;
+//	else if (distance < 0.3)
+//		propability = 0.8;
+//	else if (distance < 0.5)
+//		propability = 0.6;
+//	else if (distance < 0.7)
+//		propability = 0.4;
+//	else if (distance >= 0.7)
+//		propability = 0.2;
 
 	return propability;
 }
@@ -248,6 +261,8 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 //	cout << "Particle " << getLocation().toString() << " correctDetectionsNumber " << correctDetectionsNumber << " pointsInCurrentLaserBeam.size() " << pointsInCurrentLaserBeam.size() << endl;
 
 	return correctDetectionsNumber > (pointsInCurrentLaserBeam.size() + 1);
+
+//	return correctDetectionsNumber > (correctDetectionsNumber + incorrectDetectionsNumber);
 }
 
 /**

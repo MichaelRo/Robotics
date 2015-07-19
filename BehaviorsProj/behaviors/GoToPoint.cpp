@@ -43,6 +43,18 @@ float GoToPoint::calculateNeededYaw() {
 	float distanceToPoint = startPoint.distanceBetweenPoints(_goalPoint);
 	float neededYaw = acos(yDeltaToPoint / distanceToPoint);
 
+	if (startPoint.getY() == _goalPoint.getY()) {
+		if (startPoint.getX() > _goalPoint.getX())
+			return 180;
+		else if (startPoint.getX() < _goalPoint.getX())
+			return 0;
+	} else if (startPoint.getX() == _goalPoint.getX()) {
+		if (startPoint.getY() > _goalPoint.getY())
+			return 90;
+		else if (startPoint.getY() < _goalPoint.getY())
+			return 270;
+	}
+
 	switch(getQuarter(startPoint)) {
 		case Helper::Quarters::FIRST:
 			return Helper::radiansToDegrees(M_PI_2 - neededYaw);
@@ -145,15 +157,13 @@ void GoToPoint::behave() {
 	if (!isGoalLocationReached()) {
 		cout << "Stopped going forward because of an obstacle" << endl;
 
-		_robot->setSpeed(float ((-1) * Helper::MOVEMENT_DELTA), 0);
-		_robot->setSpeed(0, 0);
-
+		// Adding reverse factor
 		if (isLeftSideBlocked())
 			for (int i = 0; i < 15; i++)
-				_robot->setSpeed(0, (float) ((-1) * Helper::YAW_TURN_DELTA) * 10);
+				_robot->setSpeed((float) ((-1) * 10), (float) (Helper::YAW_TURN_DELTA) * 10);
 		else if (isRightSideBlocked())
 			for (int i = 0; i < 15; i++)
-				_robot->setSpeed(0, (float) Helper::YAW_TURN_DELTA * 10);
+				_robot->setSpeed((float) ((-1) * 10), (float) ((-1) * Helper::YAW_TURN_DELTA * 10));
 
 		_robot->setSpeed(0, 0);
 
@@ -169,8 +179,7 @@ int GoToPoint::getQuarter(Structs::Point startPoint) {
 			return Helper::Quarters::SECOND;
 		else
 			return Helper::Quarters::FIRST;
-	}
-	else {
+	} else {
 		if (startPoint.getX() > _goalPoint.getX())
 			return Helper::Quarters::THIRD;
 		else
