@@ -126,23 +126,12 @@ float Particle::calculateMotionModelProbability(Structs::Location destinationDel
 
 	float propability = 0.25;
 
-//	if (distance <= MAX_DISTANCE)
-//		propability += 0.25;
-//	if (yaw <= MAX_YAW)
-//		propability += 0.25;
-//	if (yaw == 0)
-//		propability += 0.25;
-
-	if (distance < 0.2)
-		propability = 1;
-	else if (distance < 0.3)
-		propability = 0.8;
-	else if (distance < 0.5)
-		propability = 0.6;
-	else if (distance < 0.7)
-		propability = 0.4;
-	else if (distance >= 0.7)
-		propability = 0.2;
+	if (distance <= MAX_DISTANCE)
+		propability += 0.25;
+	if (yaw <= MAX_YAW)
+		propability += 0.25;
+	if (yaw == 0)
+		propability += 0.25;
 
 	return propability;
 }
@@ -195,45 +184,44 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	int correctDetectionsNumber = 0;
 	int incorrectDetectionsNumber = 0;
 
-//	set<Structs::Point> pointsInCurrentLaserBeam;
-//
-//	// CONSIDER IMPLEMENTING A METHOD FOR FINDING THE SPOTTED POINT CELL VALUE
-//
-//	// Going through all the spotted points in the lasers way (without the laser scanned point)
-//	// Maybe ceil ?
-//	for (int distanceFromSpottedPoint = 1; distanceFromSpottedPoint < floor(METER_TO_CM(laserScan)); distanceFromSpottedPoint++) {
-//		// Calculating the spotted point location (as a delta to the particle itself)
-//
-//		// Laser degree as an offset, plus or minus depends on the laser scan start direction
-//		float spottedPointYaw = M_PI - Helper::degreesToRadians(getLocation().getYaw() + laserDegree);
-//		float deltaX = cos(spottedPointYaw) * distanceFromSpottedPoint;
-//		float deltaY = sin(spottedPointYaw) * distanceFromSpottedPoint;
-//
-//		// Maybe ceil or floor?
-//		Structs::Point spottedPoint(round(_location.getX() + deltaX), round(_location.getY() + deltaY));
-//
-//		pointsInCurrentLaserBeam.insert(spottedPoint);
-//	}
-//
-//	for (set<Structs::Point>::iterator beamPointsIterator = pointsInCurrentLaserBeam.begin(); beamPointsIterator != pointsInCurrentLaserBeam.end(); beamPointsIterator++) {
-//		int size = pointsInCurrentLaserBeam.size();
-//		Structs::Point spottedPoint = *beamPointsIterator.operator ->();
-//
-//		if ((spottedPoint.getX() >= 0) && (spottedPoint.getX() < _map->getWidth()) &&
-//			(spottedPoint.getY() >= 0) && (spottedPoint.getY() < _map->getHeight())) {
-//			int spottedPointValue = _map->getCellValue(spottedPoint, _map->getMapResolution());
-//
-//			if (spottedPointValue == Map::OCCUPIED_CELL) {
-//				// If the spotted point, which stands in the way to the laser current scan, is occupied - the laser was supposed to detect an obstacle
-//				incorrectDetectionsNumber++;
-//			} else {
-//				// The spotted point stands in the way to the laser clurrent scan supposed to be free, otherwise the laser scan would be smaller
-//				correctDetectionsNumber++;
-//			}
-//		} else {
-//			break;
-//		}
-//	}
+	set<Structs::Point> pointsInCurrentLaserBeam;
+
+	// CONSIDER IMPLEMENTING A METHOD FOR FINDING THE SPOTTED POINT CELL VALUE
+
+	// Going through all the spotted points in the lasers way (without the laser scanned point)
+	// Maybe ceil ?
+	for (int distanceFromSpottedPoint = 1; distanceFromSpottedPoint < floor(METER_TO_CM(laserScan)); distanceFromSpottedPoint++) {
+		// Calculating the spotted point location (as a delta to the particle itself)
+
+		// Laser degree as an offset, plus or minus depends on the laser scan start direction
+		float spottedPointYaw = M_PI - Helper::degreesToRadians(getLocation().getYaw() + laserDegree);
+		float deltaX = cos(spottedPointYaw) * distanceFromSpottedPoint;
+		float deltaY = sin(spottedPointYaw) * distanceFromSpottedPoint;
+
+		// Maybe ceil or floor?
+		Structs::Point spottedPoint(round(_location.getX() + deltaX), round(_location.getY() + deltaY));
+
+		pointsInCurrentLaserBeam.insert(spottedPoint);
+	}
+
+	for (set<Structs::Point>::iterator beamPointsIterator = pointsInCurrentLaserBeam.begin(); beamPointsIterator != pointsInCurrentLaserBeam.end(); beamPointsIterator++) {
+		Structs::Point spottedPoint = *beamPointsIterator.operator ->();
+
+		if ((spottedPoint.getX() >= 0) && (spottedPoint.getX() < _map->getWidth()) &&
+			(spottedPoint.getY() >= 0) && (spottedPoint.getY() < _map->getHeight())) {
+			int spottedPointValue = _map->getCellValue(spottedPoint, _map->getMapResolution());
+
+			if (spottedPointValue == Helper::CellType::OCCUPIED_CELL) {
+				// If the spotted point, which stands in the way to the laser current scan, is occupied - the laser was supposed to detect an obstacle
+				incorrectDetectionsNumber++;
+			} else {
+				// The spotted point stands in the way to the laser clurrent scan supposed to be free, otherwise the laser scan would be smaller
+				correctDetectionsNumber++;
+			}
+		} else {
+			break;
+		}
+	}
 
 	// Checking the laser scanned point in case that the laser scan is smaller than the maximum range
 	if (laserScan < Helper::LASER_MAX_DETECTION_RANGE) {
@@ -260,9 +248,9 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 		}
 	}
 
-//	return correctDetectionsNumber > (pointsInCurrentLaserBeam.size() + 1);
+	return correctDetectionsNumber > (pointsInCurrentLaserBeam.size() + 1);
 
-	return correctDetectionsNumber > (correctDetectionsNumber + incorrectDetectionsNumber);
+//	return correctDetectionsNumber > (correctDetectionsNumber + incorrectDetectionsNumber);
 }
 
 /**

@@ -35,7 +35,7 @@ private:
 	static int PARTICLE_ID_SEQUENCE;
 
 public:
-	static constexpr float NORMALIZATION_FACTOR = 1 ;// 1.15;
+	static constexpr float NORMALIZATION_FACTOR = 1.1;
 	static constexpr float MAX_DISTANCE = METER_TO_CM(1);
 	static constexpr float MAX_YAW = 10;
 	static constexpr float MAX_PARTICLES_RELATIVE_RATIO_CREATION = 0.012;
