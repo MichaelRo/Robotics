@@ -57,7 +57,7 @@ public:
 	void setCellValue(Structs::Point point, int value, float resolution);
 	void setCellValue(Structs::Location location, int value, float resolution);
 
-	void printMap(string fileName);
+	void printGrid(string fileName);
 	void loadMap(string pngFilePath);
 	void saveMap(string pngFilePath);
 	void padMapObstacles(int ratio);

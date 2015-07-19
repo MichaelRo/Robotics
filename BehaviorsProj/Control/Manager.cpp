@@ -36,8 +36,8 @@ Manager::Manager(Robot* robot) {
 void Manager::run() {
 	_map = initializeMap();
 
-	Structs::Point startPoint = _configurationManager->getRobotStartLocation().pointValue() / (_map->getGridMapResolutionRatio() / 2);
-	Structs::Point endPoint = _configurationManager->getRobotGoalLocation().pointValue() / (_map->getGridMapResolutionRatio() / 2);
+	Structs::Point startPoint = _configurationManager->getRobotStartLocation().pointValue() / _map->getGridMapResolutionRatio();
+	Structs::Point endPoint = _configurationManager->getRobotGoalLocation().pointValue() / _map->getGridMapResolutionRatio();
 	_pathPlanner = new PathPlanner(_map, startPoint, endPoint);
 
 	list<Structs::Point> route = _pathPlanner->performAStar();

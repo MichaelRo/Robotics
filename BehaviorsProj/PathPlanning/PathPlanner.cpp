@@ -65,7 +65,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 				continue;
 			}
 
-			float tempNeighborGGrade = (currMinNode.getG() + COST_BETWEEN_NODES)*0.05 + currNeighbor->getTurnFactor()*0.75 + currNeighbor->getWallFactor()*0.2;
+			float tempNeighborGGrade = (currMinNode.getG() + COST_BETWEEN_NODES)*0.2 + currNeighbor->getTurnFactor()*0.7 + currNeighbor->getWallFactor()*0.1;
 
 			// if we haven't visit this neighbor or if the grade that we calculated is less than what the neighbor have
 			if (!openMap[currNeighbor->getPoint().hashCode()] || tempNeighborGGrade < currNeighbor->getG()) {
@@ -98,9 +98,9 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 	list<Structs::Node> neighbors;
 
 	for (int rowsIndex = node->getPoint().getY() - 1; rowsIndex <= node->getPoint().getY() + 1; rowsIndex++) {
-		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
+		if (!(rowsIndex < 0 || rowsIndex >= (_map->getHeight() / _map->getGridMapResolutionRatio()))) {
 			for (int columnsIndex = node->getPoint().getX() - 1; columnsIndex <= node->getPoint().getX() + 1; columnsIndex++) {
-				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
+				if (!(columnsIndex < 0 || columnsIndex >= (_map->getWidth() / _map->getGridMapResolutionRatio()))) {
 					if ((_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Helper::CellType::FREE_CELL) &&
 						!((node->getPoint().getX() == columnsIndex) && (node->getPoint().getY() == rowsIndex))) {
 
@@ -111,7 +111,7 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 							neighbor.setTurnFactor(calcDirectionFactor(_parentsMap[node->getPoint().hashCode()], node->getPoint(), neighborPoint));
 						}
 
-						neighbor.setWallFactor(calcWallFactor(neighborPoint, 3));
+						neighbor.setWallFactor(calcWallFactor(neighborPoint, 1));
 
 						neighbors.push_back(neighbor);
 					}
@@ -187,9 +187,9 @@ float PathPlanner::calcDirectionFactor(Structs::Point p1, Structs::Point p2, Str
 float PathPlanner::calcWallFactor(Structs::Point point, int wallDis) {
 	int wallCounter = 0;
 	for (int rowsIndex = point.getY() - wallDis; rowsIndex <= point.getY() + wallDis; rowsIndex++) {
-		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
+		if (!(rowsIndex < 0 || rowsIndex >= (_map->getHeight() / _map->getGridMapResolutionRatio()))) {
 			for (int columnsIndex = point.getX() - wallDis; columnsIndex <= point.getX() + wallDis; columnsIndex++) {
-				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
+				if (!(columnsIndex < 0 || columnsIndex >= (_map->getWidth() / _map->getGridMapResolutionRatio()))) {
 					if (_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Helper::CellType::PADDING_CELL ||
 						_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Helper::CellType::OCCUPIED_CELL) {
 						wallCounter++;

@@ -39,9 +39,9 @@ void Map::initializeGrid(int width, int height) {
 	setHeight(height);
 
 	// Initializes the grid with the given dimensions but with the needed resolution
-	// The resolution: (Grid's resolution / Map's (png) resolution) / 2
-	_grid = new Matrix(ceil(getWidth() / (getGridMapResolutionRatio() / 2)),
-					   ceil(getHeight() / (getGridMapResolutionRatio() / 2)),
+	// The resolution: (Grid's resolution / Map's (png) resolution)
+	_grid = new Matrix(ceil(getWidth() / getGridMapResolutionRatio()),
+					   ceil(getHeight() / getGridMapResolutionRatio()),
 					   Helper::CellType::UNKNOWN_CELL);
 }
 
@@ -135,8 +135,8 @@ float Map::getGridMapResolutionRatio() {
 	@return - the cell value
 */
 int Map::getCellValue(int column, int row, float resolution) {
-	return _grid->getCellValue(column / ceil(((getGridResolution() / resolution) / 2)),
-							   row / ceil(((getGridResolution() / resolution) / 2)));
+	return _grid->getCellValue(column / ceil((getGridResolution() / resolution)),
+							   row / ceil((getGridResolution() / resolution)));
 }
 
 /**
@@ -170,8 +170,8 @@ int Map::getCellValue(Structs::Location location, float resolution) {
 	@param resolution - wanted resolution
 */
 void Map::setCellValue(int column, int row, int value, float resolution) {
-	_grid->setCellValue(round(column / ceil(((getGridResolution() / resolution) / 2))),
-						round(row / ceil(((getGridResolution() / resolution) / 2))),
+	_grid->setCellValue(round(column / ceil((getGridResolution() / resolution))),
+						round(row / ceil((getGridResolution() / resolution))),
 						value);
 }
 
@@ -218,15 +218,15 @@ void Map::loadMap(string pngFilePath) {
 	int gridVectorColumnsIndex = 0;
 
 	// Runs overs the imagePixelVector (4 cells each time as the RGBA color type)
-	for (int rowsIndex = 0; rowsIndex < getHeight(); rowsIndex += (getGridMapResolutionRatio() / 2)) {
-		for (int columnsIndex = 0; columnsIndex < getWidth() * Helper::BYTES_PER_PIXEL_IN_PNG; columnsIndex += (Helper::BYTES_PER_PIXEL_IN_PNG * (getGridMapResolutionRatio() / 2))) {
+	for (int rowsIndex = 0; rowsIndex < getHeight(); rowsIndex += getGridMapResolutionRatio()) {
+		for (int columnsIndex = 0; columnsIndex < getWidth() * Helper::BYTES_PER_PIXEL_IN_PNG; columnsIndex += (Helper::BYTES_PER_PIXEL_IN_PNG * getGridMapResolutionRatio())) {
 			bool isACertainCellOccupied = false;
 
 			// Runs over neighbor cells in order to unite cells for resolution change (as defined in the configuration file)
-			for (int unitedRowsIndex = rowsIndex; (unitedRowsIndex < rowsIndex + (getGridMapResolutionRatio() / 2)) &&
-												  (unitedRowsIndex < (_grid->getHeight() * (getGridMapResolutionRatio() / 2)) - 1) && !isACertainCellOccupied; unitedRowsIndex++) {
-				for (int unitedColumnsIndex = columnsIndex; (unitedColumnsIndex < columnsIndex + ((getGridMapResolutionRatio() / 2) * Helper::BYTES_PER_PIXEL_IN_PNG)) &&
-															(ceil(unitedColumnsIndex / Helper::BYTES_PER_PIXEL_IN_PNG) < (_grid->getWidth() * (getGridMapResolutionRatio() / 2)) - 1) && !isACertainCellOccupied; unitedColumnsIndex += Helper::BYTES_PER_PIXEL_IN_PNG) {
+			for (int unitedRowsIndex = rowsIndex; (unitedRowsIndex < rowsIndex + getGridMapResolutionRatio()) &&
+												  (unitedRowsIndex < (_grid->getHeight() * getGridMapResolutionRatio()) - 1) && !isACertainCellOccupied; unitedRowsIndex++) {
+				for (int unitedColumnsIndex = columnsIndex; (unitedColumnsIndex < columnsIndex + (getGridMapResolutionRatio() * Helper::BYTES_PER_PIXEL_IN_PNG)) &&
+															(ceil(unitedColumnsIndex / Helper::BYTES_PER_PIXEL_IN_PNG) < (_grid->getWidth() * getGridMapResolutionRatio()) - 1) && !isACertainCellOccupied; unitedColumnsIndex += Helper::BYTES_PER_PIXEL_IN_PNG) {
 					int cell = (unitedRowsIndex * (width * Helper::BYTES_PER_PIXEL_IN_PNG)) + unitedColumnsIndex;
 
 					// Checks if the cell is occupied by checking if it isn't white
@@ -287,11 +287,11 @@ void Map::saveMap(string pngFilePath) {
 }
 
 /**
-	Prints the map's grid to a textual file and to the console
+	Prints the grid to a textual file and to the console
 
 	@param fileName - the required text file path
 */
-void Map::printMap(string fileName) {
+void Map::printGrid(string fileName) {
 	ofstream vectorOutputFile((fileName).c_str());
 
 	// Runs over all the cells and prints it's value
