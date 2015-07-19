@@ -13,8 +13,8 @@
 #include "Behavior.h"
 #include "TurnInPlace.h"
 #include "GoForward.h"
-#include "../Structs.h"
-#include "../Map.h"
+#include "../Framework/Structs.h"
+#include "../Framework/Map.h"
 
 using namespace std;
 

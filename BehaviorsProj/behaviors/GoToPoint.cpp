@@ -56,13 +56,13 @@ float GoToPoint::calculateNeededYaw() {
 	}
 
 	switch(getQuarter(startPoint)) {
-		case Helper::Quarters::FIRST:
+		case Helper::Quarter::FIRST:
 			return Helper::radiansToDegrees(M_PI_2 - neededYaw);
-		case Helper::Quarters::SECOND:
+		case Helper::Quarter::SECOND:
 			return Helper::radiansToDegrees(M_PI - neededYaw);
-		case Helper::Quarters::THIRD:
+		case Helper::Quarter::THIRD:
 			return Helper::radiansToDegrees(M_PI + M_PI_2 - neededYaw);
-		case Helper::Quarters::FOURTH:
+		case Helper::Quarter::FOURTH:
 			return Helper::radiansToDegrees(M_PI * 2 - neededYaw);
 		default:
 			return neededYaw;
@@ -142,7 +142,6 @@ void GoToPoint::behave() {
 
 			if (checkYawDirectionIndex++ % 10 == 0) {
 				float neededYawDelta = calculateNeededYaw() - _robot->getLocation().getYaw();
-				cout << "neededYawDelta: " << Helper::floatToString(neededYawDelta) << " compromizedYaw: " << Helper::floatToString(Helper::COMPROMISED_YAW) << endl;
 
 				if (((neededYawDelta >= 0) && (neededYawDelta > Helper::COMPROMISED_YAW)) ||
 					((neededYawDelta < 0) && (neededYawDelta < (-1 * Helper::COMPROMISED_YAW))))
@@ -155,8 +154,6 @@ void GoToPoint::behave() {
 	}
 
 	if (!isGoalLocationReached()) {
-		cout << "Stopped going forward because of an obstacle" << endl;
-
 		// Adding reverse factor
 		if (isLeftSideBlocked())
 			for (int i = 0; i < 15; i++)
@@ -176,14 +173,14 @@ void GoToPoint::behave() {
 int GoToPoint::getQuarter(Structs::Point startPoint) {
 	if (startPoint.getY() > _goalPoint.getY()) {
 		if (startPoint.getX() > _goalPoint.getX())
-			return Helper::Quarters::SECOND;
+			return Helper::Quarter::SECOND;
 		else
-			return Helper::Quarters::FIRST;
+			return Helper::Quarter::FIRST;
 	} else {
 		if (startPoint.getX() > _goalPoint.getX())
-			return Helper::Quarters::THIRD;
+			return Helper::Quarter::THIRD;
 		else
-			return Helper::Quarters::FOURTH;
+			return Helper::Quarter::FOURTH;
 	}
 }
 

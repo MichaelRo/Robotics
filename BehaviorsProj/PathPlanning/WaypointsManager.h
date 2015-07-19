@@ -8,8 +8,8 @@
 #ifndef WAYPOINTSMANAGER_H_
 #define WAYPOINTSMANAGER_H_
 
-#include "Structs.h"
-#include "Map.h"
+#include "../Framework/Structs.h"
+#include "../Framework/Map.h"
 
 #include <list>
 
@@ -24,9 +24,6 @@ private:
 	void markWaypoints(list<Structs::Point> route);
 
 public:
-	enum Direction {NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST, NONE};
-	enum WaypointType {WAYPOINT_FOR_MAP, WAYPOINT_FOR_GRID};
-
 	WaypointsManager();
 	WaypointsManager(list<Structs::Point> route, Map * map);
 

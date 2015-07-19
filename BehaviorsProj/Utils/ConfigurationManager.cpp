@@ -222,7 +222,6 @@ Structs::ConfigurationProperty ConfigurationManager::getProperty(string s) {
 	This method remove the spaces from the given string.
 
 	@param s - string with spaces.
-
 	@return - string without spaces.
  */
 string ConfigurationManager::removeSurroundingSpaceCharacters(string s) {

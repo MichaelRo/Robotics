@@ -101,7 +101,7 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
 			for (int columnsIndex = node->getPoint().getX() - 1; columnsIndex <= node->getPoint().getX() + 1; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
-					if ((_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Map::FREE_CELL) &&
+					if ((_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Helper::CellType::FREE_CELL) &&
 						!((node->getPoint().getX() == columnsIndex) && (node->getPoint().getY() == rowsIndex))) {
 
 						Structs::Point neighborPoint(columnsIndex, rowsIndex);
@@ -190,8 +190,8 @@ float PathPlanner::calcWallFactor(Structs::Point point, int wallDis) {
 		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
 			for (int columnsIndex = point.getX() - wallDis; columnsIndex <= point.getX() + wallDis; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
-					if (_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Map::PADDING_CELL ||
-						_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Map::OCCUPIED_CELL) {
+					if (_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Helper::CellType::PADDING_CELL ||
+						_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Helper::CellType::OCCUPIED_CELL) {
 						wallCounter++;
 					}
 				}
@@ -200,17 +200,4 @@ float PathPlanner::calcWallFactor(Structs::Point point, int wallDis) {
 	}
 
 	return wallCounter * 5;
-}
-
-list<Structs::Point> PathPlanner::StraightenRoute(list<Structs::Point> route) {
-//	list<Structs::Point>::iterator pointsIterator = route.begin();
-//	int intervalX = pointsIterator.operator ->()->getX();
-//	int currentY = pointsIterator.operator ->()->getY();
-//
-//	for (++pointsIterator; pointsIterator != route.end(); pointsIterator++) {
-//		int pointX = pointsIterator.operator ->()->getX();
-//		int pointY = pointsIterator.operator ->()->getY();
-//	}
-
-	return route;
 }

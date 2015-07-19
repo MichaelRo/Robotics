@@ -11,11 +11,7 @@
 	Destructs Manager.
 */
 Manager::~Manager() {
-//	delete _movementManager;
-//	delete _localizationManager;
-//	delete _waypointsManager;
-//	delete _pathPlanner;
-//	delete _map;
+
 }
 
 /**
@@ -46,12 +42,10 @@ void Manager::run() {
 
 	list<Structs::Point> route = _pathPlanner->performAStar();
 	_map->markRoute(route, _map->getGridResolution());
-	cout << "The route size is: " << route.size() << ", ";
 
 	_waypointsManager = new WaypointsManager(route, _map);
-	list<Structs::Point> wayPoints = _waypointsManager->getWaypoints(WaypointsManager::WaypointType::WAYPOINT_FOR_GRID);
+	list<Structs::Point> wayPoints = _waypointsManager->getWaypoints(Helper::WaypointType::WAYPOINT_FOR_GRID);
 	_map->markWayPoints(wayPoints, _map->getGridResolution());
-	cout << wayPoints.size() << " of these are waypoints." << endl;
 
 	_map->markStartPoint(startPoint, _map->getGridResolution());
 	_map->markGoalPoint(endPoint, _map->getGridResolution());
@@ -62,7 +56,7 @@ void Manager::run() {
 
 	// Fixing Player's reading bug
 	for(int i = 0; i < 15; i++) {
-		_robot->setRobotLocation(realRobotStartLocation);
+		_robot->setOdometry(realRobotStartLocation);
 		_robot->Read();
 	}
 

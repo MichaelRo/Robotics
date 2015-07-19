@@ -28,13 +28,11 @@ LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * 
 	// Initializing the particles list by the PARTICLES_AMOUNT value
 	_particles.push_back(Particle(startLocation, (float) 1, map));
 
-	list<Particle> descendantParticles = getHighestBeliefParticle()->createDescendantParticles(Helper::TOTAL_PARTICLES_AMOUNT);
+	list<Particle> descendantParticles = getHighestBeliefParticle()->createDescendantParticles(Helper::TOTAL_PARTICLES_AMOUNT * 1);
 	_particles.insert(_particles.end(), descendantParticles.begin(), descendantParticles.end());
-
-	_particles.erase(_particles.begin());
 }
 
-void LocalizationManager::updateParticles(Structs::Location destinationDelta, Structs::Location estimatedRobotLocation, vector<float> laserScan) {
+void LocalizationManager::updateParticles(Structs::Location destinationDelta, vector<float> laserScan) {
 	_estimatedRobotLocation = _estimatedRobotLocation + destinationDelta;
 
 	list<Particle> particlesForDelete = list<Particle>();
@@ -43,13 +41,11 @@ void LocalizationManager::updateParticles(Structs::Location destinationDelta, St
 	for (list<Particle>::iterator particlesIterator = _particles.begin(); particlesIterator != _particles.end(); particlesIterator++) {
 		float currentParticleBelief = particlesIterator->update(destinationDelta, laserScan);
 
-//		cout << "Particle " << particlesIterator.operator ->()->getLocation().toString() << " belief is: " << currentParticleBelief << endl;
-
 		if (currentParticleBelief < MINIMUM_BELIEF) {
 			particlesForDelete.push_back(*particlesIterator.operator ->());
 		} else {
 			if (currentParticleBelief > BELIEF_THRESHOLD) {
-				if (particlesForMultiply.size() < 4) {
+				if (particlesForMultiply.size() < 3) {
 					particlesForMultiply.push_back(*particlesIterator.operator ->());
 				} else {
 					for (list<Particle>::iterator particlesForMultiplyIterator = particlesForMultiply.begin(); particlesForMultiplyIterator != particlesForMultiply.end(); particlesForMultiplyIterator++) {
@@ -65,7 +61,7 @@ void LocalizationManager::updateParticles(Structs::Location destinationDelta, St
 		}
 	}
 
-	while (particlesForMultiply.size() < 7) {
+	while (particlesForMultiply.size() < 5) {
 		particlesForMultiply.push_back(Particle(_estimatedRobotLocation, 0.9, _map));
 	}
 
@@ -75,7 +71,7 @@ void LocalizationManager::updateParticles(Structs::Location destinationDelta, St
 		_particles.remove(*particleForRemove);
 	}
 
-	if (particlesForMultiply.size() == 0)
+	if ((particlesForMultiply.size() == 0) && (getHighestBeliefParticle() != NULL))
 		particlesForMultiply.push_back(*getHighestBeliefParticle());
 
 	for (list<Particle>::iterator particlesForMultiplyIterator = particlesForMultiply.begin(); particlesForMultiplyIterator != particlesForMultiply.end(); particlesForMultiplyIterator++) {

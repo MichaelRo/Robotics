@@ -9,7 +9,7 @@
 #define GOFORWARD_H_
 
 #include "Behavior.h"
-#include "../Helper.h"
+#include "../Utils/Helper.h"
 
 #include <iostream>
 

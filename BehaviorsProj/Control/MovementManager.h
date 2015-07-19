@@ -10,11 +10,11 @@
 
 #include <list>
 
-#include "Structs.h"
 #include "Robot.h"
-#include "WaypointsManager.h"
-#include "LocalizationManager.h"
-#include "behaviors/GoToPoint.h"
+#include "../Framework/Structs.h"
+#include "../PathPlanning/WaypointsManager.h"
+#include "../Localization/LocalizationManager.h"
+#include "../behaviors/GoToPoint.h"
 
 using namespace std;
 

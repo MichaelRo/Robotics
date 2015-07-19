@@ -7,7 +7,7 @@
 #ifndef ASTARCOMPARISON_H_
 #define ASTARCOMPARISON_H_
 
-#include "Structs.h"
+#include "../Framework/Structs.h"
 
 #include <functional>
 

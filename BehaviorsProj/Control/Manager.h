@@ -11,13 +11,13 @@
 #include <list>
 #include <iostream>
 
-#include "Robot.h"
-#include "Map.h"
-#include "PathPlanner.h"
-#include "WaypointsManager.h"
-#include "LocalizationManager.h"
-#include "Structs.h"
 #include "MovementManager.h"
+#include "Robot.h"
+#include "../Framework/Map.h"
+#include "../PathPlanning/PathPlanner.h"
+#include "../PathPlanning/WaypointsManager.h"
+#include "../Localization/LocalizationManager.h"
+#include "../Framework/Structs.h"
 
 using namespace std;
 

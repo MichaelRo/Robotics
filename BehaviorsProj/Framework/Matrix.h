@@ -35,4 +35,4 @@ public:
 	void swap(Matrix * otherMatrix);
 };
 
-#endif /* MATRIX_H_ */
+#endif

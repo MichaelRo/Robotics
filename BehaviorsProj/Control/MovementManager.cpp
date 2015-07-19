@@ -24,7 +24,7 @@ MovementManager::~MovementManager() {
 MovementManager::MovementManager(Robot * robot, LocalizationManager * localizationManager, WaypointsManager * waypointsManager) {
 	_robot = robot;
 	_localizationManager = localizationManager;
-	_wayPoints = waypointsManager->getWaypoints(WaypointsManager::WAYPOINT_FOR_MAP);
+	_wayPoints = waypointsManager->getWaypoints(Helper::WaypointType::WAYPOINT_FOR_MAP);
 }
 
 /**

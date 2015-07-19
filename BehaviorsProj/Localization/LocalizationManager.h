@@ -11,10 +11,10 @@
 #include <list>
 #include <iostream>
 
-#include "Map.h"
 #include "Particle.h"
-#include "Structs.h"
-#include "Robot.h"
+#include "../Framework/Map.h"
+#include "../Framework/Structs.h"
+#include "../Control/Robot.h"
 
 using namespace std;
 
@@ -33,7 +33,7 @@ public:
 	LocalizationManager(Structs::Location startLocation, Map * map);
 	virtual ~LocalizationManager();
 
-	void updateParticles(Structs::Location destinationDelta, Structs::Location estimatedRobotLocation, vector<float> laserScan);
+	void updateParticles(Structs::Location destinationDelta, vector<float> laserScan);
 	Structs::Location getProbableLocation();
 	float getHighestBelief();
 
