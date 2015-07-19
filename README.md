@@ -11,4 +11,5 @@ Todo List:
      Add yaw change for obstacle avoidence
   6. Check what happens when yaws getting greater than 360° (for example, delta's addition)
   7. Add notes to all class files, delete the unimportant notes and delete unused methods.
-  8. Save the planet from the Gay Iranian community missle.
+  8. Add methods to Manager (methods like init map)
+  9. Save the planet from the Gay Iranian community missle.
