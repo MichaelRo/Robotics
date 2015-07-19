@@ -96,10 +96,9 @@ void Robot::setSpeed(float xSpeed, float angularSpeed) {
 
 /**
   	This method read details about the robot from the robot.
-  	NOTE: remove the comments mark before adding LocalizationManager
  */
 void Robot::Read() {
-//	for (int i = 0; i < 2; i++)
+ 	for (int i = 0; i < 2; i++)
 		_playerClient->Read();
 }
 
