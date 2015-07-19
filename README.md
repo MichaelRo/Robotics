@@ -9,8 +9,6 @@ Todo List:
   4. Check what is the issue with the obstacle avoidance
   5. Fix the issue with the last point - somehow robot Igal get stuck right before it
   6. Add processing after the PathPlanner, to fix the waypoints issue
-  7. When the first chosen yaw (neededYawDelta) is negative, robot Igal sticks to the wall and can't move.
-     Add yaw change for obstacle avoidence
-  8. Add notes to all class files, delete the unimportant notes and delete unused methods.
-  9. Add methods to Manager (methods like init map)
-  10. Save the planet from the Gay Iranian community missle.
+  7. Add notes to all class files, delete the unimportant notes and delete unused methods.
+  8. Add methods to Manager (methods like init map)
+  9. Save the planet from the Gay Iranian community missle.
