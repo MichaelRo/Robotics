@@ -260,20 +260,20 @@ void Map::saveMap(string pngFilePath) {
 	vector<unsigned char> imagePixelsVector = vector<unsigned char>();
 
 	// Runs over all the cells in the grid
-	for (int rowsIndex = 0; rowsIndex < _grid->getHeight(); rowsIndex++){
-		for(int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
+	for (int rowsIndex = 0; rowsIndex < getHeight(); rowsIndex++){
+		for(int columnsIndex = 0; columnsIndex < getWidth(); columnsIndex++) {
 			// Marks the cell by it's type
-			if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::FREE_CELL) {
+			if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::FREE_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::WHITE);
-			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::START_LOCATION_CELL) {
+			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::START_LOCATION_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::RED);
-			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::GOAL_LOCATION_CELL) {
+			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::GOAL_LOCATION_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::BLUE);
-			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::ROUTE_CELL) {
+			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::ROUTE_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::GREEN);
-			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::WAYPOINT_CELL) {
+			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::WAYPOINT_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::YELLOW);
-			} else if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::PADDING_CELL) {
+			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::PADDING_CELL) {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::GRAY);
 			} else {
 				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::BLACK);
@@ -282,7 +282,7 @@ void Map::saveMap(string pngFilePath) {
 	}
 
 	// Encodes the  imagePixelVector and saves it to a file
-	lodepng::encode(pngFile, imagePixelsVector, _grid->getWidth(), _grid->getHeight());
+	lodepng::encode(pngFile, imagePixelsVector, getWidth(), getHeight());
 	lodepng::save_file(pngFile, pngFilePath);
 }
 

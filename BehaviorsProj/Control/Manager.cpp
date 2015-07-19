@@ -75,10 +75,7 @@ Map * Manager::initializeMap() {
 	Map* map = new Map();
 
 	map->loadMap("Simulation/roboticLabMap.png");
-	map->saveMap("originalMapGrid.png");
-
 	map->padMapObstacles(_configurationManager->getRobotSize().getHeight() / map->getGridResolution());
-	map->saveMap("paddedMapGrid.png");
 
 	return map;
 }
