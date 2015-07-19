@@ -3,7 +3,7 @@ This code is developed for the legendary Robot Igal
 https://youtu.be/iGOmnC24BvE
 
 Todo List:
-  1. Check why the yaw is 20° when the localizationManager is set
+  1. Check why the yaw change is slower when the localizationManager is set
   2. Decide what to do with the case that we want to choose quadrant and the y or the x is the same
   3. Check what is the issue with the obstacle avoidance
   4. Fix the issue with the last point - somehow robot Igal get stuck right before it
