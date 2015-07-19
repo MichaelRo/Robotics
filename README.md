@@ -4,12 +4,11 @@ https://youtu.be/iGOmnC24BvE
 
 Todo List:
   1. Check why the yaw is 20° when the localizationManager is set
-  2. Change grid resolution to 10x10
-  3. Fix the issue with the last point - somehow robot Igal get stuck right before it
-  4. Add processing after the PathPlanner, to fix the waypoints issue
-  5. When the first chosen yaw (neededYawDelta) is negative, robot Igal sticks to the wall and can't move.
+  2. Fix the issue with the last point - somehow robot Igal get stuck right before it
+  3. Add processing after the PathPlanner, to fix the waypoints issue
+  4. When the first chosen yaw (neededYawDelta) is negative, robot Igal sticks to the wall and can't move.
      Add yaw change for obstacle avoidence
-  6. Check what happens when yaws getting greater than 360° (for example, delta's addition)
-  7. Add notes to all class files, delete the unimportant notes and delete unused methods.
-  8. Add methods to Manager (methods like init map)
-  9. Save the planet from the Gay Iranian community missle.
+  5. Check what happens when yaws getting greater than 360° (for example, delta's addition)
+  6. Add notes to all class files, delete the unimportant notes and delete unused methods.
+  7. Add methods to Manager (methods like init map)
+  8. Save the planet from the Gay Iranian community missle.
