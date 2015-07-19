@@ -186,7 +186,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 
 	// Going through all the spotted points in the lasers way (without the laser scanned point)
 	// Maybe ceil ?
-	for (int distanceFromSpottedPoint = 1; distanceFromSpottedPoint < floor(METER_TO_CM(laserScan)); distanceFromSpottedPoint += 3) {
+	for (int distanceFromSpottedPoint = 1; distanceFromSpottedPoint < floor(METER_TO_CM(laserScan)); distanceFromSpottedPoint++) {
 		// Calculating the spotted point location (as a delta to the particle itself)
 
 		// Laser degree as an offset, plus or minus depends on the laser scan start direction
@@ -201,18 +201,18 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	}
 
 	for (set<Structs::Point>::iterator beamPointsIterator = pointsInCurrentLaserBeam.begin(); beamPointsIterator != pointsInCurrentLaserBeam.end(); beamPointsIterator++) {
-//		if (((*beamPointsIterator.operator ->()).getX() >= 0 && (*beamPointsIterator.operator ->()).getX() < _map->getWidth()) &&
-//			((*beamPointsIterator.operator ->()).getY() >= 0 && (*beamPointsIterator.operator ->()).getY() < _map->getHeight())) {
-		if ((beamPointsIterator.operator ->())->getX()>= 0) {
-			int spottedPointValue = _map->getCellValue((*beamPointsIterator.operator ->()), _map->getMapResolution());
+		int size = pointsInCurrentLaserBeam.size();
+		Structs::Point spottedPoint = *beamPointsIterator.operator ->();
 
-			cout << "Particle " << getLocation().toString() << " has cell value " << spottedPointValue << " in degree " << getLocation().getYaw() + laserDegree << endl;
+		if ((spottedPoint.getX() >= 0) && (spottedPoint.getX() < _map->getWidth()) &&
+			(spottedPoint.getY() >= 0) && (spottedPoint.getY() < _map->getHeight())) {
+			int spottedPointValue = _map->getCellValue(spottedPoint, _map->getMapResolution());
 
 			if (spottedPointValue == Map::OCCUPIED_CELL) {
 				// If the spotted point, which stands in the way to the laser current scan, is occupied - the laser was supposed to detect an obstacle
 				incorrectDetectionsNumber++;
 			} else {
-				// The spotted point stands in the way to the laser current scan supposed to be free, otherwise the laser scan would be smaller
+				// The spotted point stands in the way to the laser clurrent scan supposed to be free, otherwise the laser scan would be smaller
 				correctDetectionsNumber++;
 			}
 		} else {
@@ -244,6 +244,8 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 			}
 		}
 	}
+
+//	cout << "Particle " << getLocation().toString() << " correctDetectionsNumber " << correctDetectionsNumber << " pointsInCurrentLaserBeam.size() " << pointsInCurrentLaserBeam.size() << endl;
 
 	return correctDetectionsNumber > (pointsInCurrentLaserBeam.size() + 1);
 }

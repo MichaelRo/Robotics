@@ -86,7 +86,8 @@ void Robot::setSpeed(float xSpeed, float angularSpeed) {
   	This method read details about the robot from the robot.
  */
 void Robot::Read() {
-	_playerClient->Read();
+	for (int i = 0; i < 3; i++)
+		_playerClient->Read();
 }
 
 /**

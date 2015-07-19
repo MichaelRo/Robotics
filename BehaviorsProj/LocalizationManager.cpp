@@ -65,8 +65,8 @@ void LocalizationManager::updateParticles(Structs::Location destinationDelta, St
 		}
 	}
 
-	while (particlesForMultiply.size() < 3) {
-		particlesForMultiply.push_back(Particle(_estimatedRobotLocation, 1, _map));
+	while (particlesForMultiply.size() < 7) {
+		particlesForMultiply.push_back(Particle(_estimatedRobotLocation, 0.9, _map));
 	}
 
 	for (list<Particle>::iterator particlesForDeleteIterator = particlesForDelete.begin(); particlesForDeleteIterator != particlesForDelete.end(); particlesForDeleteIterator++) {

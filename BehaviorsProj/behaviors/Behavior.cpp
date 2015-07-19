@@ -58,12 +58,12 @@ void Behavior::action() {
 	Structs::Location locationAfterAction = _robot->getLocation();
 	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
 
-	_localizationManager->updateParticles(locationDelta, _robot->getLocation(), _robot->getLaserScan());
-
-	// Maybe should be moved to update once per behavior?
-	if (_localizationManager->getHighestBelief() >= LocalizationManager::BELIEF_THRESHOLD) {
-		cout << "Robot location changed to the Particle " << _localizationManager->getProbableLocation().pointValue().toString() << " who owns highest belief: " << Helper::floatToString(_localizationManager->getHighestBelief()) << endl;
-
-		_robot->setRobotLocation(_localizationManager->getProbableLocation());
-	}
+//	_localizationManager->updateParticles(locationDelta, _robot->getLocation(), _robot->getLaserScan());
+//
+//	// Maybe should be moved to update once per behavior?
+//	if (_localizationManager->getHighestBelief() >= LocalizationManager::BELIEF_THRESHOLD) {
+//		cout << "Robot location changed to the Particle " << _localizationManager->getProbableLocation().pointValue().toString() << " who owns highest belief: " << Helper::floatToString(_localizationManager->getHighestBelief()) << endl;
+//
+//		_robot->setRobotLocation(_localizationManager->getProbableLocation());
+//	}
 }
