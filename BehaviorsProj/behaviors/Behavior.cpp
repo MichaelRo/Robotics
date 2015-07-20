@@ -48,7 +48,7 @@ vector<Behavior*> Behavior::getBehaviors() {
 	NOTE: remove the comments mark before adding LocalizationManager
  */
 void Behavior::action() {
-	Structs::Location locationBeforeAction = _robot->getOdometry();
+//	Structs::Location locationBeforeAction = _robot->getOdometry();
 
 	_robot->Read();
 
@@ -56,15 +56,15 @@ void Behavior::action() {
 
  	_robot->Read();
 
-	Structs::Location locationAfterAction = _robot->getOdometry();
-	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
-
-	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
-
-	// Maybe should be moved to update once per behavior?
-	if (_localizationManager->getHighestBelief() >= Globals::BELIEF_THRESHOLD) {
-		_robot->setRobotLocation(_localizationManager->getProbableLocation());
-	} else {
+//	Structs::Location locationAfterAction = _robot->getOdometry();
+//	Structs::Location locationDelta = locationAfterAction - locationBeforeAction;
+//
+//	_localizationManager->updateParticles(locationDelta, _robot->getLaserScan());
+//
+//	// Maybe should be moved to update once per behavior?
+//	if (_localizationManager->getHighestBelief() >= Globals::BELIEF_THRESHOLD) {
+//		_robot->setRobotLocation(_localizationManager->getProbableLocation());
+//	} else {
 		_robot->setRobotLocation(_robot->getOdometry());
-	}
+//	}
 }

@@ -28,8 +28,7 @@ LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * 
 	// Initializing the particles list by the PARTICLES_AMOUNT value
 	_particles.push_back(Particle(startLocation, (float) 1, map));
 
-	list<Particle> descendantParticles = getHighestBeliefParticle()->createDescendantParticles(Globals::TOTAL_PARTICLES_AMOUNT * 1);
-	_particles.insert(_particles.end(), descendantParticles.begin(), descendantParticles.end());
+	getHighestBeliefParticle()->createDescendantParticles((Globals::TOTAL_PARTICLES_AMOUNT * 1), &_particles);
 }
 
 void LocalizationManager::updateParticles(Structs::Location destinationDelta, vector<float> laserScan) {
@@ -45,7 +44,7 @@ void LocalizationManager::updateParticles(Structs::Location destinationDelta, ve
 			particlesForDelete.push_back(*particlesIterator.operator ->());
 		} else {
 			if (currentParticleBelief > Globals::BELIEF_THRESHOLD) {
-				if (particlesForMultiply.size() < 1) {
+				if (particlesForMultiply.size() < 3) {
 					particlesForMultiply.push_back(*particlesIterator.operator ->());
 				} else {
 					for (list<Particle>::iterator particlesForMultiplyIterator = particlesForMultiply.begin(); particlesForMultiplyIterator != particlesForMultiply.end(); particlesForMultiplyIterator++) {
@@ -61,7 +60,7 @@ void LocalizationManager::updateParticles(Structs::Location destinationDelta, ve
 		}
 	}
 
-	while (particlesForMultiply.size() < 1) {
+	while (particlesForMultiply.size() < 4) {
 		particlesForMultiply.push_back(Particle(_estimatedRobotLocation, 0.9, _map));
 	}
 
@@ -71,13 +70,9 @@ void LocalizationManager::updateParticles(Structs::Location destinationDelta, ve
 		_particles.remove(*particleForRemove);
 	}
 
-	if ((particlesForMultiply.size() == 0) && (getHighestBeliefParticle() != NULL))
-		particlesForMultiply.push_back(*getHighestBeliefParticle());
-
-//	for (list<Particle>::iterator particlesForMultiplyIterator = particlesForMultiply.begin(); particlesForMultiplyIterator != particlesForMultiply.end(); particlesForMultiplyIterator++) {
-//		list<Particle> decendantParticles = particlesForMultiplyIterator->createDescendantParticles((Globals::TOTAL_PARTICLES_AMOUNT - _particles.size()) / particlesForMultiply.size());
-//		_particles.splice(_particles.end(), decendantParticles);
-//	}
+	for (list<Particle>::iterator particlesForMultiplyIterator = particlesForMultiply.begin(); particlesForMultiplyIterator != particlesForMultiply.end(); particlesForMultiplyIterator++) {
+		particlesForMultiplyIterator->createDescendantParticles((Globals::TOTAL_PARTICLES_AMOUNT - _particles.size()) / particlesForMultiply.size(), &_particles);
+	}
 }
 
 /**

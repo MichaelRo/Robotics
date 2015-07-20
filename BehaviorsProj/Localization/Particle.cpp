@@ -161,15 +161,11 @@ float Particle::checkObservationModel(vector<float> laserScan) {
 	@param amount - the amount of the descendant particles to create.
 	@return - the created descendant particles.
  */
-list<Particle> Particle::createDescendantParticles(int amount) {
+void Particle::createDescendantParticles(int amount, list<Particle> * list) {
 	// The LocaliztionManager should create descendants, it should give a random location / delta destination as well
-	list<Particle> descendantParticles = list<Particle>();
-
 	for (int index = 0; index < amount; index++) {
-		descendantParticles.push_back(Particle(_location, _belief * 0.9, _map));
+		list->push_back(Particle(_location, _belief * 0.9, _map));
 	}
-
-	return descendantParticles;
 }
 
 /**
