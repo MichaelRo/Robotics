@@ -40,11 +40,11 @@ bool GoForward::startCondition() {
 	 @return - if the robot close enough or there is an obstacle in his way.
  */
 bool GoForward::stopCondition() {
-	if (_robot->getPosition().distanceBetweenPoints(_goalPoint) <= Helper::COMPROMISED_DISTANCE)
+	if (_robot->getPosition().distanceBetweenPoints(_goalPoint) <= Globals::COMPROMISED_DISTANCE)
 		return true;
 
-	for (int i = Helper::degreesToIndex((Helper::TOTAL_DEGREES / 2) - 20); i < Helper::degreesToIndex((Helper::TOTAL_DEGREES / 2) + 20); i += Helper::degreesToIndex(3)) {
-		if (_robot->getLaserDistance(i) < Helper::MINIMUM_DISTANCE_FROM_WALL) {
+	for (int i = Helper::degreesToIndex((Globals::TOTAL_DEGREES / 2) - 20); i < Helper::degreesToIndex((Globals::TOTAL_DEGREES / 2) + 20); i += Helper::degreesToIndex(3)) {
+		if (_robot->getLaserDistance(i) < Globals::MINIMUM_DISTANCE_FROM_WALL) {
 			return true;
 		}
 	}
@@ -56,5 +56,5 @@ bool GoForward::stopCondition() {
 	This method set the speed of the robot when GoForward.
  */
 void GoForward::behave() {
-	_robot->setSpeed((float) Helper::MOVEMENT_DELTA, 0);
+	_robot->setSpeed((float) Globals::MOVEMENT_DELTA, 0);
 }

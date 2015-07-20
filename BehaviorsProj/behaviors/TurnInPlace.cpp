@@ -40,7 +40,7 @@ bool TurnInPlace::startCondition() {
 bool TurnInPlace::stopCondition() {
 	float neededYawDelta = _neededYaw - _robot->getLocation().getYaw();
 
-	float currentCompromizedYaw = (_iterationNumber == 1) ? Helper::COMPROMISED_YAW : (float) (Helper::COMPROMISED_YAW / 1.75);
+	float currentCompromizedYaw = (_iterationNumber == 1) ? Globals::COMPROMISED_YAW : (float) (Globals::COMPROMISED_YAW / 1.75);
 
 	if (((neededYawDelta >= 0) && (neededYawDelta <= currentCompromizedYaw)) ||
 		((neededYawDelta < 0) && (neededYawDelta >= (-1 * currentCompromizedYaw)))) {
@@ -59,5 +59,5 @@ void TurnInPlace::behave() {
 	if (_neededYaw - _robot->getLocation().getYaw() < 0)
 		angularSpeedFactor = -1;
 
-	_robot->setSpeed(0, (float) angularSpeedFactor * Helper::YAW_TURN_DELTA);
+	_robot->setSpeed(0, (float) angularSpeedFactor * Globals::YAW_TURN_DELTA);
 }

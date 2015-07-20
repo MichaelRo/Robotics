@@ -44,7 +44,7 @@ void Manager::run() {
 	_map->markRoute(route, _map->getGridResolution());
 
 	_waypointsManager = new WaypointsManager(route, _map);
-	list<Structs::Point> wayPoints = _waypointsManager->getWaypoints(Helper::WaypointType::WAYPOINT_FOR_GRID);
+	list<Structs::Point> wayPoints = _waypointsManager->getWaypoints(Globals::WaypointType::WAYPOINT_FOR_GRID);
 	_map->markWayPoints(wayPoints, _map->getGridResolution());
 
 	_map->markStartPoint(startPoint, _map->getGridResolution());

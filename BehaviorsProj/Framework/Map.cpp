@@ -42,7 +42,7 @@ void Map::initializeGrid(int width, int height) {
 	// The resolution: (Grid's resolution / Map's (png) resolution) / 2
 	_grid = new Matrix(ceil(getWidth() / (getGridMapResolutionRatio() / 2)),
 					   ceil(getHeight() / (getGridMapResolutionRatio() / 2)),
-					   Helper::CellType::UNKNOWN_CELL);
+					   Globals::CellType::UNKNOWN_CELL);
 }
 
 /**
@@ -219,15 +219,15 @@ void Map::loadMap(string pngFilePath) {
 
 	// Runs overs the imagePixelVector (4 cells each time as the RGBA color type)
 	for (int rowsIndex = 0; rowsIndex < getHeight(); rowsIndex += (getGridMapResolutionRatio() / 2)) {
-		for (int columnsIndex = 0; columnsIndex < getWidth() * Helper::BYTES_PER_PIXEL_IN_PNG; columnsIndex += (Helper::BYTES_PER_PIXEL_IN_PNG * (getGridMapResolutionRatio() / 2))) {
+		for (int columnsIndex = 0; columnsIndex < getWidth() * Globals::BYTES_PER_PIXEL_IN_PNG; columnsIndex += (Globals::BYTES_PER_PIXEL_IN_PNG * (getGridMapResolutionRatio() / 2))) {
 			bool isACertainCellOccupied = false;
 
 			// Runs over neighbor cells in order to unite cells for resolution change (as defined in the configuration file)
 			for (int unitedRowsIndex = rowsIndex; (unitedRowsIndex < rowsIndex + (getGridMapResolutionRatio() / 2)) &&
 												  (unitedRowsIndex < (_grid->getHeight() * (getGridMapResolutionRatio() / 2)) - 1) && !isACertainCellOccupied; unitedRowsIndex++) {
-				for (int unitedColumnsIndex = columnsIndex; (unitedColumnsIndex < columnsIndex + ((getGridMapResolutionRatio() / 2) * Helper::BYTES_PER_PIXEL_IN_PNG)) &&
-															(ceil(unitedColumnsIndex / Helper::BYTES_PER_PIXEL_IN_PNG) < (_grid->getWidth() * (getGridMapResolutionRatio() / 2)) - 1) && !isACertainCellOccupied; unitedColumnsIndex += Helper::BYTES_PER_PIXEL_IN_PNG) {
-					int cell = (unitedRowsIndex * (width * Helper::BYTES_PER_PIXEL_IN_PNG)) + unitedColumnsIndex;
+				for (int unitedColumnsIndex = columnsIndex; (unitedColumnsIndex < columnsIndex + ((getGridMapResolutionRatio() / 2) * Globals::BYTES_PER_PIXEL_IN_PNG)) &&
+															(ceil(unitedColumnsIndex / Globals::BYTES_PER_PIXEL_IN_PNG) < (_grid->getWidth() * (getGridMapResolutionRatio() / 2)) - 1) && !isACertainCellOccupied; unitedColumnsIndex += Globals::BYTES_PER_PIXEL_IN_PNG) {
+					int cell = (unitedRowsIndex * (width * Globals::BYTES_PER_PIXEL_IN_PNG)) + unitedColumnsIndex;
 
 					// Checks if the cell is occupied by checking if it isn't white
 					// the last cell (the A of RGBA) doesn't matter because it describes the alpha and not the color itself
@@ -238,9 +238,9 @@ void Map::loadMap(string pngFilePath) {
 
 			// Marks the cell type in the grid
 			if (isACertainCellOccupied)
-				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, Helper::CellType::OCCUPIED_CELL);
+				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, Globals::CellType::OCCUPIED_CELL);
 			else
-				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, Helper::CellType::FREE_CELL);
+				_grid->setCellValue(gridVectorColumnsIndex, gridVectorRowsIndex, Globals::CellType::FREE_CELL);
 
 			gridVectorColumnsIndex++;
 		}
@@ -263,20 +263,20 @@ void Map::saveMap(string pngFilePath) {
 	for (int rowsIndex = 0; rowsIndex < getHeight(); rowsIndex++){
 		for(int columnsIndex = 0; columnsIndex < getWidth(); columnsIndex++) {
 			// Marks the cell by it's type
-			if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::FREE_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::WHITE);
-			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::START_LOCATION_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::RED);
-			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::GOAL_LOCATION_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::BLUE);
-			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::ROUTE_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::GREEN);
-			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::WAYPOINT_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::YELLOW);
-			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Helper::CellType::PADDING_CELL) {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::GRAY);
+			if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Globals::CellType::FREE_CELL) {
+				pushRGBAColorToAVector(&imagePixelsVector, Globals::Color::WHITE);
+			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Globals::CellType::START_LOCATION_CELL) {
+				pushRGBAColorToAVector(&imagePixelsVector, Globals::Color::RED);
+			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Globals::CellType::GOAL_LOCATION_CELL) {
+				pushRGBAColorToAVector(&imagePixelsVector, Globals::Color::BLUE);
+			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Globals::CellType::ROUTE_CELL) {
+				pushRGBAColorToAVector(&imagePixelsVector, Globals::Color::GREEN);
+			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Globals::CellType::WAYPOINT_CELL) {
+				pushRGBAColorToAVector(&imagePixelsVector, Globals::Color::YELLOW);
+			} else if (getCellValue(columnsIndex, rowsIndex, getMapResolution()) == Globals::CellType::PADDING_CELL) {
+				pushRGBAColorToAVector(&imagePixelsVector, Globals::Color::GRAY);
 			} else {
-				pushRGBAColorToAVector(&imagePixelsVector, Helper::Color::BLACK);
+				pushRGBAColorToAVector(&imagePixelsVector, Globals::Color::BLACK);
 			}
 		}
 	}
@@ -330,13 +330,13 @@ void Map::swapMap(Map * map) {
 	@param ratio - the padding ratio
 */
 void Map::padMapObstacles(int ratio) {
-	Matrix tempMatrix(_grid->getWidth(), _grid->getHeight(), Helper::CellType::FREE_CELL);
+	Matrix tempMatrix(_grid->getWidth(), _grid->getHeight(), Globals::CellType::FREE_CELL);
 
 	for (int rowsIndex = 0; rowsIndex < _grid->getHeight(); rowsIndex++) {
 		for (int columnsIndex = 0; columnsIndex < _grid->getWidth(); columnsIndex++) {
-			if (_grid->getCellValue(columnsIndex, rowsIndex) == Helper::CellType::OCCUPIED_CELL) {
+			if (_grid->getCellValue(columnsIndex, rowsIndex) == Globals::CellType::OCCUPIED_CELL) {
 				// Setting the cell itself in the temporary matrix
-				tempMatrix.setCellValue(columnsIndex, rowsIndex, Helper::CellType::OCCUPIED_CELL);
+				tempMatrix.setCellValue(columnsIndex, rowsIndex, Globals::CellType::OCCUPIED_CELL);
 
 				// Setting the cell's neighbors in the temporary matrix
 				padACell(Structs::Point(columnsIndex, rowsIndex), &tempMatrix, ratio);
@@ -361,8 +361,8 @@ void Map::padACell(Structs::Point cellPoint, Matrix * matrix, int ratio) {
 		Structs::Point * neighbor = neighborsIterator.operator ->();
 
 		// Sets the neighbor as a neighbor only if it isn't already occupied
-		if (_grid->getCellValue(neighbor->getX(), neighbor->getY()) == Helper::CellType::FREE_CELL)
-			matrix->setCellValue(neighbor->getX(), neighbor->getY(), Helper::CellType::PADDING_CELL);
+		if (_grid->getCellValue(neighbor->getX(), neighbor->getY()) == Globals::CellType::FREE_CELL)
+			matrix->setCellValue(neighbor->getX(), neighbor->getY(), Globals::CellType::PADDING_CELL);
 	}
 }
 
@@ -372,7 +372,7 @@ void Map::padACell(Structs::Point cellPoint, Matrix * matrix, int ratio) {
 	@param route - the given route, represented as list<Structs::Point>
 */
 void Map::markRoute(list<Structs::Point> route, float resolution) {
-	markCells(route, Helper::CellType::ROUTE_CELL, resolution);
+	markCells(route, Globals::CellType::ROUTE_CELL, resolution);
 }
 
 /**
@@ -381,7 +381,7 @@ void Map::markRoute(list<Structs::Point> route, float resolution) {
 	@param wayPoints - the waypoints, represented as list<Structs::Point>
 */
 void Map::markWayPoints(list<Structs::Point> wayPoints, float resolution) {
-	markCells(wayPoints, Helper::CellType::WAYPOINT_CELL, resolution);
+	markCells(wayPoints, Globals::CellType::WAYPOINT_CELL, resolution);
 }
 
 /**
@@ -393,7 +393,7 @@ void Map::markStartPoint(Structs::Point startPoint, float resolution) {
 	list<Structs::Point> cells = list<Structs::Point>();
 	cells.push_back(startPoint);
 
-	markCells(cells, Helper::CellType::START_LOCATION_CELL, resolution);
+	markCells(cells, Globals::CellType::START_LOCATION_CELL, resolution);
 }
 
 /**
@@ -405,7 +405,7 @@ void Map::markGoalPoint(Structs::Point goalPoint, float resolution) {
 	list<Structs::Point> cells = list<Structs::Point>();
 	cells.push_back(goalPoint);
 
-	markCells(cells, Helper::CellType::GOAL_LOCATION_CELL, resolution);
+	markCells(cells, Globals::CellType::GOAL_LOCATION_CELL, resolution);
 }
 
 /**

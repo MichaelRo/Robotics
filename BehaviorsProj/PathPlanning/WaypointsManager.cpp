@@ -64,11 +64,11 @@ list<Structs::Point> WaypointsManager::getWaypoints(int waypointsType) {
 		Structs::Point waypoint;
 
 		switch (waypointsType) {
-			case Helper::WaypointType::WAYPOINT_FOR_MAP:
+			case Globals::WaypointType::WAYPOINT_FOR_MAP:
 				waypoint = (*wayPointsIterator.operator ->()) * (ceil(_map->getGridResolution() / _map->getMapResolution()) / 2);
 
 				break;
-			case Helper::WaypointType::WAYPOINT_FOR_GRID:
+			case Globals::WaypointType::WAYPOINT_FOR_GRID:
 				waypoint = *wayPointsIterator.operator ->();
 
 				break;
@@ -90,27 +90,27 @@ list<Structs::Point> WaypointsManager::getWaypoints(int waypointsType) {
 	@return - the direction, represented by an int directions enum
 */
 int WaypointsManager::getDirection(Structs::Point src, Structs::Point dest) {
-	int direction = Helper::Direction::NONE;
+	int direction = Globals::Direction::NONE;
 
 	if (dest.getY() > src.getY()) {
 		if (dest.getX() < src.getX())
-			direction = Helper::Direction::NORTH_WEST;
+			direction = Globals::Direction::NORTH_WEST;
 		else if (dest.getX() > src.getX())
-			direction = Helper::Direction::NORTH_EAST;
+			direction = Globals::Direction::NORTH_EAST;
 		else
-			direction = Helper::Direction::NORTH;
+			direction = Globals::Direction::NORTH;
 	} else if (dest.getY() < src.getY()) {
 		if (dest.getX() < src.getX())
-			direction = Helper::Direction::SOUTH_WEST;
+			direction = Globals::Direction::SOUTH_WEST;
 		else if (dest.getX() > src.getX())
-			direction = Helper::Direction::SOUTH_EAST;
+			direction = Globals::Direction::SOUTH_EAST;
 		else
-			direction = Helper::Direction::SOUTH;
+			direction = Globals::Direction::SOUTH;
 	} else {
 		if (dest.getX() < src.getX())
-			direction = Helper::Direction::WEST;
+			direction = Globals::Direction::WEST;
 		else if (dest.getX() > src.getX())
-			direction = Helper::Direction::EAST;
+			direction = Globals::Direction::EAST;
 	}
 
 	return direction;

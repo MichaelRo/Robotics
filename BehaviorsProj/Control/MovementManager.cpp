@@ -24,7 +24,7 @@ MovementManager::~MovementManager() {
 MovementManager::MovementManager(Robot * robot, LocalizationManager * localizationManager, WaypointsManager * waypointsManager) {
 	_robot = robot;
 	_localizationManager = localizationManager;
-	_wayPoints = waypointsManager->getWaypoints(Helper::WaypointType::WAYPOINT_FOR_MAP);
+	_wayPoints = waypointsManager->getWaypoints(Globals::WaypointType::WAYPOINT_FOR_MAP);
 }
 
 /**
@@ -37,7 +37,7 @@ void MovementManager::start() {
 
 		_robot->Read();
 
-		while (_robot->getPosition().distanceBetweenPoints(currentWayPoint) > Helper::COMPROMISED_DISTANCE) {
+		while (_robot->getPosition().distanceBetweenPoints(currentWayPoint) > Globals::COMPROMISED_DISTANCE) {
 			goToPointBehavior = new GoToPoint(_robot, _localizationManager, currentWayPoint);
 
 			_robot->Read();
