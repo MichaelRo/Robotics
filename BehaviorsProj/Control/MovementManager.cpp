@@ -49,4 +49,6 @@ void MovementManager::start() {
 			}
 		}
 	}
+
+	cout << "Igal: Mission Accomplished, now I have time to save the world from the missile of the Iranian gay community." << endl;
 }

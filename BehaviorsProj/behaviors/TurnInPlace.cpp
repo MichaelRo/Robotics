@@ -58,6 +58,8 @@ void TurnInPlace::behave() {
 
 	if (_neededYaw - _robot->getLocation().getYaw() < 0)
 		angularSpeedFactor = -1;
-
-	_robot->setSpeed(0, (float) angularSpeedFactor * Globals::YAW_TURN_DELTA);
+	if (_neededYaw - _robot->getLocation().getYaw() < 10)
+		_robot->setSpeed(0, (float) angularSpeedFactor * (Globals::YAW_TURN_DELTA / 2));
+	else
+		_robot->setSpeed(0, (float) angularSpeedFactor * Globals::YAW_TURN_DELTA);
 }
