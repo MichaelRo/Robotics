@@ -465,16 +465,3 @@ void Map::pushRGBAColorToAVector(vector<unsigned char> * vector, int color) {
 	vector->push_back(rgbaColor[2]);
 	vector->push_back(rgbaColor[3]);
 }
-
-list<Structs::Point> Map::getCellsNeighborsByValue(Structs::Point point, list<int> neighborsValues, float resolution) {
-	list<Structs::Point> neighbors = getCellsNeighbors(point, _grid, 1);
-
-	for (list<Structs::Point>::iterator neighborsIterator = neighbors.begin(); neighborsIterator != neighbors.end(); neighborsIterator++) {
-		int neighborValue = getCellValue(point, resolution);
-
-		if (std::find(neighborsValues.begin(), neighborsValues.end(), neighborValue) == neighborsValues.end())
-			neighbors.erase(neighborsIterator++);
-	}
-
-	return neighbors;
-}
