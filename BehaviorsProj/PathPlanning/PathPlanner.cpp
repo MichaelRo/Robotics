@@ -101,7 +101,7 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
 			for (int columnsIndex = node->getPoint().getX() - 1; columnsIndex <= node->getPoint().getX() + 1; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
-					if ((_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Helper::CellType::FREE_CELL) &&
+					if ((_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Globals::CellType::FREE_CELL) &&
 						!((node->getPoint().getX() == columnsIndex) && (node->getPoint().getY() == rowsIndex))) {
 
 						Structs::Point neighborPoint(columnsIndex, rowsIndex);
@@ -190,8 +190,8 @@ float PathPlanner::calcWallFactor(Structs::Point point, int wallDis) {
 		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {
 			for (int columnsIndex = point.getX() - wallDis; columnsIndex <= point.getX() + wallDis; columnsIndex++) {
 				if (!(columnsIndex < 0 || columnsIndex >= _map->getWidth())) {
-					if (_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Helper::CellType::PADDING_CELL ||
-						_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Helper::CellType::OCCUPIED_CELL) {
+					if (_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Globals::CellType::PADDING_CELL ||
+						_map->getCellValue(columnsIndex, rowsIndex, _map->getGridResolution()) == Globals::CellType::OCCUPIED_CELL) {
 						wallCounter++;
 					}
 				}

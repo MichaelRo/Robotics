@@ -7,8 +7,6 @@
 
 #include "Helper.h"
 
-const string Helper::CONFIGURATION_FILE_PATH = "Simulation/parameters.txt";
-
 const int Helper::BLACK_RGBA[]  = {0, 0, 0, 255};
 const int Helper::WHITE_RGBA[]  = {255, 255, 255, 255};
 const int Helper::BLUE_RGBA[] = {0, 0, 255, 255};
@@ -22,23 +20,23 @@ const int Helper::NO_COLOR[] = {0, 0, 0, 0};
 
 const int* Helper::getRGBA(int color) {
 	switch (color) {
-		case Helper::Color::BLACK :
+		case Globals::Color::BLACK :
 			return BLACK_RGBA;
-		case Helper::Color::WHITE :
+		case Globals::Color::WHITE :
 			return WHITE_RGBA;
-		case Helper::Color::BLUE :
+		case Globals::Color::BLUE :
 			return BLUE_RGBA;
-		case Helper::Color::GREEN :
+		case Globals::Color::GREEN :
 			return GREEN_RGBA;
-		case Helper::Color::RED :
+		case Globals::Color::RED :
 			return RED_RGBA;
-		case Helper::Color::PINK :
+		case Globals::Color::PINK :
 			return PINK_RGBA;
-		case Helper::Color::LIGHT_BLUE :
+		case Globals::Color::LIGHT_BLUE :
 			return LIGHT_BLUE_RGBA;
-		case Helper::Color::YELLOW :
+		case Globals::Color::YELLOW :
 			return YELLOW_RGBA;
-		case Helper::Color::GRAY :
+		case Globals::Color::GRAY :
 			return GRAY_RGBA;
 		default :
 			return NO_COLOR;
@@ -46,11 +44,11 @@ const int* Helper::getRGBA(int color) {
 }
 
 int Helper::degreesToIndex(int degrees) {
-	return degrees * (Helper::TOTAL_SCAN_SPAN / Helper::TOTAL_DEGREES);
+	return degrees * (Globals::TOTAL_SCAN_SPAN / Globals::TOTAL_DEGREES);
 }
 
 int Helper::indexToDegrees(int index) {
-	return index * (Helper::TOTAL_DEGREES / Helper::TOTAL_SCAN_SPAN);
+	return index * (Globals::TOTAL_DEGREES / Globals::TOTAL_SCAN_SPAN);
 }
 
 float Helper::degreesToRadians(float degrees) {

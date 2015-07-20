@@ -211,7 +211,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 			(spottedPoint.getY() >= 0) && (spottedPoint.getY() < _map->getHeight())) {
 			int spottedPointValue = _map->getCellValue(spottedPoint, _map->getMapResolution());
 
-			if (spottedPointValue == Helper::CellType::OCCUPIED_CELL) {
+			if (spottedPointValue == Globals::CellType::OCCUPIED_CELL) {
 				// If the spotted point, which stands in the way to the laser current scan, is occupied - the laser was supposed to detect an obstacle
 				incorrectDetectionsNumber++;
 			} else {
@@ -224,7 +224,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	}
 
 	// Checking the laser scanned point in case that the laser scan is smaller than the maximum range
-	if (laserScan < Helper::LASER_MAX_DETECTION_RANGE) {
+	if (laserScan < Globals::LASER_MAX_DETECTION_RANGE) {
 		// Calculating the laser scanned point (as a delta to the particle itself)
 		// Laser degree as an offset, plus or minus depends on the laser scan start direction
 		float spottedPointYaw = M_PI - Helper::degreesToRadians(getLocation().getYaw() + laserDegree);
@@ -238,7 +238,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 			(spottedPoint.getY() >= 0 && spottedPoint.getY() < _map->getHeight())) {
 			int spottedPointValue = _map->getCellValue(spottedPoint, _map->getMapResolution());
 
-			if (spottedPointValue == Helper::CellType::OCCUPIED_CELL) {
+			if (spottedPointValue == Globals::CellType::OCCUPIED_CELL) {
 				// The spotted laser scan is occupied - the particle is probably in the right place
 				correctDetectionsNumber++;
 			} else {

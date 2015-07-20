@@ -11,9 +11,7 @@
 	Destructs Robot.
 */
 Robot::~Robot() {
-	delete _playerClient;
-	delete _position;
-	delete _laserProxy;
+
 }
 
 /**
@@ -112,7 +110,7 @@ vector<float> Robot::getLaserScan() {
 
 	Read();
 
-	for (int i = 0; i < Helper::TOTAL_DEGREES; i++) {
+	for (int i = 0; i < Globals::TOTAL_DEGREES; i++) {
 		laserScan.push_back(getLaserDistance(Helper::degreesToIndex(i)));
 	}
 

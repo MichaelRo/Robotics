@@ -43,26 +43,14 @@ float GoToPoint::calculateNeededYaw() {
 	float distanceToPoint = startPoint.distanceBetweenPoints(_goalPoint);
 	float neededYaw = acos(yDeltaToPoint / distanceToPoint);
 
-	if (startPoint.getY() == _goalPoint.getY()) {
-		if (startPoint.getX() > _goalPoint.getX())
-			return 180;
-		else if (startPoint.getX() < _goalPoint.getX())
-			return 0;
-	} else if (startPoint.getX() == _goalPoint.getX()) {
-		if (startPoint.getY() > _goalPoint.getY())
-			return 90;
-		else if (startPoint.getY() < _goalPoint.getY())
-			return 270;
-	}
-
 	switch(getQuarter(startPoint)) {
-		case Helper::Quarter::FIRST:
+		case Globals::Quarter::FIRST:
 			return Helper::radiansToDegrees(M_PI_2 - neededYaw);
-		case Helper::Quarter::SECOND:
+		case Globals::Quarter::SECOND:
 			return Helper::radiansToDegrees(M_PI - neededYaw);
-		case Helper::Quarter::THIRD:
+		case Globals::Quarter::THIRD:
 			return Helper::radiansToDegrees(M_PI + M_PI_2 - neededYaw);
-		case Helper::Quarter::FOURTH:
+		case Globals::Quarter::FOURTH:
 			return Helper::radiansToDegrees(M_PI * 2 - neededYaw);
 		default:
 			return neededYaw;
@@ -86,7 +74,7 @@ void GoToPoint::initializeGoToPointBehavior() {
 	@return - Is the robot arrive to the goal point?
  */
 bool GoToPoint::isGoalLocationReached() {
-	return _robot->getPosition().distanceBetweenPoints(_goalPoint) <= Helper::COMPROMISED_DISTANCE;
+	return _robot->getPosition().distanceBetweenPoints(_goalPoint) <= Globals::COMPROMISED_DISTANCE;
 }
 
 /**
@@ -143,8 +131,8 @@ void GoToPoint::behave() {
 			if (checkYawDirectionIndex++ % 10 == 0) {
 				float neededYawDelta = calculateNeededYaw() - _robot->getLocation().getYaw();
 
-				if (((neededYawDelta >= 0) && (neededYawDelta > Helper::COMPROMISED_YAW)) ||
-					((neededYawDelta < 0) && (neededYawDelta < (-1 * Helper::COMPROMISED_YAW))))
+				if (((neededYawDelta >= 0) && (neededYawDelta > Globals::COMPROMISED_YAW)) ||
+					((neededYawDelta < 0) && (neededYawDelta < (-1 * Globals::COMPROMISED_YAW))))
 					break;
 			}
 		}
@@ -157,10 +145,10 @@ void GoToPoint::behave() {
 		// Adding reverse factor
 		if (isLeftSideBlocked())
 			for (int i = 0; i < 15; i++)
-				_robot->setSpeed((float) ((-1) * 10), (float) (Helper::YAW_TURN_DELTA) * 10);
+				_robot->setSpeed((float) ((-1) * 10), (float) (Globals::YAW_TURN_DELTA) * 10);
 		else if (isRightSideBlocked())
 			for (int i = 0; i < 15; i++)
-				_robot->setSpeed((float) ((-1) * 10), (float) ((-1) * Helper::YAW_TURN_DELTA * 10));
+				_robot->setSpeed((float) ((-1) * 10), (float) ((-1) * Globals::YAW_TURN_DELTA * 10));
 
 		_robot->setSpeed(0, 0);
 
@@ -173,20 +161,20 @@ void GoToPoint::behave() {
 int GoToPoint::getQuarter(Structs::Point startPoint) {
 	if (startPoint.getY() > _goalPoint.getY()) {
 		if (startPoint.getX() > _goalPoint.getX())
-			return Helper::Quarter::SECOND;
+			return Globals::Quarter::SECOND;
 		else
-			return Helper::Quarter::FIRST;
+			return Globals::Quarter::FIRST;
 	} else {
 		if (startPoint.getX() > _goalPoint.getX())
-			return Helper::Quarter::THIRD;
+			return Globals::Quarter::THIRD;
 		else
-			return Helper::Quarter::FOURTH;
+			return Globals::Quarter::FOURTH;
 	}
 }
 
 bool GoToPoint::isLeftSideBlocked() {
-	for (int i = Helper::degreesToIndex((Helper::TOTAL_DEGREES / 2) - 30); i < Helper::degreesToIndex(Helper::TOTAL_DEGREES / 2); i += Helper::degreesToIndex(3)) {
-		if (_robot->getLaserDistance(i) < Helper::MINIMUM_DISTANCE_FROM_WALL) {
+	for (int i = Helper::degreesToIndex((Globals::TOTAL_DEGREES / 2) - 30); i < Helper::degreesToIndex(Globals::TOTAL_DEGREES / 2); i += Helper::degreesToIndex(3)) {
+		if (_robot->getLaserDistance(i) < Globals::MINIMUM_DISTANCE_FROM_WALL) {
 			return true;
 		}
 	}
@@ -195,8 +183,8 @@ bool GoToPoint::isLeftSideBlocked() {
 }
 
 bool GoToPoint::isRightSideBlocked() {
-	for (int i = Helper::degreesToIndex(Helper::TOTAL_DEGREES / 2); i < Helper::degreesToIndex((Helper::TOTAL_DEGREES / 2) + 30); i += Helper::degreesToIndex(3)) {
-		if (_robot->getLaserDistance(i) < Helper::MINIMUM_DISTANCE_FROM_WALL) {
+	for (int i = Helper::degreesToIndex(Globals::TOTAL_DEGREES / 2); i < Helper::degreesToIndex((Globals::TOTAL_DEGREES / 2) + 30); i += Helper::degreesToIndex(3)) {
+		if (_robot->getLaserDistance(i) < Globals::MINIMUM_DISTANCE_FROM_WALL) {
 			return true;
 		}
 	}
