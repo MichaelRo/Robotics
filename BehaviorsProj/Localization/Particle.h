@@ -53,7 +53,7 @@ public:
 	float calculateBelief(Structs::Location destinationDelta, vector<float> laserScan);
 	float calculateMotionModelProbability(Structs::Location destinationDelta);
 	float checkObservationModel(vector<float> laserScan);
-	list<Particle> createDescendantParticles(int amount);
+	void createDescendantParticles(int amount, list<Particle> * list);
 
 	static float getDistance(Structs::Location destination);
 };
