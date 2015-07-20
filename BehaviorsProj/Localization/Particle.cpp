@@ -145,14 +145,14 @@ float Particle::calculateMotionModelProbability(Structs::Location destinationDel
 float Particle::checkObservationModel(vector<float> laserScan) {
 	int expectedObsticlesDetected = 0;
 
-	for (unsigned int laserDegree = 0; laserDegree < laserScan.size(); laserDegree += 3) {
+	for (unsigned int laserDegree = 0; laserDegree < laserScan.size(); laserDegree += 4) {
 		float currentLaserScan = laserScan[laserDegree];
 
 		if (isObsticleDetectedAsExpected(currentLaserScan, laserDegree))
 			expectedObsticlesDetected++;
 	}
 
-	return expectedObsticlesDetected / (laserScan.size() / 3);
+	return expectedObsticlesDetected / (laserScan.size() / 4);
 }
 
 /**
@@ -184,13 +184,8 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	int correctDetectionsNumber = 0;
 	int incorrectDetectionsNumber = 0;
 
-	set<Structs::Point> pointsInCurrentLaserBeam;
-
-	// CONSIDER IMPLEMENTING A METHOD FOR FINDING THE SPOTTED POINT CELL VALUE
-
 	// Going through all the spotted points in the lasers way (without the laser scanned point)
-	// Maybe ceil ?
-	for (int distanceFromSpottedPoint = 1; distanceFromSpottedPoint < floor(METER_TO_CM(laserScan)); distanceFromSpottedPoint++) {
+	for (int distanceFromSpottedPoint = 1; distanceFromSpottedPoint < floor(METER_TO_CM(laserScan)); distanceFromSpottedPoint += 10) {
 		// Calculating the spotted point location (as a delta to the particle itself)
 
 		// Laser degree as an offset, plus or minus depends on the laser scan start direction
@@ -198,14 +193,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 		float deltaX = cos(spottedPointYaw) * distanceFromSpottedPoint;
 		float deltaY = sin(spottedPointYaw) * distanceFromSpottedPoint;
 
-		// Maybe ceil or floor?
 		Structs::Point spottedPoint(round(_location.getX() + deltaX), round(_location.getY() + deltaY));
-
-		pointsInCurrentLaserBeam.insert(spottedPoint);
-	}
-
-	for (set<Structs::Point>::iterator beamPointsIterator = pointsInCurrentLaserBeam.begin(); beamPointsIterator != pointsInCurrentLaserBeam.end(); beamPointsIterator++) {
-		Structs::Point spottedPoint = *beamPointsIterator.operator ->();
 
 		if ((spottedPoint.getX() >= 0) && (spottedPoint.getX() < _map->getWidth()) &&
 			(spottedPoint.getY() >= 0) && (spottedPoint.getY() < _map->getHeight())) {
@@ -231,7 +219,6 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 		float deltaX = cos(spottedPointYaw) * floor(METER_TO_CM(laserScan));
 		float deltaY = sin(spottedPointYaw) * floor(METER_TO_CM(laserScan));
 
-		// Maybe ceil or floor?
 		Structs::Point spottedPoint(round(_location.getX() + deltaX), round(_location.getY() + deltaY));
 
 		if ((spottedPoint.getX() >= 0 && spottedPoint.getX() < _map->getWidth()) &&
@@ -248,9 +235,7 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 		}
 	}
 
-	return correctDetectionsNumber > (pointsInCurrentLaserBeam.size() + 1);
-
-//	return correctDetectionsNumber > (correctDetectionsNumber + incorrectDetectionsNumber);
+	return correctDetectionsNumber > (correctDetectionsNumber + incorrectDetectionsNumber);
 }
 
 /**
@@ -259,9 +244,9 @@ bool Particle::isObsticleDetectedAsExpected(float laserScan, int laserDegree) {
 	@return - the random location.
  */
 Structs::Location Particle::getRandomDeltaLocation() {
-	int xBoundary = floor((_map->getWidth() / 2) * MAX_PARTICLES_RELATIVE_RATIO_CREATION);
-	int yBoundary = floor((_map->getHeight() / 2) * MAX_PARTICLES_RELATIVE_RATIO_CREATION);
-	int yawBoundary = floor((360 / 2) * MAX_PARTICLES_RELATIVE_YAW_CREATION);
+	int xBoundary = floor((_map->getWidth() / 2) * Globals::MAX_PARTICLES_RELATIVE_RATIO_CREATION);
+	int yBoundary = floor((_map->getHeight() / 2) * Globals::MAX_PARTICLES_RELATIVE_RATIO_CREATION);
+	int yawBoundary = floor((360 / 2) * Globals::MAX_PARTICLES_RELATIVE_YAW_CREATION);
 
 	// Generates random number between negative and positive boundaries (same value)
 	int x = (rand() % (2 * xBoundary)) - xBoundary;
