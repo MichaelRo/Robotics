@@ -12,3 +12,4 @@ Todo List:
   7. Add notes to all class files, delete the unimportant notes and delete unused methods.
   8. Add methods to Manager (methods like init map)
   9. Save the planet from the Gay Iranian community missle.
+  10. Dropthe beamPoinsIterator. Thesetcomparisondoesnotwork
