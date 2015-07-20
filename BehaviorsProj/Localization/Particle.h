@@ -38,8 +38,6 @@ public:
 	static constexpr float NORMALIZATION_FACTOR = 1.1;
 	static constexpr float MAX_DISTANCE = METER_TO_CM(1);
 	static constexpr float MAX_YAW = 10;
-	static constexpr float MAX_PARTICLES_RELATIVE_RATIO_CREATION = 0.012;
-	static constexpr float MAX_PARTICLES_RELATIVE_YAW_CREATION = 0.02;
 
 	Particle(float x, float y, float yaw, float belief, Map * map);
 	Particle(Structs::Location location, float belief, Map * map);

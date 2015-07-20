@@ -41,11 +41,11 @@ void LocalizationManager::updateParticles(Structs::Location destinationDelta, ve
 	for (list<Particle>::iterator particlesIterator = _particles.begin(); particlesIterator != _particles.end(); particlesIterator++) {
 		float currentParticleBelief = particlesIterator->update(destinationDelta, laserScan);
 
-		if (currentParticleBelief < MINIMUM_BELIEF) {
+		if (currentParticleBelief < getAverageBeleif()) {
 			particlesForDelete.push_back(*particlesIterator.operator ->());
 		} else {
-			if (currentParticleBelief > BELIEF_THRESHOLD) {
-				if (particlesForMultiply.size() < 3) {
+			if (currentParticleBelief > Globals::BELIEF_THRESHOLD) {
+				if (particlesForMultiply.size() < 1) {
 					particlesForMultiply.push_back(*particlesIterator.operator ->());
 				} else {
 					for (list<Particle>::iterator particlesForMultiplyIterator = particlesForMultiply.begin(); particlesForMultiplyIterator != particlesForMultiply.end(); particlesForMultiplyIterator++) {
@@ -61,7 +61,7 @@ void LocalizationManager::updateParticles(Structs::Location destinationDelta, ve
 		}
 	}
 
-	while (particlesForMultiply.size() < 5) {
+	while (particlesForMultiply.size() < 1) {
 		particlesForMultiply.push_back(Particle(_estimatedRobotLocation, 0.9, _map));
 	}
 
@@ -74,10 +74,10 @@ void LocalizationManager::updateParticles(Structs::Location destinationDelta, ve
 	if ((particlesForMultiply.size() == 0) && (getHighestBeliefParticle() != NULL))
 		particlesForMultiply.push_back(*getHighestBeliefParticle());
 
-	for (list<Particle>::iterator particlesForMultiplyIterator = particlesForMultiply.begin(); particlesForMultiplyIterator != particlesForMultiply.end(); particlesForMultiplyIterator++) {
-		list<Particle> decendantParticles = particlesForMultiplyIterator->createDescendantParticles((Globals::TOTAL_PARTICLES_AMOUNT - _particles.size()) / particlesForMultiply.size());
-		_particles.insert(_particles.end(), decendantParticles.begin(), decendantParticles.end());
-	}
+//	for (list<Particle>::iterator particlesForMultiplyIterator = particlesForMultiply.begin(); particlesForMultiplyIterator != particlesForMultiply.end(); particlesForMultiplyIterator++) {
+//		list<Particle> decendantParticles = particlesForMultiplyIterator->createDescendantParticles((Globals::TOTAL_PARTICLES_AMOUNT - _particles.size()) / particlesForMultiply.size());
+//		_particles.splice(_particles.end(), decendantParticles);
+//	}
 }
 
 /**
@@ -123,4 +123,13 @@ Structs::Location LocalizationManager::getProbableLocation() {
 */
 Map * LocalizationManager::getMap() {
 	return _map;
+}
+
+float LocalizationManager::getAverageBeleif() {
+	float beliefSum = 0;
+
+	for (list<Particle>::iterator particlesIterator = _particles.begin(); particlesIterator != _particles.end(); particlesIterator++)
+		beliefSum += particlesIterator->getBelief();
+
+	return beliefSum / _particles.size();
 }

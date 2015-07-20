@@ -27,15 +27,13 @@ private:
 	Particle * getHighestBeliefParticle();
 
 public:
-	static constexpr float BELIEF_THRESHOLD = 0.7;
-	static constexpr float MINIMUM_BELIEF = 0.3;
-
 	LocalizationManager(Structs::Location startLocation, Map * map);
 	virtual ~LocalizationManager();
 
 	void updateParticles(Structs::Location destinationDelta, vector<float> laserScan);
 	Structs::Location getProbableLocation();
 	float getHighestBelief();
+	float getAverageBeleif();
 
 	Map * getMap();
 };

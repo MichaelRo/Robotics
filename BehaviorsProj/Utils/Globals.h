@@ -25,7 +25,10 @@ public:
 
 	static const int BYTES_PER_PIXEL_IN_PNG = 4;
 
-	static const int TOTAL_PARTICLES_AMOUNT = 100;
+	static const int TOTAL_PARTICLES_AMOUNT = 200;
+	static constexpr float BELIEF_THRESHOLD = 0.7;
+	static constexpr float MAX_PARTICLES_RELATIVE_RATIO_CREATION = 0.05;
+	static constexpr float MAX_PARTICLES_RELATIVE_YAW_CREATION = 0.05;
 
 	static constexpr float TOTAL_SCAN_SPAN = 666;
 	static constexpr float TOTAL_DEGREES = 240;

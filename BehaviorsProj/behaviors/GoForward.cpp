@@ -43,7 +43,7 @@ bool GoForward::stopCondition() {
 	if (_robot->getPosition().distanceBetweenPoints(_goalPoint) <= Globals::COMPROMISED_DISTANCE)
 		return true;
 
-	for (int i = Helper::degreesToIndex((Globals::TOTAL_DEGREES / 2) - 20); i < Helper::degreesToIndex((Globals::TOTAL_DEGREES / 2) + 20); i += Helper::degreesToIndex(3)) {
+	for (int i = Helper::degreesToIndex((Globals::TOTAL_DEGREES / 2) - 25); i < Helper::degreesToIndex((Globals::TOTAL_DEGREES / 2) + 25); i += Helper::degreesToIndex(3)) {
 		if (_robot->getLaserDistance(i) < Globals::MINIMUM_DISTANCE_FROM_WALL) {
 			return true;
 		}
