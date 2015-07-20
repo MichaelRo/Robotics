@@ -56,5 +56,5 @@ bool GoForward::stopCondition() {
 	This method set the speed of the robot when GoForward.
  */
 void GoForward::behave() {
-	_robot->setSpeed((float) Globals::MOVEMENT_DELTA, 0);
+	_robot->setSpeed((double) Globals::MOVEMENT_DELTA, 0);
 }

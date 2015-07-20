@@ -51,14 +51,14 @@ int Helper::indexToDegrees(int index) {
 	return index * (Globals::TOTAL_DEGREES / Globals::TOTAL_SCAN_SPAN);
 }
 
-float Helper::degreesToRadians(float degrees) {
-	float yaw = degrees;
+double Helper::degreesToRadians(double degrees) {
+	double yaw = degrees;
 
 	return (yaw * M_PI) / 180;
 }
 
-float Helper::radiansToDegrees(float radians) {
-	float yaw = (radians * 180) / M_PI;
+double Helper::radiansToDegrees(double radians) {
+	double yaw = (radians * 180) / M_PI;
 
 	return yaw;
 }
@@ -69,7 +69,7 @@ string Helper::intToString (int number) {
 	return ss.str();
 }
 
-string Helper::floatToString (float number) {
+string Helper::doubleToString (double number) {
 	stringstream ss;
 	ss << number;
 	return ss.str();

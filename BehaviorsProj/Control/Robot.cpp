@@ -52,7 +52,7 @@ Structs::Location Robot::getLocation() {
 }
 
 Structs::Location Robot::getOdometry() {
-	float degreeRobotYaw = Helper::radiansToDegrees(_position->GetYaw());
+	double degreeRobotYaw = Helper::radiansToDegrees(_position->GetYaw());
 
 	return Structs::Location((_position->GetXPos() * (METER_TO_CM(1) / 2.5)) + (550 / 2),
 							 (_position->GetYPos() * (METER_TO_CM(-1) / 2.5)) + (380 / 2),
@@ -73,7 +73,7 @@ void Robot::setRobotLocation(Structs::Location location) {
 void Robot::setOdometry(Structs::Location location) {
 	setRobotLocation(location);
 
-	float robotYaw = (location.getYaw() > 180) ? ((-1) * (360 - location.getYaw())) : location.getYaw();
+	double robotYaw = (location.getYaw() > 180) ? ((-1) * (360 - location.getYaw())) : location.getYaw();
 
 	Read();
 
@@ -88,7 +88,7 @@ void Robot::setOdometry(Structs::Location location) {
 	@param xSpeed - the speed of the robot.
 	@param angularSpeed - the yaw we want the robot move.
  */
-void Robot::setSpeed(float xSpeed, float angularSpeed) {
+void Robot::setSpeed(double xSpeed, double angularSpeed) {
 	_position->SetSpeed(xSpeed, angularSpeed);
 }
 
@@ -105,8 +105,8 @@ void Robot::Read() {
 
 	@return - the result of the scanning laser.
 */
-vector<float> Robot::getLaserScan() {
-	vector<float> laserScan;
+vector<double> Robot::getLaserScan() {
+	vector<double> laserScan;
 
 	Read();
 
@@ -123,6 +123,6 @@ vector<float> Robot::getLaserScan() {
 	@param index - the degrees of checking the result from the laser scan.
 	@return - the result of the scanning laser.
 */
-float Robot::getLaserDistance(int index) {
+double Robot::getLaserDistance(int index) {
 	return _laserProxy->GetRange(index);
 }

@@ -25,7 +25,7 @@ private:
 	TurnInPlace * _turnInPlaceBehavior;
 	GoForward * _goForwardBehavior;
 
-	float calculateNeededYaw();
+	double calculateNeededYaw();
 	int getQuarter(Structs::Point startPoint);
 	void initializeGoToPointBehavior();
     bool isGoalLocationReached();

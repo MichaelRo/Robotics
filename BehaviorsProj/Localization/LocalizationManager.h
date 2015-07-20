@@ -30,10 +30,10 @@ public:
 	LocalizationManager(Structs::Location startLocation, Map * map);
 	virtual ~LocalizationManager();
 
-	void updateParticles(Structs::Location destinationDelta, vector<float> laserScan);
+	void updateParticles(Structs::Location destinationDelta, vector<double> laserScan);
 	Structs::Location getProbableLocation();
-	float getHighestBelief();
-	float getAverageBeleif();
+	double getHighestBelief();
+	double getAverageBeleif();
 
 	Map * getMap();
 };

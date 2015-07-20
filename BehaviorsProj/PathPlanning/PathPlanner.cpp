@@ -65,7 +65,7 @@ list<Structs::Point> PathPlanner::performAStar() {
 				continue;
 			}
 
-			float tempNeighborGGrade = (currMinNode.getG() + COST_BETWEEN_NODES)*0.05 + currNeighbor->getTurnFactor()*0.75 + currNeighbor->getWallFactor()*0.2;
+			double tempNeighborGGrade = (currMinNode.getG() + COST_BETWEEN_NODES)*0.05 + currNeighbor->getTurnFactor()*0.75 + currNeighbor->getWallFactor()*0.2;
 
 			// if we haven't visit this neighbor or if the grade that we calculated is less than what the neighbor have
 			if (!openMap[currNeighbor->getPoint().hashCode()] || tempNeighborGGrade < currNeighbor->getG()) {
@@ -105,7 +105,7 @@ list<Structs::Node> PathPlanner::getNeighbors(Structs::Node *node) {
 						!((node->getPoint().getX() == columnsIndex) && (node->getPoint().getY() == rowsIndex))) {
 
 						Structs::Point neighborPoint(columnsIndex, rowsIndex);
-						Structs::Node neighbor(neighborPoint, std::numeric_limits<float>::max());
+						Structs::Node neighbor(neighborPoint, std::numeric_limits<double>::max());
 						// handle the direction factor
 						if (node->getPoint() != _startPoint) {
 							neighbor.setTurnFactor(calcDirectionFactor(_parentsMap[node->getPoint().hashCode()], node->getPoint(), neighborPoint));
@@ -152,7 +152,7 @@ list<Structs::Point> PathPlanner::reconstruct_path(Structs::Point endPoint) {
 	@param p3 - the next point(point of neighbor of the current point).
 	@return - the factor of the direction in order to decide which neighbor is the best.
  */
-float PathPlanner::calcDirectionFactor(Structs::Point p1, Structs::Point p2, Structs::Point p3) {
+double PathPlanner::calcDirectionFactor(Structs::Point p1, Structs::Point p2, Structs::Point p3) {
 	int firstDir = WaypointsManager::getDirection(p1,p2);
 	int secondDir = WaypointsManager::getDirection(p2,p3);
 
@@ -184,7 +184,7 @@ float PathPlanner::calcDirectionFactor(Structs::Point p1, Structs::Point p2, Str
 	@param wallDis - the distance from wall we check.
 	@return - the factor of the wall distance.
  */
-float PathPlanner::calcWallFactor(Structs::Point point, int wallDis) {
+double PathPlanner::calcWallFactor(Structs::Point point, int wallDis) {
 	int wallCounter = 0;
 	for (int rowsIndex = point.getY() - wallDis; rowsIndex <= point.getY() + wallDis; rowsIndex++) {
 		if (!(rowsIndex < 0 || rowsIndex >= _map->getHeight())) {

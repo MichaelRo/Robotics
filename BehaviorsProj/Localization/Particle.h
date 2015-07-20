@@ -27,35 +27,35 @@ private:
 	int _id;
 	Structs::Location _location;
 	Map * _map;
-	float _belief;
+	double _belief;
 
-	bool isObsticleDetectedAsExpected(float laserScan, int laserDegree);
+	bool isObsticleDetectedAsExpected(double laserScan, int laserDegree);
 	Structs::Location getRandomDeltaLocation();
 
 	static int PARTICLE_ID_SEQUENCE;
 
 public:
-	static constexpr float NORMALIZATION_FACTOR = 1.1;
-	static constexpr float MAX_DISTANCE = METER_TO_CM(1);
-	static constexpr float MAX_YAW = 10;
+	static constexpr double NORMALIZATION_FACTOR = 1.1;
+	static constexpr double MAX_DISTANCE = METER_TO_CM(1);
+	static constexpr double MAX_YAW = 10;
 
-	Particle(float x, float y, float yaw, float belief, Map * map);
-	Particle(Structs::Location location, float belief, Map * map);
+	Particle(double x, double y, double yaw, double belief, Map * map);
+	Particle(Structs::Location location, double belief, Map * map);
 	virtual ~Particle();
 
 	bool operator==(const Particle & particle) const;
 
-	float getBelief();
+	double getBelief();
 	Structs::Location getLocation();
 
-	float update(Structs::Location destinationDelta, vector<float> laserScan);
-	float calculatePredictedBelief(Structs::Location destinationDelta);
-	float calculateBelief(Structs::Location destinationDelta, vector<float> laserScan);
-	float calculateMotionModelProbability(Structs::Location destinationDelta);
-	float checkObservationModel(vector<float> laserScan);
+	double update(Structs::Location destinationDelta, vector<double> laserScan);
+	double calculatePredictedBelief(Structs::Location destinationDelta);
+	double calculateBelief(Structs::Location destinationDelta, vector<double> laserScan);
+	double calculateMotionModelProbability(Structs::Location destinationDelta);
+	double checkObservationModel(vector<double> laserScan);
 	void createDescendantParticles(int amount, list<Particle> * list);
 
-	static float getDistance(Structs::Location destination);
+	static double getDistance(Structs::Location destination);
 };
 
 #endif

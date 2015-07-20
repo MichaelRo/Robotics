@@ -86,7 +86,7 @@ void Map::setHeight(int height) {
 
 	@return - resolution
 */
-float Map::getGridResolution() {
+double Map::getGridResolution() {
 	return _gridResolution;
 }
 
@@ -95,7 +95,7 @@ float Map::getGridResolution() {
 
 	@param resolution
 */
-void Map::setGridResolution(float resolution) {
+void Map::setGridResolution(double resolution) {
 	_gridResolution = resolution;
 }
 
@@ -104,7 +104,7 @@ void Map::setGridResolution(float resolution) {
 
 	@return - resolution
 */
-float Map::getMapResolution() {
+double Map::getMapResolution() {
 	return _mapResolution;
 }
 
@@ -113,7 +113,7 @@ float Map::getMapResolution() {
 
 	@param resolution
 */
-void Map::setMapResolution(float resolution) {
+void Map::setMapResolution(double resolution) {
 	_mapResolution = resolution;
 }
 
@@ -122,7 +122,7 @@ void Map::setMapResolution(float resolution) {
 
 	@return - ratio
 */
-float Map::getGridMapResolutionRatio() {
+double Map::getGridMapResolutionRatio() {
 	return getGridResolution() / getMapResolution();
 }
 
@@ -134,7 +134,7 @@ float Map::getGridMapResolutionRatio() {
 	@param resolution - wanted resolution
 	@return - the cell value
 */
-int Map::getCellValue(int column, int row, float resolution) {
+int Map::getCellValue(int column, int row, double resolution) {
 	return _grid->getCellValue(column / ceil(((getGridResolution() / resolution) / 2)),
 							   row / ceil(((getGridResolution() / resolution) / 2)));
 }
@@ -146,7 +146,7 @@ int Map::getCellValue(int column, int row, float resolution) {
 	@param resolution - wanted resolution
 	@return - the cell value
 */
-int Map::getCellValue(Structs::Point point, float resolution) {
+int Map::getCellValue(Structs::Point point, double resolution) {
 	return getCellValue(point.getX(), point.getY(), resolution);
 }
 
@@ -157,7 +157,7 @@ int Map::getCellValue(Structs::Point point, float resolution) {
 	@param resolution - wanted resolution
 	@return - the cell value
 */
-int Map::getCellValue(Structs::Location location, float resolution) {
+int Map::getCellValue(Structs::Location location, double resolution) {
 	return getCellValue(location.getX(), location.getY(), resolution);
 }
 
@@ -169,7 +169,7 @@ int Map::getCellValue(Structs::Location location, float resolution) {
 	@param value - the cell value
 	@param resolution - wanted resolution
 */
-void Map::setCellValue(int column, int row, int value, float resolution) {
+void Map::setCellValue(int column, int row, int value, double resolution) {
 	_grid->setCellValue(round(column / ceil(((getGridResolution() / resolution) / 2))),
 						round(row / ceil(((getGridResolution() / resolution) / 2))),
 						value);
@@ -182,7 +182,7 @@ void Map::setCellValue(int column, int row, int value, float resolution) {
 	@param value - the cell value
 	@param resolution - wanted resolution
 */
-void Map::setCellValue(Structs::Point point, int value, float resolution) {
+void Map::setCellValue(Structs::Point point, int value, double resolution) {
 	setCellValue(point.getX(), point.getY(), value, resolution);
 }
 
@@ -193,7 +193,7 @@ void Map::setCellValue(Structs::Point point, int value, float resolution) {
 	@param value - the cell value
 	@param resolution - wanted resolution
 */
-void Map::setCellValue(Structs::Location location, int value, float resolution) {
+void Map::setCellValue(Structs::Location location, int value, double resolution) {
 	setCellValue(location.getX(), location.getY(), value, resolution);
 }
 
@@ -371,7 +371,7 @@ void Map::padACell(Structs::Point cellPoint, Matrix * matrix, int ratio) {
 
 	@param route - the given route, represented as list<Structs::Point>
 */
-void Map::markRoute(list<Structs::Point> route, float resolution) {
+void Map::markRoute(list<Structs::Point> route, double resolution) {
 	markCells(route, Globals::CellType::ROUTE_CELL, resolution);
 }
 
@@ -380,7 +380,7 @@ void Map::markRoute(list<Structs::Point> route, float resolution) {
 
 	@param wayPoints - the waypoints, represented as list<Structs::Point>
 */
-void Map::markWayPoints(list<Structs::Point> wayPoints, float resolution) {
+void Map::markWayPoints(list<Structs::Point> wayPoints, double resolution) {
 	markCells(wayPoints, Globals::CellType::WAYPOINT_CELL, resolution);
 }
 
@@ -389,7 +389,7 @@ void Map::markWayPoints(list<Structs::Point> wayPoints, float resolution) {
 
 	@param wayPoints - the waypoints, represented as list<Structs::Point>
 */
-void Map::markStartPoint(Structs::Point startPoint, float resolution) {
+void Map::markStartPoint(Structs::Point startPoint, double resolution) {
 	list<Structs::Point> cells = list<Structs::Point>();
 	cells.push_back(startPoint);
 
@@ -401,7 +401,7 @@ void Map::markStartPoint(Structs::Point startPoint, float resolution) {
 
 	@param wayPoints - the waypoints, represented as list<Structs::Point>
 */
-void Map::markGoalPoint(Structs::Point goalPoint, float resolution) {
+void Map::markGoalPoint(Structs::Point goalPoint, double resolution) {
 	list<Structs::Point> cells = list<Structs::Point>();
 	cells.push_back(goalPoint);
 
@@ -414,7 +414,7 @@ void Map::markGoalPoint(Structs::Point goalPoint, float resolution) {
 	@param points - the points, represented as list<Structs::Point>
 	@param cellType - the cell type that the points will be marked as
 */
-void Map::markCells(list<Structs::Point> points, int cellType, float resolution) {
+void Map::markCells(list<Structs::Point> points, int cellType, double resolution) {
 	for (list<Structs::Point>::iterator pointsIterator = points.begin(); pointsIterator != points.end(); ++pointsIterator) {
 		Structs::Point * point = pointsIterator.operator ->();
 

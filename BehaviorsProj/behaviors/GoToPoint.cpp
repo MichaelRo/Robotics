@@ -34,14 +34,14 @@ GoToPoint::GoToPoint(Robot * robot, LocalizationManager * localizationManager, S
 
 	@return - yaw in degrees
 */
-float GoToPoint::calculateNeededYaw() {
+double GoToPoint::calculateNeededYaw() {
 	_robot->Read();
 
 	Structs::Point startPoint = _robot->getPosition();
 
-	float yDeltaToPoint = abs(_goalPoint.getY() - startPoint.getY());
-	float distanceToPoint = startPoint.distanceBetweenPoints(_goalPoint);
-	float neededYaw = acos(yDeltaToPoint / distanceToPoint);
+	double yDeltaToPoint = abs(_goalPoint.getY() - startPoint.getY());
+	double distanceToPoint = startPoint.distanceBetweenPoints(_goalPoint);
+	double neededYaw = acos(yDeltaToPoint / distanceToPoint);
 
 	switch(getQuarter(startPoint)) {
 		case Globals::Quarter::FIRST:
@@ -112,7 +112,7 @@ void GoToPoint::behave() {
 		}
 
 		// Consider to implement a stop method
-		_robot->setSpeed((float) 0, (float) 0);
+		_robot->setSpeed((double) 0, (double) 0);
 	}
 
 	behaviorsIterator++;
@@ -129,7 +129,7 @@ void GoToPoint::behave() {
 			goForwardBehavior->action();
 
 			if (checkYawDirectionIndex++ % 10 == 0) {
-				float neededYawDelta = calculateNeededYaw() - _robot->getLocation().getYaw();
+				double neededYawDelta = calculateNeededYaw() - _robot->getLocation().getYaw();
 
 				if (((neededYawDelta >= 0) && (neededYawDelta > Globals::COMPROMISED_YAW)) ||
 					((neededYawDelta < 0) && (neededYawDelta < (-1 * Globals::COMPROMISED_YAW))))
@@ -142,16 +142,6 @@ void GoToPoint::behave() {
 	}
 
 	if (!isGoalLocationReached()) {
-		// Adding reverse factor
-		if (isLeftSideBlocked())
-			for (int i = 0; i < 15; i++)
-				_robot->setSpeed((float) ((-1) * 10), (float) (Globals::YAW_TURN_DELTA) * 10);
-		else if (isRightSideBlocked())
-			for (int i = 0; i < 15; i++)
-				_robot->setSpeed((float) ((-1) * 10), (float) ((-1) * Globals::YAW_TURN_DELTA * 10));
-
-		_robot->setSpeed(0, 0);
-
 		initializeGoToPointBehavior();
 
 		action();

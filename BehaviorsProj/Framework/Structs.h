@@ -34,10 +34,10 @@ public:
 		int getY();
 		void setY(int y);
 
-		float distanceBetweenPoints(Point point);
-		float manhattanDistance(Point point);
-		float diagonalDistance(Point point);
-		float squaredEuclideanDistance(Point point);
+		double distanceBetweenPoints(Point point);
+		double manhattanDistance(Point point);
+		double diagonalDistance(Point point);
+		double squaredEuclideanDistance(Point point);
 
 		int hashCode();
 		string toString();
@@ -53,28 +53,28 @@ public:
 		Point operator+(const int & number) const;
 		Point operator-(const int & number) const;
 		Point operator/(const int & number) const;
-		Point operator/(float & number) const;
+		Point operator/(double & number) const;
 		Point operator*(const int & number) const;
 		void operator=(const Point & point);
 	};
 
 	struct Location{
 	private:
-		float _x;
-		float _y;
-		float _yaw;
+		double _x;
+		double _y;
+		double _yaw;
 
 	public:
 		Location();
-		Location(float x, float y, float yaw = 0);
-		Location(Point p, float yaw = 0);
+		Location(double x, double y, double yaw = 0);
+		Location(Point p, double yaw = 0);
 
-		float getX();
-		void setX(float x);
-		float getY();
-		void setY(float y);
-		float getYaw();
-		void setYaw(float yaw);
+		double getX();
+		void setX(double x);
+		double getY();
+		void setY(double y);
+		double getYaw();
+		void setYaw(double yaw);
 
 		Point pointValue();
 		string toString();
@@ -89,25 +89,25 @@ public:
 	struct Node {
 	private:
 		Point _point;
-		float _g; // The cost until this search cell g(x)
-		float _h; // The expected cost to the goal h(x)
-		float _turnFactor;
-		float _wallFactor;
+		double _g; // The cost until this search cell g(x)
+		double _h; // The expected cost to the goal h(x)
+		double _turnFactor;
+		double _wallFactor;
 
 	public :
 		Node();
-		Node(Point p, float GGrade);
+		Node(Point p, double GGrade);
 
 		Point getPoint();
 		void setPoint(Point point);
-		float getG();
-		void setG(float g);
-		float getH();
-		float getF();
-		float getTurnFactor();
-		void setTurnFactor(float turnFactor);
-		float getWallFactor();
-		void setWallFactor(float wallFactor);
+		double getG();
+		void setG(double g);
+		double getH();
+		double getF();
+		double getTurnFactor();
+		void setTurnFactor(double turnFactor);
+		double getWallFactor();
+		void setWallFactor(double wallFactor);
 
 		void calcHGrade(Point goal);
 	};

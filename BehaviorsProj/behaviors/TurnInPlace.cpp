@@ -21,7 +21,7 @@ TurnInPlace::~TurnInPlace() {
 	@param localizationManager - get information about the locations of the particles.
 	@param neededYaw - the yaw the robot need to turn.
 */
-TurnInPlace::TurnInPlace(Robot * robot, LocalizationManager * localizationManager, float neededYaw): Behavior(robot, localizationManager) {
+TurnInPlace::TurnInPlace(Robot * robot, LocalizationManager * localizationManager, double neededYaw): Behavior(robot, localizationManager) {
 	_iterationNumber = 0;
 	_neededYaw = neededYaw;
 }
@@ -38,9 +38,9 @@ bool TurnInPlace::startCondition() {
 	 @return - if the robot close enough to the yaw.
  */
 bool TurnInPlace::stopCondition() {
-	float neededYawDelta = _neededYaw - _robot->getLocation().getYaw();
+	double neededYawDelta = _neededYaw - _robot->getLocation().getYaw();
 
-	float currentCompromizedYaw = (_iterationNumber == 1) ? Globals::COMPROMISED_YAW : (float) (Globals::COMPROMISED_YAW / 1.75);
+	double currentCompromizedYaw = (_iterationNumber == 1) ? Globals::COMPROMISED_YAW : (double) (Globals::COMPROMISED_YAW / 1.75);
 
 	if (((neededYawDelta >= 0) && (neededYawDelta <= currentCompromizedYaw)) ||
 		((neededYawDelta < 0) && (neededYawDelta >= (-1 * currentCompromizedYaw)))) {
@@ -59,7 +59,7 @@ void TurnInPlace::behave() {
 	if (_neededYaw - _robot->getLocation().getYaw() < 0)
 		angularSpeedFactor = -1;
 	if (_neededYaw - _robot->getLocation().getYaw() < 10)
-		_robot->setSpeed(0, (float) angularSpeedFactor * (Globals::YAW_TURN_DELTA / 2));
+		_robot->setSpeed(0, (double) angularSpeedFactor * (Globals::YAW_TURN_DELTA / 2));
 	else
-		_robot->setSpeed(0, (float) angularSpeedFactor * Globals::YAW_TURN_DELTA);
+		_robot->setSpeed(0, (double) angularSpeedFactor * Globals::YAW_TURN_DELTA);
 }

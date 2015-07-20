@@ -37,10 +37,10 @@ public:
 
 	static int indexToDegrees(int index);
 	static int degreesToIndex(int degrees);
-	static float degreesToRadians(float degrees);
-	static float radiansToDegrees(float radians);
+	static double degreesToRadians(double degrees);
+	static double radiansToDegrees(double radians);
 	static string intToString(int number);
-	static string floatToString(float number);
+	static string doubleToString(double number);
 };
 
 #endif

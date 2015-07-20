@@ -18,13 +18,13 @@ using namespace std;
 
 class TurnInPlace: public Behavior {
 private:
-	float _neededYaw;
+	double _neededYaw;
 	int _iterationNumber;
 
 	bool chooseDirection();
 
 public:
-	TurnInPlace(Robot * robot, LocalizationManager * localizationManager, float neededYaw);
+	TurnInPlace(Robot * robot, LocalizationManager * localizationManager, double neededYaw);
 	virtual ~TurnInPlace();
 
 	bool startCondition();

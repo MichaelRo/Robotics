@@ -26,8 +26,8 @@ private:
 	Structs::Location _robotStartLocation;
 	Structs::Location _robotGoalLocation;
 	Structs::Size _robotSize;
-	float _mapResolutionCM;
-	float _gridResolutionCM;
+	double _mapResolutionCM;
+	double _gridResolutionCM;
 
 	ConfigurationManager();
 	ConfigurationManager(ConfigurationManager const&);
@@ -46,9 +46,9 @@ public:
 	void setRobotGoalLocation(string goalLocation);
 	Structs::Size getRobotSize();
 	void setRobotSize(string size);
-	float getMapResolutionCM();
+	double getMapResolutionCM();
 	void setMapResolutionCM(string mapResolution);
-	float getGridResolutionCM();
+	double getGridResolutionCM();
 	void setGridResolutionCM(string gridResolution);
 
 	Structs::ConfigurationProperty getProperty(string s);

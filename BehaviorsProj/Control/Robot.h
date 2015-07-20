@@ -39,10 +39,10 @@ public:
 	void setRobotLocation(Structs::Location location);
 	void setOdometry(Structs::Location location);
 
-	void setSpeed(float xSpeed, float angularSpeed);
+	void setSpeed(double xSpeed, double angularSpeed);
 	void Read();
-	vector<float> getLaserScan();
-	float getLaserDistance(int index);
+	vector<double> getLaserScan();
+	double getLaserDistance(int index);
 };
 
 #endif

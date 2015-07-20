@@ -90,7 +90,7 @@ void ConfigurationManager::setRobotStartLocation(string startLocation) {
 
 	int x = atoi(LocationVector[0].c_str());
 	int y = atoi(LocationVector[1].c_str());
-	float yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
+	double yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
 
 	_robotStartLocation = Structs::Location(x, y, yaw);
 }
@@ -114,7 +114,7 @@ void ConfigurationManager::setRobotGoalLocation(string goalLocation) {
 
 	int x = atoi(LocationVector[0].c_str());
 	int y = atoi(LocationVector[1].c_str());
-	float yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
+	double yaw = (LocationVector.size() > 2) ? atoi(LocationVector[2].c_str()) : 0;
 
 	_robotGoalLocation = Structs::Location(x, y, yaw);
 }
@@ -147,7 +147,7 @@ void ConfigurationManager::setRobotSize(string size) {
 
 	@ return - the resolution of the map.
  */
-float ConfigurationManager::getMapResolutionCM() {
+double ConfigurationManager::getMapResolutionCM() {
 	return _mapResolutionCM;
 }
 
@@ -165,7 +165,7 @@ void ConfigurationManager::setMapResolutionCM(string mapResolution) {
 
 	@ return - the resolution of the grid.
  */
-float ConfigurationManager::getGridResolutionCM() {
+double ConfigurationManager::getGridResolutionCM() {
 	return _gridResolutionCM;
 }
 

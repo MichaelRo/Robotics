@@ -26,19 +26,19 @@ LocalizationManager::LocalizationManager(Structs::Location startLocation, Map * 
 	srand(time(NULL));
 
 	// Initializing the particles list by the PARTICLES_AMOUNT value
-	_particles.push_back(Particle(startLocation, (float) 1, map));
+	_particles.push_back(Particle(startLocation, (double) 1, map));
 
 	getHighestBeliefParticle()->createDescendantParticles((Globals::TOTAL_PARTICLES_AMOUNT * 1), &_particles);
 }
 
-void LocalizationManager::updateParticles(Structs::Location destinationDelta, vector<float> laserScan) {
+void LocalizationManager::updateParticles(Structs::Location destinationDelta, vector<double> laserScan) {
 	_estimatedRobotLocation = _estimatedRobotLocation + destinationDelta;
 
 	list<Particle> particlesForDelete = list<Particle>();
 	list<Particle> particlesForMultiply = list<Particle>();
 
 	for (list<Particle>::iterator particlesIterator = _particles.begin(); particlesIterator != _particles.end(); particlesIterator++) {
-		float currentParticleBelief = particlesIterator->update(destinationDelta, laserScan);
+		double currentParticleBelief = particlesIterator->update(destinationDelta, laserScan);
 
 		if (currentParticleBelief < getAverageBeleif()) {
 			particlesForDelete.push_back(*particlesIterator.operator ->());
@@ -98,7 +98,7 @@ Particle * LocalizationManager::getHighestBeliefParticle() {
 
 	@return - the belief of the particle with the highest belief.
 */
-float LocalizationManager::getHighestBelief() {
+double LocalizationManager::getHighestBelief() {
 	return getHighestBeliefParticle()->getBelief();
 }
 
@@ -120,8 +120,8 @@ Map * LocalizationManager::getMap() {
 	return _map;
 }
 
-float LocalizationManager::getAverageBeleif() {
-	float beliefSum = 0;
+double LocalizationManager::getAverageBeleif() {
+	double beliefSum = 0;
 
 	for (list<Particle>::iterator particlesIterator = _particles.begin(); particlesIterator != _particles.end(); particlesIterator++)
 		beliefSum += particlesIterator->getBelief();

@@ -33,27 +33,27 @@ void Structs::Point::setY(int y) {
 	_y = y;
 }
 
-float Structs::Point::distanceBetweenPoints(Point point) {
+double Structs::Point::distanceBetweenPoints(Point point) {
 	double aSide = pow(_x - point.getX(), 2);
 	double bSide = pow(_y - point.getY(), 2);
 	return sqrt(aSide + bSide);
 }
 
-float Structs::Point::manhattanDistance(Point point) {
+double Structs::Point::manhattanDistance(Point point) {
 	double xSide = abs(_x - point.getX());
 	double ySide = abs(_y - point.getY());
 
 	return (xSide + ySide);
 }
 
-float Structs::Point::diagonalDistance(Point point) {
+double Structs::Point::diagonalDistance(Point point) {
 	double xSide = abs(_x - point.getX());
 	double ySide = abs(_y - point.getY());
 
 	return max(xSide, ySide);
 }
 
-float Structs::Point::squaredEuclideanDistance(Point point) {
+double Structs::Point::squaredEuclideanDistance(Point point) {
 	double xSide = abs(_x - point.getX());
 	double ySide = abs(_y - point.getY());
 
@@ -123,7 +123,7 @@ Structs::Point Structs::Point::operator /(const int & number) const {
 	return Structs::Point(_x / number, _y / number);
 }
 
-Structs::Point Structs::Point::operator /(float & number) const {
+Structs::Point Structs::Point::operator /(double & number) const {
 	return Structs::Point(ceil(_x / number), ceil(_y / number));
 }
 
@@ -142,39 +142,39 @@ Structs::Location::Location() {
 	this->_yaw = 0;
 }
 
-Structs::Location::Location(float x, float y, float yaw) {
+Structs::Location::Location(double x, double y, double yaw) {
 	this->_x = x;
 	this->_y = y;
 	this->_yaw = yaw;
 }
 
-Structs::Location::Location(Point p, float yaw) {
+Structs::Location::Location(Point p, double yaw) {
 	this->_x = p.getX();
 	this->_y = p.getY();
 	this->_yaw = yaw;
 }
 
-float Structs::Location::getX() {
+double Structs::Location::getX() {
 	return _x;
 }
 
-void Structs::Location::setX(float x) {
+void Structs::Location::setX(double x) {
 	_x = x;
 }
 
-float Structs::Location::getY() {
+double Structs::Location::getY() {
 	return _y;
 }
 
-void Structs::Location::setY(float y) {
+void Structs::Location::setY(double y) {
 	_y = y;
 }
 
-float Structs::Location::getYaw() {
+double Structs::Location::getYaw() {
 	return _yaw;
 }
 
-void Structs::Location::setYaw(float yaw) {
+void Structs::Location::setYaw(double yaw) {
 	_yaw = yaw;
 }
 
@@ -183,7 +183,7 @@ Structs::Point Structs::Location::pointValue() {
 }
 
 string Structs::Location::toString() {
-	return "(" + Helper::intToString((int) floor(_x)) + ", " +Helper::intToString((int) floor(_y)) + ", " + Helper::floatToString(_yaw) + ")";
+	return "(" + Helper::intToString((int) floor(_x)) + ", " +Helper::intToString((int) floor(_y)) + ", " + Helper::doubleToString(_yaw) + ")";
 }
 
 bool Structs::Location::operator ==(const Location & location) const {
@@ -216,7 +216,7 @@ Structs::Node::Node() {
 	_wallFactor = 0;
 }
 
-Structs::Node::Node(Point p, float GGrade) {
+Structs::Node::Node(Point p, double GGrade) {
 	_point = p;
 	_g = GGrade;
 	_h = 0;
@@ -232,35 +232,35 @@ void Structs::Node::setPoint(Structs::Point point) {
 	_point = point;
 }
 
-float Structs::Node::getG() {
+double Structs::Node::getG() {
 	return _g;
 }
 
-void Structs::Node::setG(float g) {
+void Structs::Node::setG(double g) {
 	_g = g;
 }
 
-float Structs::Node::getH() {
+double Structs::Node::getH() {
 	return _h;
 }
 
-float Structs::Node::getF() {
+double Structs::Node::getF() {
 	return _g + _h;
 }
 
-float Structs::Node::getTurnFactor() {
+double Structs::Node::getTurnFactor() {
 	return _turnFactor;
 }
 
-void Structs::Node::setTurnFactor(float turnFactor) {
+void Structs::Node::setTurnFactor(double turnFactor) {
 	_turnFactor = turnFactor;
 }
 
-float Structs::Node::getWallFactor() {
+double Structs::Node::getWallFactor() {
 	return _wallFactor;
 }
 
-void Structs::Node::setWallFactor(float wallFactor) {
+void Structs::Node::setWallFactor(double wallFactor) {
 	_wallFactor = wallFactor;
 }
 
