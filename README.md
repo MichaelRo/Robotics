@@ -6,7 +6,7 @@ Todo List:
   1. Drop the BeamPoinsIterator. The set comparison does not work
   2. Check why the yaw change is slower when the localizationManager is set
   3. Sometimes the neededYawDelta gets negative and the robot gets in between the tables (one step before the other tables)
-  4. Check what is the issue with the obstacle avoidance
+  4. Check what is the issue with the obstacle avoidance - Maybe we'll need to add AvoidObstacle behavior
   5. Fix the issue with the last point - somehow robot Igal get stuck right before it
   6. Restrict the go forward to more than 40° when it checks whether robot Igal driving into a wall
   7. Add processing after the PathPlanner, to fix the waypoints issue
